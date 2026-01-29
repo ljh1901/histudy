@@ -10,7 +10,7 @@
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	<!-- Controller Auto scan 등록 -->
-	<context:component-scan base-package="com.highstudy"></context:component-scan>
+	<context:component-scan base-package="com.histudy"></context:component-scan>
 	<!-- 설정 관련 파일 -->
 	<!-- 자동 주입 등록 -->
 	<bean id="Autowired" class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"></bean>
