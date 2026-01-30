@@ -15,6 +15,6 @@
 			</ul>
 		</nav>
 		<div class="header__right">
-			<a href="#">로그인</a> | <a href="userSignup.do">회원가입</a>
+			<a href="userSignin.do">로그인</a> | <a href="userSignup.do">회원가입</a>
 		</div>
 	</header>

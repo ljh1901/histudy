@@ -20,6 +20,13 @@ public class UserController {
         return "user/userSignup"; // WEB-INF/views/user/userSignup.jsp 파일로 이동
     }
 
+    //로그인 페이지 접속
+    @RequestMapping(value="/userSignin.do", method=RequestMethod.GET)
+    public String signinView() {
+        // WEB-INF/views/user/userSignin.jsp 파일을 찾아갑니다.
+        return "user/userSignin"; 
+    }
+    
     // 회원가입 버튼 눌렀을 때 처리
     @RequestMapping(value="/userSignup.do", method=RequestMethod.POST)
     public String signup(UserDTO dto) {
