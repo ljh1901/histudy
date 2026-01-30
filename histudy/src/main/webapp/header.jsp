@@ -7,7 +7,7 @@
 		<nav class="header__nav">
 			<ul class="header__nav__menu">
 				<li class="header__nav__menu__item"><a href="index.do">Home</a></li>
-				<li class="header__nav__menu__item"><a href="#">강의</a></li>
+				<li class="header__nav__menu__item"><a href="lecture.do">강의</a></li>
 				<li class="header__nav__menu__item"><a href="#">멘토링</a></li>
 				<li class="header__nav__menu__item"><a href="#">스터디</a></li>
 				<li class="header__nav__menu__item"><a href="studycafe.do">스터디 카페</a></li>
