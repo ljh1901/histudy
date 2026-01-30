@@ -4,9 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class MainController {
+public class IndexController {
+
 	@GetMapping("/index.do")
-	public String mainView() {
+	public String mainPage() {
 		return "main";
 	}
 }
