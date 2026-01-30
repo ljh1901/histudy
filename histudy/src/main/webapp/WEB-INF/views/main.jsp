@@ -1,9 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-<<<<<<< HEAD
-	pageEncoding="UTF-8"%>
-=======
-    pageEncoding="UTF-8"%>
->>>>>>> bf82963ad5017f1a55428ab748b990348f282fd5
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -289,7 +284,6 @@ a {
 		</main>
 	</form>
 <%@include file="/footer.jsp" %>
-=======
 <title>Insert title here</title>
 <style>
 	/* == root 기본 세팅 == */
@@ -597,6 +591,5 @@ a {
 		<p id="admin"><a href="#">관리자</a></p>
 	</div>
 </footer>
->>>>>>> bf82963ad5017f1a55428ab748b990348f282fd5
 </body>
 </html>
