@@ -2,11 +2,11 @@ package com.histudy.user.model;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
-public class userDAOImple implements userDAO {
+public class UserDAOImple implements UserDAO {
 
 	private SqlSessionTemplate sqlSession;
 
-	public userDAOImple(SqlSessionTemplate sqlSession) {
+	public UserDAOImple(SqlSessionTemplate sqlSession) {
 		this.sqlSession = sqlSession;
 	}
 
@@ -16,22 +16,5 @@ public class userDAOImple implements userDAO {
 	@Override
 	public void userSignUp(UserDTO dto) {
 		sqlSession.insert(NAMESPACE + ".userSignupId", dto);
-	}
-
-	@Override
-	public UserDTO userSignin(UserDTO dto) {
-		return sqlSession.selectOne(NAMESPACE + ".userSigninId", dto);
-	}
-
-	@Override
-	public String userIdFind(UserDTO dto) {
-		return sqlSession.selectOne(NAMESPACE + ".userFindIdId", dto);
-	}
-
-	@Override
-	public String userPwdFind(UserDTO dto) {
-		return sqlSession.selectOne(NAMESPACE + ".userPwdFindId", dto);
-	}
-    
-    
+	}   
 }

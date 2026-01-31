@@ -42,5 +42,8 @@
 	</mvc:annotation-driven>
 
 	<!-- Service -->
-	
+		<!-- services -->
+	<bean id="userService" class="com.histudy.user.service.UserServiceImple">
+		<constructor-arg ref="userDAO" />
+	</bean>
 </beans>
