@@ -2,4 +2,45 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.histudy.user"></mapper>
+ 
+<mapper namespace="com.histudy.user">
+
+    <insert id="userSignupId" parameterType="com.histudy.user.model.UserDTO">
+        INSERT INTO usertb (
+            user_idx, 
+            user_id, 
+            user_pw, 
+            user_name, 
+            user_birthdate, 
+            user_tel, 
+            role_idx
+        ) VALUES (
+            users_idx.nextval, 
+            #{user_id}, 
+            #{user_pw}, 
+            #{user_name}, 
+            #{user_birthdate}, 
+            #{user_tel}, 
+            2
+        )
+    </insert>
+
+    <select id="userSigninId" parameterType="com.histudy.user.model.UserDTO" resultType="com.histudy.user.model.UserDTO">
+        SELECT 
+            user_idx, 
+            user_id, 
+            user_name, 
+            user_birthdate, 
+            user_tel, 
+            role_idx
+        FROM usertb
+        WHERE user_id = #{user_id} AND user_pw = #{user_pw}
+    </select>
+
+    <select id="userFindIdId" parameterType="com.histudy.user.model.UserDTO" resultType="String">
+        SELECT user_id 
+        FROM usertb
+        WHERE user_name = #{user_name} AND user_tel = #{user_tel}
+    </select>
+
+</mapper>
