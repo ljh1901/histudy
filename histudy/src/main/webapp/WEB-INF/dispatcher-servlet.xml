@@ -46,4 +46,7 @@
 	<bean id="userService" class="com.histudy.user.service.UserServiceImple">
 		<constructor-arg ref="userDAO" />
 	</bean>
+	<bean id="adminService" class="com.histudy.admin.service.AdminServiceImple">
+    	<constructor-arg ref="adminDAO"/>
+	</bean>
 </beans>
