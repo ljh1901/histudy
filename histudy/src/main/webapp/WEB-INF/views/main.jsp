@@ -525,7 +525,7 @@ a {
 				<li class="header__nav__menu__item"><a href="#">Home</a></li>
 				<li class="header__nav__menu__item"><a href="#">Study</a></li>
 				<li class="header__nav__menu__item"><a href="#">Mentoring</a></li>
-				<li class="header__nav__menu__item"><a href="#">Study Cafe</a></li>
+				<li class="header__nav__menu__item"><a href="studycafe.do">Study Cafe</a></li>
 				<li class="header__nav__menu__item"><a href="#">LMS</a></li>
 				<li class="header__nav__menu__item"><a href="#">Lecture</a></li>
 			</ul>
@@ -535,7 +535,7 @@ a {
 		</div>
 	</header>
 	<main>
-		<!-- Home -->
+		<!--Home -->
 		<section class="home">
 			<div class="home__text">
 				<p class="description">함께 성장하는</p>

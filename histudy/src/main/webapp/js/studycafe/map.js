@@ -1,6 +1,6 @@
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
-        center: new kakao.maps.LatLng(37.55653185748646,126.9195354118905), // 지도의 중심좌표
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
     };
 
@@ -20,13 +20,21 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
     
     // 클릭한 위도, 경도 정보를 가져옵니다 
     var latlng = mouseEvent.latLng; 
+    mouseEvent=searchAddrFromCoords;
     // 마커 위치를 클릭한 위치로 옮깁니다
     marker.setPosition(latlng);
-    
+    // 주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
     var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
     message += '경도는 ' + latlng.getLng() + ' 입니다';
     
     var resultDiv = document.getElementById('clickLatlng'); 
     resultDiv.innerHTML = message;
-    	
+    
 });
+
+function searchAddrFromCoords(coords, callback) {
+    // 좌표로 행정동 주소 정보를 요청합니다
+    alert(geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback));      
+       
+}

@@ -11,11 +11,7 @@
   </welcome-file-list>
   <context-param>
   	<param-name>contextConfigLocation</param-name>
-<<<<<<< HEAD
   	<param-value>/WEB-INF/applicationContext.xml</param-value>
-=======
-    <param-value>/WEB-INF/applicationContext.xml</param-value>
->>>>>>> e0adc62aa466fc8efe0eb314b0bc51e46002ad31
   </context-param>
   <listener>
   	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

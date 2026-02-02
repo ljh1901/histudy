@@ -7,21 +7,12 @@ public class UserServiceImple implements UserService {
 
 	private UserDAO dao;
 
-	// applicationContext.xml에서 등록한 userDAO 부품을 여기서 받습니다.
+	// applicationContext.xml�뿉�꽌 �벑濡앺븳 userDAO 遺��뭹�쓣 �뿬湲곗꽌 諛쏆뒿�땲�떎.
 	public UserServiceImple(UserDAO dao) {
 		this.dao = dao;
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> e0adc62aa466fc8efe0eb314b0bc51e46002ad31
 	public UserDTO userSignin(UserDTO dto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-<<<<<<< HEAD
 }
-=======
-
-}
->>>>>>> e0adc62aa466fc8efe0eb314b0bc51e46002ad31
