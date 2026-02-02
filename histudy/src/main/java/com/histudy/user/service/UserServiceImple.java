@@ -11,11 +11,8 @@ public class UserServiceImple implements UserService {
 	public UserServiceImple(UserDAO dao) {
 		this.dao = dao;
 	}
-
-	@Override
 	public UserDTO userSignin(UserDTO dto) {
 		// TODO Auto-generated method stub
-		return userSignin(dto);
+		return null;
 	}
-
 }
