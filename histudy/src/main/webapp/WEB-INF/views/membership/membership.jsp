@@ -9,5 +9,6 @@
 <body>
 <h1>결제내용~가격~</h1>
 <h2><a href="membershipPayment.do">결제하기</a></h2>
+
 </body>
 </html>

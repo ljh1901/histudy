@@ -527,7 +527,7 @@ a {
 				<li class="header__nav__menu__item"><a href="#">Mentoring</a></li>
 				<li class="header__nav__menu__item"><a href="#">Study Cafe</a></li>
 				<li class="header__nav__menu__item"><a href="#">LMS</a></li>
-				<li class="header__nav__menu__item"><a href="#">Lecture</a></li>
+				<li class="header__nav__menu__item"><a href="lecture.do">Lecture</a></li>
 			</ul>
 		</nav>
 		<div class="header__right">
