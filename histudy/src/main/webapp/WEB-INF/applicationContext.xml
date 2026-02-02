@@ -33,5 +33,8 @@
 	<bean id="userDAO" class="com.histudy.user.model.UserDAOImple">
 		<constructor-arg ref="sqlSessionTemplate" />
 	</bean>
+	<bean id="adminDAO" class="com.histudy.admin.model.AdminDAOImple">
+   	 <constructor-arg ref="sqlSessionTemplate" />
+	</bean>
 </beans>
 

@@ -11,8 +11,7 @@
 
 <form>
     <section class="admin">
-        <ul class="admin__menu">
-            <li>대시보드</li>
+        <ul class="admin__menu"> <li>대시보드</li>
             <li class="admin__menu__item">
                 <a href="adminCafeList.do" target="contentFrame">스터디카페 관리</a>
             </li>    
