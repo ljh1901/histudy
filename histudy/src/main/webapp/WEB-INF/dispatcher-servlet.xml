@@ -49,4 +49,7 @@
 	<bean id="adminService" class="com.histudy.admin.service.AdminServiceImple">
     	<constructor-arg ref="adminDAO"/>
 	</bean>
+	<bean id="lectureService" class="com.histudy.lecture.service.LectureServiceImple">
+		<constructor-arg ref="lectureDAO"/>
+	</bean>
 </beans>

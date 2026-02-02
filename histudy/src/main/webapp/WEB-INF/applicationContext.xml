@@ -36,5 +36,8 @@
 	<bean id="adminDAO" class="com.histudy.admin.model.AdminDAOImple">
    	 <constructor-arg ref="sqlSessionTemplate" />
 	</bean>
+	<bean id="lectureDAO" class="com.histudy.lecture.model.LectureDAOImple">
+   	 <constructor-arg ref="sqlSessionTemplate" />
+	</bean>
 </beans>
 
