@@ -5,11 +5,97 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+
 <style>
+/* 1. 모달 배경 및 박스 기본 설정 (기존과 동일) */
+#modalOverlay {
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.6); 
+    z-index: 9999; 
+    justify-content: center; 
+    align-items: center;
+}
+
+.login-modal-box {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    width: 400px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* 2. 입력창 및 아이콘 설정 (기존과 동일) */
+.login-modal-box .input-group { position: relative; margin-bottom: 15px; }
+.login-modal-box .input-group input {
+    width: 100%; height: 50px;
+    padding: 0 20px 0 50px !important;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+.login-modal-box .icon-id { background: url('/histudy/user-img/user-icon.png') no-repeat 15px center / 20px; }
+.login-modal-box .icon-pw { background: url('/histudy/user-img/pw-icon.png') no-repeat 15px center / 20px; }
+
+/* 3. [교체] 아이디 기억하기 (왼쪽 정렬 강화) */
+.login-modal-box .login-options {
+    display: flex;
+    align-items: center;
+    width:100%;
+    margin: 15px 0 20px 5px; /* 왼쪽 정렬을 위해 여백 조정 */
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+    width: fit-content; /* 필요한 너비만큼만 차지 */
+}
+.login-modal-box .login-options input[type="checkbox"] {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* 4. 로그인 버튼 (기존과 동일) */
+.login-modal-box .login-submit-btn {
+    width: 100%; height: 50px;
+    background-color: black; color: white;
+    border: none; border-radius: 10px;
+    font-weight: bold; cursor: pointer;
+}
+
+/* 5. [교체] 하단 링크 (구분선 자동 추가 및 정렬) */
+.login-modal-box .login-footer-links {
+    display: flex;
+    width:100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    font-size: 13px;
+    padding:0;
+}
+.login-modal-box .login-footer-links a {
+    color: #888;
+    text-decoration: none;
+}
+/* 항목 사이에 세로선(|) 추가 */
+.login-modal-box .login-footer-links a:not(:last-child)::after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 12px;
+    background-color: #eee;
+    margin: 0 12px;
+    vertical-align: middle;
+}
 /* == root 글로벌 변수 == */
 :root {
 	/* 헤더/푸터 기본 색상 */ 
@@ -531,8 +617,32 @@ a {
 			</ul>
 		</nav>
 		<div class="header__right">
-			<input type="button" value="Login" class="header__login">
+			<input type="button" value="Login" class="header__login" onclick="openSignInModal()">
 		</div>
+	
+    <div id="modalOverlay">
+    <div id="modalContent" class="login-modal-box">
+        </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+<script>
+//main.jsp 내 함수
+function openSignInModal() {
+    // userSignIn.do 페이지에서 #signInFragment 부분만 쏙 빼서 가져오라는 뜻입니다.
+    $('#modalContent').load("userSignIn.do #signInFragment", function() {
+        $('#modalOverlay').css('display', 'flex');
+        
+        // 닫기 버튼 추가
+        $('#modalContent').append('<div onclick="closeSignInModal()" style="position:absolute; right:25px; top:20px; cursor:pointer; font-size:20px; font-weight:bold; color:#666;">&times;</div>');
+    });
+}
+function closeSignInModal() {
+    $('#modalOverlay').hide();
+}
+</script>
+		
 	</header>
 	<main>
 		<!-- Home -->
