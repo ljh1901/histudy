@@ -12,7 +12,7 @@ public class UserDAOImple implements UserDAO {
 
 	private static final String NAMESPACE = "com.histudy.user";
 
-	// 1. ÀÌ ¸Ş¼­µå ÇÏ³ª¸¸ ³²±â°í ³ª¸ÓÁö´Â Áö¿ì¼¼¿ä!
+	// 1. ì´ ë©”ì„œë“œ í•˜ë‚˜ë§Œ ë‚¨ê¸°ê³  ë‚˜ë¨¸ì§€ëŠ” ì§€ìš°ì„¸ìš”!
 	@Override
 	public void userSignUp(UserDTO dto) {
 		sqlSession.insert(NAMESPACE + ".userSignupId", dto);
