@@ -7,12 +7,11 @@ public class UserServiceImple implements UserService {
 
 	private UserDAO dao;
 
-	// applicationContext.xml¿¡¼­ µî·ÏÇÑ userDAO ºÎÇ°À» ¿©±â¼­ ¹Ş½À´Ï´Ù.
+	// applicationContext.xmlì—ì„œ ë“±ë¡í•œ userDAO ë¶€í’ˆì„ ì—¬ê¸°ì„œ ë°›ìŠµë‹ˆë‹¤.
 	public UserServiceImple(UserDAO dao) {
 		this.dao = dao;
 	}
 
-	@Override
 	public UserDTO userSignin(UserDTO dto) {
 		// TODO Auto-generated method stub
 		return userSignin(dto);
