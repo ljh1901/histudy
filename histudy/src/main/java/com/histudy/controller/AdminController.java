@@ -42,4 +42,10 @@ public class AdminController {
 	public String adminCafePrice() {
 		return "admin/adminCafePrice";
 	}
+	
+	//자주 묻는 질문 관리
+	@GetMapping("/adminFaqForm.do")
+	public String adminFaqForm() {
+		return "admin/adminFaqForm";
+	}
 }
