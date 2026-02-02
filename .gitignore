@@ -1,3 +1,7 @@
 .metadata/
 Servers/
 target/
+# Eclipse/STS metadata
+.classpath
+.springBeans
+.settings/
