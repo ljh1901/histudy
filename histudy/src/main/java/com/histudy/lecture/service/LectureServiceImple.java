@@ -13,10 +13,11 @@ public class LectureServiceImple implements LectureService {
 		this.lectureDao=lectureDao;
 	}
 	@Override
-	public List<LectureDTO> lectureSel() {
-		List<LectureDTO> lists=null;
-		lists=lectureDao.lectureSel();
-		return lists;
+	public List<LectureDTO> lectureList() {
+		return lectureDao.lectureList();
 	}
-
+	@Override
+	public LectureDTO lectureContent(int idx) {
+		return lectureDao.lectureContent(idx);
+	}
 }

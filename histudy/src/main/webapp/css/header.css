@@ -1,93 +1,62 @@
 @charset "UTF-8";
-<<<<<<< HEAD
 /* == Header == */
 .header {
-	position: fixed;
-	top:0;
-	height: 80px;
+   position: fixed;
+   top:0;
+   height: 80px;
     width: 100%;
-=======
-.header {
->>>>>>> c8fb318c91488eb4ab285f0435545717cef7d81d
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 1rem;
-<<<<<<< HEAD
-	z-index: 1;
-	background: transparent;
-	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 1rem;
+   z-index: 1;
+   background: transparent;
+   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 .header__left{
-	display: flex;
-	align-items: center;
-	padding-left: 6%;
+   display: flex;
+   align-items: center;
+   padding-left: 6%;
 }
 .header__logo {
-	width: 40px;
-	height: 40px;
-	margin-right:10px;
+   width: 40px;
+   height: 40px;
+   margin-right:10px;
 }
 .mainTitle {
-	font-size: 1.8rem;
+   font-size: 1.8rem;
 }
-=======
-	width: 100%;
-	z-index: 1;
-	background-color: #193546;
-	color: #ffffff;
-}
-
-.mainTitle {
-	font-size: 1.8rem;
-}
-
->>>>>>> c8fb318c91488eb4ab285f0435545717cef7d81d
 .header__nav__menu {
-	display: flex;
-	gap: 4px;
+   display: flex;
+   gap: 4px;
 }
-<<<<<<< HEAD
 .header__nav__menu__item {
-	font-size: 0.8rem;
-	padding: 8px 16px;
-	display: block;
-	border-bottom: 1px solid transparent;
-	color: var(--color-text-variant);
+   font-size: 0.8rem;
+   padding: 8px 16px;
+   display: block;
+   border-bottom: 1px solid transparent;
+   color: var(--color-text-variant);
 }
 .header__nav__menu__item:hover {
-	border-bottom: 1px solid var(--color-accent);
+   border-bottom: 1px solid var(--color-accent);
 }
 .header__right{
-	padding-right:6%;
+   padding-right:6%;
 }
 .header__login{
-	border: none;
-	border-radius: 20px;
-	width:100px;
-	padding: 0.8rem;
-	font-size:0.8rem;
-	background-color: #111827;
-	color: white;
-	cursor: pointer;
+   border: none;
+   border-radius: 20px;
+   width:100px;
+   padding: 0.8rem;
+   font-size:0.8rem;
+   background-color: #111827;
+   color: white;
+   cursor: pointer;
 }
 .header__login:hover{
-	background-color: var(--color-navy);
+   background-color: var(--color-navy);
 }
 .header--white{
-	background-color: white;
-	box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-=======
-
-.header__nav__menu__item {
-	font-size: 1rem;
-	font-weight: bold;
-	padding: 8px 16px;
-	display: block;
-	border-bottom: 1px solid transparent;
-}
-
-.header__nav__menu__item:hover {
-	border-bottom: 1px solid #ffffff;
->>>>>>> c8fb318c91488eb4ab285f0435545717cef7d81d
+   background-color: white;
+   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }

@@ -13,7 +13,7 @@
     .signup-form button { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; }
 </style>
 </head>
-<%@include file="/header.jsp" %>
+<%@include file="../header.jsp" %>
 <body>
 
 <div class="signup-form">
@@ -38,6 +38,6 @@
         <button type="submit">가입하기</button>
     </form>
 </div>
-<%@include file="/footer.jsp" %>
+<%@include file="../footer.jsp" %>
 </body>
 </html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.histudy.mentoring">
+
+	<!-- 멘토 목록 -->
+  <select id="mentorList" resultType="com.histudy.mentoring.model.MentorListDTO">
+    SELECT
+      mp.mentor_idx,
+      u.user_name,
+      mp.sc_idx,
+      mp.mentor_intro,
+      mp.mentor_link,
+      mp.mentor_tel
+    FROM mento_profile mp
+    JOIN usertb u ON u.user_idx = mp.user_idx
+    ORDER BY mp.mentor_idx DESC
+  </select>
+	<!-- 멘토 카테고리 -->
+  <select id="mentorListCategory" parameterType="int"
+          resultType="com.histudy.mentoring.model.MentorListDTO">
+    SELECT
+      mp.mentor_idx,
+      u.user_name,
+      mp.sc_idx,
+      mp.mentor_intro,
+      mp.mentor_link,
+      mp.mentor_tel
+    FROM mento_profile mp
+    JOIN usertb u ON u.user_idx = mp.user_idx
+    WHERE mp.sc_idx = #{sc_idx}
+    ORDER BY mp.mentor_idx DESC
+  </select>
+
+<insert id="mentorProfileCreate" parameterType="com.histudy.mentoring.model.MentoProfileDTO">
+    INSERT INTO mento_profile (
+      mentor_idx, user_idx, mentor_tel, sc_idx, mentor_intro, mentor_link
+    ) VALUES (
+      mentor_idx_seq.NEXTVAL,
+      #{user_idx},
+      #{mentor_tel},
+      #{sc_idx},
+      #{mentor_intro},
+      #{mentor_link}
+    )
+  </insert>
+</mapper>

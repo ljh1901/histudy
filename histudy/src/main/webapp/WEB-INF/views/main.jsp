@@ -14,7 +14,6 @@
 <link rel="stylesheet" type="text/css" href="/histudy/css/root.css">
 </head>
 <body>
-<<<<<<< HEAD
 	<header class="header">
 		<div class="header__left">
 			<img src="/histudy/main-img/logo1.png" class="header__logo">
@@ -36,9 +35,7 @@
 			<input type="button" value="Login" class="header__login">
 		</div>
 	</header>
-=======
 	<%@include file="header.jsp" %>
->>>>>>> b2f8862b86a18e674ee51db075076c063c751d68
 	<main>
 		<!-- Home -->
 		<section class="home">
