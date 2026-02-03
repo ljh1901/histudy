@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%@include file="/header.jsp" %>
+<%@include file="../header.jsp" %>
 <hr>
 <form>
 	<main>
@@ -25,6 +25,6 @@
 		</section>
 	</main>
 </form>
-<%@include file="/footer.jsp" %>
+<%@include file="../footer.jsp" %>
 </body>
 </html>
