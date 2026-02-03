@@ -23,7 +23,7 @@ public class UserController {
     // 회원가입 버튼 눌렀을 때 처리
     @RequestMapping(value="/userSignup.do", method=RequestMethod.POST)
     public String signup(UserDTO dto) {
-        userService.userSignUp(dto); // 서비스 실행!
+        userService.userSignin(dto); // 서비스 실행!
         return "redirect:/userSignin.do"; // 가입 완료 후 로그인 페이지로 이동
     }
 }
