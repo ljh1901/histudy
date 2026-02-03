@@ -54,5 +54,7 @@
 	</bean>
 	<bean id="faqService" class="com.histudy.admin.service.FaqServiceImple">
 		<constructor-arg ref="faqDAO"/>
+	<bean id="mentoringService" class="com.histudy.mentoring.service.MentoringServiceImple">
+		<constructor-arg ref="mentoringDAO"/>
 	</bean>
 </beans>

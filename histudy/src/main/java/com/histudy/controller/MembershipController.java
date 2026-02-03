@@ -7,12 +7,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MembershipController {
 	@GetMapping("membership.do")
-	public ModelAndView membership() {
-		ModelAndView mav=new ModelAndView();
-		mav.setViewName("membership/membership");
-		return mav;
-	}
-	@GetMapping("membershipPayment.do")
 	public ModelAndView membershipPayment() {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("membership/membershipPayment");
