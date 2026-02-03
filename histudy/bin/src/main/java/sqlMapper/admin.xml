@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.histudy.admin">
+    <select id="selectAllCafes"
+        resultType="com.histudy.admin.model.StudyCafeDTO">
+        select * from studycafe order by studycafe_idx asc
+    </select>
+
+    <select id="selectSalesList" parameterType="map" resultType="map">
+        select
+        <choose>
+            <when test="type == 'month'"> to_char(sales_date, 'yyyy-mm') as sales_date,
+                sum(total_amount) as total_amount
+            </when>
+            <when test="type == 'total'"> '누적 매출' as sales_date,
+                sum(total_amount) as total_amount
+            </when>
+            <otherwise>
+                to_char(sales_date, 'yyyy-mm-dd') as sales_date,
+                total_amount as total_amount
+            </otherwise>
+        </choose>
+        from sales_report
+        where studycafe_idx = #{studycafe_idx}
+        <if test="startDate != null and startDate != ''">
+            and sales_date &gt;= to_date(#{startDate}, 'yyyy-mm-dd')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            and sales_date &lt;= to_date(#{endDate}, 'yyyy-mm-dd')
+        </if>
+        <choose>
+            <when test="type == 'month'"> 
+                group by to_char(sales_date, 'yyyy-mm') 
+            </when>
+            <when test="type == 'total'"> 
+                group by '누적 매출' 
+            </when>
+        </choose>
+        order by sales_date asc
+    </select>
+</mapper>
