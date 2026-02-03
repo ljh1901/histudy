@@ -153,3 +153,147 @@ iframe {
 	margin: 20px auto;
 	height: 50vh;
 }
+
+.faq__category {
+	border: 1px solid var(--color-gray);
+	border-radius: 8px;
+	padding: 20px;
+	background-color: #fff;
+}
+
+.faq__category__list {
+	list-style: none;
+	padding: 0;
+	margin: 15px 0 0 0;
+	display: flex;
+	gap: 10px;
+}
+
+.faq__category__item {
+	padding: 10px 20px;
+	background-color: #f4f4f4;
+	border: 1px solid #ddd;
+	border-radius: 20px;
+	cursor: pointer;
+	transition: all 0.3s;
+	font-size: 0.9rem;
+	color: #555;
+}
+
+.faq__category__item:hover, .faq__category__item.active {
+	background-color: var(--color-navy);
+	color: var(--color-white);
+	border-color: var(--color-navy);
+}
+
+.faq__category__item.active {
+	color: var(--color-yellow);
+	font-weight: bold;
+}
+
+.faq__list {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+.faq__list th, .faq__list td {
+	padding: 12px;
+	border: 1px solid var(--color-gray);
+	text-align: left;
+}
+
+.faq__list th {
+	background-color: #f8f9fa;
+	font-weight: bold;
+	color: var(--color-navy); /* [수정] 공백 제거 */
+}
+
+.faq__list tr:hover {
+	background-color: #f1f1f1;
+}
+
+.faq__admin__btn {
+	padding: 10px 15px;
+	background-color: var(--color-navy);
+	color: white;
+	border: none;
+	border-radius: 4px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.faq__btn__edit {
+	padding: 5px 10px;
+	background-color: var(--color-navy);
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.faq__btn__del {
+	padding: 5px 10px;
+	background-color: #e74c3c;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.faq__write__form {
+	width: 100%;
+	max-width: 800px;
+	margin: 20px auto;
+	border-collapse: collapse;
+}
+
+.faq__write__form th, .faq__write__form td {
+	padding: 15px;
+	border: 1px solid var(- -color-gray);
+}
+
+.faq__write__form th {
+	background-color: #f8f9fa;
+	color: var(- -color-navy);
+	width: 20%;
+	text-align: center;
+}
+
+.faq__input__field, .faq__select__field, .faq__textarea__field {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-family: inherit;
+}
+
+.faq__textarea__field {
+	height: 200px;
+	resize: none;
+}
+
+.faq__btn__area {
+	text-align: center;
+	margin-top: 30px;
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+}
+
+.faq__submit__btn {
+	background-color: var(- -color-navy);
+	color: white;
+}
+
+.faq__cancel__btn {
+	background-color: #95a5a6;
+	color: white;
+}
+
+.faq__admin__btn {
+	padding: 12px 30px;
+	border: none;
+	border-radius: 4px;
+	font-weight: bold;
+	cursor: pointer;
+}

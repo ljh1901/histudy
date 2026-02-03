@@ -52,6 +52,8 @@
 	<bean id="lectureService" class="com.histudy.lecture.service.LectureServiceImple">
 		<constructor-arg ref="lectureDAO"/>
 	</bean>
+	<bean id="faqService" class="com.histudy.admin.service.FaqServiceImple">
+		<constructor-arg ref="faqDAO"/>
 	<bean id="mentoringService" class="com.histudy.mentoring.service.MentoringServiceImple">
 		<constructor-arg ref="mentoringDAO"/>
 	</bean>

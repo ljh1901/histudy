@@ -7,17 +7,17 @@ import java.util.*;
 @Repository
 public class AdminDAOImple implements AdminDAO {
 
-    private final SqlSessionTemplate sqlSession;
+    private SqlSessionTemplate session;
 
-    public AdminDAOImple(SqlSessionTemplate sqlSession) {
-        this.sqlSession = sqlSession;
+    public AdminDAOImple(SqlSessionTemplate session) {
+        this.session = session;
     }
     @Override
     public List<StudyCafeDTO> selectAllCafes() {
-        return sqlSession.selectList("com.histudy.admin.selectAllCafes");
+        return session.selectList("com.histudy.admin.selectAllCafes");
     }
     @Override
     public List<Map<String, Object>> selectSalesList(Map<String, Object> params) {     
-        return sqlSession.selectList("com.histudy.admin.selectSalesList", params);
+        return session.selectList("com.histudy.admin.selectSalesList", params);
     }
 }

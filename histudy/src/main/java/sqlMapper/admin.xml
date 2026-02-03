@@ -4,8 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.histudy.admin">
-    <select id="selectAllCafes"
-        resultType="com.histudy.admin.model.StudyCafeDTO">
+    <select id="selectAllCafes" resultType="com.histudy.admin.model.StudyCafeDTO">
         select * from studycafe order by studycafe_idx asc
     </select>
 
@@ -41,4 +40,23 @@
         </choose>
         order by sales_date asc
     </select>
+    <select id="getFaqCategoryList" resultType="com.histudy.admin.model.MenuCategoryDTO">
+        select * from menu_category order by menu_category_idx asc
+    </select>
+
+    <select id="getFaqList" parameterType="map" resultType="com.histudy.admin.model.FaqDTO">
+    select 
+        f.faq_idx, 
+        f.menu_category_idx, 
+        f.faq_title, 
+        f.faq_content,
+        c.menu_category_name  from faq f 
+    join menu_category c on f.menu_category_idx = c.menu_category_idx
+    <where>
+        <if test="menu_category_idx != null and menu_category_idx != 0">
+            and f.menu_category_idx = #{menu_category_idx}
+        </if>
+    </where>
+    order by f.faq_idx desc
+</select>
 </mapper>

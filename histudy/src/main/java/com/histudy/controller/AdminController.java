@@ -8,14 +8,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.histudy.admin.model.StudyCafeDTO;
-import com.histudy.admin.service.AdminService;
+import com.histudy.admin.model.*;
+import com.histudy.admin.service.*;
 
 @Controller
 public class AdminController {
 	
 	@Autowired
     private AdminService adminService;
+	
+	@Autowired
+    private FaqService faqService;
+	
 
 	// 관리자 메인 대시보드
     @GetMapping("/adminMain.do")
@@ -60,10 +64,23 @@ public class AdminController {
 	public String adminCafePrice() {
 		return "admin/adminCafePrice";
 	}
-	
-	//자주 묻는 질문 관리
+	//자주 묻는 질문 리스트
 	@GetMapping("/adminFaqForm.do")
-	public String adminFaqForm() {
-		return "admin/adminFaqForm";
-	}
+	public ModelAndView adminFaqForm(@RequestParam(value="menu_category_idx", required=false) Integer menuCategoryIdx) {
+	    ModelAndView mav = new ModelAndView("admin/adminFaqForm");
+	    
+	    List<MenuCategoryDTO> categoryList = faqService.getCategoryList();
+	    List<FaqDTO> faqList = faqService.getFaqList(menuCategoryIdx);
+	    
+	    mav.addObject("categoryList", categoryList);
+	    mav.addObject("faqList", faqList);
+	    return mav;
+	    }
+	//자주 묻는 질문 등록
+    @GetMapping("/adminFaqWrite.do")
+    public ModelAndView adminFaqWrite() {
+        ModelAndView mav = new ModelAndView("admin/adminFaqWrite");
+        mav.addObject("categoryList", faqService.getCategoryList());
+        return mav;
+    }
 }
