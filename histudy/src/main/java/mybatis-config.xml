@@ -8,5 +8,6 @@
 	<mapper resource="sqlMapper/user.xml" />
 	<mapper resource="sqlMapper/admin.xml"/>
 	<mapper resource="sqlMapper/mentoringSQL.xml"/>
+	<mapper resource="sqlMapper/lecture.xml"/>
 </mappers>
 </configuration>

@@ -10,9 +10,11 @@ public class LectureDAOImple implements LectureDAO {
 		this.sqlSession=sqlSession;
 	}
 	@Override
-	public List<LectureDTO> lectureSel() {
-		List<LectureDTO> lists=sqlSession.selectList("lectureSel");
-		return lists;
+	public List<LectureDTO> lectureList() {
+		return sqlSession.selectList("com.histudy.lecture.lectureList");
 	}
-
+	@Override
+	public LectureDTO lectureContent(int idx) {
+		return sqlSession.selectOne("com.histudy.lecture.lectureList",idx);
+	}
 }
