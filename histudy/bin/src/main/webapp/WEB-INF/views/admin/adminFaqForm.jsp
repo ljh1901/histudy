@@ -7,7 +7,17 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>결제내용~가격~</h1>
-<h2><a href="membershipPayment.do">결제하기</a></h2>
+<h1>자주 묻는 질문</h1>
+<fieldset>
+	<label>카테고리</label>
+	<div>
+	<ul>
+		<li>예약/결제</li>
+		<li>환불</li>
+		<li>시설문의</li>
+		<li>기타</li>
+	</ul>
+	</div>
+</fieldset>
 </body>
 </html>

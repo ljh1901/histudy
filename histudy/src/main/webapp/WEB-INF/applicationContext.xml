@@ -36,5 +36,19 @@
 	<bean id="userDAO" class="com.histudy.user.model.UserDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
+	<bean id="adminDAO" class="com.histudy.admin.model.AdminDAOImple">
+   	 <constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="faqDAO" class="com.histudy.admin.model.FaqDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"/>
+	</bean>
+	
+	<bean id="lectureDAO" class="com.histudy.lecture.model.LectureDAOImple">
+   	 <constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	<bean id="mentoringDAO" class="com.histudy.mentoring.model.MentoringDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"/>
+	</bean>
 </beans>
 
