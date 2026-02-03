@@ -1,4 +1,5 @@
 @charset "UTF-8";
+<<<<<<< HEAD
 /*== Footer ==*/
 .footer{
 	background-color: #1E2A3D;
@@ -78,4 +79,65 @@
 #footer__bottom__adminModeBtn:hover{
 	background-color: #1E2A3D;
 	color: white;
+=======
+/* == Footer == */
+.footer {
+	background-color: #193546;
+	color: #ffffff;
+	padding: 2rem;
+}
+
+.footer__center {
+	display: flex;
+}
+
+.footer__middle {
+	display: flex;
+	margin-top: 30px;
+	margin-left: 300px;
+}
+
+.footer__bottom {
+	display: flex;
+}
+
+.footer__bottom p {
+	padding: 0.3rem;
+}
+
+.footer__center__box {
+	max-width: 300px;
+	margin: 0 3rem;
+}
+
+.footer__center__box h2 {
+	border-bottom: 1px solid white;
+}
+
+#footer__left {
+	margin-top: 50px;
+}
+
+.footer__title {
+	font-size: 2.5rem;
+}
+
+#admin {
+	border: 1px solid #ffffff;
+	border-radius: 8px;
+	background-color: #ffffff;
+	margin-left: 5px;
+}
+
+#admin a {
+	color: black;
+	font-weight: bold;
+}
+
+.line {
+	border: 1px solid #ffffff;
+	height: 30px;
+	margin-top: 10px;
+	margin: 0 10px;
+>>>>>>> c8fb318c91488eb4ab285f0435545717cef7d81d
 }

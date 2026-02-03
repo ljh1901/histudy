@@ -1,14 +1,19 @@
 @charset "UTF-8";
+<<<<<<< HEAD
 /* == Header == */
 .header {
 	position: fixed;
 	top:0;
 	height: 80px;
     width: 100%;
+=======
+.header {
+>>>>>>> c8fb318c91488eb4ab285f0435545717cef7d81d
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	padding: 1rem;
+<<<<<<< HEAD
 	z-index: 1;
 	background: transparent;
 	transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -26,10 +31,23 @@
 .mainTitle {
 	font-size: 1.8rem;
 }
+=======
+	width: 100%;
+	z-index: 1;
+	background-color: #193546;
+	color: #ffffff;
+}
+
+.mainTitle {
+	font-size: 1.8rem;
+}
+
+>>>>>>> c8fb318c91488eb4ab285f0435545717cef7d81d
 .header__nav__menu {
 	display: flex;
 	gap: 4px;
 }
+<<<<<<< HEAD
 .header__nav__menu__item {
 	font-size: 0.8rem;
 	padding: 8px 16px;
@@ -59,4 +77,17 @@
 .header--white{
 	background-color: white;
 	box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+=======
+
+.header__nav__menu__item {
+	font-size: 1rem;
+	font-weight: bold;
+	padding: 8px 16px;
+	display: block;
+	border-bottom: 1px solid transparent;
+}
+
+.header__nav__menu__item:hover {
+	border-bottom: 1px solid #ffffff;
+>>>>>>> c8fb318c91488eb4ab285f0435545717cef7d81d
 }

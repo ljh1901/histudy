@@ -1,4 +1,5 @@
 @charset "UTF-8";
+<<<<<<< HEAD
 /* == root 글로벌 변수 == */
 :root {
 	/* 헤더/푸터 기본 색상 */ 
@@ -11,6 +12,11 @@
 html {
 	scroll-behavior: smooth;
 	font-family: 'Inter', sans-serif;
+=======
+/* == root 기본 세팅 == */
+html {
+	scroll-behavior: smooth;
+>>>>>>> c8fb318c91488eb4ab285f0435545717cef7d81d
 }
 
 body {
@@ -32,6 +38,7 @@ ul {
 
 a {
 	text-decoration: none;
+<<<<<<< HEAD
 	color: var(--color-text);
 }
 /* == Commons ==*/
@@ -56,4 +63,7 @@ a {
 .max-container { /* 이거 css마다 쓰지말고 그냥 클래스 옆에 붙힌거임 */
 	width: min(92%, 1600px);
 	margin:0 auto;
+=======
+	color: #ffffff;
+>>>>>>> c8fb318c91488eb4ab285f0435545717cef7d81d
 }
