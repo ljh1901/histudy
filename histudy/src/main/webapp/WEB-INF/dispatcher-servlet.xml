@@ -42,5 +42,7 @@
 	</mvc:annotation-driven>
 
 	<!-- Service -->
-	
+	<bean id="studyService" class="com.histudy.study.service.StudyServiceImple">
+		<constructor-arg ref="studyDao"></constructor-arg>
+	</bean>
 </beans>

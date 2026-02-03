@@ -24,5 +24,8 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"></constructor-arg>
 	</bean>
 	<!-- DAO -->
+	<bean id="studyDao" class="com.histudy.study.model.StudyDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 </beans>
 
