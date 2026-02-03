@@ -13,7 +13,7 @@
 </head>
 <body>
 	<fieldset>
-        <legend><strong>관리 중인 카페 : ${param.studycafe_name}</strong></legend>
+        <legend><strong >관리 중인 카페 : ${param.studycafe_name}</strong></legend>
         <div class="adminCafe">
     <ul class="adminCafe__menu">
         <li class="adminCafe__menu__item"><a href="adminCafeSales.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}">총 매출확인</a></li>
@@ -27,9 +27,9 @@
 	<fieldset>
 		<div>
 			<ul class="adminCafeSales__menu">
-				<li><a href="adminCafeSales.do?studycafe_idx=${param.studycafe_idx}&type=day">일별</a>|</li>
-				<li><a href="adminCafeSales.do?studycafe_idx=${param.studycafe_idx}&type=month">월별</a>|</li>
-				<li><a href="adminCafeSales.do?studycafe_idx=${param.studycafe_idx}&type=total">누적</a></li></ul>
+				<li><a href="adminCafeSales.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}&type=day">일별</a>|</li>
+				<li><a href="adminCafeSales.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}&type=month">월별</a>|</li>
+				<li><a href="adminCafeSales.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}&type=total">누적</a></li></ul>
 		</div>
 		<legend>기간 조회</legend>
 		<form action="adminCafeSales.do" method="get">
