@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="css/admin_layout.css" type="text/css">
 </head>
 <body>
-<h1>관리자 메인화면 페이지 임둥</h1>
-
+<%@include file="../header.jsp" %>
+<hr>
 <form>
     <section class="admin">
         <ul class="admin__menu"> <li>대시보드</li>
@@ -40,6 +40,6 @@
         </fieldset>
     </section>
 </form>
-
+<%@include file="../footer.jsp" %>
 </body>
 </html>

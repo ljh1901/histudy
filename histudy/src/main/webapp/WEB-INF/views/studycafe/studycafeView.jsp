@@ -17,7 +17,7 @@ section {
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cc8dabaa3a75dab670d03c068fae3a5d"></script>
 </head>
 <body>
-	<%@include file="/header.jsp"%>
+	<%@include file="../header.jsp"%>
 	<form>
 		<main>
 			<h1>스터디 카페</h1>
@@ -35,7 +35,7 @@ section {
 		</main>
 		
 	</form>
-	<%@include file="/footer.jsp"%>
+	<%@include file="../footer.jsp"%>
 </body>
 <script>
 //channel-key-da563d5f-f117-444f-aba5-ad9b66277c1b
