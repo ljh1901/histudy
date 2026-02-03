@@ -30,8 +30,13 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"></constructor-arg>
 	</bean>
 	<!-- DAO -->
+<<<<<<< HEAD
+	<bean id="studyDao" class="com.histudy.study.model.StudyDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+=======
 	<bean id="userDAO" class="com.histudy.user.model.UserDAOImple">
 		<constructor-arg ref="sqlSessionTemplate" />
+>>>>>>> c8fb318c91488eb4ab285f0435545717cef7d81d
 	</bean>
 	<bean id="adminDAO" class="com.histudy.admin.model.AdminDAOImple">
    	 <constructor-arg ref="sqlSessionTemplate" />

@@ -6,7 +6,6 @@
 <configuration>
 <mappers>
 	<mapper resource="sqlMapper/user.xml" />
-	<mapper resource="sqlMapper/admin.xml"/>
 	<mapper resource="sqlMapper/studySQL.xml"></mapper>
 </mappers>
 </configuration>

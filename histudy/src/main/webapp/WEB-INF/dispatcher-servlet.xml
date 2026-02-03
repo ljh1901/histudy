@@ -42,9 +42,14 @@
 	</mvc:annotation-driven>
 
 	<!-- Service -->
+<<<<<<< HEAD
+	<bean id="studyService" class="com.histudy.study.service.StudyServiceImple">
+		<constructor-arg ref="studyDao"></constructor-arg>
+=======
 		<!-- services -->
 	<bean id="userService" class="com.histudy.user.service.UserServiceImple">
 		<constructor-arg ref="userDAO" />
+>>>>>>> c8fb318c91488eb4ab285f0435545717cef7d81d
 	</bean>
 	<bean id="adminService" class="com.histudy.admin.service.AdminServiceImple">
     	<constructor-arg ref="adminDAO"/>
