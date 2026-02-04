@@ -106,8 +106,13 @@ window.onload=function(){
 </script>
 </head>
 <body>
+<<<<<<< HEAD
 	<%@include file="/header.jsp"%>
 	<form name="studycafe">
+=======
+	<%@include file="../header.jsp"%>
+	<form>
+>>>>>>> 2d18fb5529cf63e64c396b1873a0593c9e746586
 		<main>
 			<div class="paySeat" style="background-color: red; display: none;">
 				<a href="#" onclick="close1()">x</a>
@@ -332,7 +337,7 @@ MAIN HALL
 			</section>
 		</main>
 	</form>
-	<%@include file="/footer.jsp"%>
+	<%@include file="../footer.jsp"%>
 </body>
 <script
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cc8dabaa3a75dab670d03c068fae3a5d&libraries=services&libraries=services"

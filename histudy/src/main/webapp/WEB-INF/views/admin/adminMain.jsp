@@ -7,12 +7,9 @@
     <link rel="stylesheet" href="css/admin_layout.css" type="text/css">
 </head>
 <body>
-<h1>관리자 메인화면 페이지 임둥</h1>
-
 <form>
     <section class="admin">
-        <ul class="admin__menu">
-            <li>대시보드</li>
+        <ul class="admin__menu"> <li>대시보드</li>
             <li class="admin__menu__item">
                 <a href="adminCafeList.do" target="contentFrame">스터디카페 관리</a>
             </li>    
@@ -41,6 +38,5 @@
         </fieldset>
     </section>
 </form>
-
 </body>
 </html>
