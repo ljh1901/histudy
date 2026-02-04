@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="css/footer.css" type="text/css">
 </head>
 <body>
-<%@include file="/header.jsp"%>
+<%@include file="../header.jsp"%>
 <main>
 <h1>프리미엄 회원만 볼 수 있습니다.</h1>
 <h2><a href="membership.do">멤버십 가입하러가기</a></h2>
@@ -25,6 +25,6 @@
 	<p>${lectureContent.lecture_content}</p>	
 	
 </main>
-<%@include file="/footer.jsp"%>
+<%@include file="../footer.jsp"%>
 </body>
 </html>

@@ -41,6 +41,13 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
+<<<<<<< HEAD
+=======
+	<!-- Service -->
+	<bean id="studyService" class="com.histudy.study.service.StudyServiceImple">
+		<constructor-arg ref="studyDao"></constructor-arg>
+	</bean>
+>>>>>>> 0f500e1ac80a4c8047c11d014db0bfc51150b424
 		<!-- services -->
 	<bean id="userService" class="com.histudy.user.service.UserServiceImple">
 		<constructor-arg ref="userDAO" />
@@ -51,4 +58,13 @@
 	<bean id="lectureService" class="com.histudy.lecture.service.LectureServiceImple">
 		<constructor-arg ref="lectureDAO"/>
 	</bean>
+<<<<<<< HEAD
+=======
+	<bean id="faqService" class="com.histudy.admin.service.FaqServiceImple">
+		<constructor-arg ref="faqDAO"/>
+		</bean>
+	<bean id="mentoringService" class="com.histudy.mentoring.service.MentoringServiceImple">
+		<constructor-arg ref="mentoringDAO"/>
+	</bean>
+>>>>>>> 0f500e1ac80a4c8047c11d014db0bfc51150b424
 </beans>

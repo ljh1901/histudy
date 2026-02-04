@@ -1,61 +1,98 @@
 @charset "UTF-8";
-/* == Footer == */
+/*== Footer ==*/
 .footer {
-	background-color: #193546;
-	color: #ffffff;
-	padding: 2rem;
+	background-color: #1E2A3D;
+	min-height: auto;
+	color: white;
+	padding: 4rem;
+}
+
+.footerContainer {
+	margin: auto;
 }
 
 .footer__center {
 	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	border-bottom: 1px solid white;
 }
 
-.footer__middle {
+.footer__left {
 	display: flex;
-	margin-top: 30px;
-	margin-left: 300px;
+	align-items: flex-start;   
+	flex-direction: column;
+}
+
+.footer__left h3,
+.footer__left h4 {
+	font-size: 2rem;
+}
+
+.footer__left__text {
+	display: flex;
+}
+
+.footer__left__text img {
+	margin-right: 10px;
+	width: 40px;
+}
+
+.footer__right {
+	display: flex;
+	margin-top: -20px;
+}
+
+.footer__right__box {
+	min-width: 180px;
+	display: flex;
+	flex-direction: column;
+	line-height: 1.8rem;
+}
+
+.footer__right__box h5 {
+	font-size: 1.2rem;
+}
+
+.footer__right__box li {
+	color: #ccc;
+	transition: transform 0.3s ease;
+}
+
+.footer__right__box li:hover {
+	color: white;
+	cursor: pointer;
+	transform: translateY(-1px);
 }
 
 .footer__bottom {
 	display: flex;
+	justify-content: space-between;
+	margin-top: 30px;
 }
 
 .footer__bottom p {
-	padding: 0.3rem;
+	color: #ccc;
 }
 
-.footer__center__box {
-	max-width: 300px;
-	margin: 0 3rem;
+.footer__bottom a {
+	color: #ccc;
 }
 
-.footer__center__box h2 {
-	border-bottom: 1px solid white;
+.footer__bottom a:hover {
+	color: white;
+	cursor: pointer;
 }
 
-#footer__left {
-	margin-top: 50px;
-}
-
-.footer__title {
-	font-size: 2.5rem;
-}
-
-#admin {
-	border: 1px solid #ffffff;
-	border-radius: 8px;
-	background-color: #ffffff;
-	margin-left: 5px;
-}
-
-#admin a {
+#footer__bottom__adminModeBtn {
+	border: 1px solid white;
+	border-radius: 10px;
+	padding: 0.7rem;
+	background-color: white;
 	color: black;
-	font-weight: bold;
 }
 
-.line {
-	border: 1px solid #ffffff;
-	height: 30px;
-	margin-top: 10px;
-	margin: 0 10px;
+#footer__bottom__adminModeBtn:hover {
+	background-color: #1E2A3D;
+	color: white;
 }

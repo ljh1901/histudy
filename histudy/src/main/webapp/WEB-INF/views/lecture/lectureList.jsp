@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="css/footer.css" type="text/css">
 </head>
 <body>
-<%@include file="/header.jsp"%>
+<%@include file="../header.jsp"%>
 <main>
 	<form name="lectureFm">
 	<fieldset>
@@ -45,6 +45,6 @@
 	</table>
 	</form>
 </main>
-<%@include file="/footer.jsp"%>
+<%@include file="../footer.jsp"%>
 </body>
 </html>

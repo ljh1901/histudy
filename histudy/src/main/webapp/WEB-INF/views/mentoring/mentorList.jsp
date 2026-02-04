@@ -61,7 +61,7 @@ cursor:pointer;
 
 <body>
 
-<%@ include file="/header.jsp"%>
+<%@ include file="../header.jsp"%>
 
 <form name="mentoringForm">
 <main class="section">
@@ -128,7 +128,7 @@ cursor:pointer;
 
 </main>
 </form>
-<%@ include file="/footer.jsp" %>
+<%@ include file="../footer.jsp" %>
 
 <script>
 function openMentorProfile(mentor_idx) {
