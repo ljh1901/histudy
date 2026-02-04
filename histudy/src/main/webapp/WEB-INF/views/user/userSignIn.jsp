@@ -27,8 +27,8 @@
 			<div class="login-footer-links"
 				style="display: flex; justify-content: space-between; margin-top: 20px; font-size: 13px;">
 				<div class="login-footer-links">
-					<a href="findPw.do">비밀번호 찾기</a> <a href="userSignUp.do">회원가입</a> <a
-						href="findId.do">아이디 찾기</a>
+					<a href="#">비밀번호 찾기</a> <a href="userSignUp.do">회원가입</a> <a
+						href="#">아이디 찾기</a>
 				</div>
 			</div>
 		</form>
