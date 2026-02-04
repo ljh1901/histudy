@@ -46,6 +46,7 @@
 	}
 	.studyData textarea{
 		border-radius: 10px;
+		padding:1rem;
 	}
 	.studyCreate__btns input[type="submit"]{
 		width:100%;

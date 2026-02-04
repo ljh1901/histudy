@@ -61,12 +61,22 @@ public class StudyController {
 	@PostMapping("/studyCreate.do")
 	public ModelAndView studyCreate(StudyDTO dto, MultipartFile rstudy_upload_img) {
 		
-		dto.setStudy_upload_img(rstudy_upload_img.getOriginalFilename());
-		fileCopy(rstudy_upload_img);
-		int result = ss.createStudy(dto);
-		String msg = result>0?"½ºÅÍµð °³¼³ ¿Ï·á":"½ºÅÍµð °³¼³ ½ÇÆÐ";
+		int studyMaxCreateCount = ss.studyMaxCreate(dto.getUser_idx());
+		System.out.println("í˜„ìž¬ ìµœëŒ€ ê°œì„¤ìˆ˜:"+studyMaxCreateCount);
+		System.out.println("ê°œì„¤ìž idx:"+dto.getUser_idx());
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("msg", msg);
+		
+		String msg = null;
+		if(studyMaxCreateCount>=3){
+			msg = "ìŠ¤í„°ë”” ê°œì„¤ì€ ìµœëŒ€ 3ê°œê¹Œì§€ ê°€ëŠ¥í•©ë‹ˆë‹¤!";
+			mav.addObject("msg", msg);
+		}else {
+			dto.setStudy_upload_img(rstudy_upload_img.getOriginalFilename());
+			fileCopy(rstudy_upload_img);
+			int result = ss.createStudy(dto);
+			msg = result>0?"ìŠ¤í„°ë”” ê°œì„¤ ì™„ë£Œ":"ìŠ¤í„°ë”” ê°œì„¤ ì‹¤íŒ¨";
+			mav.addObject("msg", msg);
+		}
 		mav.setViewName("study/studyMsg");
 		return mav;
 	}
@@ -75,7 +85,7 @@ public class StudyController {
 		try {
 			byte bytes[] = upload.getBytes();
 			
-			File f = new File("C:/histudy/histudy/src/main/webapp/study-img/"+upload.getOriginalFilename());
+			File f = new File("C:/histudy/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/histudy/study-img/"+upload.getOriginalFilename());
 			
 			FileOutputStream fos = new FileOutputStream(f);
 			

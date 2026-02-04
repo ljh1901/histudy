@@ -39,4 +39,10 @@ public class StudyDAOImple implements StudyDAO {
 		UserDTO dto = sqlSession.selectOne("studyCreateUser", user_idx);
 		return dto;
 	}
+	
+	@Override
+	public int studyMaxCreate(int user_idx) {
+		int result = sqlSession.selectOne("studyMaxCreate", user_idx);
+		return result;
+	}
 }

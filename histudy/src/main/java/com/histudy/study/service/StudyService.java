@@ -12,5 +12,5 @@ public interface StudyService {
 	public List<StudyDTO> getStudyList(Map<String, Integer> map);
 	public int studyTotalCnt();
 	public UserDTO getStudyCreateUser(int user_idx);
-
+	public int studyMaxCreate(int user_idx);
 }

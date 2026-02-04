@@ -36,7 +36,7 @@
 							<option value="2">언어</option>
 							<option value="3">학업</option>
 							<option value="4">자격증</option>
-							<option value="5">자기계발</option>
+							<option value="5">취업</option>
 						</select>
 					</div>
 					<div class="studyData">

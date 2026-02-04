@@ -179,3 +179,9 @@
 	.paging img{
 		width: 30px;
 	}
+	#notStudy{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 1rem;
+	}

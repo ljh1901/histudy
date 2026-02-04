@@ -71,7 +71,7 @@
 				</c:forEach>
 			</c:if>
 			<c:if test="${empty requestScope.studyList}">
-				<div>
+				<div id="notStudy">
 					<h2>개설된 스터디가 없습니다.</h2>
 				</div>
 			</c:if>

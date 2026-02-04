@@ -4,21 +4,20 @@ import java.util.*;
 
 public class StudyDTO {
 
-	private int study_idx; // 스터디 번호
-	private String study_title; // 스터디 제목
-	private String study_content; // 스터디 내용
-	private Date study_start_date; // 스터디 개설일
-	private String study_end_date; // 스터디 마감일
-	private int study_current_members; // 현재 인원수
-	private int study_max_members; // 최대 인원수
-	private double study_location_lng; // 경도
-	private double study_location_lat; // 위도
-	private String study_addr; // 스터디 장소
-	private String study_upload_img; // 스터디 배경 이미지
-	private int sc_idx; // 카테고리 번호
-	private int user_idx; // 회원번호
+	private int study_idx; 
+	private String study_title; 
+	private String study_content; 
+	private Date study_start_date; 
+	private String study_end_date; 
+	private int study_current_members; 
+	private int study_max_members; 
+	private double study_location_lng; 
+	private double study_location_lat; 
+	private String study_addr; 
+	private String study_upload_img; 
+	private int sc_idx; 
+	private int user_idx; 
 	
-	/** usertb 조인 결과 */
 	private String user_name;
 	private String sc_name;
 	
@@ -44,7 +43,7 @@ public class StudyDTO {
 		this.sc_idx = sc_idx;
 		this.user_idx = user_idx;
 	}
-	// user_name 포함된 모든 인자가 있는 생성자
+	
 	public StudyDTO(int study_idx, String study_title, String study_content, Date study_start_date,
 			String study_end_date, int study_current_members, int study_max_members, double study_location_lng,
 			double study_location_lat, String study_addr, String study_upload_img, int sc_idx, int user_idx,
@@ -66,7 +65,6 @@ public class StudyDTO {
 		this.user_name = user_name;
 	}
 	
-	// user_name + sc_name 포함된 모든 인자가 있는 생성자
 	public StudyDTO(int study_idx, String study_title, String study_content, Date study_start_date,
 			String study_end_date, int study_current_members, int study_max_members, double study_location_lng,
 			double study_location_lat, String study_addr, String study_upload_img, int sc_idx, int user_idx,

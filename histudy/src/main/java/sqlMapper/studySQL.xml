@@ -30,4 +30,9 @@
 		FROM usertb
 		WHERE user_idx=#{user_idx}
 	</select>
+	<select id="studyMaxCreate" parameterType="Integer" resultType="Integer">
+		SELECT count(*)
+		FROM study JOIN usertb ON study.user_idx=usertb.user_idx
+		WHERE study.user_idx=#{user_idx}
+	</select>
 </mapper>
