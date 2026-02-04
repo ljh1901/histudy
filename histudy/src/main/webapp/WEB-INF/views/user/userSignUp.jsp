@@ -1,81 +1,113 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/root.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/user/userSignUp.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/root.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/header.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/footer.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/user/userSignUp.css">
 
 <style>
 /* JSP 내부에 추가로 정의된 스타일 */
-.signup-form { width: 300px; margin: 50px auto; }
-.signup-form button { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; }
+.signup-form {
+	width: 300px;
+	margin: 50px auto;
+}
+
+.signup-form button {
+	width: 100%;
+	padding: 10px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+}
 </style>
 </head>
 
-<body>
-    <%@include file="/WEB-INF/views/header.jsp"%>
+<body class="signupBody">
+	<div class="signup-container">
+		<h2>회원 가입</h2>
+		<br>
+		<form action="userSignUp.do" method="post" id="signupForm">
+			<div class="input-group">
+				<input type="text" name="user_id" id="user_id" class="icon-id"
+					placeholder="아이디" required>
+				<button type="button" class="check-btn" onclick="checkId()">중복확인</button>
+			</div>
 
-    <div class="signup-container">
-        <h2>회원 가입</h2>
-        <br>
-        <form action="userSignUp.do" method="post" id="signupForm">
-            <div class="input-group">
-                <input type="text" name="user_id" id="user_id" class="icon-id" placeholder="아이디" required>
-                <button type="button" class="check-btn" onclick="checkId()">중복확인</button>
-            </div>
-            
-            <div class="input-group">
-                <input type="password" name="user_pw" id="user_pw" class="icon-pw" placeholder="비밀번호 (7자 이상 영문/숫자)" required>
-            </div>
-            
-            <div class="input-group">
-                <input type="password" id="user_pw_confirm" class="icon-pw2" placeholder="비밀번호 확인" required>
-                <span id="pw_msg" style="font-size: 12px; margin-left: 10px;"></span>
-            </div>
-            
-            <div class="input-group">
-                <input type="text" name="user_name" class="icon-name" placeholder="성명" required>
-            </div>
-            
-            <div class="input-group">
-                <input type="tel" name="user_tel" class="icon-tel" placeholder="전화번호" required>
-            </div>
-            
-            <div class="input-group">
-                <input type="email" name="user_email" class="icon-email" placeholder="이메일" required>
-            </div>
-            
-            <div class="birth-group">
-                <select name="birth_year" id="birth_year" class="birth-select">
-                    <option value="">연도</option>
-                    <% for (int i = 2026; i >= 1950; i--) { %>
-                    <option value="<%=i%>"><%=i%></option>
-                    <% } %>
-                </select>
-                <select name="birth_month" id="birth_month" class="birth-select">
-                    <option value="">월</option>
-                    <% for (int i = 1; i <= 12; i++) { %>
-                    <option value="<%=String.format("%02d", i)%>"><%=i%></option>
-                    <% } %>
-                </select>
-                <select name="birth_day" id="birth_day" class="birth-select">
-                    <option value="">일</option>
-                    <% for (int i = 1; i <= 31; i++) { %>
-                    <option value="<%=String.format("%02d", i)%>"><%=i%></option>
-                    <% } %>
-                </select>
-            </div>
+			<div class="input-group">
+				<input type="password" name="user_pw" id="user_pw" class="icon-pw"
+					placeholder="비밀번호 (7자리 이상)" required>
+			</div>
 
-            <input type="hidden" name="user_birthdate" id="user_birthdate">
-            <button type="submit" class="signup-btn">가입하기</button>
-        </form>
-    </div>
+			<div class="input-group" style="position: relative;">
+				<img src="/histudy/user-img/pw2-icon.png" id="pw_icon"
+					class="pw-icon-style"> <input type="password"
+					id="user_pw_confirm" class="icon-pw2" placeholder="비밀번호 확인"
+					required style="background-image: none !important;">
+			</div>
+			<span id="pw_msg"
+				style="font-size: 12px; margin-left: 10px; display: block; margin-bottom: 10px;"></span>
 
-    <script>
+			<div class="input-group">
+				<input type="text" name="user_name" class="icon-name"
+					placeholder="성명" required>
+			</div>
+
+			<div class="input-group">
+				<input type="tel" name="user_tel" class="icon-tel"
+					placeholder="전화번호" required>
+			</div>
+
+			<div class="input-group">
+				<input type="email" name="user_email" class="icon-email"
+					placeholder="이메일" required>
+			</div>
+
+			<div class="birth-group">
+				<select name="birth_year" id="birth_year" class="birth-select">
+					<option value="">연도</option>
+					<%
+					for (int i = 2026; i >= 1950; i--) {
+					%>
+					<option value="<%=i%>"><%=i%></option>
+					<%
+					}
+					%>
+				</select> <select name="birth_month" id="birth_month" class="birth-select">
+					<option value="">월</option>
+					<%
+					for (int i = 1; i <= 12; i++) {
+					%>
+					<option value="<%=String.format("%02d", i)%>"><%=i%></option>
+					<%
+					}
+					%>
+				</select> <select name="birth_day" id="birth_day" class="birth-select">
+					<option value="">일</option>
+					<%
+					for (int i = 1; i <= 31; i++) {
+					%>
+					<option value="<%=String.format("%02d", i)%>"><%=i%></option>
+					<%
+					}
+					%>
+				</select>
+			</div>
+
+			<input type="hidden" name="user_birthdate" id="user_birthdate">
+			<button type="submit" class="signup-btn">가입하기</button>
+		</form>
+	</div>
+
+	<script>
     let isIdChecked = false;
 
     function checkId() {
@@ -115,14 +147,34 @@
         const pw = document.getElementById('user_pw').value;
         const pwConfirm = this.value;
         const msg = document.getElementById('pw_msg');
+        const icon = document.getElementById('pw_icon'); // 아이콘 객체 가져오기
         
-        if(pwConfirm === "") { msg.innerHTML = ""; return; }
-        if(pw.length < 7) { msg.innerHTML = "비밀번호는 7자리 이상이어야 합니다."; msg.style.color = "orange"; return; }
+        // 기본 아이콘 경로 (열린 자물쇠)
+        const unlockImg = "/histudy/user-img/pw2-icon.png";
+        // 일치 시 아이콘 경로 (잠긴 자물쇠)
+        const lockImg = "/histudy/user-img/pw-icon.png";
+
+        if(pwConfirm === "") { 
+            msg.innerHTML = ""; 
+            icon.src = unlockImg; // 비어있을 땐 기본값
+            return; 
+        }
+        
+        if(pw.length < 7) { 
+            msg.innerHTML = "비밀번호는 7자리 이상이어야 합니다."; 
+            msg.style.color = "orange"; 
+            icon.src = unlockImg;
+            return; 
+        }
         
         if(pw === pwConfirm) {
-            msg.innerHTML = "비밀번호가 일치합니다."; msg.style.color = "green";
+            msg.innerHTML = "비밀번호가 일치합니다."; 
+            msg.style.color = "green";
+            icon.src = lockImg; // 비밀번호 일치 시 잠긴 자물쇠로 변경!
         } else {
-            msg.innerHTML = "비밀번호가 일치하지 않습니다."; msg.style.color = "red";
+            msg.innerHTML = "비밀번호가 일치하지 않습니다."; 
+            msg.style.color = "red";
+            icon.src = unlockImg; // 불일치 시 다시 열린 자물쇠
         }
     };
 
@@ -141,6 +193,5 @@
     };
     </script>
 
-    <%@include file="/WEB-INF/views/footer.jsp"%>
 </body>
 </html>

@@ -25,4 +25,6 @@ public class UserDAOImple implements UserDAO {
 	public int userCheckId(String user_id) {
 		return sqlSession.selectOne(NAMESPACE + ".userCheckIdId", user_id);
 	}
+	
+
 }
