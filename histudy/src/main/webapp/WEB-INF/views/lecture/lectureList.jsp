@@ -6,9 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="css/root.css" type="text/css">
-<link rel="stylesheet" href="css/header.css" type="text/css">
-<link rel="stylesheet" href="css/footer.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/histudy/css/mainLayout.css">
+<link rel="stylesheet" type="text/css" href="/histudy/css/header.css">
+<link rel="stylesheet" type="text/css" href="/histudy/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/histudy/css/root.css">
 </head>
 <body>
 <%@include file="../header.jsp"%>

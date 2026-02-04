@@ -15,6 +15,10 @@ public class LectureDAOImple implements LectureDAO {
 	}
 	@Override
 	public LectureDTO lectureContent(int idx) {
-		return sqlSession.selectOne("com.histudy.lecture.lectureList",idx);
+		return sqlSession.selectOne("com.histudy.lecture.lectureContent",idx);
+	}
+	@Override
+	public int lectureNoteInsert(LectureNoteDTO dto) {
+		return sqlSession.insert("com.histudy.lecture.lectureNoteInsert",dto);
 	}
 }
