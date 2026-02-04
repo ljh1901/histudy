@@ -59,4 +59,63 @@
     </where>
     order by f.faq_idx desc
 </select>
+<select id="getFaqOne" parameterType="int" resultType="com.histudy.admin.model.FaqDTO">
+    SELECT 
+        faq_idx, 
+        menu_category_idx, 
+        faq_title, 
+        faq_content 
+    FROM faq 
+    WHERE faq_idx = #{faq_idx}
+</select>
+
+<update id="updateFaq" parameterType="com.histudy.admin.model.FaqDTO">
+    UPDATE faq 
+    SET 
+        menu_category_idx = #{menu_category_idx},
+        faq_title = #{faq_title},
+        faq_content = #{faq_content}
+    WHERE 
+        faq_idx = #{faq_idx}
+</update>
+
+<delete id="deleteLayoutByCafeIdx" parameterType="int">
+    DELETE FROM studycafe_layout 
+    WHERE studycafe_idx = #{studycafe_idx}
+</delete>
+
+<insert id="insertLayout" parameterType="map">
+    INSERT INTO studycafe_layout (
+        layout_idx, 
+        studycafe_idx, 
+        type, 
+        label, 
+        x, 
+        y, 
+        width, 
+        height
+    ) VALUES (
+        seq_layout_idx.NEXTVAL,
+        #{studycafe_idx},
+        #{type},
+        #{label},
+        #{x},
+        #{y},
+        #{width},
+        #{height}
+    )
+</insert>
+
+<select id="selectLayoutList" parameterType="int" resultType="map">
+    SELECT 
+        type, 
+        label, 
+        x, 
+        y, 
+        width, 
+        height 
+    FROM studycafe_layout 
+    WHERE studycafe_idx = #{studycafe_idx}
+    ORDER BY layout_idx ASC
+</select>
 </mapper>

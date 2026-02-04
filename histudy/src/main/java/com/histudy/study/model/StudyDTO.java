@@ -18,6 +18,10 @@ public class StudyDTO {
 	private int sc_idx; // 카테고리 번호
 	private int user_idx; // 회원번호
 	
+	/** usertb 조인 결과 */
+	private String user_name;
+	private String sc_name;
+	
 	public StudyDTO() {
 		// TODO Auto-generated constructor stub
 	}
@@ -39,6 +43,50 @@ public class StudyDTO {
 		this.study_upload_img = study_upload_img;
 		this.sc_idx = sc_idx;
 		this.user_idx = user_idx;
+	}
+	// user_name 포함된 모든 인자가 있는 생성자
+	public StudyDTO(int study_idx, String study_title, String study_content, Date study_start_date,
+			String study_end_date, int study_current_members, int study_max_members, double study_location_lng,
+			double study_location_lat, String study_addr, String study_upload_img, int sc_idx, int user_idx,
+			String user_name) {
+		super();
+		this.study_idx = study_idx;
+		this.study_title = study_title;
+		this.study_content = study_content;
+		this.study_start_date = study_start_date;
+		this.study_end_date = study_end_date;
+		this.study_current_members = study_current_members;
+		this.study_max_members = study_max_members;
+		this.study_location_lng = study_location_lng;
+		this.study_location_lat = study_location_lat;
+		this.study_addr = study_addr;
+		this.study_upload_img = study_upload_img;
+		this.sc_idx = sc_idx;
+		this.user_idx = user_idx;
+		this.user_name = user_name;
+	}
+	
+	// user_name + sc_name 포함된 모든 인자가 있는 생성자
+	public StudyDTO(int study_idx, String study_title, String study_content, Date study_start_date,
+			String study_end_date, int study_current_members, int study_max_members, double study_location_lng,
+			double study_location_lat, String study_addr, String study_upload_img, int sc_idx, int user_idx,
+			String user_name, String sc_name) {
+		super();
+		this.study_idx = study_idx;
+		this.study_title = study_title;
+		this.study_content = study_content;
+		this.study_start_date = study_start_date;
+		this.study_end_date = study_end_date;
+		this.study_current_members = study_current_members;
+		this.study_max_members = study_max_members;
+		this.study_location_lng = study_location_lng;
+		this.study_location_lat = study_location_lat;
+		this.study_addr = study_addr;
+		this.study_upload_img = study_upload_img;
+		this.sc_idx = sc_idx;
+		this.user_idx = user_idx;
+		this.user_name = user_name;
+		this.sc_name = sc_name;
 	}
 
 	public int getStudy_idx() {
@@ -143,6 +191,22 @@ public class StudyDTO {
 
 	public void setUser_idx(int user_idx) {
 		this.user_idx = user_idx;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getSc_name() {
+		return sc_name;
+	}
+
+	public void setSc_name(String sc_name) {
+		this.sc_name = sc_name;
 	}
 
 	

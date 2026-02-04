@@ -11,6 +11,17 @@
 	<select id ="lectureContent" parameterType="int" resultType="com.histudy.lecture.model.LectureDTO">
 		select *
 		from lecture
-		where idx=#{idx}
+		where lecture_idx=#{idx}
+	</select>
+	<insert id="lectureMemoInsert" parameterType="String">
+		insert into lecture_note values(
+			lecture_note_idx.nextval,
+			#{note_title},
+			#{note_content},
+			#{user_idx},
+			#{lecture_idx}
+		)
+	</insert>
+	<select id="lectureReviewList" >
 	</select>
 </mapper>

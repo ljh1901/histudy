@@ -24,4 +24,13 @@ public class FaqDAOImple implements FaqDAO {
     public List<FaqDTO> getFaqList(Map<String, Object> map) {
         return session.selectList("com.histudy.admin.getFaqList", map);
     }
+    
+    @Override
+    public FaqDTO getFaqOne(int faq_idx) {
+    	return session.selectOne("com.histudy.admin.getFaqOne", faq_idx);
+    }
+    @Override
+    public int updateFaq(FaqDTO dto) {
+    	return session.update("com.histudy.admin.updateFaq", dto);
+    }
 }
