@@ -18,56 +18,55 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // 1. ȸ������ ������ �̵�
     @GetMapping("/userSignUp.do")
     public String signupView() {
         return "user/userSignUp";
     }
 
-    // 2. ȸ������ ó�� (POST)
     @PostMapping("/userSignUp.do")
     public String signup(UserDTO dto, javax.servlet.http.HttpServletRequest request) {
-        // 1. ȸ������ ó��
     	String sec_pw=com.histudy.security.PwdModule.securityPwd(dto.getUser_pw());
     	dto.setUser_pw(sec_pw);
         userService.userSignUp(dto); 
-        // 2. request�� �޽��� ���� (������ ����̹Ƿ� �����Ͱ� ������)
-        request.setAttribute("msg", "ȸ�������� �Ϸ�Ǿ����ϴ�!");
-        // 3. redirect�� �ƴ� "main"���� ������ (main.jsp�� �����)
+        request.setAttribute("msg", "Hi, Study의 회원이 되셨어요!");
         return "main"; 
     }
-    // 3. �α��� ������ �̵�
+
     @GetMapping("/userSignIn.do")
     public String signinView() {
         return "user/userSignIn";
     }
 
-    // 4. �α��� ó�� (POST)
     @PostMapping("/userSignIn.do")
     @ResponseBody
     public String signin(UserDTO dto, String rememberId, HttpSession session, javax.servlet.http.HttpServletResponse response) {
+    	
+    	String s_pwd = com.histudy.security.PwdModule.securityPwd(dto.getUser_pw());
+    	dto.setUser_pw(s_pwd);
+    	
         UserDTO user = userService.userSignIn(dto);
+        
+        System.out.println(user.getUser_idx());
 
         if (user != null) {
             session.setAttribute("loginUser", user);
+            session.setAttribute("user_idx", user.getUser_idx());
 
-            // --- ���̵� ����ϱ� (��Ű) ���� ---
             javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie("savedUserId", user.getUser_id());
             if ("on".equals(rememberId)) {
-                cookie.setMaxAge(60 * 60 * 24 * 7); // 7�ϰ� ����
+                cookie.setMaxAge(60 * 60 * 24 * 7); 
             } else {
-                cookie.setMaxAge(0); // üũ ���� �� ��� ����
+                cookie.setMaxAge(0); 
             }
-            cookie.setPath("/"); // ������Ʈ ��ü ��ο��� ��Ű ��� �����ϰ� ����
-            response.addCookie(cookie); // �������� ��Ű ����
-            // -------------------------------
+            cookie.setPath("/"); 
+            response.addCookie(cookie); 
 
             return "success";
         } else {
             return "fail";
         }
     }
-    // 5. ���� ������ �̵�
+
     @GetMapping("/main.do")
     public String mainView() {
         return "main";
@@ -75,14 +74,11 @@ public class UserController {
 
     @RequestMapping(value = "/userLogout.do", method = RequestMethod.GET)
     public String logout(javax.servlet.http.HttpSession session) {
-        // ���� ���� ����
         session.invalidate();
-        // �α׾ƿ� �� ���� �������� �̵�
         return "redirect:/main.do";
     }
     
   
-    // 6. ���̵� �ߺ� üũ (AJAX ����)
     @GetMapping("/userCheckId.do")
     @ResponseBody
     public String idCheck(String user_id) {

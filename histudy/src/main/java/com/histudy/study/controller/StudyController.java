@@ -16,6 +16,8 @@ import com.histudy.user.model.UserDTO;
 
 import java.util.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class StudyController {
 
@@ -48,7 +50,12 @@ public class StudyController {
    }
    
    @GetMapping("/studyCreateForm.do")
-   public ModelAndView studyCreateForm(int user_idx) {
+   public ModelAndView studyCreateForm(HttpSession session) {
+	   
+	   int user_idx = (Integer)session.getAttribute("user_idx");
+	   
+	   System.out.println(user_idx);
+	   
       UserDTO dto = ss.getStudyCreateUser(user_idx);
       ModelAndView mav = new ModelAndView();
       mav.addObject("user_name", dto.getUser_name());
@@ -59,11 +66,11 @@ public class StudyController {
    }
    
    @PostMapping("/studyCreate.do")
-   public ModelAndView studyCreate(StudyDTO dto, MultipartFile rstudy_upload_img) {
+   public ModelAndView studyCreate(StudyDTO dto, MultipartFile rstudy_upload_img, HttpSession session) {
       
-      int studyMaxCreateCount = ss.studyMaxCreate(dto.getUser_idx());
-      System.out.println("현재 최대 개설수:"+studyMaxCreateCount);
-      System.out.println("개설자 idx:"+dto.getUser_idx());
+	  int user_idx = (Integer)session.getAttribute("user_idx");
+	   
+      int studyMaxCreateCount = ss.studyMaxCreate(user_idx);
       ModelAndView mav = new ModelAndView();
       
       String msg = null;
@@ -73,6 +80,9 @@ public class StudyController {
       }else {
          dto.setStudy_upload_img(rstudy_upload_img.getOriginalFilename());
          fileCopy(rstudy_upload_img);
+         
+         dto.setUser_idx(user_idx);
+         
          int result = ss.createStudy(dto);
          msg = result>0?"스터디 개설 완료":"스터디 개설 실패";
          mav.addObject("msg", msg);
