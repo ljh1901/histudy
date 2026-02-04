@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.histudy.user.model.UserDTO;
 import com.histudy.user.service.UserService;
@@ -17,49 +18,71 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // 1. È¸¿ø°¡ÀÔ ÆäÀÌÁö ÀÌµ¿
+    // 1. È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
     @GetMapping("/userSignUp.do")
     public String signupView() {
         return "user/userSignUp";
     }
 
-    // 2. È¸¿ø°¡ÀÔ Ã³¸® (POST)
+    // 2. È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ (POST)
     @PostMapping("/userSignUp.do")
     public String signup(UserDTO dto, javax.servlet.http.HttpServletRequest request) {
-        // 1. È¸¿ø°¡ÀÔ Ã³¸®
+        // 1. È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+    	String sec_pw=com.histudy.security.PwdModule.securityPwd(dto.getUser_pw());
+    	dto.setUser_pw(sec_pw);
         userService.userSignUp(dto); 
-        // 2. request¿¡ ¸Þ½ÃÁö ÀúÀå (Æ÷¿öµå ¹æ½ÄÀÌ¹Ç·Î µ¥ÀÌÅÍ°¡ À¯ÁöµÊ)
-        request.setAttribute("msg", "È¸¿ø°¡ÀÔÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù!");
-        // 3. redirect°¡ ¾Æ´Ñ "main"À¸·Î Æ÷¿öµå (main.jsp°¡ ½ÇÇàµÊ)
+        // 2. requestï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+        request.setAttribute("msg", "È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!");
+        // 3. redirectï¿½ï¿½ ï¿½Æ´ï¿½ "main"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (main.jspï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½)
         return "main"; 
     }
-    // 3. ·Î±×ÀÎ ÆäÀÌÁö ÀÌµ¿
+    // 3. ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
     @GetMapping("/userSignIn.do")
     public String signinView() {
         return "user/userSignIn";
     }
 
-    // 4. ·Î±×ÀÎ Ã³¸® (POST)
+    // 4. ï¿½Î±ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ (POST)
     @PostMapping("/userSignIn.do")
-    public String signin(UserDTO dto, HttpSession session) {
+    @ResponseBody
+    public String signin(UserDTO dto, String rememberId, HttpSession session, javax.servlet.http.HttpServletResponse response) {
         UserDTO user = userService.userSignIn(dto);
 
         if (user != null) {
             session.setAttribute("loginUser", user);
-            return "redirect:/main.do";
+
+            // --- ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ (ï¿½ï¿½Å°) ï¿½ï¿½ï¿½ï¿½ ---
+            javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie("savedUserId", user.getUser_id());
+            if ("on".equals(rememberId)) {
+                cookie.setMaxAge(60 * 60 * 24 * 7); // 7ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½
+            } else {
+                cookie.setMaxAge(0); // Ã¼Å© ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            }
+            cookie.setPath("/"); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Ã¼ ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½Å° ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½
+            response.addCookie(cookie); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½
+            // -------------------------------
+
+            return "success";
         } else {
-            // ½ÇÆÐ ½Ã ¿¡·¯ ÆÄ¶ó¹ÌÅÍ¿Í ÇÔ²² ·Î±×ÀÎ Ã¢À¸·Î
-            return "redirect:/userSignIn.do?error=y";
+            return "fail";
         }
     }
-
-    // 5. ¸ÞÀÎ ÆäÀÌÁö ÀÌµ¿
+    // 5. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
     @GetMapping("/main.do")
     public String mainView() {
         return "main";
     }
 
-    // 6. ¾ÆÀÌµð Áßº¹ Ã¼Å© (AJAX Àü¿ë)
+    @RequestMapping(value = "/userLogout.do", method = RequestMethod.GET)
+    public String logout(javax.servlet.http.HttpSession session) {
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        session.invalidate();
+        // ï¿½Î±×¾Æ¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+        return "redirect:/main.do";
+    }
+    
+  
+    // 6. ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ßºï¿½ Ã¼Å© (AJAX ï¿½ï¿½ï¿½ï¿½)
     @GetMapping("/userCheckId.do")
     @ResponseBody
     public String idCheck(String user_id) {
