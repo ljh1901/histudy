@@ -20,7 +20,7 @@
 		})
 	
 	}
-    // [2] 로그인 모달 열기 및 쿠키 처리 통합
+
 function getCookie(name) {
     return document.cookie
         .split("; ")
@@ -28,8 +28,6 @@ function getCookie(name) {
         ?.split("=")[1];
 }
 
-
-    // [2] 로그인 모달 열기 및 쿠키 처리 통합
 function openSignInModal() {
     $('#modalContent').load("userSignIn.do #signInFragment", function() {
         $('#modalOverlay').css('display', 'flex');
