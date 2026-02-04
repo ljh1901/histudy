@@ -42,23 +42,32 @@
 	</mvc:annotation-driven>
 
 	<!-- Service -->
+	<!-- 스터디 관련 서비스 -->
 	<bean id="studyService" class="com.histudy.study.service.StudyServiceImple">
 		<constructor-arg ref="studyDao"></constructor-arg>
 	</bean>
-		<!-- services -->
+	<!-- 회원 서비스 -->
 	<bean id="userService" class="com.histudy.user.service.UserServiceImple">
 		<constructor-arg ref="userDAO" />
 	</bean>
+	<!-- 관리자 서비스 -->
 	<bean id="adminService" class="com.histudy.admin.service.AdminServiceImple">
     	<constructor-arg ref="adminDAO"/>
 	</bean>
+	<!-- 강의수강 서비스 -->
 	<bean id="lectureService" class="com.histudy.lecture.service.LectureServiceImple">
 		<constructor-arg ref="lectureDAO"/>
 	</bean>
+	<!-- 문의사항 서비스 -->
 	<bean id="faqService" class="com.histudy.admin.service.FaqServiceImple">
 		<constructor-arg ref="faqDAO"/>
 		</bean>
+	<!--  멘토링 서비스 -->
 	<bean id="mentoringService" class="com.histudy.mentoring.service.MentoringServiceImple">
 		<constructor-arg ref="mentoringDAO"/>
+	</bean>
+	<!-- 스터디 카페 서비스 -->
+	<bean id="studycafeService" class="com.histudy.studycafe.service.StudycafeServiceImple">
+		<constructor-arg ref="studycafeDAO"></constructor-arg>
 	</bean>
 </beans>

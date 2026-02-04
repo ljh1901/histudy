@@ -50,5 +50,8 @@
 	<bean id="mentoringDAO" class="com.histudy.mentoring.model.MentoringDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"/>
 	</bean>
+		<bean id="studycafeDAO" class="com.histudy.studycafe.model.StudycafeDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"/>
+	</bean>
 </beans>
 

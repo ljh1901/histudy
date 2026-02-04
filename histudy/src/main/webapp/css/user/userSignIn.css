@@ -1,0 +1,75 @@
+@charset "UTF-8";
+body {
+    margin: 0;
+    padding: 0;
+    /* 배경 이미지가 없다면 일단 단색으로 확인해보세요 */
+    background: #f0f2f5; 
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container { 
+    width: 350px; 
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.login-title { 
+    font-size: 28px; 
+    font-weight: bold; 
+    margin-bottom: 30px; 
+    color: #193546;
+}
+
+.input-group { 
+    position: relative; 
+    margin-bottom: 15px; 
+}
+
+.input-group input {
+    width: 100%;
+    height: 50px;
+    padding: 0 20px 0 50px !important;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 15px;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    background-size: 22px;
+}
+
+/* 아이콘 경로 확인 */
+.icon-id { background-image: url('/histudy/user-img/user-icon.png') !important; }
+.icon-pw { background-image: url('/histudy/user-img/pw-icon.png') !important; }
+
+.login-submit-btn {
+    width: 100%; 
+    height: 55px; 
+    background-color:black; 
+    color: white;
+    border: none; 
+    border-radius: 10px; 
+    font-size: 17px;
+    font-weight: bold; 
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.login-footer-links { 
+    display: flex; 
+    justify-content: space-between; 
+    margin-top: 25px; 
+}
+
+.login-footer-links a { 
+    font-size: 13px; 
+    color: #888; 
+    text-decoration: none; 
+}
