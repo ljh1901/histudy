@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="css/header.css" type="text/css">
 <link rel="stylesheet" href="css/footer.css" type="text/css">
 <style>
-:root { -
-	-white-brown: #CDA56D; -
+:root {
+	-white-brown: #CDA56D;
 	-door-color: #99CCFF;
 }
 
@@ -106,13 +106,8 @@ window.onload=function(){
 </script>
 </head>
 <body>
-<<<<<<< HEAD
-	<%@include file="/header.jsp"%>
-	<form name="studycafe">
-=======
 	<%@include file="../header.jsp"%>
-	<form>
->>>>>>> 2d18fb5529cf63e64c396b1873a0593c9e746586
+	<form name="studycafe">
 		<main>
 			<div class="paySeat" style="background-color: red; display: none;">
 				<a href="#" onclick="close1()">x</a>
@@ -132,201 +127,158 @@ window.onload=function(){
 			</section>
 			<section>
 				<div class="studycafeCurrent" style="display: none">
-<svg viewBox="0 0 1100 650" width="100%" height="100%">
+					<svg viewBox="0 0 1100 650" width="100%" height="100%">
 
 <!-- ===== 벽 ===== -->
-<rect x="0" y="0" width="1100" height="10" fill="#CDA56D"/>
-<rect x="0" y="640" width="1100" height="10" fill="#CDA56D"/>
-<rect x="0" y="0" width="10" height="650" fill="#CDA56D"/>
-<rect x="1090" y="0" width="10" height="650" fill="#CDA56D"/>
+<rect x="0" y="0" width="1100" height="10" fill="#CDA56D" />
+<rect x="0" y="640" width="1100" height="10" fill="#CDA56D" />
+<rect x="0" y="0" width="10" height="650" fill="#CDA56D" />
+<rect x="1090" y="0" width="10" height="650" fill="#CDA56D" />
 
 <!-- ===== 입구 문 ===== -->
-<rect x="480" y="0" width="120" height="10" fill="#99CCFF"/>
+<rect x="480" y="0" width="120" height="10" fill="#99CCFF" />
 <text x="540" y="30" text-anchor="middle" font-size="12">입구</text>
 
 <!-- ===== 중앙 통로 ===== -->
-<rect x="460" y="0" width="180" height="650" fill="#F1F5F9"/>
+<rect x="460" y="0" width="180" height="650" fill="#F1F5F9" />
 
-<text x="550"
-      y="320"
-      text-anchor="middle"
-      font-size="20"
-      fill="#94A3B8"
-      font-weight="700">
+<text x="550" y="320" text-anchor="middle" font-size="20" fill="#94A3B8"
+							font-weight="700">
 MAIN HALL
 </text>
 
-<!-- ========================= -->
-<!-- 🔥 노트북 존 -->
-<!-- ========================= -->
-
-<text x="220" y="40"
-      text-anchor="middle"
-      font-size="20"
-      font-weight="700">
+<text x="220" y="40" text-anchor="middle" font-size="20"
+							font-weight="700">
 노트북 존
 </text>
 
 <g>
 
 <!-- 책상 느낌 배경 -->
-<rect x="40" y="60" width="360" height="220"
-      rx="20"
-      fill="#F8FAFC"
-      stroke="#E2E8F0"
-      stroke-width="2"/>
+<rect x="40" y="60" width="360" height="220" rx="20" fill="#F8FAFC"
+							stroke="#E2E8F0" stroke-width="2" />
 
 <!-- 좌석 -->
 <!-- 반복 구조 -->
 <!-- 1열 -->
-<rect class="seat-a" x="70" y="90" width="40" height="40" fill="#CBD5E1"/>
-<rect class="seat-a" x="150" y="90" width="40" height="40" fill="#CBD5E1"/>
-<rect class="seat-a" x="230" y="90" width="40" height="40" fill="#CBD5E1"/>
-<rect class="seat-a" x="310" y="90" width="40" height="40" fill="#CBD5E1"/>
+<rect class="seat-a" x="70" y="90" width="40" height="40" fill="#CBD5E1" />
+<rect class="seat-a" x="150" y="90" width="40" height="40"
+							fill="#CBD5E1" />
+<rect class="seat-a" x="230" y="90" width="40" height="40"
+							fill="#CBD5E1" />
+<rect class="seat-a" x="310" y="90" width="40" height="40"
+							fill="#CBD5E1" />
 
 <!-- 2열 -->
-<rect class="seat-a" x="70" y="170" width="40" height="40" fill="#CBD5E1"/>
-<rect class="seat-a" x="150" y="170" width="40" height="40" fill="#CBD5E1"/>
-<rect class="seat-a" x="230" y="170" width="40" height="40" fill="#CBD5E1"/>
-<rect class="seat-a" x="310" y="170" width="40" height="40" fill="#CBD5E1"/>
+<rect class="seat-a" x="70" y="170" width="40" height="40"
+							fill="#CBD5E1" />
+<rect class="seat-a" x="150" y="170" width="40" height="40"
+							fill="#CBD5E1" />
+<rect class="seat-a" x="230" y="170" width="40" height="40"
+							fill="#CBD5E1" />
+<rect class="seat-a" x="310" y="170" width="40" height="40"
+							fill="#CBD5E1" />
 
 </g>
 
-
-<!-- ========================= -->
-<!-- 🔥 일반존 A -->
-<!-- ========================= -->
-
-<text x="220" y="340"
-      text-anchor="middle"
-      font-size="20"
-      font-weight="700">
+<text x="220" y="340" text-anchor="middle" font-size="20"
+							font-weight="700">
 일반존 A
 </text>
 
-<rect x="40" y="360"
-      width="360"
-      height="220"
-      rx="20"
-      fill="#FFFFFF"
-      stroke="#E5E7EB"
-      stroke-width="2"/>
+<rect x="40" y="360" width="360" height="220" rx="20" fill="#FFFFFF"
+							stroke="#E5E7EB" stroke-width="2" />
 
 <!-- 좌석 -->
 <g>
 
-<rect class="seat-a" x="70" y="390" width="45" height="45" fill="#D1FAE5"/>
-<rect class="seat-a" x="150" y="390" width="45" height="45" fill="#D1FAE5"/>
-<rect class="seat-a" x="230" y="390" width="45" height="45" fill="#D1FAE5"/>
-<rect class="seat-a" x="310" y="390" width="45" height="45" fill="#D1FAE5"/>
+<rect class="seat-a" x="70" y="390" width="45" height="45"
+							fill="#D1FAE5" />
+<rect class="seat-a" x="150" y="390" width="45" height="45"
+							fill="#D1FAE5" />
+<rect class="seat-a" x="230" y="390" width="45" height="45"
+							fill="#D1FAE5" />
+<rect class="seat-a" x="310" y="390" width="45" height="45"
+							fill="#D1FAE5" />
 
-<rect class="seat-a" x="70" y="470" width="45" height="45" fill="#D1FAE5"/>
-<rect class="seat-a" x="150" y="470" width="45" height="45" fill="#D1FAE5"/>
-<rect class="seat-a" x="230" y="470" width="45" height="45" fill="#D1FAE5"/>
-<rect class="seat-a" x="310" y="470" width="45" height="45" fill="#D1FAE5"/>
+<rect class="seat-a" x="70" y="470" width="45" height="45"
+							fill="#D1FAE5" />
+<rect class="seat-a" x="150" y="470" width="45" height="45"
+							fill="#D1FAE5" />
+<rect class="seat-a" x="230" y="470" width="45" height="45"
+							fill="#D1FAE5" />
+<rect class="seat-a" x="310" y="470" width="45" height="45"
+							fill="#D1FAE5" />
 
 </g>
 
 
-<text x="820" y="40"
-      text-anchor="middle"
-      font-size="20"
-      font-weight="700">
+<text x="820" y="40" text-anchor="middle" font-size="20"
+							font-weight="700">
 일반존 B
 </text>
-<!-- ===== 스터디룸 B ===== -->
 
 <!-- 문 -->
-<rect x="700" y="560" width="12" height="70" fill="#99CCFF"/>
+<rect x="700" y="560" width="12" height="70" fill="#99CCFF" />
 <text x="706" y="600" font-size="10" transform="rotate(90 706,600)">문</text>
 
 <!-- 방 -->
-<rect x="720" y="560"
-      width="300"
-      height="80"
-      rx="18"
-      fill="#EEF2FF"
-      stroke="#C7D2FE"
-      stroke-width="2"/>
+<rect x="720" y="560" width="300" height="80" rx="18" fill="#EEF2FF"
+							stroke="#C7D2FE" stroke-width="2" />
 
-<text x="870"
-      y="605"
-      text-anchor="middle"
-      font-weight="700">
+<text x="870" y="605" text-anchor="middle" font-weight="700">
 스터디룸 B
 </text>
 
-<rect x="700" y="60"
-      width="330"
-      height="250"
-      rx="20"
-      fill="#FFFFFF"
-      stroke="#E5E7EB"
-      stroke-width="2"/>
+<rect x="700" y="60" width="330" height="250" rx="20" fill="#FFFFFF"
+							stroke="#E5E7EB" stroke-width="2" />
 
 <g>
 
-<rect class="seat-a" x="730" y="100" width="45" height="45" fill="#FFE4E6"/>
-<rect class="seat-a" x="810" y="100" width="45" height="45" fill="#FFE4E6"/>
-<rect class="seat-a" x="890" y="100" width="45" height="45" fill="#FFE4E6"/>
+<rect class="seat-a" x="730" y="100" width="45" height="45"
+							fill="#FFE4E6" />
+<rect class="seat-a" x="810" y="100" width="45" height="45"
+							fill="#FFE4E6" />
+<rect class="seat-a" x="890" y="100" width="45" height="45"
+							fill="#FFE4E6" />
 
-<rect class="seat-a" x="730" y="180" width="45" height="45" fill="#FFE4E6"/>
-<rect class="seat-a" x="810" y="180" width="45" height="45" fill="#FFE4E6"/>
-<rect class="seat-a" x="890" y="180" width="45" height="45" fill="#FFE4E6"/>
-
+<rect class="seat-a" x="730" y="180" width="45" height="45"
+							fill="#FFE4E6" />
+<rect class="seat-a" x="810" y="180" width="45" height="45"
+							fill="#FFE4E6" />
+<rect class="seat-a" x="890" y="180" width="45" height="45"
+							fill="#FFE4E6" />
 </g>
-
-<!-- ===== 독방 존 ===== -->
-
-<text x="865"
-      y="330"
-      text-anchor="middle"
-      font-size="18"
-      font-weight="700">
+<text x="865" y="330" text-anchor="middle" font-size="18"
+							font-weight="700">
 1인 독방
 </text>
 
 <g>
 
 <!-- 배경 -->
-<rect x="720" y="350"
-      width="300"
-      height="180"
-      rx="20"
-      fill="#FFF7ED"
-      stroke="#FED7AA"
-      stroke-width="2"/>
+<rect x="720" y="350" width="300" height="180" rx="20" fill="#FFF7ED"
+							stroke="#FED7AA" stroke-width="2" />
 
 <!-- 방들 -->
-<rect x="740" y="370" width="70" height="70" rx="10" fill="#FFFBEB"/>
-<rect x="830" y="370" width="70" height="70" rx="10" fill="#FFFBEB"/>
-<rect x="920" y="370" width="70" height="70" rx="10" fill="#FFFBEB"/>
+<rect x="740" y="370" width="70" height="70" rx="10" fill="#FFFBEB" />
+<rect x="830" y="370" width="70" height="70" rx="10" fill="#FFFBEB" />
+<rect x="920" y="370" width="70" height="70" rx="10" fill="#FFFBEB" />
 
-<rect x="740" y="450" width="70" height="70" rx="10" fill="#FFFBEB"/>
-<rect x="830" y="450" width="70" height="70" rx="10" fill="#FFFBEB"/>
-<rect x="920" y="450" width="70" height="70" rx="10" fill="#FFFBEB"/>
+<rect x="740" y="450" width="70" height="70" rx="10" fill="#FFFBEB" />
+<rect x="830" y="450" width="70" height="70" rx="10" fill="#FFFBEB" />
+<rect x="920" y="450" width="70" height="70" rx="10" fill="#FFFBEB" />
 
 </g>
-
-<!-- ===== 스터디룸 문 ===== -->
-<rect x="700" y="330" width="12" height="80" fill="#99CCFF"/>
+<rect x="700" y="330" width="12" height="80" fill="#99CCFF" />
 <text x="706" y="420" font-size="10" transform="rotate(90 706,420)">문</text>
 
-<!-- ===== 스터디룸 ===== -->
 
-<rect x="720" y="330"
-      width="300"
-      height="220"
-      rx="18"
-      fill="#EEF2FF"
-      stroke="#C7D2FE"
-      stroke-width="2"/>
+<rect x="720" y="330" width="300" height="220" rx="18" fill="#EEF2FF"
+							stroke="#C7D2FE" stroke-width="2" />
 
-<text x="870"
-      y="360"
-      text-anchor="middle"
-      font-weight="700"
-      font-size="18">
+<text x="870" y="360" text-anchor="middle" font-weight="700"
+							font-size="18">
 </text>
 </svg>
 				</div>
