@@ -40,11 +40,8 @@
 .header__nav__menu__item:hover {
    border-bottom: 1px solid var(--color-accent);
 }
-.header__right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    position: relative;
+.header__right{
+   padding-right:6%;
 }
 .header__login{
    border: none;
@@ -63,75 +60,3 @@
    background-color: white;
    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
-
-/* 드롭다운 전체 컨테이너 */
-.user-dropdown {
-    position: relative;
-    display: inline-block;
-   
-}
-
-/* 이름이 나오는 트리거 영역 */
-.user-info-trigger {
-    font-size: 14px;
-    padding: 10px;
-    color: #333;
-    transition: color 0.3s;
-}
-
-.user-info-trigger:hover {
-    color: var(--color-navy); /* 기존 정의된 네이비 색상 활용 */
-}
-
-/* 드롭다운 메뉴창 스타일 */
-.user-menu {
-    display: none; /* 클릭 전에는 숨김 */
-    position: absolute;
-    top: 55px;    /* 버튼 높이에 맞춰 조정 */
-    right: 0;     /* 오른쪽 정렬 */
-    background-color: white;
-    min-width: 160px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    border-radius: 12px;
-    padding: 10px 0;
-    list-style: none;
-    z-index: 1000;
-    border: 1px solid #eee;
-}
-
-/* 사용자 이름 표시 부분 */
-.user-welcome {
-    padding: 10px 20px;
-    font-size: 13px;
-    color: #333;
-    text-align: center;
-}
-
-/* 메뉴 리스트 항목 */
-.user-menu li a {
-    display: block;
-    padding: 12px 20px;
-    font-size: 14px;
-    color: #555;
-    text-decoration: none;
-    transition: all 0.2s;
-}
-
-.user-menu li a:hover {
-    background-color: #f8f9fa;
-    color: #000;
-}
-
-/* 구분선 */
-.menu-divider {
-    height: 1px;
-    background-color: #f0f0f0;
-    margin: 5px 0;
-}
-
-/* 로그아웃 강조 */
-.logout-link {
-    color: #e11d48 !important;
-    font-weight: 500;
-}
-
