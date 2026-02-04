@@ -45,8 +45,6 @@ public class UserController {
     	dto.setUser_pw(s_pwd);
     	
         UserDTO user = userService.userSignIn(dto);
-        
-        System.out.println(user.getUser_idx());
 
         if (user != null) {
             session.setAttribute("loginUser", user);
