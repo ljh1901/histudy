@@ -151,11 +151,79 @@
                     <p>사용자 후기</p>
                     <h2>실제 이용자들의 <i>생생한 경험담</i></h2> 
                 </div>
-                <div class="reviewGrid">
-                    <div class="reviewCard">
-                        <div class="reviewHeader"><img class="reviewAvatar"><div class="reviewUser"><p class="reviewName">서준범</p><p class="reviewId">seoni65</p></div></div> 
-                        <p class="reviewContent">"전문 멘토님의 조언 덕분에 진로를 명확하게 설정할 수 있었습니다."</p>
-                    </div>
+				<div class="reviewGrid">
+					<div class="reviewCard">
+						<div class="reviewHeader"> 
+							<img class="reviewAvatar">
+							<div class="reviewUser">
+								<p class="reviewName">서준범</p>
+								<p class="reviewId">seoni65</p>
+							</div>
+						</div>
+						<p class="reviewContent">
+							"전문 멘토님의 조언 덕분에 진로를 명확하게 설정할 수 있었습니다. 정말 감사드려요. 앞으로도 계속 이용할 예정입니다!"
+						</p>
+					</div>
+					<div class="reviewCard">
+						<div class="reviewHeader">
+							<img class="reviewAvatar">
+							<div class="reviewUser">
+								<p class="reviewName">김성지</p>
+								<p class="reviewId">tjdwl12</p>
+							</div>
+						</div>
+						<p class="reviewContent">
+							"멘토링 덕분에 목표했던 자격증을 단기간에 취득할 수 있었어요. 1:1 맞춤 학습이 정말 효과적이었습니다!"
+						</p>
+					</div>
+					<div class="reviewCard">
+						<div class="reviewHeader">
+							<img class="reviewAvatar">
+							<div class="reviewUser">
+								<p class="reviewName">양상연</p>
+								<p class="reviewId">sang__chi</p>
+							</div>
+						</div>
+						<p class="reviewContent">
+							"스터디 카페 좌석현황을 한 눈에 볼 수 있고, 예약까지..? 저한테 진짜 필요했었는데 매우 유용하게 이용하고 있습니다!"
+						</p>
+					</div>
+					<div class="reviewCard">
+						<div class="reviewHeader">
+							<img class="reviewAvatar">
+							<div class="reviewUser">
+								<p class="reviewName">김민영</p>
+								<p class="reviewId">alsdud12</p>
+							</div>
+						</div>
+						<p class="reviewContent">
+							"그룹 스터디에서 만난 동료들과 함께 성장하는 느낌이 정말 좋아요."
+						</p>
+					</div>
+					<div class="reviewCard">
+						<div class="reviewHeader">
+							<img class="reviewAvatar">
+							<div class="reviewUser">
+								<p class="reviewName">유준상</p>
+								<p class="reviewId">wnstkd12</p>
+							</div>
+						</div>
+						<p class="reviewContent">
+							"온라인 강의 퀄리티가 정말 높아요. 프리미엄 회원이라면 언제 어디서나 학습할 수 있어서 직장인인 저에게 딱 맞습니다!"
+						</p>
+					</div>
+					<div class="reviewCard">
+						<div class="reviewHeader">
+							<img class="reviewAvatar">
+							<div class="reviewUser">
+								<p class="reviewName">이주호</p>
+								<p class="reviewId">wngh12</p>
+							</div>
+						</div>
+						<p class="reviewContent">
+							"스터디 그룹 분위기가 정말 좋아요. 서로 응원하고 격려하면서 함께 성장하는 느낌!"
+						</p>
+					</div>
                 </div>
             </div>
         </section>
