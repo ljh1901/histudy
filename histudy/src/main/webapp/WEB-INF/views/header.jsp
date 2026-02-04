@@ -12,7 +12,7 @@
 			<ul class="header__nav__menu">
 				<li class="header__nav__menu__item"><a href="index.do">Home</a></li>
 				<li class="header__nav__menu__item"><a href="studyList.do">Study</a></li>
-				<li class="header__nav__menu__item"><a href="#">Mentoring</a></li>
+				<li class="header__nav__menu__item"><a href="mentorList.do">Mentoring</a></li>
 				<li class="header__nav__menu__item"><a href="studycafe.do">Study Cafe</a></li>
 				<li class="header__nav__menu__item"><a href="#">LMS</a></li>
 				<li class="header__nav__menu__item"><a href="lecture.do">Lecture</a></li>

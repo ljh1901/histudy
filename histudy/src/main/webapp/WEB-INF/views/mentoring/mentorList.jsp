@@ -6,73 +6,34 @@
 <head>
 <meta charset="UTF-8">
 <title>멘토 목록 | Hi, Study</title>
-<link rel="stylesheet" href="css/header.css" type="text/css">
 <link rel="stylesheet" href="css/root.css" type="text/css">
+<link rel="stylesheet" href="css/header.css" type="text/css">
+<link rel="stylesheet" href="css/mainLayout.css" type="text/css">
 <link rel="stylesheet" href="css/footer.css" type="text/css">
-
-<style>
-/* ===== Mentor List ===== */
-.mentor-list-container { margin: auto; }
-
-.mentor-filter { display:flex; gap:12px; margin-bottom:40px; flex-wrap:wrap; }
-.mentor-filter a{
-  border:1px solid #e5e7eb; background:#fff; border-radius:20px;
-  padding:8px 18px; font-size:.85rem; cursor:pointer; transition:.2s;
-  display:inline-block; color:#111827;
-}
-.mentor-filter a:hover,.mentor-filter a.active{
-  background:#1E293B; color:#fff; border-color:#1E293B;
-}
-
-.mentor-grid { display:grid; grid-template-columns: repeat(4, 1fr); gap:28px; }
-
-.mentor-card{
-  background:#fff; border-radius:18px; padding:20px;
-  box-shadow:0 8px 24px rgba(0,0,0,0.06);
-  transition: transform .2s ease, box-shadow .2s ease;
-  cursor:pointer;
-}
-.mentor-card:hover{ transform:translateY(-6px); box-shadow:0 16px 32px rgba(0,0,0,0.1); }
-
-.mentor-profile-img{
-  width:100%; height:180px; border-radius:14px;
-  background:#f3f4f6; margin-bottom:14px;
-}
-.mentor-name{ font-size:1.1rem; font-weight:700; color:#111827; margin-bottom:4px; 
-}
-.mentor-job{ font-size:.85rem; color:#6b7280; margin-bottom:8px; 
-}
-.mentor-desc{ font-size:.85rem; color:#374151; line-height:1.5; margin-bottom:14px; min-height:40px; 
-}
-
-.mentor-footer{ display:flex; justify-content:space-between; align-items:center; 
-}
-.mentor-badge{ font-size:.75rem; padding:4px 10px; border-radius:999px; background:#eef2ff; color:#1E293B; 
-}
-.mentor-btn{ border:none; border-radius:16px; 
-padding:6px 14px; 
-font-size:.8rem; 
-background:#1E293B; 
-color:#fff; 
-cursor:pointer; 
-}
-</style>
+<link rel="stylesheet" href="css/mentoringDesign/mentoringList.css" type="text/css">
 </head>
 
-<body>
-
+<body id="mentoringPage">
 <%@ include file="../header.jsp"%>
 
-<form name="mentoringForm">
-<main class="section">
-  <div class="mentor-list-container max-container">
+<!-- ===== 상단 ===== -->
+<section class="mentoring-hero">
+  <div class="hero-inner">
+    <div class="hero-sub">1:1 맞춤 멘토링</div>
+    <div class="hero-title">나에게 딱 맞는 멘토를<br/>찾아보세요</div>
+    <div class="hero-desc">다양한 분야의 전문가들이 여러분의 성장을 도와드립니다</div>
+     </div>
+</section>
 
-    <div class="service__text">
-      <p>멘토링</p>
-      <h2>전문 멘토를</h2>
-      <h2><i>지금 만나보세요</i></h2>
+<section class="mentoring-search">
+    <div class="hero-search">
+      <span style="color:#94a3b8;">🔎</span>
+      <input type="text" placeholder="멘토 이름, 분야, 키워드로 검색" />
     </div>
 
+   
+
+    <!-- ===== 카테고리 필터 ===== -->
     <div class="mentor-filter">
       <a class="${activeCategory == 0 ? 'active' : ''}" href="mentorList.do">전체</a>
       <a class="${activeCategory == 1 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=1">개발</a>
@@ -82,23 +43,44 @@ cursor:pointer;
       <a class="${activeCategory == 5 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=5">자격증</a>
       <a class="${activeCategory == 6 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=6">학업</a>
     </div>
+ 
+</section>
 
-    <div class="mentor-grid">
-      <c:choose>
-        <c:when test="${empty mentorList}">
-          <p style="grid-column:1/-1; color:#6b7280;">등록된 멘토가 없습니다.</p>
-        </c:when>
+<!-- ===== 리스트 ===== -->
+<section class="mentoring-list">
+<div class="mentor-list-wrap">
+  <div class="mentor-grid">
+    <c:choose>
+      <c:when test="${empty mentorList}">
+        <p style="grid-column:1/-1; color:#6b7280;">등록된 멘토가 없습니다.</p>
+      </c:when>
 
-        <c:otherwise>
-          <c:forEach var="m" items="${mentorList}">
-            <div class="mentor-card" onclick="openMentorProfile(${m.mentor_idx})">
-              <div class="mentor-profile-img"></div>
+      <c:otherwise>
+        <c:forEach var="m" items="${mentorList}">
+          <div class="mentor-card" onclick="openMentorProfile(${m.mentor_idx})">
+            <div class="card-top">
+              <div class="avatar"></div>
+              <div>
+                <div class="m-name"><c:out value="${m.user_name}"/></div>
+                <div class="m-meta">
+                  <c:choose>
+                    <c:when test="${m.sc_idx == 1}">개발</c:when>
+                    <c:when test="${m.sc_idx == 2}">언어</c:when>
+                    <c:when test="${m.sc_idx == 3}">코딩</c:when>
+                    <c:when test="${m.sc_idx == 4}">취업</c:when>
+                    <c:when test="${m.sc_idx == 5}">자격증</c:when>
+                    <c:when test="${m.sc_idx == 6}">학업</c:when>
+                    <c:otherwise>기타</c:otherwise>
+                  </c:choose>
+                </div>
+              </div>
+            </div>
 
-              <p class="mentor-name"><c:out value="${m.user_name}"/></p>
-
-              <p class="mentor-job">
+            <div class="chips">
+              <span class="chip">멘토</span>
+              <span class="chip">
                 <c:choose>
-                  <c:when test="${m.sc_idx == 1}">개발</c:when>
+                  <c:when test="${m.sc_idx == 1}">IT/개발</c:when>
                   <c:when test="${m.sc_idx == 2}">언어</c:when>
                   <c:when test="${m.sc_idx == 3}">코딩</c:when>
                   <c:when test="${m.sc_idx == 4}">취업</c:when>
@@ -106,33 +88,74 @@ cursor:pointer;
                   <c:when test="${m.sc_idx == 6}">학업</c:when>
                   <c:otherwise>기타</c:otherwise>
                 </c:choose>
-              </p>
-
-              <p class="mentor-desc"><c:out value="${m.mentor_intro}"/></p>
-
-              <div class="mentor-footer">
-                <span class="mentor-badge">멘토</span>
-                <button type="button" class="mentor-btn"
-                        onclick="event.stopPropagation(); openMentorProfile(${m.mentor_idx});">
-                  상세보기
-                </button>
-              </div>
+              </span>
             </div>
-          </c:forEach>
-        </c:otherwise>
-      </c:choose>
-    </div>
 
+            <div class="desc"><c:out value="${m.mentor_intro}"/></div>
+
+            <div class="card-bottom">
+              <span class="small">프로필 보기</span>
+              <button type="button" class="btn-detail"
+                      onclick="event.stopPropagation(); openMentorProfile(${m.mentor_idx});">상세</button>
+            </div>
+          </div>
+        </c:forEach>
+      </c:otherwise>
+    </c:choose>
   </div>
+</div>
+</section>
+<!-- ===== 하단 멘토 모집 ===== -->
+<section class="cta">
+  <div class="cta-inner">
+    <div class="cta-badge">멘토 모집</div>
+    <div class="cta-title">당신의 경험을 나눠주세요</div>
+    <div class="cta-desc">전문 지식과 경험을 바탕으로 후배들의 성장을 도와주세요.</div>
+
+    <button type="button" class="cta-btn" onclick="openMentorGuideModal()">멘토 신청하기</button>
+  </div>
+</section>
+
 <%@ include file="mentorProfileModal.jsp" %>
 
-</main>
-</form>
 <%@ include file="../footer.jsp" %>
 
 <script>
 function openMentorProfile(mentor_idx) {
   location.href = "mentorProfile.do?mentor_idx=" + mentor_idx;
+}
+
+/* ===== 모달 토글(팀원이 하던 방식) ===== */
+function openMentorGuideModal(){
+  document.getElementById("mentorGuideModal").style.display = "block";
+}
+function closeMentorGuideModal(){
+  document.getElementById("mentorGuideModal").style.display = "none";
+}
+function openMentorFormModal(){
+  closeMentorGuideModal();
+  document.getElementById("mentorFormModal").style.display = "block";
+}
+function closeMentorFormModal(){
+  document.getElementById("mentorFormModal").style.display = "none";
+}
+function closeByBackdrop(e, modalId){
+  if(e.target && e.target.id === modalId){
+    document.getElementById(modalId).style.display = "none";
+  }
+}
+
+
+function pickCategory(sc_idx){
+  document.getElementById("sc_idx").value = sc_idx;
+
+  
+  var btns = document.querySelectorAll(".cat-btn");
+  for(var i=0;i<btns.length;i++){
+    btns[i].className = "cat-btn";
+  }
+  var target = document.getElementById("cat_"+sc_idx);
+  if(target) target.className = "cat-btn active";
 }
 </script>
 

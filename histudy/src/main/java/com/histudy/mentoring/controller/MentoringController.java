@@ -23,7 +23,7 @@ public class MentoringController {
     public String mentorList(HttpServletRequest request) {
 
         List<MentorListDTO> mentorList = mentoringService.mentorList();
-
+        
         request.setAttribute("mentorList", mentorList);
         request.setAttribute("activeCategory", 0);
 
