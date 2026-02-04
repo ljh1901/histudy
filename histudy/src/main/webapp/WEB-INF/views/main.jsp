@@ -262,8 +262,20 @@
         }); 
     });
 
-    // 검색창/셀렉트박스 커스텀 로직 유지
-//1. 데이터 수집
+   //== 페이지 스크롤 시 Header 커스텀 ==
+   const header = document.querySelector('.header');
+   const headerHeight = header.getBoundingClientRect().height;
+   
+   document.addEventListener('scroll', function () {
+     if (window.scrollY > headerHeight) {
+       header.classList.add('header--white');
+     } else {
+       header.classList.remove('header--white');
+     }
+   });
+       
+    //== 검색창 커스텀 ==
+   //1. 데이터 수집
    const selectBox = document.querySelector('.custom-select');
    const selected = document.querySelector('.selected');
    const options = document.querySelectorAll('.options li');
