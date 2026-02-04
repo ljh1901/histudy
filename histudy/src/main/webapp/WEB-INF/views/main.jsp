@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,12 @@
 <link rel="stylesheet" type="text/css" href="/histudy/css/header.css">
 <link rel="stylesheet" type="text/css" href="/histudy/css/footer.css">
 <link rel="stylesheet" type="text/css" href="/histudy/css/root.css">
+<link rel="stylesheet" type="text/css" href="/histudy/css/user/loginModal.css">
+<script>
+if(${!empty msg}){
+	alert(${requestScope.msg});
+}
+</script>
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -200,8 +207,14 @@
       </section>
    </main>
    <%@include file="footer.jsp" %>
+   <div id="modalOverlay">
+        <div id="modalContent" class="login-modal-box"></div>
+    </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/user/user.js"></script>
 <script>
+   // == 서준범 JavaScript 코드 == 
    //== 페이지 스크롤 시 Header 커스텀 ==
    const header = document.querySelector('.header');
    const headerHeight = header.getBoundingClientRect().height;
@@ -213,7 +226,6 @@
        header.classList.remove('header--white');
      }
    });
-       
     //== 검색창 커스텀 ==
    //1. 데이터 수집
    const selectBox = document.querySelector('.custom-select');
