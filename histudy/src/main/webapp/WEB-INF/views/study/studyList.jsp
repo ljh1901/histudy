@@ -85,7 +85,6 @@
                   <h1>원하는 스터디를 찾지 못하셨나요?</h1>
                   <p>직접 스터디를 개설하고 함께할 멤버를 모집해보세요</p>
                   <input type="submit" value="스터디 개설하기">
-                  <input type="hidden" name="user_idx" value="1">
                </div>
             </form>
          </section>
