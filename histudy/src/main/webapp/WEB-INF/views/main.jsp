@@ -14,31 +14,7 @@
 <link rel="stylesheet" type="text/css" href="/histudy/css/root.css">
 </head>
 <body>
-<<<<<<< HEAD
-	<header class="header">
-		<div class="header__left">
-			<img src="/histudy/main-img/logo1.png" class="header__logo">
-			<h1 class="mainTitle">
-				<a href="index.do">Hi, Study</a>
-			</h1>
-		</div>
-		<nav class="header__nav">
-			<ul class="header__nav__menu">
-				<li class="header__nav__menu__item"><a href="#">Home</a></li>
-				<li class="header__nav__menu__item"><a href="#">Study</a></li>
-				<li class="header__nav__menu__item"><a href="#">Mentoring</a></li>
-				<li class="header__nav__menu__item"><a href="studycafe.do">Study Cafe</a></li>
-				<li class="header__nav__menu__item"><a href="#">LMS</a></li>
-				<li class="header__nav__menu__item"><a href="#">Lecture</a></li>
-			</ul>
-		</nav>
-		<div class="header__right">
-			<input type="button" value="Login" class="header__login">
-		</div>
-	</header>
-=======
 <%@include file="header.jsp" %>
->>>>>>> 2d18fb5529cf63e64c396b1873a0593c9e746586
 	<main>
 		<!--Home -->
 		<section class="home">
