@@ -4,8 +4,13 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.histudy.admin.model.*;
@@ -13,74 +18,115 @@ import com.histudy.admin.service.*;
 
 @Controller
 public class AdminController {
-	
-	@Autowired
-    private AdminService adminService;
-	
-	@Autowired
-    private FaqService faqService;
-	
 
-	// °ü¸®ÀÚ ¸ŞÀÎ ´ë½Ãº¸µå
-    @GetMapping("/adminMain.do")
-    public String adminMain() {
-        return "admin/adminMain";
-    }
-    // ½ºÅÍµğ Ä«Æä ÀüÃ¼ ¸ñ·Ï
-    @GetMapping("/adminCafeList.do")
-    public ModelAndView adminList() {
-        List<StudyCafeDTO> list = adminService.getCafeList();
-        
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("admin/adminCafeList"); 
-        mav.addObject("cafeList", list);
-        
-        return mav;
-    }
-    @GetMapping("/adminCafeDetail.do")
-    public ModelAndView adminCafeDetail(@RequestParam("studycafe_idx") int idx) {
-        ModelAndView mav = new ModelAndView();    
-        mav.setViewName("admin/adminCafeDetail");
-        return mav;
-    }
-	//½ºÅÍµğ Ä«Æä ¸ÅÃâÈ­¸é
-    @GetMapping("/adminCafeSales.do")
-    public ModelAndView adminCafeSales(@RequestParam Map<String, Object> params) {
-        List<Map<String, Object>> salesData = adminService.getSalesList(params);
-        return new ModelAndView("admin/adminCafeSales").addObject("salesData", salesData);
-    }
-	//½ºÅÍµğ Ä«Æä ÁÂ¼®ÇöÈ²
+	@Autowired
+	private AdminService adminService;
+
+	@Autowired
+	private FaqService faqService;
+
+
+	// ê´€ë¦¬ì ë©”ì¸ ëŒ€ì‹œë³´ë“œ
+	@GetMapping("/adminMain.do")
+	public String adminMain() {
+		return "admin/adminMain";
+	}
+	// ìŠ¤í„°ë”” ì¹´í˜ ì „ì²´ ëª©ë¡
+	@GetMapping("/adminCafeList.do")
+	public ModelAndView adminList() {
+		List<StudyCafeDTO> list = adminService.getCafeList();
+
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin/adminCafeList"); 
+		mav.addObject("cafeList", list);
+
+		return mav;
+	}
+	@GetMapping("/adminCafeDetail.do")
+	public ModelAndView adminCafeDetail(@RequestParam("studycafe_idx") int idx) {
+		ModelAndView mav = new ModelAndView();    
+		mav.setViewName("admin/adminCafeDetail");
+		return mav;
+	}
+	//ìŠ¤í„°ë”” ì¹´í˜ ë§¤ì¶œí™”ë©´
+	@GetMapping("/adminCafeSales.do")
+	public ModelAndView adminCafeSales(@RequestParam Map<String, Object> params) {
+		List<Map<String, Object>> salesData = adminService.getSalesList(params);
+		return new ModelAndView("admin/adminCafeSales").addObject("salesData", salesData);
+	}
+	//ìŠ¤í„°ë”” ì¹´í˜ ì¢Œì„í˜„í™©
 	@GetMapping("/adminCafeSeat.do")
 	public String adminCafeSeat() {
 		return "admin/adminCafeSeat";
 	}
-	//½ºÅÍµğ Ä«Æä ¹®ÀÇ»çÇ×
+	//ìŠ¤í„°ë”” ì¹´í˜ ë¬¸ì˜ì‚¬í•­
 	@GetMapping("/adminCafeInquiryList.do")
 	public String adminCafeInquiryList() {
 		return "admin/adminCafeInquiryList";
 	}
-	//½ºÅÍµğ Ä«Æä ¿ä±İÁ¦ µî·Ï
+	
+	//ìŠ¤í„°ë”” ì¹´í˜ ìš”ê¸ˆì œ ë“±ë¡
 	@GetMapping("/adminCafePrice.do")
 	public String adminCafePrice() {
 		return "admin/adminCafePrice";
 	}
-	//ÀÚÁÖ ¹¯´Â Áú¹® ¸®½ºÆ®
+	//ìì£¼ ë¬»ëŠ” ì§ˆë¬¸ ë¦¬ìŠ¤íŠ¸
 	@GetMapping("/adminFaqForm.do")
 	public ModelAndView adminFaqForm(@RequestParam(value="menu_category_idx", required=false) Integer menuCategoryIdx) {
-	    ModelAndView mav = new ModelAndView("admin/adminFaqForm");
-	    
-	    List<MenuCategoryDTO> categoryList = faqService.getCategoryList();
-	    List<FaqDTO> faqList = faqService.getFaqList(menuCategoryIdx);
-	    
-	    mav.addObject("categoryList", categoryList);
-	    mav.addObject("faqList", faqList);
-	    return mav;
-	    }
-	//ÀÚÁÖ ¹¯´Â Áú¹® µî·Ï
-    @GetMapping("/adminFaqWrite.do")
-    public ModelAndView adminFaqWrite() {
-        ModelAndView mav = new ModelAndView("admin/adminFaqWrite");
-        mav.addObject("categoryList", faqService.getCategoryList());
-        return mav;
+		ModelAndView mav = new ModelAndView("admin/adminFaqForm");
+
+		List<MenuCategoryDTO> categoryList = faqService.getCategoryList();
+		List<FaqDTO> faqList = faqService.getFaqList(menuCategoryIdx);
+
+		mav.addObject("categoryList", categoryList);
+		mav.addObject("faqList", faqList);
+		return mav;
+	}
+	//ìì£¼ ë¬»ëŠ” ì§ˆë¬¸ ë“±ë¡
+	@GetMapping("/adminFaqWrite.do")
+	public ModelAndView adminFaqWrite() {
+		ModelAndView mav = new ModelAndView("admin/adminFaqWrite");
+		mav.addObject("categoryList", faqService.getCategoryList());
+		return mav;
+	}
+
+	@RequestMapping("/adminFaqEdit.do")
+	public String adminFaqEdit(int faq_idx, Model model) {
+
+		List<MenuCategoryDTO> categoryList = faqService.getCategoryList();
+
+		model.addAttribute("faq", faqService.getFaqOne(faq_idx));
+		model.addAttribute("categoryList", categoryList);
+
+		return "admin/adminFaqEditForm";
+	}
+	@RequestMapping("/adminFaqEditAction.do")
+	public String adminFaqEditAction(FaqDTO dto) {
+		int result = faqService.updateFaq(dto);
+		if(result > 0) {
+			return "redirect:adminFaqForm.do";
+		} else {
+			return "common/error";
+		}
+	}
+	
+	@GetMapping("/studycafeEditor.do")
+    public String studycafeEditor(@RequestParam("studycafe_idx") int studycafe_idx, Model model) {
+
+        List<Map<String, Object>> layoutList = adminService.getLayoutList(studycafe_idx);
+        model.addAttribute("layoutList", layoutList); 
+        return "admin/studycafeEditor"; 
+    }
+    @PostMapping("/saveCafeLayoutAction.do")
+    @ResponseBody
+    public Map<String, Object> saveLayout(@RequestBody Map<String, Object> params) {
+        int studycafe_idx = Integer.parseInt(params.get("studycafe_idx").toString());
+        List<Map<String, Object>> layoutData = (List<Map<String, Object>>) params.get("layout");
+        
+        adminService.updateCafeLayout(studycafe_idx, layoutData);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        return response;
     }
 }
