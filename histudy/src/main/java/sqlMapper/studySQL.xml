@@ -7,7 +7,7 @@
    <insert id="insertStudy" parameterType="com.histudy.study.model.StudyDTO">
       INSERT INTO study values(study_idx.nextval, #{study_title}, #{study_content}, sysdate, #{study_end_date},
                                1, #{study_max_members}, #{study_location_lng}, #{study_location_lat}, #{study_addr},
-                               #{study_upload_img}, #{sc_idx}, 1)
+                               #{study_upload_img}, #{sc_idx}, #{user_idx})
    </insert>
    <select id="selectStudyList" parameterType="map" resultType="com.histudy.study.model.StudyDTO">
       SELECT * 
