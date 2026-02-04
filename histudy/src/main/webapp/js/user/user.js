@@ -21,28 +21,31 @@
 	
 	}
     // [2] 로그인 모달 열기 및 쿠키 처리 통합
+function getCookie(name) {
+    return document.cookie
+        .split("; ")
+        .find(row => row.startsWith(name + "="))
+        ?.split("=")[1];
+}
+
+
+    // [2] 로그인 모달 열기 및 쿠키 처리 통합
 function openSignInModal() {
     $('#modalContent').load("userSignIn.do #signInFragment", function() {
         $('#modalOverlay').css('display', 'flex');
+		const id = getCookie("id");
 
-        const cookies = document.cookie.split(";").map(function(c){
-        	c.trim()
-        });
-        const idCookie = cookies.find(function(c) {
-        c.startsWith("id=")
-        });
-        if(idCookie) {
-            const id = idCookie.split("=")[1];
-            document.querySelector('#modalContent input[name="user_id"]').value = id;
-            document.querySelector('#modalContent input[name="rememberId"]').checked = true;
-        }
-
+		if(id){
+    		document.querySelector('#modalContent input[name="user_id"]').value = id;
+    		document.querySelector('#modalContent input[name="rememberId"]').checked = true;
+		}
         // 닫기 버튼 추가
         if($('#modalContent .close-btn').length === 0) {
             $('#modalContent').append('<div class="close-btn" onclick="closeSignInModal()" style="position:absolute; right:25px; top:20px; cursor:pointer; font-size:20px; font-weight:bold; color:#666;">&times;</div>');
         }
     });
 }
+
 
 
     function closeSignInModal() {
