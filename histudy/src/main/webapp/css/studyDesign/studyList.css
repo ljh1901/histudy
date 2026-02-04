@@ -63,8 +63,14 @@
       border-radius: 50px;
       width: 100%;
       text-align: center;
+      transition: transform 0.4s ease;
    }
-   #all{
+   .studyCategory__left__list a:hover{
+   	background-color: black;
+   	color: white;
+   	transform: translateY(-3px);
+   }
+   .studyCategory__left__list a.active{
       background-color: black;
       color: white;
    }

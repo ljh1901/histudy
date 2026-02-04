@@ -17,13 +17,19 @@
                  (
                   SELECT study.*, usertb.user_name, study_category.sc_name
                   FROM study JOIN usertb ON study.user_idx=usertb.user_idx JOIN study_category ON study_category.sc_idx = study.sc_idx
+                  <if test="sc_idx != null">
+                  	WHERE study_category.sc_idx=#{sc_idx} 
+                  </if>
                   ORDER BY study_idx desc
                  ) a ) b
       WHERE rnum between #{start_num} and #{end_num}
    </select>
-   <select id="studyTotalCnt" resultType="Integer">
+   <select id="studyTotalCnt" parameterType="Integer" resultType="Integer">
       SELECT count(*)
       FROM study
+      <if test="sc_idx != null">
+      		WHERE sc_idx=#{sc_idx}
+      </if>
    </select>
    <select id="studyCreateUser" parameterType="Integer" resultType="com.histudy.user.model.UserDTO">
       SELECT user_name, user_email, user_tel
