@@ -37,6 +37,7 @@
 	.studyData label{
 		margin-bottom: 10px;
 		margin-top: 10px;
+		font-weight: bold;
 	}
 	.studyData input, select{
 		border: 1px solid #888;

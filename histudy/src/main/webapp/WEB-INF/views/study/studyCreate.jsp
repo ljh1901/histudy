@@ -66,15 +66,15 @@
 					</div>
 					<div class="studyData">
 						<label>이름</label>
-						<input type="text" name="user_name" readonly>
+						<input type="text" name="user_name" value="${user_name}" readonly>
 					</div>
 					<div class="studyData">
 						<label>이메일</label>
-						<input type="text" name="user_email" readonly>
+						<input type="text" name="user_email" value="${user_email}" readonly>
 					</div>
 					<div class="studyData">
 						<label>연락처</label>
-						<input type="text" name="user_tel" readonly>
+						<input type="text" name="user_tel" value="${user_tel}" readonly>
 					</div>
 				</div>
 				<div class="studyCreate__Data">

@@ -5,17 +5,18 @@ import java.sql.Date;
 public class UserDTO {
 
     private int user_idx;
-    private String user_id;   // ✅ 추가
-    private String user_pw;   // ✅ user_pwd → user_pw
+    private String user_id;
+    private String user_pw;   
     private String user_name;
     private Date user_birthdate;
     private String user_tel;
+    private String user_email;
     private int role_idx;
 	public UserDTO() {
 		
 	}
 	public UserDTO(int user_idx, String user_id, String user_pw, String user_name, Date user_birthdate, String user_tel,
-			int role_idx) {
+			String user_email, int role_idx) {
 		super();
 		this.user_idx = user_idx;
 		this.user_id = user_id;
@@ -23,6 +24,7 @@ public class UserDTO {
 		this.user_name = user_name;
 		this.user_birthdate = user_birthdate;
 		this.user_tel = user_tel;
+		this.user_email = user_email;
 		this.role_idx = role_idx;
 	}
 	public int getUser_idx() {
@@ -61,15 +63,18 @@ public class UserDTO {
 	public void setUser_tel(String user_tel) {
 		this.user_tel = user_tel;
 	}
+	public String getUser_email() {
+		return user_email;
+	}
+	public void setUser_email(String user_email) {
+		this.user_email = user_email;
+	}
 	public int getRole_idx() {
 		return role_idx;
 	}
 	public void setRole_idx(int role_idx) {
 		this.role_idx = role_idx;
 	}
-	
-	
-
 
 	
 }
