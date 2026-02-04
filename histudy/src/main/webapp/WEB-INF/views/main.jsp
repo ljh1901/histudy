@@ -299,6 +299,25 @@
    document.addEventListener('click', function() {
       selectBox.classList.remove('open');
    });
+   
+// [1] 메뉴 토글 함수
+   function toggleUserMenu(event) {
+       if (event) event.stopPropagation(); // 이벤트 버블링 방지
+       const menu = document.getElementById('userMenu');
+       const isVisible = menu.style.display === 'block';
+       menu.style.display = isVisible ? 'none' : 'block';
+   }
+
+   // [2] 메뉴 바깥쪽 클릭 시 닫기 (더 안전한 방식)
+   $(document).on('click', function(e) {
+       const $target = $(e.target);
+       // 클릭한 곳이 드롭다운 버튼이나 메뉴 내부가 아니라면 닫기
+       if (!$target.closest('.user-dropdown').length) {
+           $('#userMenu').hide();
+       }
+   });
+
+	
    </script>
 </body>
 </html>
