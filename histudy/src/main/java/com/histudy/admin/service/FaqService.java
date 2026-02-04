@@ -7,4 +7,6 @@ import com.histudy.admin.model.*;
 public interface FaqService {
     List<MenuCategoryDTO> getCategoryList();
     List<FaqDTO> getFaqList(Integer category_idx);
+    FaqDTO getFaqOne(int faq_idx);
+    int updateFaq(FaqDTO dto);
 }
