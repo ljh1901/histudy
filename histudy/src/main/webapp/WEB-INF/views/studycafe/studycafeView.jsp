@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="css/header.css" type="text/css">
 <link rel="stylesheet" href="css/footer.css" type="text/css">
 <style>
+<<<<<<< HEAD
 .mentor-card {
 	background: #fff;
 	border-radius: 18px;
@@ -18,6 +19,8 @@
 	cursor: pointer;
 }
 
+=======
+>>>>>>> 7281913589687c8c03e06e3a8a87b26d3b895c6c
 :root {
 	-white-brown: #CDA56D;
 	-door-color: #99CCFF;
@@ -133,6 +136,7 @@ window.onload=function(){
 			</section>
 			<section>
 				<div class="studycafeCurrent" style="display: none">
+<<<<<<< HEAD
 					<!-- (모달1) 안내사항 모달 -->
 					<div class="payseat"
 						style="display: none; z-index: 1; width: 50%; height: 60%; background-color: gray;">
@@ -144,6 +148,8 @@ window.onload=function(){
 							</div>
 						</div>
 					</div>
+=======
+>>>>>>> 7281913589687c8c03e06e3a8a87b26d3b895c6c
 					<svg viewBox="0 0 1100 650" width="100%" height="100%">
 
 <!-- ===== 벽 ===== -->
@@ -274,7 +280,12 @@ MAIN HALL
 <g>
 
 <!-- 배경 -->
+<<<<<<< HEAD
 <rect x="720" y="350" width="300" height="180" rx="20" fill="#FFF7ED" stroke="#FED7AA" stroke-width="2" />
+=======
+<rect x="720" y="350" width="300" height="180" rx="20" fill="#FFF7ED"
+							stroke="#FED7AA" stroke-width="2" />
+>>>>>>> 7281913589687c8c03e06e3a8a87b26d3b895c6c
 
 <!-- 방들 -->
 <rect x="740" y="370" width="70" height="70" rx="10" fill="#FFFBEB" />
