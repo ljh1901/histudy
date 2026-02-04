@@ -16,7 +16,7 @@
 <body>
 <%@include file="header.jsp" %>
 	<main>
-		<!-- Home -->
+		<!--Home -->
 		<section class="home">
 			<div class="home__text">
 				<p class="description">함께 성장하는</p>
