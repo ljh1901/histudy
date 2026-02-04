@@ -287,5 +287,6 @@
    document.addEventListener('click', function() {
       selectBox.classList.remove('open');
    });
+   </script>
 </body>
 </html>
