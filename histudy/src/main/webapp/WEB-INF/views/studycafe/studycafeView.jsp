@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,7 +89,7 @@ section>h1>a:hover {
 }
 
 .seat-a:hover, .seat-a>rect:hover {
-	fill: white;
+	fill: gray;
 	cursor: pointer;
 	user-select: none;
 }
@@ -109,17 +110,17 @@ window.onload=function(){
 	<%@include file="../header.jsp"%>
 	<form name="studycafe">
 		<main>
-			<div class="paySeat" style="background-color: red; display: none;">
-				<a href="#" onclick="close1()">x</a>
-			</div>
 			<section>
 				<h1>
-					<a href="#" id="studycafeInfo">스터디 카페 정보</a><a href="#"
-						id="studycafeCurrent">스터디 카페 좌석 현황</a>
+					<a href="#" id="studycafeInfo">스터디 카페 정보</a>
+					<a href="#"id="studycafeCurrent">스터디 카페 좌석 현황</a>
 				</h1>
 				<div class="studycafeInfo">
 					<h1 id="studycafeList">
 						<a href="#">스터디 카페 목록</a>
+						<c:forEach var="studycafeList" items="${dto.studycafe_name}">
+							<div>${studycafeList}</div>
+						</c:forEach>
 					</h1>
 					<div id="map" style="width: 50%; height: 350px;"></div>
 					<div id="clickLatlng"></div>
@@ -127,6 +128,17 @@ window.onload=function(){
 			</section>
 			<section>
 				<div class="studycafeCurrent" style="display: none">
+					<!-- (모달1) 안내사항 모달 -->
+					<div class="payseat"
+						style="display: none; z-index: 1; width: 50%; height: 60%; background-color: gray;">
+						<div class="modal-box">
+							<div class="modal-header">
+								<button type="button" class="modal-close" onclick="close1()">&times;</button>
+								<div id="seat"></div>
+								<button id="payBtn">결제하기</button>
+							</div>
+						</div>
+					</div>
 					<svg viewBox="0 0 1100 650" width="100%" height="100%">
 
 <!-- ===== 벽 ===== -->
@@ -257,8 +269,10 @@ MAIN HALL
 <g>
 
 <!-- 배경 -->
+<rect x="720" y="350" width="300" height="180" rx="20" fill="#FFF7ED" stroke="#FED7AA" stroke-width="2" />
 <rect x="720" y="350" width="300" height="180" rx="20" fill="#FFF7ED"
 							stroke="#FED7AA" stroke-width="2" />
+
 
 <!-- 방들 -->
 <rect x="740" y="370" width="70" height="70" rx="10" fill="#FFFBEB" />
@@ -282,28 +296,22 @@ MAIN HALL
 </text>
 </svg>
 				</div>
-				<input type="Text" name="texttest">
-			</section>
-			<section>
-				<button id="payBtn">결제하기</button>
 			</section>
 		</main>
 	</form>
 	<%@include file="../footer.jsp"%>
 </body>
-<script
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cc8dabaa3a75dab670d03c068fae3a5d&libraries=services&libraries=services"
-	type="text/javascript"></script>
-<script src="js/studycafe/map.js" type="text/javascript"></script>
-<script src="js/studycafe/pay.js" type="text/javascript"></script>
 <script>
+var lat = ${dto.studycafe_lat}
+var lng = ${dto.studycafe_lng}
 var queryNum=-1;
 for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 	document.querySelectorAll(".seat-a")[i].setAttribute("value", "a"+i);
-document.querySelectorAll(".seat-a")[i].addEventListener('click', async function(e){
+	document.querySelectorAll(".seat-a")[i].addEventListener('click', async function(e){
 	queryNum=i;
+	document.querySelector('#seat').innerText = document.querySelectorAll(".seat-a")[i].getAttribute("value")+ ': 좌석현황';
 	alert(document.querySelectorAll(".seat-a")[i].getAttribute("value"));
-	document.querySelector('.paySeat').style.display="";
+	document.querySelector('.payseat').style.display="";
 	alert(queryNum);
 	portOnePay(queryNum);
 })
@@ -316,10 +324,8 @@ console.log(now.getMonth()+1);
 console.log(now.getHours()); // 시간
 console.log(now.getMinutes()); // 분
 console.log(now.getSeconds()); // 초 */
-
-
 function close1(){
-	document.querySelector('.paySeat').style.display="none";
+	document.querySelector('.payseat').style.display = "none";
 }
 document.getElementById('studycafeCurrent').addEventListener('click',function(){
 	document.querySelector('.studycafeInfo').style.display="none";
@@ -330,4 +336,7 @@ document.getElementById('studycafeInfo').addEventListener('click',function(){
 	document.querySelector('.studycafeCurrent').style.display="none";
 })
 </script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cc8dabaa3a75dab670d03c068fae3a5d&libraries=services&libraries=services" type="text/javascript"></script>
+<script src="js/studycafe/map.js" type="text/javascript"></script>
+<script src="js/studycafe/pay.js" type="text/javascript"></script>
 </html>

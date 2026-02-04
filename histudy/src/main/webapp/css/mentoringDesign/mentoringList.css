@@ -1,0 +1,120 @@
+@charset "UTF-8";
+#mentoringPage header{
+	background-color: white;
+}
+.mentoring-hero{
+  background-color:#f4fff2;
+  padding: 52px 0 30px 0;
+}
+.hero-inner{ max-width:900px; margin:0 auto; padding-top:90px; text-align:center; }
+.hero-sub{ color:#6fdd00; font-size:.9rem; margin-bottom:10px; }
+.hero-title{ font-size:2.2rem; font-weight:800; color:#0f172a; line-height:1.25; }
+.hero-desc{ margin-top:14px; color:#64748b; font-size:1rem; }
+.mentoring-search{
+	background-color: white;
+}
+.hero-search{
+  margin: 26px auto 0 auto;
+  max-width: 560px;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:999px;
+  padding:10px 14px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.hero-search input{
+  border:none; outline:none; width:100%;
+  font-size:.95rem;
+}
+.hero-actions{ margin-top:18px; }
+.hero-actions .btn-mentor{
+  border:none; cursor:pointer;
+  background:#0f172a; color:#fff;
+  padding:10px 18px; border-radius:999px;
+  font-size:.95rem;
+}
+
+/* ===== 필터 칩 ===== */
+.mentor-filter { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:22px 0 28px 0; }
+.mentor-filter a{
+  border:1px solid #e5e7eb; background:#fff; border-radius:999px;
+  padding:8px 16px; font-size:.85rem; cursor:pointer; transition:.2s;
+  display:inline-block; color:#111827;
+}
+.mentor-filter a:hover,.mentor-filter a.active{
+  background:#0f172a; color:#fff; border-color:#0f172a;
+}
+
+/* ===== 리스트 그리드 ===== */
+.mentoring-list{
+	background-color:#f2f2f2;
+}
+.mentor-list-wrap{ max-width:1100px; margin:0 auto; padding: 18px 16px 40px 16px; }
+.mentor-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:22px; }
+@media(max-width:980px){ .mentor-grid{ grid-template-columns: repeat(2, 1fr); } }
+@media(max-width:560px){ .mentor-grid{ grid-template-columns: 1fr; } }
+
+.mentor-card{
+  background:#fff;
+  border:1px solid #eef2f7;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 10px 24px rgba(15, 23, 42, 0.06);
+  transition:.2s;
+  cursor:pointer;
+}
+.mentor-card:hover{ transform: translateY(-4px); box-shadow:0 18px 34px rgba(15, 23, 42, 0.10); }
+
+.card-top{ display:flex; gap:12px; align-items:center; margin-bottom:12px; }
+.avatar{
+  width:56px; height:56px; border-radius:16px;
+  background:#f1f5f9;
+  flex: 0 0 56px;
+}
+.m-name{ font-weight:800; color:#0f172a; }
+.m-meta{ font-size:.82rem; color:#64748b; margin-top:2px; }
+
+.chips{ display:flex; gap:8px; flex-wrap:wrap; margin: 10px 0 12px 0; }
+.chip{
+  display:inline-block;
+  font-size:.75rem;
+  padding:4px 10px;
+  border-radius:999px;
+  background:#f1f5f9;
+  color:#0f172a;
+}
+.desc{ color:#334155; font-size:.88rem; line-height:1.5; min-height:42px; }
+
+.card-bottom{
+  display:flex; justify-content:space-between; align-items:center;
+  margin-top:14px; padding-top:12px; border-top:1px solid #eef2f7;
+}
+.small{ font-size:.78rem; color:#64748b; }
+.btn-detail{
+  border:none; cursor:pointer;
+  background:#0f172a; color:#fff;
+  border-radius:999px;
+  padding:7px 12px;
+  font-size:.82rem;
+}
+
+/* ===== 하단 멘토 모집 섹션 ===== */
+.cta{
+  background-color: #F8F4FD;
+  padding: 52px 0;
+}
+.cta-inner{ max-width:1100px; margin:0 auto; padding:0 16px; text-align:center; }
+.cta-badge{
+  display:inline-block; padding:6px 12px; border-radius:999px;
+  background:#ffffff; color:#1e293b; font-size:.85rem; margin-bottom:14px;
+}
+.cta-title{ font-size:2rem; font-weight:900; color:#0f172a; }
+.cta-desc{ margin-top:12px; color:#64748b; }
+.cta-btn{
+  margin-top:18px;
+  border:none; cursor:pointer;
+  background:#0f172a; color:#fff;
+  padding:12px 22px; border-radius:999px; font-size:1rem;
+}

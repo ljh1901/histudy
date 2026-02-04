@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -192,10 +191,6 @@ function enableElement(g){
 
 
 // ================= SVG에서 생성 =================
-
-// click ❌
-// mousedown ✔
-
 svg.addEventListener("mousedown",(e)=>{
 
     // 빈공간만 생성
@@ -252,13 +247,11 @@ svg.addEventListener("mousemove",(e)=>{
 
         if(newW>20) rect.setAttribute("width",newW);
         if(newH>20) rect.setAttribute("height",newH);
-
         if(text){
             text.setAttribute("x",x+newW/2);
             text.setAttribute("y",y+newH/2);
         }
     }
-
     updateHandle(target);
 
 });
@@ -266,7 +259,6 @@ svg.addEventListener("mousemove",(e)=>{
 
 // 마우스 놓으면 종료
 window.addEventListener("mouseup",()=>{
-
     action=null;
     target=null;
 

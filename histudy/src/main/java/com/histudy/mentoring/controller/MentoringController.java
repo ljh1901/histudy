@@ -23,7 +23,7 @@ public class MentoringController {
     public String mentorList(HttpServletRequest request) {
 
         List<MentorListDTO> mentorList = mentoringService.mentorList();
-
+        
         request.setAttribute("mentorList", mentorList);
         request.setAttribute("activeCategory", 0);
 
@@ -55,16 +55,11 @@ public class MentoringController {
 
         HttpSession session = request.getSession();
         Integer user_idx = (Integer) session.getAttribute("user_idx");
-        
         if(user_idx == null) {
         	return "redirect:/mentorList.do";
         }
-
         dto.setUser_idx(user_idx);
-
         int result = mentoringService.mentorProfileCreate(dto);
-
-        // �꽦怨듯븯硫� 紐⑸줉�쑝濡�
         return "redirect:/mentorList.do";
 
     }

@@ -91,7 +91,6 @@
 </style>
 </head>
 <body>
-
     <%@include file="header.jsp" %>
 
     <main>
@@ -190,14 +189,16 @@
         } 
     };
 
-    const header = document.querySelector('.header');
-    document.addEventListener('scroll', function () { 
-        if (window.scrollY > 50) {
-            header.classList.add('header--white');
-        } else {
-            header.classList.remove('header--white');
-        }
-    });
+   const header = document.querySelector('.header');
+   const headerHeight = header.getBoundingClientRect().height;
+   
+   document.addEventListener('scroll', function () {
+     if (window.scrollY > headerHeight) {
+       header.classList.add('header--white');
+     } else {
+       header.classList.remove('header--white');
+     }
+   });
 
     // [1] 쿠키 가져오기 함수
     function getCookie(name) { 
@@ -262,28 +263,29 @@
     });
 
     // 검색창/셀렉트박스 커스텀 로직 유지
-    const selectBox = document.querySelector('.custom-select'); 
-    const selected = document.querySelector('.selected'); 
-    const options = document.querySelectorAll('.options li');
+//1. 데이터 수집
+   const selectBox = document.querySelector('.custom-select');
+   const selected = document.querySelector('.selected');
+   const options = document.querySelectorAll('.options li');
 
-    if(selectBox) {
-        selectBox.addEventListener('click', function(e) {
-            e.stopPropagation();
-            this.classList.toggle('open');
-        });
-    } 
+   //2. 셀렉트 열기
+   selectBox.addEventListener('click', function(e) {
+      e.stopPropagation();
+      this.classList.toggle('open');
+   });
 
-    options.forEach(option => {
-        option.addEventListener('click', function(e) {
-            e.stopPropagation();
-            selected.innerHTML = this.innerHTML;
-            selectBox.classList.remove('open');
-        });
-    });
+   //3. 셀렉트 변경 후 닫기
+   for (var i = 0; i < options.length; i++) {
+      options[i].addEventListener('click', function(e) {
+         e.stopPropagation();
+         selected.innerHTML = this.innerHTML;
+         selectBox.classList.remove('open');
+      });
+   }
 
-    document.addEventListener('click', function() { 
-        if(selectBox) selectBox.classList.remove('open');
-    });
-    </script> 
+   //4. 셀렉트 닫기
+   document.addEventListener('click', function() {
+      selectBox.classList.remove('open');
+   });
 </body>
 </html>

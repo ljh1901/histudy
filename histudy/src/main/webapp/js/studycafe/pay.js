@@ -1,5 +1,6 @@
-function portOnePay(){
-document.getElementById('payBtn').addEventListener('click', async function(){
+function portOnePay(i){
+document.getElementById('payBtn').addEventListener('click', async function(e){
+	e.preventDefault();
 	var str = ''+now.getFullYear()+(now.getMonth()+1)+now.getDate()+now.getHours()+now.getMinutes()+now.getSeconds();
 	const response = await PortOne.requestPayment({
 		//Store ID 설정
@@ -14,7 +15,7 @@ document.getElementById('payBtn').addEventListener('click', async function(){
 		customData:{
 			storeName: "histudy"
 		},
-		orderName: document.querySelectorAll('seat-a')[1].getAttribute('value')+"-좌석/시간권 2시간",
+		orderName: document.querySelectorAll('.seat-a')[i].getAttribute('value')+"-좌석/시간권 2시간",
 		totalAmount: 1000,
 		currency: "CURRENCY_KRW",
 		payMethod: "CARD"
