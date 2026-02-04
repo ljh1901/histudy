@@ -60,11 +60,6 @@ public class MentoringController {
         }
         dto.setUser_idx(user_idx);
         int result = mentoringService.mentorProfileCreate(dto);
-<<<<<<< HEAD
-=======
-
-        // �꽦怨듯븯硫� 紐⑸줉�쑝濡�
->>>>>>> 7281913589687c8c03e06e3a8a87b26d3b895c6c
         return "redirect:/mentorList.do";
 
     }
