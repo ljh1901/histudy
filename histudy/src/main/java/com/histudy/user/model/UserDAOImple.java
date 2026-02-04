@@ -4,27 +4,28 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 public class UserDAOImple implements UserDAO {
 
-	private static final String NAMESPACE = "com.histudy.user";
-
 	private SqlSessionTemplate sqlSession;
 
 	public UserDAOImple(SqlSessionTemplate sqlSession) {
 		this.sqlSession = sqlSession;
 	}
 
-	public void userSignUp(UserDTO dto) {
-		sqlSession.insert(NAMESPACE + ".userSignUpId", dto);
-
+	public int userSignUp(UserDTO dto) {
+		int result = sqlSession.insert("userSignUpSQL", dto);
+		return result;
 	}
 
-	public UserDTO userSignIn(UserDTO dto) {
-		return sqlSession.selectOne(NAMESPACE + ".userSignInId", dto);
+	public String userSignIn(String user_id) {
+		return sqlSession.selectOne("userSignInSQL", user_id);
 
 	}
 
 	public int userCheckId(String user_id) {
-		return sqlSession.selectOne(NAMESPACE + ".userCheckIdId", user_id);
+		return sqlSession.selectOne("userCheckIdSQL", user_id);
 	}
-	
+	@Override
+	public UserDTO userInfo(String user_id) {
+		return sqlSession.selectOne("userInfoSQL",user_id);
+	}
 
 }
