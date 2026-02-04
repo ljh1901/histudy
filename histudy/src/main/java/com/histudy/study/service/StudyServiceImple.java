@@ -28,10 +28,10 @@ public class StudyServiceImple implements StudyService {
    }
    
    @Override
-   public int studyTotalCnt() {
-      int result = studyDao.studyTotalCnt();
-      return result;
-   }
+	public int studyTotalCnt(Integer sc_idx) {
+	    int result = studyDao.studyTotalCnt(sc_idx);
+	    return result;
+	}
    
    @Override
    public UserDTO getStudyCreateUser(int user_idx) {

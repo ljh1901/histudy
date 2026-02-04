@@ -32,12 +32,12 @@
             <div class="studyCategory__left">
                <p>카테고리</p>
                <div class="studyCategory__left__list">
-                  <a id="all">전체</a>
-                  <a>코딩</a>
-                  <a>언어</a>
-                  <a>학업</a>
-                  <a>자격증</a>
-                  <a>취업</a>
+					<a href="studyList.do?cp=1&sc_idx=0" class="cate ${param.sc_idx=='0'?'active':''}">전체</a>
+					<a href="studyList.do?cp=1&sc_idx=1" class="cate ${param.sc_idx=='1'?'active':''}">코딩</a>
+					<a href="studyList.do?cp=1&sc_idx=2" class="cate ${param.sc_idx=='2'?'active':''}">언어</a>
+					<a href="studyList.do?cp=1&sc_idx=3" class="cate ${param.sc_idx=='3'?'active':''}">학업</a>
+					<a href="studyList.do?cp=1&sc_idx=4" class="cate ${param.sc_idx=='4'?'active':''}">자격증</a>
+					<a href="studyList.do?cp=1&sc_idx=5" class="cate ${param.sc_idx=='5'?'active':''}">취업</a>
                </div>
                <p>총 <span>${studyListCount}</span>개의 스터디</p>
             </div>
@@ -64,7 +64,7 @@
                           <li><img src="/histudy/main-img/user.png">${dto.user_name}</li>
                              <li><img src="/histudy/main-img/personnel.png">${dto.study_current_members }/${dto.study_max_members}명</li>
                           <li><img src="/histudy/main-img/clock.png">마감일 - ${dto.study_end_date.substring(0, 10)}</li>
-                          <li><img src="/histudy/main-img/location.png">${dto.study_addr }</li>
+                          <li><img src="/histudy/main-img/location.png">${empty dto.study_addr?'장소가 지정되지 않았어요':dto.study_addr }</li>
                        </ul>
                    </div>
                 </article>
