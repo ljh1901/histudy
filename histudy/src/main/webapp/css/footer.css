@@ -1,98 +1,98 @@
 @charset "UTF-8";
 /*== Footer ==*/
 .footer {
-	background-color: #1E2A3D;
-	min-height: auto;
-	color: white;
-	padding: 4rem;
+   background-color: #1E2A3D;
+   min-height: auto;
+   color: white;
+   padding: 4rem;
 }
 
 .footerContainer {
-	margin: auto;
+   margin: auto;
 }
 
 .footer__center {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	border-bottom: 1px solid white;
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+   border-bottom: 1px solid white;
 }
 
 .footer__left {
-	display: flex;
-	align-items: flex-start;   
-	flex-direction: column;
+   display: flex;
+   align-items: flex-start;   
+   flex-direction: column;
 }
 
 .footer__left h3,
 .footer__left h4 {
-	font-size: 2rem;
+   font-size: 2rem;
 }
 
 .footer__left__text {
-	display: flex;
+   display: flex;
 }
 
 .footer__left__text img {
-	margin-right: 10px;
-	width: 40px;
+   margin-right: 10px;
+   width: 40px;
 }
 
 .footer__right {
-	display: flex;
-	margin-top: -20px;
+   display: flex;
+   margin-top: -20px;
 }
 
 .footer__right__box {
-	min-width: 180px;
-	display: flex;
-	flex-direction: column;
-	line-height: 1.8rem;
+   min-width: 180px;
+   display: flex;
+   flex-direction: column;
+   line-height: 1.8rem;
 }
 
 .footer__right__box h5 {
-	font-size: 1.2rem;
+   font-size: 1.2rem;
 }
 
 .footer__right__box li {
-	color: #ccc;
-	transition: transform 0.3s ease;
+   color: #ccc;
+   transition: transform 0.3s ease;
 }
 
 .footer__right__box li:hover {
-	color: white;
-	cursor: pointer;
-	transform: translateY(-1px);
+   color: white;
+   cursor: pointer;
+   transform: translateY(-1px);
 }
 
 .footer__bottom {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 30px;
+   display: flex;
+   justify-content: space-between;
+   margin-top: 30px;
 }
 
 .footer__bottom p {
-	color: #ccc;
+   color: #ccc;
 }
 
 .footer__bottom a {
-	color: #ccc;
+   color: #ccc;
 }
 
 .footer__bottom a:hover {
-	color: white;
-	cursor: pointer;
+   color: white;
+   cursor: pointer;
 }
 
 #footer__bottom__adminModeBtn {
-	border: 1px solid white;
-	border-radius: 10px;
-	padding: 0.7rem;
-	background-color: white;
-	color: black;
+   border: 1px solid white;
+   border-radius: 10px;
+   padding: 0.7rem;
+   background-color: white;
+   color: black;
 }
 
 #footer__bottom__adminModeBtn:hover {
-	background-color: #1E2A3D;
-	color: white;
+   background-color: #1E2A3D;
+   color: white;
 }
