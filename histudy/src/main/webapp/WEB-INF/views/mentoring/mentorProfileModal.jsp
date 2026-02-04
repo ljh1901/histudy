@@ -125,15 +125,7 @@
   border-color:#1E293B;
 }
 </style>
-<!-- 상단 영역 어딘가(예: service__text 아래) -->
-<div style="margin:18px 0 28px; text-align:center;">
-  <button type="button"
-          style="border:none; border-radius:10px; padding:10px 18px;
-                 background:#1E293B; color:#fff; cursor:pointer; font-weight:700;"
-          onclick="openMentorGuideModal()">
-    멘토 프로필 등록
-  </button>
-</div>
+
 
 <!-- (모달1) 안내사항 모달 -->
 <div id="mentorGuideModal" class="modal-backdrop" onclick="closeByBackdrop(event,'mentorGuideModal')">
@@ -172,11 +164,9 @@
     </div>
 
     <div class="modal-body">
-      <!-- ✅ 여기 action은 너희가 만들 저장 컨트롤러(.do)에 맞춰 -->
+
       <form method="post" action="mentorProfileCreate.do">
 
-        <!-- ✅ user_idx는 "로그인 세션"에서 꺼내서 넣어야 함
-             아래는 예시니까 너희 프로젝트 세션 키에 맞게 바꿔 -->
         <input type="hidden" name="user_idx" value="${sessionScope.loginUser.user_idx}"/>
 
         <div class="form-row">
@@ -193,7 +183,6 @@
         <div class="form-row">
           <label>희망분야(카테고리) *</label>
 
-          <!-- 실제로 서버로 보낼 값 -->
           <input type="hidden" name="sc_idx" id="sc_idx" value=""/>
 
           <div class="category-grid">
@@ -264,7 +253,6 @@ function pickCategory(btn, val){
   document.getElementById("sc_idx").value = val;
 }
 
-/* ===== 제출 전 간단 검증 ===== */
 function validateMentorForm(){
   var tel = document.querySelector("input[name='mentor_tel']").value;
   var sc  = document.getElementById("sc_idx").value;
