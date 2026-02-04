@@ -5,3 +5,6 @@ target/
 .classpath
 .springBeans
 .settings/
+histudy/bin/
+bin/
+*.class
