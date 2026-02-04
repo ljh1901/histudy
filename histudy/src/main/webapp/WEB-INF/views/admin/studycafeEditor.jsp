@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>StudyCafe Editor - ${param.studycafe_name}</title>
+<link rel="stylesheet" href="css/admin_layout.css" type="text/css">
 <style>
     html, body { 
         height: 100%; 
@@ -83,7 +84,20 @@
 <body>
 
 <div class="editor-wrap">
-    <div class="toolbar">
+<fieldset>
+        <legend><strong >관리 중인 카페 : ${param.studycafe_name}</strong></legend>
+        <div class="adminCafe">
+    <ul class="adminCafe__menu">
+        <li class="adminCafe__menu__item"><a href="adminCafeSales.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}">총 매출확인</a></li>
+        <li class="adminCafe__menu__item"><a href="adminCafeSeat.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}">스터디카페 현황 보기</a></li>
+        <li class="adminCafe__menu__item"><a href="adminCafeInquiryList.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}">스터디카페 문의</a></li>
+        <li class="adminCafe__menu__item"><a href="studycafeEditor.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}">좌석등록</a></li>
+        <li class="adminCafe__menu__item"><a href="adminCafePrice.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}">요금제 등록</a></li>
+    </ul>
+</div>
+    </fieldset>
+    <svg id="editor" viewBox="0 0 1200 700">
+     <div class="toolbar">
         <div class="tool-group">
             <button onclick="tool='seat'">좌석 추가</button>
             <button onclick="tool='room'">스터디룸 추가</button>
@@ -94,8 +108,7 @@
             </span>
             <button class="save-btn" onclick="saveLayout()">배치 저장하기</button>
         </div>
-    </div>
-    <svg id="editor" viewBox="0 0 1200 700"></svg>
+    </div></svg>
 </div>
 
 <script>
