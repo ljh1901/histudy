@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.histudy.lecture.model.LectureDAO;
 import com.histudy.lecture.model.LectureDTO;
+import com.histudy.lecture.model.LectureNoteDTO;
 public class LectureServiceImple implements LectureService {
 	private LectureDAO lectureDao;
 	public LectureServiceImple(LectureDAO lectureDao) {
@@ -19,5 +20,9 @@ public class LectureServiceImple implements LectureService {
 	@Override
 	public LectureDTO lectureContent(int idx) {
 		return lectureDao.lectureContent(idx);
+	}
+	@Override
+	public int lectureNoteInsert(LectureNoteDTO dto) {
+		return lectureDao.lectureNoteInsert(dto);
 	}
 }
