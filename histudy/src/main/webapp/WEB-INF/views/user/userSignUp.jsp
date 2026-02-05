@@ -5,10 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<link rel="stylesheet" href="css/root.css">
-<link rel="stylesheet" href="css/header.css">
-<link rel="stylesheet" href="css/footer.css">
-<link rel="stylesheet" href="css/user/userSignUp.css">
+<link rel="stylesheet"
+   href="${pageContext.request.contextPath}/css/root.css">
+<link rel="stylesheet"
+   href="${pageContext.request.contextPath}/css/header.css">
+<link rel="stylesheet"
+   href="${pageContext.request.contextPath}/css/footer.css">
+<link rel="stylesheet"
+   href="${pageContext.request.contextPath}/css/user/userSignUp.css">
 
 <style>
 /* JSP 내부에 추가로 정의된 스타일 */
@@ -44,21 +48,27 @@
          </div>
 
          <div class="input-group" style="position: relative;">
-            <img src="/histudy/user-img/pw2-icon.png" id="pw_icon" class="pw-icon-style"> 
-            <input type="password" id="user_pw_confirm" class="icon-pw2" placeholder="비밀번호 확인" required style="background-image: none !important;">
+            <img src="/histudy/user-img/pw2-icon.png" id="pw_icon"
+               class="pw-icon-style"> <input type="password"
+               id="user_pw_confirm" class="icon-pw2" placeholder="비밀번호 확인"
+               required style="background-image: none !important;">
          </div>
-         <span id="pw_msg" style="font-size: 12px; margin-left: 10px; display: block; margin-bottom: 10px;"></span>
+         <span id="pw_msg"
+            style="font-size: 12px; margin-left: 10px; display: block; margin-bottom: 10px;"></span>
 
          <div class="input-group">
-            <input type="text" name="user_name" class="icon-name" placeholder="성명" required>
+            <input type="text" name="user_name" class="icon-name"
+               placeholder="성명" required>
          </div>
 
          <div class="input-group">
-            <input type="tel" name="user_tel" class="icon-tel" placeholder="전화번호" required>
+            <input type="tel" name="user_tel" class="icon-tel"
+               placeholder="전화번호" required>
          </div>
 
          <div class="input-group">
-            <input type="email" name="user_email" class="icon-email" placeholder="이메일" required>
+            <input type="email" name="user_email" class="icon-email"
+               placeholder="이메일" required>
          </div>
 
          <div class="birth-group">

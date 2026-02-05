@@ -7,7 +7,7 @@
 <mappers>
 	<mapper resource="sqlMapper/user.xml" />
 	<mapper resource="sqlMapper/studySQL.xml"></mapper>
-	<!-- <mapper resource="sqlMapper/admin.xml"/> -->
+	<mapper resource="sqlMapper/admin.xml"/>
 	<mapper resource="sqlMapper/mentoringSQL.xml"/>
 	<mapper resource="sqlMapper/lecture.xml"/>
 	<mapper resource="sqlMapper/studycafeMapper.xml"/>

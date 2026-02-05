@@ -7,8 +7,5 @@
   		select * 
   		from studycafe
   	</select>
-  	<select id="studycafeTicketCategorySQL">
-  		select * 
-		from studycafe stc join ticket_category tic on stc.studycafe_idx = tic.studycafe_idx
-  	</select>
+  
   </mapper>

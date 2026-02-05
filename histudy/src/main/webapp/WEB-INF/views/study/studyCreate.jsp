@@ -13,7 +13,7 @@
 <body id="studyCreatePage">
 <%@include file="../header.jsp" %>
 <main>
-   <form name="studyCreateForm" onsubmit="return locationCheck()" action="studyCreate.do" method="post" enctype="multipart/form-data">
+   <form name="studyCreateForm"  action="studyCreate.do" method="post" enctype="multipart/form-data">
       <section class="studyCreate section">
          <div class="studyCreateContainer">
             <div class="studyCreate__title">
@@ -120,22 +120,6 @@
 <%@include file="../footer.jsp" %>
 </body>
 <script>
-	function locationCheck(){
-		var location = document.studyCreateForm.study_addr.value;
-		
-		if(location == null || location == ''){
-			var tf = window.confirm('스터디 장소를 지정하지 않으시겠어요?');
-			if(tf == true){
-				document.studyCreateForm.study_location_lat.value=0.0;
-				document.studyCreateForm.study_location_lng.value=0.0;
-				return true;
-			}else{
-				return false;
-			}
-		}else{
-			return true;
-		}
-	}
    // 스터디 내용 글자수 제한 유효성 검사 
    function studyContentCheck(el){
       const MAX = 300;

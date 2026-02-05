@@ -29,9 +29,9 @@ public class StudyDAOImple implements StudyDAO {
    }
    
    @Override
-	public int studyTotalCnt(Integer sc_idx) {
-	      int count = sqlSession.selectOne("studyTotalCnt", sc_idx);
-	      return count;
+   public int studyTotalCnt() {
+      int count = sqlSession.selectOne("studyTotalCnt");
+      return count;
    }
    
    @Override
@@ -45,6 +45,4 @@ public class StudyDAOImple implements StudyDAO {
       int result = sqlSession.selectOne("studyMaxCreate", user_idx);
       return result;
    }
-   
-   
 }

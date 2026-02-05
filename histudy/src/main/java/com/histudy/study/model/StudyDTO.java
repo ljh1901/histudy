@@ -20,7 +20,6 @@ public class StudyDTO {
    
    private String user_name;
    private String sc_name;
- 
    
    public StudyDTO() {
       // TODO Auto-generated constructor stub
