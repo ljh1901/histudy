@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,13 +64,11 @@
 					placeholder="전화번호" required>
 			</div>
 
-
 			<div class="input-group">
 				<input type="email" name="user_email" id="user_email"
 					class="icon-email" placeholder="이메일 주소" required>
 				<button type="button" class="check-btn" onclick="emailCheck()">중복확인</button>
 			</div>
-
 
 			<div class="birth-group">
 				<select name="birth_year" id="birth_year" class="birth-select">
@@ -96,8 +93,6 @@
 			<button type="submit" class="signup-btn">가입하기</button>
 		</form>
 	</div>
-
 	<script src="js/user/user.js"></script>
-
 </body>
 </html>

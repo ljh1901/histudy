@@ -74,36 +74,42 @@ public class UserController {
 	@PostMapping("/userSignIn.do")
 	@ResponseBody
 	public String userSignIn(@RequestBody Map<String, String> params, HttpSession session,
-			HttpServletResponse response) {
-		String user_id = params.get("user_id");
-		String user_pwd = params.get("user_pwd");
-		String remember_id = params.get("remember_id");
-		int result = userService.userSignIn(user_id, com.histudy.security.PwdModule.securityPwd(user_pwd));
-		String msg = "";
-		if (result == 1) {
-			msg = "로그인 성공";
-			session.setAttribute("user_id", user_id);
-			session.setAttribute("user_idx", userService.userInfo(user_id).getUser_idx());
-			if (remember_id != null) {
-				Cookie ck = new Cookie("id", user_id);
-				ck.setMaxAge(24 * 60 * 60 * 30);
-				response.addCookie(ck);
-			} else {
-				Cookie ck = new Cookie("id", user_id);
-				ck.setMaxAge(0);
-				response.addCookie(ck);
-			}
-			return msg;
-		} else {
-			msg = "아이디 또는 비밀번호를 잘못입력하셨습니다.";
-			return msg;
-		}
+	        HttpServletResponse response) {
+	    String user_id = params.get("user_id");
+	    String user_pwd = params.get("user_pwd");
+	    String remember_id = params.get("remember_id");
+	    int result = userService.userSignIn(user_id, com.histudy.security.PwdModule.securityPwd(user_pwd));
+	    String msg = "";
+	    if (result == 1) {
+	        UserDTO loginUser = userService.userInfo(user_id); 
+
+	        session.setAttribute("user_id", user_id);
+	        session.setAttribute("user_idx", loginUser.getUser_idx());
+	        session.setAttribute("user_name", loginUser.getUser_name()); // 이름 저장 
+	        
+	        msg = "로그인 성공"; 
+
+	        // 3. 쿠키 처리
+	        if (remember_id != null) {
+	            Cookie ck = new Cookie("id", user_id);
+	            ck.setMaxAge(24 * 60 * 60 * 30);
+	            response.addCookie(ck);
+	        } else {
+	            Cookie ck = new Cookie("id", user_id);
+	            ck.setMaxAge(0);
+	            response.addCookie(ck);
+	        }
+	        return msg;
+	    } else {
+	        msg = "아이디 또는 비밀번호를 잘못입력하셨습니다.";
+	        return msg;
+	    }
 	}
 
 	@GetMapping("/userCheckEmail.do")
 	@ResponseBody
 	public String emailCheck(String user_email) {
-	    // userService에 이메일 중복 체크 로직이 있다고 가정 (result: 1이면 중복, 0이면 사용가능)
+	    // userService에 이메일 중복 체크 로직이 있다고 가정 
 	    int result = userService.userCheckEmail(user_email); 
 	    return String.valueOf(result); 
 	}
