@@ -38,7 +38,7 @@
     INSERT INTO mento_profile (
       mentor_idx, user_idx, mentor_tel, sc_idx, mentor_intro, mentor_link
     ) VALUES (
-      mentor_idx_seq.NEXTVAL,
+      mentor_idx.NEXTVAL,
       #{user_idx},
       #{mentor_tel},
       #{sc_idx},
@@ -46,4 +46,8 @@
       #{mentor_link}
     )
   </insert>
+  
+  <select id="mentorProfileCount" parameterType="int" resultType="int">
+  	select count(*) from mento_profile where user_idx= #{value}
+  </select>
 </mapper>
