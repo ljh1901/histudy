@@ -24,18 +24,42 @@
    <source src="${pageContext.request.contextPath}/video/${lectureContent.lecture_file}" type="video/mp4">   
    </video>
 
-   <h2>강의 메모</h2>
-   <input type="text" name="note_title">
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!user idx도 불러오기 -->
-   <input type="hidden" name="lecture_idx" value=${lectureContent.lecture_idx }>
-   <textarea rows="20" cols="50" name="note_content"></textarea>
-   <input type="submit" value="저장하기">
+	<table>
+   		<tr>
+		   <td><h2>강의 메모</h2></td>
+		</tr>
+		<tr>
+		   <td><input type="text" name="note_title" value="제목을 입력해주세요"></td>
+		</tr>
+		<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!user idx도 불러오기 -->
+		<tr>
+		   <input type="hidden" name="lecture_idx" value=${lectureContent.lecture_idx }>
+		</tr>
+		<tr>
+		   <td><textarea rows="20" cols="50" name="note_content"></textarea></td>
+		</tr>
+		<tr>
+		   <td><input type="submit" value="저장하기"></td>
+   		</tr>
+	</table>
    
-   <h2>${lectureContent.lecture_name}</h2>   
-   <h2>${lectureContent.lecture_lecturer}</h2>   
-   <p>${lectureContent.lecture_like}</p>   
-   <p>${lectureContent.lecture_hate}</p>   
-   <p>${lectureContent.lecture_content}</p>   
+   <table>
+   	<tr>
+   		<td><h2>${lectureContent.lecture_name}</h2></td> 
+   	</tr>
+   	<tr>
+ 		<td><h2>${lectureContent.lecture_lecturer}</h2></td>   
+   	</tr>
+   	<tr>
+   		<td colspan="2">
+		   ${lectureContent.lecture_like}   
+		   ${lectureContent.lecture_hate}   
+		</td>
+   	</tr>  
+   	<tr>
+	   <td>${lectureContent.lecture_content}</td>   
+   	</tr>
+   </table>
    
 </form>
 <form namee="reviewFm">
