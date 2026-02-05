@@ -20,6 +20,18 @@
 		})
 	
 	}
+<<<<<<< HEAD
+	
+function getCookie(name) {
+    return document.cookie
+        .split(";")
+        .find(row => row.startsWith(name + "="))
+        ?.split("=")[1];
+}
+
+
+    // [2] 로그인 모달 열기 및 쿠키 처리 통합
+=======
 
 function getCookie(name){
 
@@ -36,6 +48,7 @@ function getCookie(name){
     return null;
 }
 
+>>>>>>> 80632938da60a25a9283f1783ccf5adffc8c0695
 function openSignInModal() {
     $('#modalContent').load("userSignIn.do #signInFragment", function() {
         $('#modalOverlay').css('display', 'flex');
