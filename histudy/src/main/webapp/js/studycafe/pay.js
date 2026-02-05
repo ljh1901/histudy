@@ -12,9 +12,6 @@ document.getElementById('payBtn').addEventListener('click', async function(e){
 	    fullName: "홍길동",
 	  	phoneNumber: "010-1234-5678",
 		},
-		customData:{
-			storeName: "histudy"
-		},
 		orderName: document.querySelectorAll('.seat-a')[i].getAttribute('value')+"-좌석/시간권 2시간",
 		totalAmount: 1000,
 		currency: "CURRENCY_KRW",
