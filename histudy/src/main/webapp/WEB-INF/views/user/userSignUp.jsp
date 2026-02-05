@@ -63,32 +63,14 @@
 
          <div class="birth-group">
             <select name="birth_year" id="birth_year" class="birth-select">
-               <option value="">연도</option>
-               <%
-               for (int i = 2026; i >= 1950; i--) {
-               %>
-               <option value="<%=i%>"><%=i%></option>
-               <%
-               }
-               %>
-            </select> <select name="birth_month" id="birth_month" class="birth-select">
+               <option>연도</option>
+
+            </select> 
+            <select name="birth_month" id="birth_month" class="birth-select">
                <option value="">월</option>
-               <%
-               for (int i = 1; i <= 12; i++) {
-               %>
-               <option value="<%=String.format("%02d", i)%>"><%=i%></option>
-               <%
-               }
-               %>
-            </select> <select name="birth_day" id="birth_day" class="birth-select">
+			</select> 
+			<select name="birth_day" id="birth_day" class="birth-select">
                <option value="">일</option>
-               <%
-               for (int i = 1; i <= 31; i++) {
-               %>
-               <option value="<%=String.format("%02d", i)%>"><%=i%></option>
-               <%
-               }
-               %>
             </select>
          </div>
 
@@ -98,7 +80,29 @@
    </div>
 
    <script>
-    let isIdChecked = false;
+   var now = new Date();
+   var year=now.getFullYear();
+   var years = '';
+   var months ='';
+	for(let i=1950; i<=year; i++){
+	   years += '<option>'+i+'</option>'
+   }
+	for(let i=1; i<=12; i++){
+		months += '<option>'+i+'</option>'
+	}
+	
+   document.getElementById('signupForm').birth_year.innerHTML += years;
+   document.getElementById('signupForm').birth_month.innerHTML += months;
+   var day = now.getDate(months,0);
+   document.getElementById('signupForm').birth_month.addEventListener('change',function(){
+	   var myYear=document.getElementById('signupForm').birth_year.selectedIndex;
+	   var dates = new Date(document.getElementById('signupForm').birth_year.options[myYear].text,document.getElementById('signupForm').birth_month.selectedIndex,0);
+		   document.getElementById('signupForm').birth_day.innerHTML ='';
+	   for(let i =1; i<=dates.getDate(); i++){
+		   document.getElementById('signupForm').birth_day.innerHTML += '<option>'+i+'</option>';
+	   }
+   })
+   let isIdChecked = false;
 
     function checkId() {
         const userId = document.getElementById('user_id').value;

@@ -36,4 +36,14 @@ public class FaqServiceImple implements FaqService {
 	public int updateFaq(FaqDTO dto) {
 		return faqDAO.updateFaq(dto);
 	}
+	
+	@Override
+	public int insertFaq(FaqDTO dto) {
+	    return faqDAO.insertFaq(dto);
+	}
+	
+	@Override
+	public int deleteFaq(int faq_idx) {
+	    return faqDAO.deleteFaq(faq_idx);
+	}
 }

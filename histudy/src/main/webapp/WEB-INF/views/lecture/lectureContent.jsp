@@ -9,6 +9,9 @@
 <link rel="stylesheet" href="css/root.css" type="text/css">
 <link rel="stylesheet" href="css/header.css" type="text/css">
 <link rel="stylesheet" href="css/footer.css" type="text/css">
+<style type="text/css">
+
+</style>
 </head>
 <body>
 <%@include file="../header.jsp"%>
@@ -34,7 +37,9 @@
    <p>${lectureContent.lecture_hate}</p>   
    <p>${lectureContent.lecture_content}</p>   
    
-   
+</form>
+<form namee="reviewFm">
+   <input type="button" name="review" value="리뷰 남기기">
 </form>
 </main>
 <%@include file="../footer.jsp"%>
