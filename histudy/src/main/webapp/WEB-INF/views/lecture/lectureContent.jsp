@@ -34,7 +34,9 @@
    <p>${lectureContent.lecture_hate}</p>   
    <p>${lectureContent.lecture_content}</p>   
    
-   
+</form>
+<form namee="reviewFm">
+   <input type="button" name="review" value="리뷰 남기기">
 </form>
 </main>
 <%@include file="../footer.jsp"%>
