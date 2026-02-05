@@ -9,6 +9,9 @@
 <link rel="stylesheet" href="css/root.css" type="text/css">
 <link rel="stylesheet" href="css/header.css" type="text/css">
 <link rel="stylesheet" href="css/footer.css" type="text/css">
+<style type="text/css">
+
+</style>
 </head>
 <body>
 <%@include file="../header.jsp"%>

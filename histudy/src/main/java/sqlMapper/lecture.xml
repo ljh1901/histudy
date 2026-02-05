@@ -32,4 +32,14 @@
    	where lectureIdx=${lectureIdx}
    	order by review_date desc
    </select>
+   <select id="reviewScore" parameterType="int" resultType="double">
+   	select avg(review_score)
+   	from lecture_review
+   	where lecture_idx=#{lecture_idx}
+   </select>
+   <select id="reviewCount" parameterType="int" resultType="int">
+    select count(*) 
+    from lecture_review 
+    where lecture_idx=#{lecture_idx}
+	</select>
 </mapper>

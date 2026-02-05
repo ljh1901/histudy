@@ -10,5 +10,4 @@ public interface LectureDAO {
    public int lectureNoteInsert(LectureNoteDTO dto);
    public int getTotalCnt();
    public List<LectureReviewDTO> reviewList(int lectureContent); 
-
 }

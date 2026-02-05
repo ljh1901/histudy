@@ -25,6 +25,7 @@ public class LectureServiceImple implements LectureService {
 	  map.put("end", end);
 	  map.put("ls", ls);
 	  map.put("cp", cp);
+	  
 	  List<LectureDTO> lists=lectureDao.lectureList(map);
       return lists;
    }
