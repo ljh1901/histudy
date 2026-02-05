@@ -31,4 +31,9 @@ public class MentoringServiceImple implements MentoringService {
     public int mentorProfileCreate(MentoProfileDTO dto) {
         return mentoringDAO.mentorProfileCreate(dto);
     }
+    
+    @Override
+    public int mentorProfileCount(int user_idx) {
+    	return mentoringDAO.mentorProfileCount(user_idx);
+    }
 }
