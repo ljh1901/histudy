@@ -30,5 +30,9 @@ public class MentoringDAOImple implements MentoringDAO {
     public int mentorProfileCreate(MentoProfileDTO dto) {
         return sqlSession.insert("com.histudy.mentoring.mentorProfileCreate", dto);
     }
+    
+    public int mentorProfileCount(int user_idx) {
+    	return sqlSession.selectOne("com.histudy.mentoring.mentorProfileCount", user_idx);
+    }
 
 }

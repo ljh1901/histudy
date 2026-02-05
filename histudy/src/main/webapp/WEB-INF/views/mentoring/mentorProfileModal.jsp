@@ -167,7 +167,7 @@
 
       <form method="post" action="mentorProfileCreate.do">
 
-        <input type="hidden" name="user_idx" value="${sessionScope.loginUser.user_idx}"/>
+
 
         <div class="form-row">
           <label>연락 받을 이메일 *</label>
@@ -188,10 +188,9 @@
           <div class="category-grid">
             <button type="button" class="cat-btn" onclick="pickCategory(this,1)">개발</button>
             <button type="button" class="cat-btn" onclick="pickCategory(this,2)">언어</button>
-            <button type="button" class="cat-btn" onclick="pickCategory(this,3)">코딩</button>
-            <button type="button" class="cat-btn" onclick="pickCategory(this,4)">취업</button>
-            <button type="button" class="cat-btn" onclick="pickCategory(this,5)">자격증</button>
-            <button type="button" class="cat-btn" onclick="pickCategory(this,6)">학업</button>
+            <button type="button" class="cat-btn" onclick="pickCategory(this,3)">취업</button>
+            <button type="button" class="cat-btn" onclick="pickCategory(this,4)">자격증</button>
+            <button type="button" class="cat-btn" onclick="pickCategory(this,5)">학업</button>
           </div>
         </div>
 
@@ -257,7 +256,7 @@ function validateMentorForm(){
   var tel = document.querySelector("input[name='mentor_tel']").value;
   var sc  = document.getElementById("sc_idx").value;
   var intro = document.querySelector("textarea[name='mentor_intro']").value;
-
+  
   if(!tel){
     alert("연락처를 입력해 주세요.");
     return false;

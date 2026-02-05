@@ -71,13 +71,13 @@ public class StudyController {
 	   
 	   String msg = null;
 
-	   String user_idx_s = (String)session.getAttribute("user_idx");
-	   if(user_idx_s == null || user_idx_s.equals("")) {
+	   Integer user_idx_s = (Integer)session.getAttribute("user_idx");
+	   if(user_idx_s == null || user_idx_s==0) {
 		   msg = "Hi, Study에 로그인 완료된 사용자만 접근 가능합니다!";
 		   mav.addObject("msg", msg);
 		   mav.setViewName("study/studyMsg");
 	   }else {
-		   int user_idx = Integer.parseInt(user_idx_s);
+		   int user_idx = user_idx_s;
 		   UserDTO dto = ss.getStudyCreateUser(user_idx);
 		      
 		   mav.addObject("user_name", dto.getUser_name());
