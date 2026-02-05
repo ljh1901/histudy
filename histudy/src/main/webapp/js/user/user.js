@@ -20,6 +20,7 @@
 		})
 	
 	}
+<<<<<<< HEAD
 	
 function getCookie(name) {
     return document.cookie
@@ -30,6 +31,24 @@ function getCookie(name) {
 
 
     // [2] 로그인 모달 열기 및 쿠키 처리 통합
+=======
+
+function getCookie(name){
+
+    const cookies = document.cookie.split(";");
+
+    for(let i=0; i<cookies.length; i++){
+
+        const cookie = cookies[i].trim();
+
+        if(cookie.indexOf(name + "=") === 0){
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return null;
+}
+
+>>>>>>> 80632938da60a25a9283f1783ccf5adffc8c0695
 function openSignInModal() {
     $('#modalContent').load("userSignIn.do #signInFragment", function() {
         $('#modalOverlay').css('display', 'flex');
@@ -45,6 +64,7 @@ function openSignInModal() {
         }
     });
 }
+
 
 
     function closeSignInModal() {

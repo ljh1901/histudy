@@ -7,7 +7,7 @@
    <insert id="insertStudy" parameterType="com.histudy.study.model.StudyDTO">
       INSERT INTO study values(study_idx.nextval, #{study_title}, #{study_content}, sysdate, #{study_end_date},
                                1, #{study_max_members}, #{study_location_lng}, #{study_location_lat}, #{study_addr},
-                               #{study_upload_img}, #{sc_idx}, 1)
+                               #{study_upload_img}, #{sc_idx}, #{user_idx})
    </insert>
    <select id="selectStudyList" parameterType="map" resultType="com.histudy.study.model.StudyDTO">
       SELECT * 
@@ -17,13 +17,19 @@
                  (
                   SELECT study.*, usertb.user_name, study_category.sc_name
                   FROM study JOIN usertb ON study.user_idx=usertb.user_idx JOIN study_category ON study_category.sc_idx = study.sc_idx
+                  <if test="sc_idx != null">
+                  	WHERE study_category.sc_idx=#{sc_idx} 
+                  </if>
                   ORDER BY study_idx desc
                  ) a ) b
       WHERE rnum between #{start_num} and #{end_num}
    </select>
-   <select id="studyTotalCnt" resultType="Integer">
+   <select id="studyTotalCnt" parameterType="Integer" resultType="Integer">
       SELECT count(*)
       FROM study
+      <if test="sc_idx != null">
+      		WHERE sc_idx=#{sc_idx}
+      </if>
    </select>
    <select id="studyCreateUser" parameterType="Integer" resultType="com.histudy.user.model.UserDTO">
       SELECT user_name, user_email, user_tel
