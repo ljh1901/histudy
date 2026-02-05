@@ -1,151 +1,146 @@
-/* 드롭다운 전체 컨테이너 */
-.user-dropdown {
-    position: relative;
-    display: inline-block;
-}
+@charset "UTF-8";
 
-/* 마이페이지 메뉴 박스 (중앙 정렬 수정) */
-.user-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    
-    /* 중앙 정렬을 위한 핵심 코드 */
-    left: 50%;
-    transform: translateX(-50%); 
-    
+/* [1] 마이페이지 전체 레이아웃 (본문 영역만 담당) */
+.mypage-wrapper {
+    /* 헤더(80px)가 fixed이므로 본문이 겹치지 않게 여백 추가 */
+    margin-top: 80px; 
+    display: flex;
+    justify-content: center;
+    padding: 60px 0;
+    min-height: calc(100vh - 160px); /* 푸터 공간 확보를 위한 최소 높이 */
     background-color: #ffffff;
-    min-width: 180px;
-    padding: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.mypage-container {
+    display: flex;
+    width: 1100px; /* 전체 너비 설정 */
+    gap: 50px;
+    align-items: flex-start;
+}
+
+/* [2] 좌측 사이드바 영역 */
+.mypage-sidebar {
+    width: 200px;
+    flex-shrink: 0;
+}
+
+.sidebar-nav ul {
     list-style: none;
-    z-index: 1000;
-    margin-top: 10px; /* 버튼과의 간격 */
-}
-
-/* 마우스 올리면 나타나게 설정 */
-.user-dropdown:hover .user-menu {
-    display: block;
-}
-
-/* 상단 사용자 이름 부분 */
-.user-welcome {
-    padding: 12px 20px;
-    font-size: 0.95rem;
-    color: #333;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #eee;
-    text-align: center; /* 이름도 중앙 정렬 */
-    margin-bottom: 5px;
-}
-
-/* 목록 아이템 (직사각형 형태) */
-.user-menu li a {
-    display: block;
-    padding: 12px 20px;
-    color: #444;
-    text-decoration: none;
-    font-size: 14px;
-    transition: background 0.2s;
-    text-align: center; /* 텍스트도 중앙 정렬 */
-}
-
-.user-menu li a:hover {
-    background-color: #f1f3f5;
-    color: #000;
-}
-
-/* 로그아웃 버튼 스타일 (빨간색 글씨) */
-.user-menu li a.logout-link {
-    color: #e03131 !important;
-    font-weight: 600;
-    
-}
-
-.user-menu li a.logout-link:hover {
-    background-color: #fff5f5;
-}
-
-/*요청하신 밑줄 설정 */
-.user-menu li:not(:last-child) a {
-    border-bottom: 1px solid #888; /* 글자 아래 1px 실선 */
-}
-
-/* 마우스 올렸을 때 효과 */
-.user-menu li a:hover {
-    background-color: #f8f9fa;
-}
-
-/* 전체 드롭다운 컨테이너 */
-.user-dropdown {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-}
-
-/* 성함 출력 부분 */
-.user-greeting {
-    font-size: 16px;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #333;
-}
-
-/* 드롭다운 메뉴 (ul) */
-.user-menu {
-    display: none; /* 기본은 숨김 */
-    position: absolute;
-    top: 110%;
-    width: 140px;
-    background: #fff;
-    border: 1px solid #eee;
     padding: 0;
-    list-style: none;
-    z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
+    margin: 0;
+    border-right: 1px solid #eee;
 }
 
-/* 메뉴 리스트 항목 (li) 공통 설정 */
-.user-menu li {
-    border-bottom: 1px solid #eee;
+.sidebar-nav li {
+    padding: 15px 10px;
+    margin-bottom: 10px;
 }
 
-/* 마지막 항목과 로그아웃 항목은 밑줄 제거 */
-.user-menu li:last-child,
-.user-menu li.logout-item {
-    border-bottom: none;
-}
-
-/* 메뉴 내 링크 (a) 공통 설정 */
-.user-menu li a {
-    display: block;
-    padding: 12px;
-    text-align: center;
+.sidebar-nav li a {
     text-decoration: none;
-    color: #444;
-    font-size: 14px;
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-/* 마우스 올렸을 때 효과 (선택 사항) */
-.user-menu li a:hover {
-    background-color: #f9f9f9;
+.sidebar-nav li.active {
+    border: 1px solid #333;
+    border-radius: 5px;
 }
 
-/* 로그아웃 버튼 전용 스타일 */
-.user-menu li a.logout-link {
-    color: #e74c3c;
+/* 사이드바 전용 아이콘 크기 고정 */
+.sidebar-nav li a img {
+    width: 22px;
+    height: 22px;
+}
+
+/* [3] 우측 메인 컨텐츠 및 프로필 카드 */
+.mypage-main {
+    flex-grow: 1;
+}
+
+.content-title {
+    margin-bottom: 30px;
+    font-size: 1.5rem;
     font-weight: bold;
 }
 
-/* 마이페이지 드롭다운 메뉴 스타일 */
-.user-menu li a {
-    text-decoration: none;
-    color: #333;
+.profile-card {
+    display: flex;
+    border: 1px solid #333; /* 얇은 검정 테두리 */
+    border-radius: 15px;
+    padding: 35px;
+    gap: 40px;
+    background-color: #fff;
+}
+
+/* 이미지 섹션 */
+.profile-image-section {
+    width: 180px;
+    text-align: center;
+}
+
+.image-container img {
+    width: 180px;
+    height: 180px;
+    border-radius: 15px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.btn-img-change {
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
     display: block;
-    padding: 12px 20px;
-    transition: background 0.2s;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.img-guide {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.4;
+}
+
+/* 정보 섹션 테이블 */
+.profile-info-section {
+    flex-grow: 1;
+}
+
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.profile-table th {
+    text-align: left;
+    width: 100px;
+    padding: 15px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.profile-table td {
+    padding: 15px 0;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* 버튼 스타일 (헤더 로그인 버튼과 무관) */
+.btn-save {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    float: right;
+    margin-top: 20px;
 }

@@ -56,5 +56,4 @@
         </div>
     </c:if>
 </div>
-	</div>
 </header>
