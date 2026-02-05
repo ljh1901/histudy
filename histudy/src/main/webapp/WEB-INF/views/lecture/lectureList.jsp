@@ -16,7 +16,7 @@
 <main>
    <form name="lectureFm">
    <fieldset>
-   <p>Hi, Study 프리미엄 멤버십 29,000원 / 50,000원</p>
+   <p>Hi, Study 프리미엄 멤버십 29,000원 / <del>50,000원</del></p>
    <p>분야별 전문 강사의 강의 제공 !! 스터디 카페 이용권 할인 혜택 !!</p>
    </fieldset>
    <c:set var="count" value="0" />
@@ -43,6 +43,11 @@
            </c:if>
        </c:forEach>
        </tr>
+       <tfoot>
+       	<tr>
+       		<td>${pageStr }
+       	</tr>
+       </tfoot>
    </table>
    </form>
 </main>
