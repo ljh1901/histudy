@@ -111,7 +111,7 @@ select, input {
 					<td>${ticket.ticket_name}</td>
 					<td>${ticket.ticket_amount}원</td>
 					<td><button class="btn-del"
-							onclick="deleteTicket(${ticket.TICKET_IDX})">삭제</button></td>
+							onclick="deleteTicket(${ticket.ticket_idx})">삭제</button></td>
 				</tr>
 			</c:forEach>
 		</tbody>
