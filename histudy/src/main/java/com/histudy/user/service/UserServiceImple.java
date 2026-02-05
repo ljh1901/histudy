@@ -32,4 +32,9 @@ public class UserServiceImple implements UserService {
 	public int userCheckId(String user_id) {
 		return dao.userCheckId(user_id);
 	}
+	
+	@Override
+	public int userCheckEmail(String user_email) {
+	    return dao.userCheckEmail(user_email);
+	}
 }

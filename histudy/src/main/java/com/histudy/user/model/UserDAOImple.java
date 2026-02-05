@@ -28,4 +28,8 @@ public class UserDAOImple implements UserDAO {
 		return sqlSession.selectOne("userInfoSQL",user_id);
 	}
 
+	@Override
+	public int userCheckEmail(String user_email) {
+	    return sqlSession.selectOne("userCheckEmailSQL", user_email);
+	}
 }

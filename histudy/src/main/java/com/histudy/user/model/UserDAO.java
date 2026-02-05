@@ -6,4 +6,5 @@ public interface UserDAO {
 	public String userSignIn(String user_id);
 	public int userCheckId(String user_id);
 	public UserDTO userInfo(String user_id);
+	public int userCheckEmail(String user_email);
 }

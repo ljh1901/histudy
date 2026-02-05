@@ -22,70 +22,104 @@ import com.histudy.user.service.UserService;
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-    
-    // 1. 회원가입 View
-    @GetMapping("/userSignUp.do")
-    public String signUpView() {
-        return "user/userSignUp";
-    }
-    
-    // 2. 회원가입 완료
-    @PostMapping("/userSignUp.do")
-    public String signup(UserDTO dto, HttpServletRequest request) {
-        userService.userSignUp(dto); 
-        request.setAttribute("msg", "회원가입 완료");
-        return "redirect:/index.do"; 
-    }
-    
-    // 3. 로그인 View
-    @GetMapping("/userSignIn.do")
-    public String userSignInView() {
-        return "user/userSignIn";
-    }
+	@Autowired
+	private UserService userService;
 
-    @PostMapping("/userSignIn.do")
-    @ResponseBody
-    public String userSignIn(@RequestBody Map<String, String> params, 
-    	HttpSession session, HttpServletResponse response) {
-    	String user_id=params.get("user_id");
-    	String user_pwd = params.get("user_pwd");
-    	String remember_id = params.get("remember_id");
-       int result = userService.userSignIn(user_id, com.histudy.security.PwdModule.securityPwd(user_pwd));
-       String msg = "";
-        if(result == 1) {
-        	msg = "로그인 성공";
-        	session.setAttribute("user_id", user_id);
-        	session.setAttribute("user_idx", userService.userInfo(user_id).getUser_idx());
-        	if(remember_id !=null) {
-        		Cookie ck = new Cookie("id", user_id);
-        		ck.setMaxAge(24*60*60*30);
-        		response.addCookie(ck);
-        	}
-        	else {
-        		Cookie ck = new Cookie("id", user_id);
-        		ck.setMaxAge(0);
-        		response.addCookie(ck);
-        	}
-        	return msg;
-        }
-        else {
-        	msg = "아이디 또는 비밀번호를 잘못입력하셨습니다.";
-        	return msg;
-        }
-    }
+	// 1. 회원가입 View 이동
+	@GetMapping("/userSignUp.do")
+	public ModelAndView signUpView() {
+		ModelAndView mav = new ModelAndView();
 
-    @RequestMapping(value="/userLogout.do", method=RequestMethod.GET)
-    public String logout(HttpSession session) {            
-        session.invalidate();
-        return "redirect:/index.do";
-    }
-    
-    @GetMapping("/userCheckId.do")
-    @ResponseBody
-    public String idCheck(String user_id) {
-        int result = userService.userCheckId(user_id);
-        return String.valueOf(result); 
-    }
+		// 1. 연도 리스트 
+		java.util.List<Integer> yearList = new java.util.ArrayList<>();
+		for (int i = 2026; i >= 1950; i--) {
+			yearList.add(i);
+		}
+
+		// 2. 월 리스트 생성
+		java.util.List<String> monthList = new java.util.ArrayList<>();
+		for (int i = 1; i <= 12; i++) {
+			monthList.add(String.format("%02d", i));
+		}
+
+		// 3. 일 리스트 생성
+		java.util.List<String> dayList = new java.util.ArrayList<>();
+		for (int i = 1; i <= 31; i++) {
+			dayList.add(String.format("%02d", i));
+		}
+
+		mav.addObject("yearList", yearList);
+		mav.addObject("monthList", monthList);
+		mav.addObject("dayList", dayList);
+		
+		mav.setViewName("user/userSignUp");
+
+		return mav;
+	}
+
+	// 2. 회원가입 완료
+	@PostMapping("/userSignUp.do")
+	public String signup(UserDTO dto, HttpServletRequest request) {
+		userService.userSignUp(dto);
+		request.setAttribute("msg", "회원가입 완료");
+		return "redirect:/index.do";
+	}
+
+	// 3. 로그인 View
+	@GetMapping("/userSignIn.do")
+	public String userSignInView() {
+		return "user/userSignIn";
+	}
+
+	@PostMapping("/userSignIn.do")
+	@ResponseBody
+	public String userSignIn(@RequestBody Map<String, String> params, HttpSession session,
+			HttpServletResponse response) {
+		String user_id = params.get("user_id");
+		String user_pwd = params.get("user_pwd");
+		String remember_id = params.get("remember_id");
+		int result = userService.userSignIn(user_id, com.histudy.security.PwdModule.securityPwd(user_pwd));
+		String msg = "";
+		if (result == 1) {
+			msg = "로그인 성공";
+			session.setAttribute("user_id", user_id);
+			session.setAttribute("user_idx", userService.userInfo(user_id).getUser_idx());
+			if (remember_id != null) {
+				Cookie ck = new Cookie("id", user_id);
+				ck.setMaxAge(24 * 60 * 60 * 30);
+				response.addCookie(ck);
+			} else {
+				Cookie ck = new Cookie("id", user_id);
+				ck.setMaxAge(0);
+				response.addCookie(ck);
+			}
+			return msg;
+		} else {
+			msg = "아이디 또는 비밀번호를 잘못입력하셨습니다.";
+			return msg;
+		}
+	}
+
+	@GetMapping("/userCheckEmail.do")
+	@ResponseBody
+	public String emailCheck(String user_email) {
+	    // userService에 이메일 중복 체크 로직이 있다고 가정 (result: 1이면 중복, 0이면 사용가능)
+	    int result = userService.userCheckEmail(user_email); 
+	    return String.valueOf(result); 
+	}
+	
+	@RequestMapping(value = "/userLogout.do", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/index.do";
+	}
+
+	@GetMapping("/userCheckId.do")
+	@ResponseBody
+	public String idCheck(String user_id) {
+		int result = userService.userCheckId(user_id);
+		return String.valueOf(result);
+	}
+
+
 }
