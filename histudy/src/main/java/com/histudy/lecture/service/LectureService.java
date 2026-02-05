@@ -13,5 +13,4 @@ public interface LectureService {
    public int lectureNoteInsert(LectureNoteDTO dto);
    public int getTotalCnt();
    public List<LectureReviewDTO> reviewList(int lecture_idx); 
-
 }
