@@ -1,12 +1,19 @@
 package com.histudy.controller;
 
+import java.util.Map;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.histudy.user.model.UserDTO;
@@ -17,72 +24,64 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    // 1. ȸ������ ������ �̵�
+    
+    // 1. 회원가입 View
     @GetMapping("/userSignUp.do")
-    public String signupView() {
+    public String signUpView() {
         return "user/userSignUp";
     }
-
-    // 2. ȸ������ ó�� (POST)
+    
+    // 2. 회원가입 완료
     @PostMapping("/userSignUp.do")
-    public String signup(UserDTO dto, javax.servlet.http.HttpServletRequest request) {
-        // 1. ȸ������ ó��
-    	String sec_pw=com.histudy.security.PwdModule.securityPwd(dto.getUser_pw());
-    	dto.setUser_pw(sec_pw);
+    public String signup(UserDTO dto, HttpServletRequest request) {
         userService.userSignUp(dto); 
-        // 2. request�� �޽��� ���� (������ ����̹Ƿ� �����Ͱ� ������)
-        request.setAttribute("msg", "ȸ�������� �Ϸ�Ǿ����ϴ�!");
-        // 3. redirect�� �ƴ� "main"���� ������ (main.jsp�� �����)
-        return "main"; 
+        request.setAttribute("msg", "회원가입 완료");
+        return "redirect:/index.do"; 
     }
-    // 3. �α��� ������ �̵�
+    
+    // 3. 로그인 View
     @GetMapping("/userSignIn.do")
-    public String signinView() {
+    public String userSignInView() {
         return "user/userSignIn";
     }
 
-    // 4. �α��� ó�� (POST)
     @PostMapping("/userSignIn.do")
     @ResponseBody
-    public String signin(UserDTO dto, String rememberId, HttpSession session, javax.servlet.http.HttpServletResponse response) {
-        UserDTO user = userService.userSignIn(dto);
-
-        if (user != null) {
-            session.setAttribute("loginUser", user);
-
-            // --- ���̵� ����ϱ� (��Ű) ���� ---
-            javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie("savedUserId", user.getUser_id());
-            if ("on".equals(rememberId)) {
-                cookie.setMaxAge(60 * 60 * 24 * 7); // 7�ϰ� ����
-            } else {
-                cookie.setMaxAge(0); // üũ ���� �� ��� ����
-            }
-            cookie.setPath("/"); // ������Ʈ ��ü ��ο��� ��Ű ��� �����ϰ� ����
-            response.addCookie(cookie); // �������� ��Ű ����
-            // -------------------------------
-
-            return "success";
-        } else {
-            return "fail";
+    public String userSignIn(@RequestBody Map<String, String> params, 
+    	HttpSession session, HttpServletResponse response) {
+    	String user_id=params.get("user_id");
+    	String user_pwd = params.get("user_pwd");
+    	String remember_id = params.get("remember_id");
+       int result = userService.userSignIn(user_id, com.histudy.security.PwdModule.securityPwd(user_pwd));
+       String msg = "";
+        if(result == 1) {
+        	msg = "로그인 성공";
+        	session.setAttribute("user_id", user_id);
+        	session.setAttribute("user_idx", userService.userInfo(user_id).getUser_idx());
+        	if(remember_id !=null) {
+        		Cookie ck = new Cookie("id", user_id);
+        		ck.setMaxAge(24*60*60*30);
+        		response.addCookie(ck);
+        	}
+        	else {
+        		Cookie ck = new Cookie("id", user_id);
+        		ck.setMaxAge(0);
+        		response.addCookie(ck);
+        	}
+        	return msg;
+        }
+        else {
+        	msg = "아이디 또는 비밀번호를 잘못입력하셨습니다.";
+        	return msg;
         }
     }
-    // 5. ���� ������ �̵�
-    @GetMapping("/main.do")
-    public String mainView() {
-        return "main";
-    }
 
-    @RequestMapping(value = "/userLogout.do", method = RequestMethod.GET)
-    public String logout(javax.servlet.http.HttpSession session) {
-        // ���� ���� ����
+    @RequestMapping(value="/userLogout.do", method=RequestMethod.GET)
+    public String logout(HttpSession session) {            
         session.invalidate();
-        // �α׾ƿ� �� ���� �������� �̵�
-        return "redirect:/main.do";
+        return "redirect:/index.do";
     }
     
-  
-    // 6. ���̵� �ߺ� üũ (AJAX ����)
     @GetMapping("/userCheckId.do")
     @ResponseBody
     public String idCheck(String user_id) {
