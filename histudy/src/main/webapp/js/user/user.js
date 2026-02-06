@@ -223,4 +223,66 @@ function toggleUserMenu(event) {
     }
 }
 
+/**
+ * 모든 항목 수정 모드 전환
+ */
+function toggleEditMode(isEdit) {
+    const viewElements = document.querySelectorAll('.view-mode');
+    const editElements = document.querySelectorAll('.edit-mode');
+    const viewBtnGroup = document.getElementById('view-buttons');
+    const editBtnGroup = document.getElementById('edit-buttons');
 
+    if (isEdit) {
+        // 수정 모드: 텍스트 숨기고 입력창 보이기
+        viewElements.forEach(el => el.style.display = 'none');
+        editElements.forEach(el => el.style.display = 'block');
+        viewBtnGroup.style.display = 'none';
+        editBtnGroup.style.display = 'block';
+    } else {
+        // 읽기 모드: 다시 원상복구
+        viewElements.forEach(el => el.style.display = 'block');
+        editElements.forEach(el => el.style.display = 'none');
+        viewBtnGroup.style.display = 'block';
+        editBtnGroup.style.display = 'none';
+    }
+}
+
+/**
+ * 모든 정보 한꺼번에 서버로 전송
+ */
+function submitProfileUpdate() {
+    const formData = new FormData();
+    // [확인] JSP의 ID와 일치해야 합니다.
+    formData.append('user_name', document.getElementById('name-input').value);
+    formData.append('user_birthdate', document.getElementById('birthdate-input').value);
+    formData.append('user_email', document.getElementById('email-input').value);
+    formData.append('user_tel', document.getElementById('tel-input').value);
+    formData.append('user_intro', document.getElementById('intro-input').value);
+    
+    const fileInput = document.getElementById('fileInput');
+    if (fileInput.files && fileInput.files[0]) {
+        formData.append('uploadFile', fileInput.files[0]);
+    }
+
+    // 경로 추출 로직 개선
+    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
+
+    fetch(contextPath + "/updateProfile.do", {
+        method: 'POST',
+        body: formData
+    })
+    .then(function(response) { return response.text(); })
+    .then(function(data) {
+        if (data.trim() === 'success') {
+            alert('프로필이 성공적으로 수정되었습니다.');
+            // 현재 페이지로 다시 이동하여 강제 갱신
+            location.href = location.href; 
+        } else {
+            alert('수정에 실패했습니다.');
+        }
+    })
+    .catch(function(err) {
+        console.error("수정 오류:", err);
+        alert('서버 통신 오류가 발생했습니다.');
+    });
+} 

@@ -31,8 +31,8 @@
 						<li><a href="#"><img src="mypage-img/dash-icon.png"
 								alt="대시보드"> 대시보드</a></li>
 						<li><a
-							href="${pageContext.request.contextPath}/mySchedule.do">
-								<img src="mypage-img/calendar-icon.png" alt="일정관리"> 일정관리
+							href="${pageContext.request.contextPath}/mySchedule.do"> <img
+								src="mypage-img/calendar-icon.png" alt="일정관리"> 일정관리
 						</a></li>
 						<li><a href="#"><img src="mypage-img/cart-icon.png"
 								alt="구매"> 구매 / 혜택</a></li>
@@ -68,36 +68,58 @@
 							<table class="profile-table">
 								<tr>
 									<th>이름</th>
-									<td>${user.user_name}</td>
+									<td><span class="view-mode">${user.user_name}</span> <input
+										type="text" id="name-input" class="edit-mode"
+										value="${user.user_name}" style="display: none;"></td>
 								</tr>
 								<tr>
-									<th>나이</th>
-									<td>${user.user_age}세</td>
+									<th>생년월일</th>
+									<td><span class="view-mode">${user.user_age}세</span> <input
+										type="date" id="birthdate-input" class="edit-mode"
+										value="${user.user_birthdate}" style="display: none;"></td>
 								</tr>
 								<tr>
 									<th>이메일</th>
-									<td>${user.user_email}</td>
+									<td><span class="view-mode">${user.user_email}</span> <input
+										type="email" id="email-input" class="edit-mode"
+										value="${user.user_email}" style="display: none;"></td>
 								</tr>
 								<tr>
 									<th>전화번호</th>
-									<td>${user.user_tel}</td>
+									<td><span class="view-mode">${user.user_tel}</span> <input
+										type="text" id="tel-input" class="edit-mode"
+										value="${user.user_tel}" style="display: none;"></td>
 								</tr>
 								<tr>
 									<th>자기소개</th>
-									<td><textarea name="user_intro" class="user-intro-edit"
-											rows="5"
-											style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; resize: none;"
-											placeholder="자기소개를 입력해주세요.">${user.user_intro}</textarea></td>
+									<td>
+										<div id="intro-text" class="view-mode user-info-display"
+											style="padding: 10px; line-height: 1.5;">
+											${user.user_intro}</div> <textarea id="intro-input"
+											class="edit-mode user-intro-edit" rows="5"
+											style="display: none; width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; resize: none;">${user.user_intro}</textarea>
+									</td>
 								</tr>
 							</table>
-
 							<div style="text-align: right; margin-top: 20px;">
-								<button type="submit"
-									style="background-color: #4A90E2; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
-									수정</button>
+								<div id="view-buttons">
+									<button type="button" onclick="toggleEditMode(true)"
+										style="background-color: #4A90E2; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+										수정하기</button>
+								</div>
+
+								<div id="edit-buttons" style="display: none;">
+									<button type="button" onclick="submitProfileUpdate()"
+										style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-right: 5px;">
+										저장</button>
+									<button type="button" onclick="toggleEditMode(false)"
+										style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+										취소</button>
+								</div>
 							</div>
 						</div>
 					</div>
+
 				</form>
 			</main>
 		</div>

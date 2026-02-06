@@ -2,6 +2,7 @@ package com.histudy.controller;
 
 import java.io.File;
 import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile; // [추가] 업로드 파일 처리를 위해 필요
 import org.springframework.web.servlet.ModelAndView;
@@ -120,40 +122,43 @@ public class UserController {
         return mav;
     }
 
-    // 6. 프로필 수정 (이미지 업로드 포함)
     @RequestMapping("/updateProfile.do")
-    public String updateProfile(MultipartFile uploadFile, String user_intro, HttpSession session) {
-        // 세션에서 현재 로그인된 유저 객체 가져오기
+    @ResponseBody
+    public String updateProfile(
+    		@RequestParam(value="uploadFile", required=false) MultipartFile uploadFile, UserDTO updatedData, HttpSession session) {
         UserDTO user = (UserDTO) session.getAttribute("user");
-        
-        if (user == null) return "redirect:/userSignIn.do";
+        if (user == null) return "fail";
 
-        // 파일 저장 처리
+        // 1. 텍스트 정보 업데이트
+        user.setUser_name(updatedData.getUser_name());
+        user.setUser_birthdate(updatedData.getUser_birthdate());
+        user.setUser_email(updatedData.getUser_email());
+        user.setUser_tel(updatedData.getUser_tel());
+        user.setUser_intro(updatedData.getUser_intro());
+
+        // 1. 이미지 파일이 있으면 저장 (기존 로직 활용)
+     // UserController.java의 이미지 저장 부분 수정
         if (uploadFile != null && !uploadFile.isEmpty()) {
             String savePath = session.getServletContext().getRealPath("/mypage-img/");
             String fileName = uploadFile.getOriginalFilename();
             
+            // 경로와 파일명 사이에 File.separator 또는 "/" 추가 필요
+            File saveFile = new File(savePath, fileName); 
+            
             try {
-                // 파일 물리적 저장
-                uploadFile.transferTo(new File(savePath + fileName));
-                // DB에 기록할 파일명 DTO에 저장
+                uploadFile.transferTo(saveFile);
                 user.setProfile_img(fileName);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        
-        // 자기소개 업데이트
-        user.setUser_intro(user_intro);
-        
-        // DB 업데이트 서비스 호출
         int result = userService.updateProfile(user);
-        
+
         if(result > 0) {
-            // 수정한 정보를 세션에도 갱신
-            session.setAttribute("user", user);
+            session.setAttribute("user", user); // 세션 갱신
+            return "success"; // AJAX 성공 메시지
+        } else {
+            return "fail";
         }
-        
-        return "redirect:/myPage.do";
     }
 }
