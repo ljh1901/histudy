@@ -14,7 +14,7 @@
                 <a href="adminCafeList.do" target="contentFrame">스터디카페 관리</a>
             </li>    
             <li class="admin__menu__item">
-                <a href="adminStudyGroup.do" target="contentFrame">스터디모임 관리</a>
+                <a href="adminStudyList.do" target="contentFrame">스터디모임 관리</a>
             </li>
             <li class="admin__menu__item">
                 <a href="adminMember.do" target="contentFrame">회원 관리</a>

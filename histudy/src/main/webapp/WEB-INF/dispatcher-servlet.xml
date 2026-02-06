@@ -54,6 +54,10 @@
 	<bean id="adminService" class="com.histudy.admin.service.AdminServiceImple">
     	<constructor-arg ref="adminDAO"/>
 	</bean>
+	<!-- 관리자 스터디 서비스 -->
+	<bean id="adminStudyService" class="com.histudy.admin.service.AdminStudyServiceImple">
+    	<constructor-arg ref="adminStudyDAO"/>
+    	</bean>
 	<!-- 강의수강 서비스 -->
 	<bean id="lectureService" class="com.histudy.lecture.service.LectureServiceImple">
 		<constructor-arg ref="lectureDAO"/>
