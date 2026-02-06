@@ -156,7 +156,7 @@ section>h1>a:hover {
 }
 
 #payBtn {
-	background-color: #4f46e5; /* 보라색 버튼 */
+	background-color: gray; /* 보라색 버튼 */
 	color: #fff;
 	border: none;
 	padding: 10px 20px;
@@ -189,8 +189,8 @@ window.onload=function(){
 				<div class="studycafeInfo">
 					<h1>스터디 카페 목록</h1>
 					<ul id="studycafeList">
-						<c:forEach var="studycafe" items="${dto.studycafe_name}">
-							<li><a href="#" class="studycafe-item">${studycafe}</a></li>
+						<c:forEach var="studycafe" items="${dto}">
+							<li><a href="#" class="studycafe-item">${studycafe.studycafe_name}</a></li>
 						</c:forEach>
 					</ul>
 					<div id="map" style="width: 50%; height: 350px;"></div>
@@ -209,8 +209,6 @@ window.onload=function(){
 								<button type="button" class="modal-close" onclick="close1()">&times;</button>
 							</div>
 							<div class="modal-content">
-								<p>결제할 좌석을 확인해주세요.</p>
-								<button id="payBtn">결제하기</button>
 							</div>
 						</div>
 					</div>
@@ -321,7 +319,6 @@ MAIN HALL
 							stroke="#E5E7EB" stroke-width="2" />
 
 <g>
-
 <rect class="seat-a" x="730" y="100" width="45" height="45"
 							fill="#FFE4E6" />
 <rect class="seat-a" x="810" y="100" width="45" height="45"
@@ -342,14 +339,6 @@ MAIN HALL
 </text>
 
 <g>
-
-<!-- 배경 -->
-<rect x="720" y="350" width="300" height="180" rx="20" fill="#FFF7ED"
-							stroke="#FED7AA" stroke-width="2" />
-<rect x="720" y="350" width="300" height="180" rx="20" fill="#FFF7ED"
-							stroke="#FED7AA" stroke-width="2" />
-
-
 <!-- 방들 -->
 <rect x="740" y="370" width="70" height="70" rx="10" fill="#FFFBEB" />
 <rect x="830" y="370" width="70" height="70" rx="10" fill="#FFFBEB" />
@@ -358,18 +347,11 @@ MAIN HALL
 <rect x="740" y="450" width="70" height="70" rx="10" fill="#FFFBEB" />
 <rect x="830" y="450" width="70" height="70" rx="10" fill="#FFFBEB" />
 <rect x="920" y="450" width="70" height="70" rx="10" fill="#FFFBEB" />
-
 </g>
+
 <rect x="700" y="330" width="12" height="80" fill="#99CCFF" />
 <text x="706" y="420" font-size="10" transform="rotate(90 706,420)">문</text>
-
-
-<rect x="720" y="330" width="300" height="220" rx="18" fill="#EEF2FF"
-							stroke="#C7D2FE" stroke-width="2" />
-
-<text x="870" y="360" text-anchor="middle" font-weight="700"
-							font-size="18">
-</text>
+<text x="870" y="360" text-anchor="middle" font-weight="700" font-size="18"></text>
 </svg>
 				</div>
 			</section>
@@ -378,35 +360,103 @@ MAIN HALL
 	<%@include file="../footer.jsp"%>
 </body>
 <script>
-var lat = ${dto.studycafe_lat}
-var lng = ${dto.studycafe_lng}
+/* if(!document.getElementById('payBtn').disabled){
+	document.getElementById('payBtn').disabled=false;
+	document.getElementById('payBtn').style.background="#4f46e5";
+}else{
+	document.getElementById('payBtn').style.background="gray";
+} */
+// 1. 위도, 경도
+var lat =0;
+var lng =0;
+if(document.querySelector('.studycafe-item').text == 'histudy 1호점'){
+	lat = ${dto[0].studycafe_lat};
+	lng = ${dto[0].studycafe_lng};
+}
 var queryNum=-1;
+seatInfo();
+// 2. 좌석 정보
+function seatInfo(){
 for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 	document.querySelectorAll(".seat-a")[i].setAttribute("value", "a"+i);
-	document.querySelectorAll(".seat-a")[i].addEventListener('click', async function(e){
+	document.querySelectorAll(".seat-a")[i].addEventListener('click', function(e){
 	queryNum=i;
-	document.querySelector('#seat').innerText = document.querySelectorAll(".seat-a")[i].getAttribute("value")+ ': 좌석현황';
+	document.querySelector('#seat').innerHTML = document.querySelectorAll(".seat-a")[i].getAttribute("value")+ '의 좌석현황';
+	document.querySelector('.modal-content').innerHTML='<button id="reserveBtn">이용 하기</button>';
+	// 4. 예약하기
+	document.getElementById('reserveBtn').addEventListener('click',function(){
+		var ticketBtn= '<button id="timeTicket" value="1">시간권</button><button id="dayTicket" value="2">종일권</button>';
+		document.querySelector('.modal-content').innerHTML = ticketBtn;
+		document.getElementById('timeTicket').addEventListener('click', function(){
+			alert(this.value)
+			seatTicketInfo(this.value);
+			document.querySelector('.modal-content').innerHTML = '<h1 id="timeTicket">시간권</h1>';
+		})
+		document.getElementById('dayTicket').addEventListener('click', function(){
+			
+		})
+	})
 	alert(document.querySelectorAll(".seat-a")[i].getAttribute("value"));
 	document.querySelector('.payseat').style.display="";
-	alert(queryNum);
-	portOnePay(queryNum);
-})
+	//portOnePay(queryNum);
+		})
+	}
 }
+// 비동기 티켓 정보 가져오기
+function seatTicketInfo(ticket_category_idx){
+	return fetch("seatInfo.do?ticket_category_idx="+ticket_category_idx,{method: "GET"})
+	.then(function(res){
+		if(res.ok){
+			return res.json();
+		}
+	})
+	.then(function(res){
+		res.forEach(function(data){
+			alert(data.ticket_amount);
+		})
+	})
+	.catch(error => console.log(error.message))
+}
+// 3. 비동기 좌석 현황 
+function seatCurrent(){
+	return fetch("seatInfo.do", {
+		method: "POST",
+		headers:{
+			"Content-Type":"application/json"
+		},
+		body:JSON.stringify({
+			seat_idx: (i+1)
+		})
+	})
+	.then(function(res){
+		if(res.ok){
+			return res.json();
+		}
+	})
+	.then(function(data){
+		alert(data)
+			data.forEach(function(responseData){
+				alert(responseData);
+			})
+	})
+	.catch(error => console.log(error.message))
+}
+
+
+
 var now = new Date();
-//console.log(now.getDay()); // 요일
-/* console.log(now.getFullYear());
-console.log(now.getDate()); // 일
-console.log(now.getMonth()+1);
-console.log(now.getHours()); // 시간
-console.log(now.getMinutes()); // 분
-console.log(now.getSeconds()); // 초 */
 function close1(){
 	document.querySelector('.payseat').style.display = "none";
+	alert('모달창을 닫습니다!');
 }
+
+// 카페 정보
 document.getElementById('studycafeCurrent').addEventListener('click',function(){
 	document.querySelector('.studycafeInfo').style.display="none";
 	document.querySelector('.studycafeCurrent').style.display="";
 });
+
+// 카페 현황
 document.getElementById('studycafeInfo').addEventListener('click',function(){
 	document.querySelector('.studycafeInfo').style.display="";
 	document.querySelector('.studycafeCurrent').style.display="none";

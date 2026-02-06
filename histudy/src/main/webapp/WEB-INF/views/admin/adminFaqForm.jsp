@@ -38,20 +38,20 @@
 	<table class="faq__list">
 		<thead>
 			<tr>
-				<th width="10%">번호</th>
-				<th width="15%">카테고리</th>
-				<th width="50%">질문 내용</th>
-				<th width="25%">관리</th>
+				<th width="10%" style="text-align: center;">번호</th>
+				<th width="15%" style="text-align: center;">카테고리</th>
+				<th width="50%" style="text-align: center;">질문 내용</th>
+				<th width="25%" style="text-align: center;">관리</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="faq" items="${faqList}">
 				<tr class="faq__row" onclick="toggleFaq('${faq.faq_idx}')"
 					style="cursor: pointer;">
-					<td>${faq.faq_idx}</td>
-					<td>${faq.menu_category_name}</td>
+					<td style="text-align: center;">${faq.faq_idx}</td>
+					<td style="text-align: center;">${faq.menu_category_name}</td>
 					<td style="text-align: left;">${faq.faq_title}</td>
-					<td>
+					<td style="text-align: center;">
 						<button class="faq__btn__edit"
 							onclick="event.stopPropagation(); location.href='adminFaqEdit.do?faq_idx=${faq.faq_idx}'">수정</button>
 						<button class="faq__btn__del"

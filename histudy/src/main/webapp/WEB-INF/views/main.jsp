@@ -211,7 +211,6 @@ if(${!empty msg}){
         <div id="modalContent" class="login-modal-box"></div>
     </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="js/user/user.js"></script>
 <script>
    // == 서준범 JavaScript 코드 == 

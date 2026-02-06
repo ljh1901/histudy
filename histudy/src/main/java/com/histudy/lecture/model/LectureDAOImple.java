@@ -1,6 +1,7 @@
 package com.histudy.lecture.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -11,8 +12,12 @@ public class LectureDAOImple implements LectureDAO {
    }
    @Override
    public List<LectureDTO> lectureList() {
-      return sqlSession.selectList("com.histudy.lecture.lectureList");
+      return sqlSession.selectList("lectureList");
    }
+   @Override
+	public List<LectureDTO> lectureList(Map<String, Integer> map) {
+	      return sqlSession.selectList("lectureList",map);
+	}
    @Override
    public LectureDTO lectureContent(int idx) {
       return sqlSession.selectOne("com.histudy.lecture.lectureContent",idx);
@@ -21,4 +26,12 @@ public class LectureDAOImple implements LectureDAO {
    public int lectureNoteInsert(LectureNoteDTO dto) {
       return sqlSession.insert("com.histudy.lecture.lectureNoteInsert",dto);
    }
+   @Override
+	public int getTotalCnt() {
+		return sqlSession.selectOne("getTotalCnt");
+	}
+   @Override
+	public List<LectureReviewDTO> reviewList(int lecture_idx) {
+		return sqlSession.selectList("lectureContent");
+	}
 }

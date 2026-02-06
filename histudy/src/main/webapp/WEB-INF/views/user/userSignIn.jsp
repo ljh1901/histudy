@@ -13,7 +13,6 @@ window.onload=function(){
     document.login.rememberId.checked = true;
 	}
 }
-
 </script>
 </head>
 <body>

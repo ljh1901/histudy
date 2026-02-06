@@ -11,4 +11,19 @@
   		select * 
 		from studycafe stc join ticket_category tic on stc.studycafe_idx = tic.studycafe_idx
   	</select>
+  	<select id="selectSeatInfoSQL" parameterType="Integer" resultType="com.histudy.studycafe.model.StudycafeJoinReservationDTO">
+  		select * 
+		from studycafe_reservation sr join studycafe_pay sp on sp.paymentId = sr.paymentId
+		where pay_status = 'PAID' and seat_idx = #{seat_idx}
+  	</select>
+  	<select id="selectTicketInfoSQL" parameterType="Integer" resultType="com.histudy.studycafe.model.TicketJoinTicketCategoryDTO">
+  		select *
+		from ticket_category tc 
+		join studycafe_ticket st on tc.ticket_category_idx = st.ticket_category_idx
+		where tc.ticket_category_idx = #{ticket_category_idx}
+  	</select>
+<<<<<<< HEAD
   </mapper>
+=======
+  </mapper>
+>>>>>>> 725a84cb5f63a6869b09b4c52998f28ff98eb596
