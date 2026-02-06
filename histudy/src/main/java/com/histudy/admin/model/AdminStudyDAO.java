@@ -7,4 +7,5 @@ import com.histudy.study.model.StudyDTO;
 public interface AdminStudyDAO {
 
 	public List<StudyDTO> selectAllStudyList();
+	public int deleteStudy(int study_idx);
 }

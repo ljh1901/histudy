@@ -22,4 +22,9 @@ public class AdminStudyServiceImple implements AdminStudyService {
         return adminStudyDAO.selectAllStudyList();
     }
 	
+	@Override
+	public int deleteStudy(int study_idx) {
+		return adminStudyDAO.deleteStudy(study_idx);
+	}
+	
 }

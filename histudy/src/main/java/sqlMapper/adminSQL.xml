@@ -45,7 +45,7 @@
 		order by sales_date asc
 	</select>
 	
-	<!-- 스터디그룹 관련 -->
+	<!-- 스터디모임 관련 -->
 	<select id="selectAllStudyList"
 		resultType="com.histudy.study.model.StudyDTO">
 		select
@@ -65,6 +65,11 @@
 		ORDER BY
 		s.study_idx DESC
 	</select>
+	
+	<delete id="deleteStudy"
+		parameterType="com.histudy.study.model.StudyDTO">
+		delete from study where study_idx = #{study_idx}
+	</delete>
 
 	<!-- 자주 묻는 질문 관련 -->
 	<select id="getFaqCategoryList"

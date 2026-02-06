@@ -151,7 +151,7 @@ public class NoticeController {
     }
 	//공지사항 삭제
 	@RequestMapping("/adminNoticeDelete.do")
-	public ModelAndView adminNoticeDelte(@RequestParam("notice_idx")int notice_idx) {
+	public ModelAndView adminNoticeDelete(@RequestParam("notice_idx")int notice_idx) {
 		int result = noticeService.deleteNoitce(notice_idx);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("admin/adminMsg");
