@@ -38,10 +38,9 @@
       <a class="${activeCategory == 0 ? 'active' : ''}" href="mentorList.do">전체</a>
       <a class="${activeCategory == 1 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=1">개발</a>
       <a class="${activeCategory == 2 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=2">언어</a>
-      <a class="${activeCategory == 3 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=3">코딩</a>
-      <a class="${activeCategory == 4 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=4">취업</a>
-      <a class="${activeCategory == 5 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=5">자격증</a>
-      <a class="${activeCategory == 6 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=6">학업</a>
+      <a class="${activeCategory == 3 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=3">취업</a>
+      <a class="${activeCategory == 4 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=4">자격증</a>
+      <a class="${activeCategory == 5 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=5">학업</a>
     </div>
  
 </section>
@@ -66,10 +65,9 @@
                   <c:choose>
                     <c:when test="${m.sc_idx == 1}">개발</c:when>
                     <c:when test="${m.sc_idx == 2}">언어</c:when>
-                    <c:when test="${m.sc_idx == 3}">코딩</c:when>
-                    <c:when test="${m.sc_idx == 4}">취업</c:when>
-                    <c:when test="${m.sc_idx == 5}">자격증</c:when>
-                    <c:when test="${m.sc_idx == 6}">학업</c:when>
+                    <c:when test="${m.sc_idx == 3}">취업</c:when>
+                    <c:when test="${m.sc_idx == 4}">자격증</c:when>
+                    <c:when test="${m.sc_idx == 5}">학업</c:when>
                     <c:otherwise>기타</c:otherwise>
                   </c:choose>
                 </div>
@@ -82,10 +80,9 @@
                 <c:choose>
                   <c:when test="${m.sc_idx == 1}">IT/개발</c:when>
                   <c:when test="${m.sc_idx == 2}">언어</c:when>
-                  <c:when test="${m.sc_idx == 3}">코딩</c:when>
-                  <c:when test="${m.sc_idx == 4}">취업</c:when>
-                  <c:when test="${m.sc_idx == 5}">자격증</c:when>
-                  <c:when test="${m.sc_idx == 6}">학업</c:when>
+                  <c:when test="${m.sc_idx == 3}">취업</c:when>
+                  <c:when test="${m.sc_idx == 4}">자격증</c:when>
+                  <c:when test="${m.sc_idx == 5}">학업</c:when>
                   <c:otherwise>기타</c:otherwise>
                 </c:choose>
               </span>
@@ -112,7 +109,16 @@
     <div class="cta-title">당신의 경험을 나눠주세요</div>
     <div class="cta-desc">전문 지식과 경험을 바탕으로 후배들의 성장을 도와주세요.</div>
 
-    <button type="button" class="cta-btn" onclick="openMentorGuideModal()">멘토 신청하기</button>
+    <c:choose>
+  <c:when test="${isMentor}">
+    <button type="button" class="cta-btn" onclick="location.href='mentoringCreate.do'">멘토링 개설하기</button>
+  </c:when>
+
+  <c:otherwise>
+  <button type="button" class="cta-btn" onclick="openMentorGuideModal()">멘토 신청하기</button>
+  </c:otherwise>
+</c:choose>
+
   </div>
 </section>
 
@@ -146,18 +152,22 @@ function closeByBackdrop(e, modalId){
 }
 
 
-function pickCategory(sc_idx){
-  document.getElementById("sc_idx").value = sc_idx;
-
-  
   var btns = document.querySelectorAll(".cat-btn");
   for(var i=0;i<btns.length;i++){
     btns[i].className = "cat-btn";
   }
   var target = document.getElementById("cat_"+sc_idx);
   if(target) target.className = "cat-btn active";
-}
+
+  
 </script>
+
+<c:if test="${not empty msg}">
+  <script>
+    alert("${msg}");
+  </script>
+</c:if>
+
 
 </body>
 </html>

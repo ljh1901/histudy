@@ -9,4 +9,5 @@ public interface MentoringService {
     List<MentorListDTO> mentorList();
     List<MentorListDTO> mentorListCategory(int sc_idx);
     int mentorProfileCreate(MentoProfileDTO dto);
+    int mentorProfileCount(int user_idx);
 }

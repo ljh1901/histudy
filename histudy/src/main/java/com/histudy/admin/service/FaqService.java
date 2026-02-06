@@ -9,4 +9,6 @@ public interface FaqService {
     List<FaqDTO> getFaqList(Integer category_idx);
     FaqDTO getFaqOne(int faq_idx);
     int updateFaq(FaqDTO dto);
+    int insertFaq(FaqDTO dto);
+    int deleteFaq(int faq_idx);
 }

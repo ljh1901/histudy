@@ -6,4 +6,6 @@ public interface UserService {
     public int userSignUp(UserDTO dto);
 	public int userCheckId(String user_id);
 	public UserDTO userInfo(String user_id);
+	public int userCheckEmail(String user_email);
+	public int updateProfile(UserDTO dto);
 }

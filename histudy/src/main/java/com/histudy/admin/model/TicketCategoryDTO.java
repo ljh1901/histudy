@@ -4,12 +4,10 @@ public class TicketCategoryDTO {
 	
 	private int ticket_category_idx;
     private String ticket_category_name;
-    private int studycafe_idx;
-	public TicketCategoryDTO(int ticket_category_idx, String ticket_category_name, int studycafe_idx) {
+	public TicketCategoryDTO(int ticket_category_idx, String ticket_category_name) {
 		super();
 		this.ticket_category_idx = ticket_category_idx;
 		this.ticket_category_name = ticket_category_name;
-		this.studycafe_idx = studycafe_idx;
 	}
 	public int getTicket_category_idx() {
 		return ticket_category_idx;
@@ -22,12 +20,6 @@ public class TicketCategoryDTO {
 	}
 	public void setTicket_category_name(String ticket_category_name) {
 		this.ticket_category_name = ticket_category_name;
-	}
-	public int getStudycafe_idx() {
-		return studycafe_idx;
-	}
-	public void setStudycafe_idx(int studycafe_idx) {
-		this.studycafe_idx = studycafe_idx;
 	}
     
     
