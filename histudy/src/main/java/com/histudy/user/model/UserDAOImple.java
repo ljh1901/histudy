@@ -38,8 +38,15 @@ public class UserDAOImple implements UserDAO {
 		return sqlSession.selectOne("mypage.userInfoSQL", user_id);
 	}
 	
+	
 	@Override
 	public int updateProfile(UserDTO dto) {
-		return sqlSession.update("mypage.updateProfileSQL", dto);
+	    // 1. mypage 테이블 (자기소개, 사진) 수정
+	    return sqlSession.update("mypage.updateProfileSQL", dto);
+	}
+
+	// [추가] usertb 테이블 (이름, 이메일, 전화번호) 수정 메서드
+	public int updateUserTb(UserDTO dto) {
+	    return sqlSession.update("mypage.updateUserTbSQL", dto);
 	}
 }
