@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.histudy.lecture.model.LectureDAO;
 import com.histudy.lecture.model.LectureDTO;
+import com.histudy.lecture.model.LectureLikeDTO;
 import com.histudy.lecture.model.LectureNoteDTO;
 import com.histudy.lecture.model.LectureReviewDTO;
 public class LectureServiceImple implements LectureService {
@@ -44,5 +45,13 @@ public class LectureServiceImple implements LectureService {
    @Override
 	public List<LectureReviewDTO> reviewList(int lecture_idx) {
 		return lectureDao.reviewList(lecture_idx);
+	}
+   @Override
+	public int reviewInsert(LectureReviewDTO dto) {
+		return lectureDao.reviewInsert(dto);
+	}
+   @Override
+	public int lectureLike(LectureLikeDTO dto) {
+		return lectureDao.lectureLike(dto);
 	}
 }

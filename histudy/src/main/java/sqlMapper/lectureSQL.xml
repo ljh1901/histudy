@@ -14,22 +14,38 @@
       from lecture
       where lecture_idx=#{idx}
    </select>
-   <insert id="lectureMemoInsert" parameterType="String">
-      insert into lecture_note values(
-         lecture_note_idx.nextval,
-         #{note_title},
-         #{note_content},
-         #{user_idx},
-         #{lecture_idx}
-      )
-   </insert>
+   <select id="lectureMemoList" parameterType="Map" resultType="com.histudy.lecture.model.LectureDTO">
+		select *
+		from lecture_note
+		where user_idx=#{user_idx} and
+			lecture_idx=#{lecture_idx}
+   </select>
    <select id="getTotalCnt" resultType="Integer">
   	 select count(*) from lecture
    </select>
    <select id="reviewList" parameterType="int" resultType="com.histudy.lecture.model.LectureDTO">
    	select * 
    	from lectureReview
-   	where lectureIdx=${lectureIdx}
+   	where lectureIdx=#{lectureIdx}
    	order by review_date desc
    </select>
+   <insert id="reviewInsert" parameterType="com.histudy.lecture.model.LectureReviewDTO">
+		insert into lectureReview values(
+			lecture_review_idx.nextval,
+			#{review_idx},
+			#{review_title},
+			#{review_content},
+			#{review_score},
+			sysdate,
+			#{user_idx},
+			#{lecture_idx}	
+		)
+   </insert>
+   <insert id="lectureLike" parameterType="com.histudy.lecture.model.LectureLikeDTO">
+		insert into lecture_Like values(
+			lecture_like_idx.nextval,
+			#{user_idx},
+			#{lecture_idx}
+		)
+   </insert>
 </mapper>
