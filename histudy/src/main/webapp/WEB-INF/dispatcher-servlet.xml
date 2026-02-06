@@ -50,6 +50,11 @@
 	<bean id="userService" class="com.histudy.user.service.UserServiceImple">
 		<constructor-arg ref="userDAO" />
 	</bean>
+	<!-- 스케줄 서비스 -->
+	<bean id="scheduleService" class="com.histudy.schedule.service.ScheduleServiceImple">
+		<constructor-arg ref="scheduleDAO" />
+	</bean>
+	
 	<!-- 관리자 서비스 -->
 	<bean id="adminService" class="com.histudy.admin.service.AdminServiceImple">
     	<constructor-arg ref="adminDAO"/>

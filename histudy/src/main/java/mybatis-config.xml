@@ -5,12 +5,14 @@
 
 <configuration>
 <mappers>
-	<mapper resource="sqlMapper/user.xml" />
+	<mapper resource="sqlMapper/userSQL.xml" />
 	<mapper resource="sqlMapper/studySQL.xml"></mapper>
 	<mapper resource="sqlMapper/adminSQL.xml"/>
 	<mapper resource="sqlMapper/mentoringSQL.xml"/>
 	<mapper resource="sqlMapper/lectureSQL.xml"/>
 	<mapper resource="sqlMapper/studycafeMapper.xml"/>
-	<mapper resource="sqlMapper/mypage.xml" />
+	<mapper resource="sqlMapper/mypageSQL.xml" />
+	<mapper resource="sqlMapper/scheduleSQL.xml" />
+	
 </mappers>
 </configuration>

@@ -149,3 +149,18 @@
     color: #666;
     font-weight: 600;
 }
+
+/* 현재 활성화된 메뉴(active) 스타일 수정 */
+.mypage-sidebar .sidebar-nav li.active a {
+    cursor: default;          /* 손가락 모양 대신 기본 화살표 커서로 변경 */
+    pointer-events: none;     /* 클릭 이벤트(링크 이동) 자체를 완전히 차단 */
+    background-color: #111827; /* 기존 강조 색상 유지 */
+    color: #fff;              /* 글자색 유지 */
+}
+
+
+/* 활성화되지 않은 메뉴들에만 호버 효과 적용 */
+.mypage-sidebar .sidebar-nav li:not(.active) a:hover {
+    background-color: #f8f9fa;
+    color: #111;
+}

@@ -1,7 +1,6 @@
 package com.histudy.user.model;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.stereotype.Repository;
 
 
 public class UserDAOImple implements UserDAO {
