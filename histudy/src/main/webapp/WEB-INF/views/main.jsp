@@ -213,42 +213,50 @@ if(${!empty msg}){
 </body>
 <script src="js/user/user.js"></script>
 <script>
-   // == 서준범 JavaScript 코드 == 
-   //== 페이지 스크롤 시 Header 커스텀 ==
+   // == 페이지 스크롤 시 Header 커스텀 ==
    const header = document.querySelector('.header');
-   const headerHeight = header.getBoundingClientRect().height;
    
-   document.addEventListener('scroll', function () {
-     if (window.scrollY > headerHeight) {
-       header.classList.add('header--white');
-     } else {
-       header.classList.remove('header--white');
-     }
-   });
-    //== 검색창 커스텀 ==
-   //1. 데이터 수집
+   // header 요소가 존재할 때만 스크롤 이벤트 등록 (에러 방지)
+   if (header) {
+       const headerHeight = header.getBoundingClientRect().height;
+       
+       document.addEventListener('scroll', function () {
+         if (window.scrollY > headerHeight) {
+           header.classList.add('header--white');
+         } else {
+           header.classList.remove('header--white');
+         }
+       });
+   }
+
    const selectBox = document.querySelector('.custom-select');
    const selected = document.querySelector('.selected');
    const options = document.querySelectorAll('.options li');
 
-   //2. 셀렉트 열기
-   selectBox.addEventListener('click', function(e) {
-      e.stopPropagation();
-      this.classList.toggle('open');
-   });
+   // 1. selectBox가 HTML에 실제로 존재할 때만 실행되도록 체크 (핵심 수정 사항)
+   if (selectBox) {
+       // 2. 셀렉트 박스 클릭 시 열기/닫기
+       selectBox.addEventListener('click', function(e) {
+          e.stopPropagation();
+          this.classList.toggle('open');
+       });
 
-   //3. 셀렉트 변경 후 닫기
-   for (var i = 0; i < options.length; i++) {
-      options[i].addEventListener('click', function(e) {
-         e.stopPropagation();
-         selected.innerHTML = this.innerHTML;
-         selectBox.classList.remove('open');
-      });
+       // 3. 각 옵션들을 클릭했을 때의 동작
+       options.forEach(function(opt) {
+          opt.addEventListener('click', function(e) {
+             e.stopPropagation();
+             // 선택된 텍스트 변경 (selected 요소가 있을 때만)
+             if (selected) {
+                 selected.innerHTML = this.innerHTML;
+             }
+             selectBox.classList.remove('open');
+          });
+       });
+
+       // 4. 셀렉트 박스 외부 영역 클릭 시 닫기
+       document.addEventListener('click', function() {
+          selectBox.classList.remove('open');
+       });
    }
-
-   //4. 셀렉트 닫기
-   document.addEventListener('click', function() {
-      selectBox.classList.remove('open');
-   });
 </script>
 </html>
