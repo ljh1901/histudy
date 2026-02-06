@@ -1,0 +1,146 @@
+@charset "UTF-8";
+
+/* [1] 마이페이지 전체 레이아웃 (본문 영역만 담당) */
+.mypage-wrapper {
+    /* 헤더(80px)가 fixed이므로 본문이 겹치지 않게 여백 추가 */
+    margin-top: 80px; 
+    display: flex;
+    justify-content: center;
+    padding: 60px 0;
+    min-height: calc(100vh - 160px); /* 푸터 공간 확보를 위한 최소 높이 */
+    background-color: #ffffff;
+}
+
+.mypage-container {
+    display: flex;
+    width: 1100px; /* 전체 너비 설정 */
+    gap: 50px;
+    align-items: flex-start;
+}
+
+/* [2] 좌측 사이드바 영역 */
+.mypage-sidebar {
+    width: 200px;
+    flex-shrink: 0;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-right: 1px solid #eee;
+}
+
+.sidebar-nav li {
+    padding: 15px 10px;
+    margin-bottom: 10px;
+}
+
+.sidebar-nav li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-nav li.active {
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+/* 사이드바 전용 아이콘 크기 고정 */
+.sidebar-nav li a img {
+    width: 22px;
+    height: 22px;
+}
+
+/* [3] 우측 메인 컨텐츠 및 프로필 카드 */
+.mypage-main {
+    flex-grow: 1;
+}
+
+.content-title {
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.profile-card {
+    display: flex;
+    border: 1px solid #333; /* 얇은 검정 테두리 */
+    border-radius: 15px;
+    padding: 35px;
+    gap: 40px;
+    background-color: #fff;
+}
+
+/* 이미지 섹션 */
+.profile-image-section {
+    width: 180px;
+    text-align: center;
+}
+
+.image-container img {
+    width: 180px;
+    height: 180px;
+    border-radius: 15px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.btn-img-change {
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.img-guide {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.4;
+}
+
+/* 정보 섹션 테이블 */
+.profile-info-section {
+    flex-grow: 1;
+}
+
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.profile-table th {
+    text-align: left;
+    width: 100px;
+    padding: 15px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.profile-table td {
+    padding: 15px 0;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* 버튼 스타일 (헤더 로그인 버튼과 무관) */
+.btn-save {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    float: right;
+    margin-top: 20px;
+}
