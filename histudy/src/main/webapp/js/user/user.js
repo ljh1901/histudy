@@ -4,7 +4,8 @@ var isEmailChecked = false;
 
 /** 1. 로그인 처리 함수  */
 function loginCheck() {
-    var userId = document.login.user_id.value;
+
+	var userId = document.login.user_id.value;
     var userPwd = document.login.user_pwd.value;
     var rememberId = document.login.rememberId.checked ? "on" : null;
 
@@ -195,10 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // [A] 로그인 버튼 클릭 위임
     document.addEventListener('click', function(e) {
-        if (e.target && e.target.classList.contains('header__login')) {
-            var dropdown = e.target.closest('.user-dropdown');
-            if (!dropdown) { e.preventDefault(); openSignInModal(); }
-        }
+       
     });
 
     // [B] 메뉴 바깥쪽 클릭 시 닫기
