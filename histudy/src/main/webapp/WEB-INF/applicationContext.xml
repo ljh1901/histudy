@@ -44,6 +44,10 @@
 		<constructor-arg ref="sqlSessionTemplate"/>
 	</bean>
 	
+	<bean id="noticeDAO" class="com.histudy.admin.model.NoticeDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"/>
+	</bean>
+	
 	<bean id="lectureDAO" class="com.histudy.lecture.model.LectureDAOImple">
    	 <constructor-arg ref="sqlSessionTemplate" />
 	</bean>

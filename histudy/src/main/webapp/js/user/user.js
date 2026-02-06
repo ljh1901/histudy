@@ -31,6 +31,16 @@ function getCookie(name) {
     for (var i = 0; i < cookies.length; i++) {
         var cookie = cookies[i].trim();
         if (cookie.indexOf(name + "=") === 0) return cookie.substring(name.length + 1);
+	
+function getCookie(name) {
+    return document.cookie
+        .split(";")
+        .find(row => row.startsWith(name + "="))
+        ?.split("=")[1];
+}
+
+
+    // [2] 로그인 모달 열기 및 쿠키 처리 통합
     }
     return null;
 }

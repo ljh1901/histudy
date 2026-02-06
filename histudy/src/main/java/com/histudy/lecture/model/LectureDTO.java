@@ -25,6 +25,7 @@ public class LectureDTO {
 		this.lecture_file = lecture_file;
 		this.category_idx = category_idx;
 	}
+	
 	public int getLecture_idx() {
 		return lecture_idx;
 	}

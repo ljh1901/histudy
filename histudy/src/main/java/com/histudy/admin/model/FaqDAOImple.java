@@ -8,7 +8,7 @@ import java.util.*;
 
 @Repository
 public class FaqDAOImple implements FaqDAO {
-    @Autowired
+	
     private SqlSession session;
 
     public FaqDAOImple(SqlSession session) {
@@ -32,5 +32,13 @@ public class FaqDAOImple implements FaqDAO {
     @Override
     public int updateFaq(FaqDTO dto) {
     	return session.update("com.histudy.admin.updateFaq", dto);
+    }
+    @Override
+    public int insertFaq(FaqDTO dto) {
+    	return session.insert("com.histudy.admin.insertFaq", dto);
+    }
+    @Override
+    public int deleteFaq(int faq_idx) {
+        return session.delete("com.histudy.admin.deleteFaq", faq_idx);
     }
 }

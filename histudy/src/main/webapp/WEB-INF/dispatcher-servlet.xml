@@ -58,10 +58,14 @@
 	<bean id="lectureService" class="com.histudy.lecture.service.LectureServiceImple">
 		<constructor-arg ref="lectureDAO"/>
 	</bean>
-	<!-- 문의사항 서비스 -->
+	<!-- 자주묻는질문 서비스 -->
 	<bean id="faqService" class="com.histudy.admin.service.FaqServiceImple">
 		<constructor-arg ref="faqDAO"/>
-		</bean>
+	</bean>
+	<!-- 공지사항 서비스 -->
+	<bean id="noticeService" class="com.histudy.admin.service.NoticeServiceImple">
+		<constructor-arg ref="noticeDAO"/>
+	</bean>
 	<!--  멘토링 서비스 -->
 	<bean id="mentoringService" class="com.histudy.mentoring.service.MentoringServiceImple">
 		<constructor-arg ref="mentoringDAO"/>

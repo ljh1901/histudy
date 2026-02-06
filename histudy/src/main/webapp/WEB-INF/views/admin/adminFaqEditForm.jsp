@@ -10,7 +10,7 @@
 <body>
     <h1>자주 묻는 질문 수정</h1>
 	
-    <form action="adminFaqEditAction.do" method="post">
+    <form action="adminFaqEditOk.do" method="post">
         <input type="hidden" name="faq_idx" value="${faq.faq_idx}">
 
         <table class="faq__edit-form">
@@ -41,9 +41,9 @@
             </tr>
         </table>
 
-        <div class="faq__edit__btn">
+        <div class="faq__edit__btn" align="center">
             <button type="submit" class="faq__admin__btn">수정 완료</button>
-            <button type="button" class="faq__btn__del" onclick="history.back()">취소</button>
+            <button type="button" class="faq__admin__btn faq__cancel__btn" onclick="history.back()">취소</button>
         </div>
     </form>
 </body>
