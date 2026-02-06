@@ -1,146 +1,151 @@
 @charset "UTF-8";
 
-/* [1] 마이페이지 전체 레이아웃 (본문 영역만 담당) */
+/* [1] 마이페이지 전체 레이아웃 */
 .mypage-wrapper {
-    /* 헤더(80px)가 fixed이므로 본문이 겹치지 않게 여백 추가 */
     margin-top: 80px; 
     display: flex;
     justify-content: center;
     padding: 60px 0;
-    min-height: calc(100vh - 160px); /* 푸터 공간 확보를 위한 최소 높이 */
+    min-height: calc(100vh - 160px); 
     background-color: #ffffff;
 }
 
 .mypage-container {
     display: flex;
-    width: 1100px; /* 전체 너비 설정 */
-    gap: 50px;
+    width: 1000px; 
+    gap: 100px;
     align-items: flex-start;
 }
 
-/* [2] 좌측 사이드바 영역 */
+/* [2] 좌측 사이드바 영역 - 선택자를 구체화하여 헤더 간섭 차단 */
 .mypage-sidebar {
-    width: 200px;
+    width: 250px;
     flex-shrink: 0;
 }
 
-.sidebar-nav ul {
+/* .sidebar-nav ul로 범위를 한정하여 헤더의 ul과 격리 */
+.mypage-sidebar .sidebar-nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    border-right: 1px solid #eee;
+    border: 1px solid #eee; /* 오른쪽 선 대신 전체 테두리로 변경하여 깔끔하게 정돈 */
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.sidebar-nav li {
-    padding: 15px 10px;
-    margin-bottom: 10px;
+.mypage-sidebar .sidebar-nav li {
+    padding: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid #eee; /* 메뉴 사이 구분선 추가 */
 }
 
-.sidebar-nav li a {
+.mypage-sidebar .sidebar-nav li:last-child {
+    border-bottom: none;
+}
+
+.mypage-sidebar .sidebar-nav li a {
+    display: flex;             /* 정렬을 위한 Flexbox 활성화 */
+    align-items: center;       /* 수직(상하) 기준 정중앙 정렬 */
+    justify-content: center;    /* 수평(좌우) 기준 정중앙 정렬 */
+    padding: 20px;             /* 클릭 영역 확보 */
+    gap: 15px;                 /* 아이콘과 글자 사이 간격 */
     text-decoration: none;
     color: #333;
     font-size: 1.1rem;
     font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    transition: all 0.2s;
 }
 
-.sidebar-nav li.active {
-    border: 1px solid #333;
-    border-radius: 5px;
+/* 아이콘 크기 및 정렬 보정 */
+.mypage-sidebar .sidebar-nav li a img {
+    width: 80px;               /* 아이콘 크기 소폭 확대 */
+    height: 90px;
+    display: block;            /* 하단 불필요한 여백 제거 */
 }
 
-/* 사이드바 전용 아이콘 크기 고정 */
-.sidebar-nav li a img {
-    width: 22px;
-    height: 22px;
+/* 활성화 상태 디자인 개선 */
+.mypage-sidebar .sidebar-nav li.active {
+    border: none; /* 기존 테두리 제거 */
+    background-color: #111827; /* 헤더 버튼 색상과 통일 */
 }
+
+.mypage-sidebar .sidebar-nav li.active a {
+    color: #fff;
+}
+
+
 
 /* [3] 우측 메인 컨텐츠 및 프로필 카드 */
 .mypage-main {
     flex-grow: 1;
 }
 
-.content-title {
-    margin-bottom: 30px;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
+/* 1. 프로필 카드: 양 끝으로 벌려주기 */
 .profile-card {
     display: flex;
-    border: 1px solid #333; /* 얇은 검정 테두리 */
-    border-radius: 15px;
-    padding: 35px;
-    gap: 40px;
+    justify-content: space-between; /* 요소들을 양 끝으로 배치 */
+    align-items: flex-start;       /* 상단 정렬 */
+    border: 1px solid #eee; 
+    border-radius: 20px;
+    padding: 40px;
+    gap: 40px;                     /* 사진과 정보 사이의 여백 */
     background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* 이미지 섹션 */
+/* 2. 이미지 섹션: 왼쪽 고정 */
 .profile-image-section {
-    width: 180px;
+    width: 200px;                 /* 사진 영역 너비 확보 */
+    flex-shrink: 0;               /* 너비 유지 */
     text-align: center;
+}
+
+/* 3. 정보 섹션: 남은 공간 모두 차지 */
+.profile-info-section {
+    flex-grow: 1;                 /* 남은 오른쪽 공간을 꽉 채움 */
+}
+
+/* 4. 테이블 정렬: 왼쪽 정렬 확인 */
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;             /* 텍스트 왼쪽 정렬 */
 }
 
 .image-container img {
     width: 180px;
     height: 180px;
-    border-radius: 15px;
+    border-radius: 20px;
     object-fit: cover;
     margin-bottom: 15px;
+    border: 1px solid #eee;
 }
 
-.btn-img-change {
-    background: none;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: underline;
-    display: block;
+
+
+/* 1. 테이블 내부의 전체적인 글자 크기 조정 */
+.mypage-main .profile-table th,
+.mypage-main .profile-table td {
+    font-size: 14px; /* 기존 1.1rem(약 18px)에서 가독성 좋은 크기로 축소 */
+    padding: 12px 0; /* 간격도 소폭 줄여서 컴팩트하게 만듦 */
+}
+
+/* 2. 자기소개 입력창 높이 및 스타일 확장 */
+.mypage-main .user-intro-edit {
     width: 100%;
-    margin-bottom: 10px;
+    min-height: 120px; /* 입력창 높이를 충분히 확보 */
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fafafa; /* 입력창임을 알 수 있게 연한 배경색 추가 */
+    box-sizing: border-box;
 }
 
-.img-guide {
-    font-size: 12px;
-    color: #888;
-    line-height: 1.4;
-}
-
-/* 정보 섹션 테이블 */
-.profile-info-section {
-    flex-grow: 1;
-}
-
-.profile-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.profile-table th {
-    text-align: left;
+/* 3. 테이블 항목 이름(th) 너비 조절 */
+.mypage-main .profile-table th {
     width: 100px;
-    padding: 15px 0;
-    font-size: 1.1rem;
-    color: #333;
-}
-
-.profile-table td {
-    padding: 15px 0;
-    font-size: 1.1rem;
-    color: #555;
-}
-
-/* 버튼 스타일 (헤더 로그인 버튼과 무관) */
-.btn-save {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 25px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    float: right;
-    margin-top: 20px;
+    color: #666;
+    font-weight: 600;
 }
