@@ -2,7 +2,7 @@
 var isIdChecked = false;
 var isEmailChecked = false;
 
-/** 1. 로그인 처리 함수 (Promise 방식) */
+/** 1. 로그인 처리 함수  */
 function loginCheck() {
     var userId = document.login.user_id.value;
     var userPwd = document.login.user_pwd.value;
@@ -25,22 +25,15 @@ function loginCheck() {
     .catch(function(err) { console.error("로그인 중 오류 발생:", err); });
 }
 
-/** 2. 쿠키 읽기 함수 */
-function getCookie(name) {
-    var cookies = document.cookie.split(";");
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i].trim();
-        if (cookie.indexOf(name + "=") === 0) return cookie.substring(name.length + 1);
-	
-function getCookie(name) {
-    return document.cookie
-        .split(";")
-        .find(row => row.startsWith(name + "="))
-        ?.split("=")[1];
-}
 
-
-    // [2] 로그인 모달 열기 및 쿠키 처리 통합
+/** 2. 쿠키 읽기 함수 (안전한 버전) */
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length); // 공백 제거
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
     }
     return null;
 }
@@ -231,3 +224,5 @@ function toggleUserMenu(event) {
         menu.style.display = isVisible ? 'none' : 'block';
     }
 }
+
+
