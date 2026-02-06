@@ -1,7 +1,10 @@
 package com.histudy.admin.service;
 
 import com.histudy.admin.model.AdminDAO;
-import com.histudy.admin.model.StudyCafeDTO;
+import com.histudy.admin.model.TicketCategoryDTO;
+import com.histudy.studycafe.model.StudycafeDTO;
+import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
+
 import java.util.*;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -15,12 +18,32 @@ public class AdminServiceImple implements AdminService {
     }
 
     @Override
-    public List<StudyCafeDTO> getCafeList() {
+    public List<StudycafeDTO> getCafeList() {
         return adminDAO.selectAllCafes();
     }
     @Override
     public List<Map<String, Object>> getSalesList(Map<String, Object> params) {
         return adminDAO.selectSalesList(params);
+    }
+    
+    @Override
+    public List<TicketCategoryDTO> getTicketCategoryList() {
+        return adminDAO.getTicketCategoryList();
+    }
+
+    @Override
+    public List<TicketJoinTicketCategoryDTO> getTicketList(int studycafe_idx) {
+        return adminDAO.getTicketList(studycafe_idx);
+    }
+
+    @Override
+    public int registerTicket(Map<String, Object> data) {
+        return adminDAO.insertTicket(data);
+    }
+
+    @Override
+    public int removeTicket(int ticket_idx) {
+        return adminDAO.deleteTicket(ticket_idx);
     }
     
     @Override

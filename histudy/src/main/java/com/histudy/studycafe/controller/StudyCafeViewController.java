@@ -1,5 +1,8 @@
 package com.histudy.studycafe.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +20,12 @@ public class StudyCafeViewController {
 	
 	@GetMapping("/studycafe.do")
 	public String studycafeView(Model model) {
-		StudycafeDTO dto = studycafeService.studycafeList();
+		List<StudycafeDTO> dto = studycafeService.studycafeList();
 		String storeId = "store-83eacdb9-6d28-4c80-b53b-26d96da03490";
 		String channelKey="channel-key-da563d5f-f117-444f-aba5-ad9b66277c1b";
 		model.addAttribute("dto",dto);
 		model.addAttribute("storeId", storeId);
+		model.addAttribute("size", dto.size());
 		return "studycafe/studycafeView";
 	}
 }
