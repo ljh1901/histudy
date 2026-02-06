@@ -34,4 +34,13 @@ public class LectureDAOImple implements LectureDAO {
 	public List<LectureReviewDTO> reviewList(int lecture_idx) {
 		return sqlSession.selectList("lectureContent");
 	}
+   @Override
+	public int reviewInsert(LectureReviewDTO dto) {
+		return sqlSession.insert("lectureContent",dto);
+	}
+   @Override
+	public int lectureLike(LectureLikeDTO dto) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("lectureContent",dto);
+	}
 }
