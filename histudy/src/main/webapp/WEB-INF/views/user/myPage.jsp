@@ -5,12 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지 - Hi, Study</title>
-<link rel="stylesheet" href="css/root.css">
-<link rel="stylesheet" href="css/mypage.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/root.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/loginModal.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css">
 </head>
 <body>
-    <jsp:include page="../header.jsp" />
-
+<%@ include file="../header.jsp" %>
     <div class="mypage-wrapper">
         <div class="mypage-container">
             <aside class="mypage-sidebar">
@@ -90,7 +92,7 @@
         </div>
     </div>
 
-    <jsp:include page="../footer.jsp" />
+ 
 
     <script>
         function readURL(input) {
@@ -103,5 +105,7 @@
             }
         }
     </script>
+    <script src="${pageContext.request.contextPath}/js/user/user.js"></script>
+<%@ include file="../footer.jsp" %>
 </body>
 </html>
