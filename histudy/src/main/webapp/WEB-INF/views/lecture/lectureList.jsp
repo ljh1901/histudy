@@ -13,7 +13,7 @@
 
 <link rel="stylesheet" href="css/lectureDesign/lectureList.css" type="text/css">
 </head>
-<body class="lectureList">
+<body id="lectureListPage" class="lectureList">
 <%@include file="../header.jsp"%>
 <main>
 	<section class="lectureListContainer">
@@ -35,7 +35,7 @@
        </c:if>
        <c:forEach var="dto" items="${lectureLists}">
 		    <td>
-		        <a href="lectureContent.do?idx=${dto.lecture_idx}" class="lecture-card">
+		        <a href="lectureContent.do?lecture_idx=${dto.lecture_idx}" class="lecture-card">
 		            <div class="video-box">
 		            	<video preload="metadata">
 		                    <source src="/histudy/video/${dto.lecture_file}" type="video/mp4">
