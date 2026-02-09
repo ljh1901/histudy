@@ -44,7 +44,7 @@
 		</choose>
 		order by sales_date asc
 	</select>
-	
+
 	<!-- 스터디모임 관련 -->
 	<select id="selectAllStudyList"
 		resultType="com.histudy.study.model.StudyDTO">
@@ -65,11 +65,38 @@
 		ORDER BY
 		s.study_idx DESC
 	</select>
-	
+
 	<delete id="deleteStudy"
 		parameterType="com.histudy.study.model.StudyDTO">
 		delete from study where study_idx = #{study_idx}
 	</delete>
+
+	<!-- 회원 관리 -->
+	<select id="selectAllUserList"
+		resultType="com.histudy.user.model.UserDTO">
+		select
+		user_idx,
+		user_id,
+		user_pw,
+		user_name,
+		user_birthdate,
+		user_tel,
+		user_email,
+		role_idx
+		from usertb
+		order
+		by user_idx DESC
+	</select>
+
+	<select id="getUserCount" resultType="int">
+		select count(*) from usertb
+	</select>
+
+	<delete id="deleteUser" parameterType="int">
+		delete from usertb where
+		user_idx = #{user_idx}
+	</delete>
+
 
 	<!-- 자주 묻는 질문 관련 -->
 	<select id="getFaqCategoryList"
@@ -143,7 +170,7 @@
 		order by
 		layout_idx asc
 	</select>
-	
+
 	<!-- 공지사항 관련 -->
 	<select id="getNoticeCategoryList"
 		resultType="com.histudy.admin.model.NoticeCategoryDTO">
@@ -255,6 +282,28 @@
 		studycafe_ticket where ticket_idx = #{ticket_idx}
 	</delete>
 
+	<select id="selectAllReportList" resultType="com.histudy.admin.model.ReportDTO">
+    SELECT 
+        r.report_idx,
+        r.report_type,
+        r.target_idx,
+        r.reporter_idx,
+        r.report_content,
+        r.report_date,
+        r.report_status,
+        u.user_name as reporter_name,
+        CASE 
+            WHEN r.report_type = 'STUDY' THEN (SELECT study_title FROM study WHERE study_idx = r.target_idx)
+            WHEN r.report_type = 'USER' THEN (SELECT user_name FROM usertb WHERE user_idx = r.target_idx)
+        END as target_name
+    FROM report r
+    JOIN usertb u ON r.reporter_idx = u.user_idx
+    ORDER BY r.report_idx DESC
+</select>
+
+<update id="updateReportStatus" parameterType="int">
+    UPDATE report SET report_status = '완료' WHERE report_idx = #{report_idx}
+</update>
 
 
 </mapper>
