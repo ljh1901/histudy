@@ -9,13 +9,13 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/root.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/header.css">
-<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/loginModal.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/mypage.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/footer.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/header.css">
 </head>
 <body>
 	<%@ include file="../header.jsp"%>
@@ -124,8 +124,6 @@
 			</main>
 		</div>
 	</div>
-
-
 
 	<script>
 		function readURL(input) {

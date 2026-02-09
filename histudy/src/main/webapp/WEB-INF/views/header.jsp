@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/mypage.css">
+
 <header class="header">
 	<div class="header__left">
 		<img src="/histudy/main-img/logo1.png" class="header__logo">
@@ -37,7 +36,7 @@
 
             <button type="button" class="header__login"
                 onclick="toggleUserMenu(event)">
-                My Page <span style="font-size: 10px; margin-left: 5px;"></span>
+                My Page <span style="font-size: 10px;"></span>
             </button>
 
             <ul class="user-menu" id="userMenu">
