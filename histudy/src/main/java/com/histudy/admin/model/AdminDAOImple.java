@@ -7,7 +7,6 @@ import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
 
 import java.util.*;
 
-@Repository
 public class AdminDAOImple implements AdminDAO {
 
     private SqlSessionTemplate session;
