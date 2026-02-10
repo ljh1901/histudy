@@ -1,126 +1,121 @@
 @charset "UTF-8";
-.signupBody{
-      background: linear-gradient(
-     135deg,
-     #FFF6F8 0%,
-     #FFF7F5 40%,
-     #FFF9F7 70%,
-     #FFFDFB 100%
-   );
+
+/* [1] 회원가입 페이지 배경 및 컨테이너 */
+.signupBody {
+	background: linear-gradient(135deg, #FFF6F8 0%, #FFF7F5 40%, #FFF9F7 70%, #FFFDFB
+		100%);
 }
-.signup-container { 
-   width: 400px;
-   margin: 100px auto;
-   font-family: sans-serif; 
-   border: 1px solid #888;
-   border-radius: 10px;
-   padding: 1rem;
-   background-color: white;
-   box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+
+.signup-container {
+	width: 400px;
+	margin: 100px auto;
+	font-family: sans-serif;
+	border: 1px solid #888;
+	border-radius: 10px;
+	padding: 1rem;
+	background-color: white;
+	box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
-.input-group { position: relative; margin-bottom: 12px; }
+
+/* [2] 입력창(Input) 공통 스타일 - 명시도를 높여 아이콘 공간 확보 */
+.input-group {
+	position: relative;
+	margin-bottom: 12px;
+}
+
 .input-group input {
-    width: 100%;
-    padding: 12px 20px;
-    border: 1px solid #ddd;
-    border-radius: 25px;
-    box-sizing: border-box;
-    font-size: 14px;
+	width: 100%;
+	height: 45px;
+	padding: 12px 20px 12px 45px; /* 왼쪽 아이콘 여백 */
+	border: 1px solid #ddd;
+	border-radius: 25px;
+	box-sizing: border-box;
+	font-size: 14px;
+	background-repeat: no-repeat;
+	background-position: 15px center;
+	background-size: 20px auto;
 }
+
+/* [3] 개별 아이콘 경로 설정 (중복 코드 모두 통합) */
+.input-group input.icon-id {
+	background-image: url('/histudy/user-img/user-icon.png');
+}
+
+.input-group input.icon-pw {
+	background-image: url('/histudy/user-img/pw-icon.png');
+}
+
+.input-group input.icon-pw2 {
+	background-image: url('/histudy/user-img/pw2-icon.png');
+}
+
+.input-group input.icon-name {
+	background-image: url('/histudy/user-img/name-icon.png');
+}
+
+.input-group input.icon-tel {
+	background-image: url('/histudy/user-img/tel-icon.png');
+}
+
+.input-group input.icon-email {
+	background-image: url('/histudy/user-img/email-icon.png');
+}
+
+/* [4] 버튼 및 기타 요소 */
 .signup-btn {
-    width: 100%;
-    padding: 13px;
-    background-color: black;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
+	width: 100%;
+	padding: 13px;
+	background-color: black;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	font-weight: bold;
+	margin-top: 10px;
 }
-/* 중복확인 버튼 스타일 */
+
 .check-btn {
-    position: absolute;
-    right: 10px;
-    top: 6px;
-    padding: 6px 15px;
-    border-radius: 20px;
-    border: none;
-    background: black;
-    color: white;
-    font-size: 12px;
-    cursor: pointer;
+	position: absolute;
+	right: 10px;
+	top: 6px;
+	padding: 6px 15px;
+	border-radius: 20px;
+	border: none;
+	background: black;
+	color: white;
+	font-size: 12px;
+	cursor: pointer;
 }
 
-/* 생년월일 그룹 컨테이너 */
+/* [5] 생년월일 선택 박스 */
 .birth-group {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 12px;
+	display: flex;
+	gap: 5px;
+	margin-bottom: 12px;
 }
 
-/* 연, 월, 일 선택 박스 공통 스타일 */
 .birth-select {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 25px; /* 이미지와 동일한 둥근 스타일 */
-    background-color: white;
-    font-size: 13px;
-    outline: none;
-    cursor: pointer;
+	flex: 1;
+	padding: 8px;
+	border: 1px solid #ddd;
+	border-radius: 25px;
+	background-color: white;
+	font-size: 13px;
+	outline: none;
+	cursor: pointer;
 }
 
-/* 선택 박스에 포커스 되었을 때 효과 */
-.birth-select:focus {
-    border-color: #007bff;
-}
-
-/* 공통 스타일: 테두리, 크기, 여백 설정 */
-.input-group input { 
-    width: 100%;
-    height: 45px;
-    padding: 12px 20px 12px 45px !important; /* 아이콘 공간 확보 */
-    border: 1px solid #ddd;
-    border-radius: 25px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    font-size: 14px;
-    background-repeat: no-repeat;
-    background-position: 15px center;
-    background-size: 25px;
-    /* 기본 이미지는 설정하지 않거나 !important를 뺍니다 */
-}
-
-/* 항목별 아이콘: 클래스별로 다른 경로 지정 */
-.icon-id { background-image: url('/histudy/user-img/user-icon.png') !important; }
-.icon-pw { background-image: url('/histudy/user-img/pw-icon.png') !important; }
-.icon-pw2 { background-image: url('/histudy/user-img/pw2-icon.png') !important; }
-.icon-name { background-image: url('/histudy/user-img/name-icon.png') !important; }
-.icon-tel { background-image: url('/histudy/user-img/tel-icon.png') !important; }
-.icon-email { background-image: url('/histudy/user-img/email-icon.png') !important; }
-
-
-.icon-name {
-    background-image: url('/histudy/user-img/name-icon.png') !important;
-    background-size: 30px auto !important; /* 이름 아이콘만 특별히 더 크게 */
-}
-
-/* 비밀번호 일치 확인 아이콘 고정 스타일 */
-.pw-icon-style {
-    position: absolute;
-    left: 15px;         /* 기존 background-position과 동일하게 설정 */
-    top: 50%;           /* 세로 중앙 정렬 */
-    transform: translateY(-50%);
-    width: 25px !important;      /* 아이콘 너비 고정 */
-    height: auto;       /* 비율에 맞춰 높이 조절 */
-    z-index: 10;        /* input보다 위에 보이게 설정 */
-    pointer-events: none; /* 아이콘 클릭 시 input이 선택되도록 설정 */
-    padding-bottom: 13px;
-}
-
-/* 겹침 방지: input의 배경 아이콘(icon-pw2)은 지워줍니다 */
+/* [6] 비밀번호 확인 아이콘 특수 설정 */
 #user_pw_confirm.icon-pw2 {
-    background-image: none !important; 
-    padding-left: 45px !important; /* 아이콘이 들어갈 왼쪽 공간 확보 */
+	background-image: none !important;
+}
+
+.pw-icon-style {
+	position: absolute;
+	left: 15px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 25px;
+	z-index: 10;
+	pointer-events: none;
 }

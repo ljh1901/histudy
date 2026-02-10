@@ -1,107 +1,147 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>마이페이지 - Hi, Study</title>
-<link rel="stylesheet" href="css/root.css">
-<link rel="stylesheet" href="css/mypage.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/root.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/user/loginModal.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/mypage.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/footer.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/header.css">
 </head>
 <body>
-    <jsp:include page="../header.jsp" />
+	<%@ include file="../header.jsp"%>
+	<div class="mypage-wrapper">
+		<div class="mypage-container">
+			<aside class="mypage-sidebar">
+				<nav class="sidebar-nav">
+					<ul>
+						<li class="active"><a
+							href="${pageContext.request.contextPath}/user/myPage.do"> <img
+								src="mypage-img/profile-icon.png" alt="프로필"> 프로필
+						</a></li>
+						<li><a href="#"><img src="mypage-img/dash-icon.png"
+								alt="대시보드"> 대시보드</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/mySchedule.do"> <img
+								src="mypage-img/calendar-icon.png" alt="일정관리"> 일정관리
+						</a></li>
+						<li><a href="#"><img src="mypage-img/cart-icon.png"
+								alt="구매"> 구매 / 혜택</a></li>
+					</ul>
+				</nav>
+			</aside>
 
-    <div class="mypage-wrapper">
-        <div class="mypage-container">
-            <aside class="mypage-sidebar">
-                <nav class="sidebar-nav">
-                    <ul>
-                        <li class="active">
-                            <a href="#"><img src="mypage-img/profile-icon.png" alt="프로필"> 프로필</a>
-                        </li>
-                        <li>
-                            <a href="#"><img src="mypage-img/dash-icon.png" alt="대시보드"> 대시보드</a>
-                        </li>
-                        <li>
-                            <a href="#"><img src="mypage-img/calendar-icon.png" alt="일정관리"> 일정관리</a>
-                        </li>
-                        <li>
-                            <a href="#"><img src="mypage-img/cart-icon.png" alt="구매"> 구매 / 혜택</a>
-                        </li>
-                    </ul>
-                </nav>
-            </aside>
+			<main class="mypage-main">
+				<h2 class="content-title">내 프로필</h2>
 
-            <main class="mypage-main">
-                <h2 class="content-title">내 프로필</h2>
+				<form action="${pageContext.request.contextPath}/updateProfile.do"
+					method="post" enctype="multipart/form-data">
+					<input type="hidden" id="user_idx" value="${user.user_idx}">
+					<div class="profile-card">
+						<div class="profile-image-section">
+							<div class="image-container">
+								<img
+									src="mypage-img/${not empty user.profile_img ? user.profile_img : 'zoro.jpg'}"
+									id="profilePreview">
+							</div>
 
-                <form action="${pageContext.request.contextPath}/updateProfile.do" method="post" enctype="multipart/form-data">
-                    <div class="profile-card">
-                        <div class="profile-image-section">
-                            <div class="image-container">
-                                <img src="mypage-img/${not empty user.profile_img ? user.profile_img : 'zoro.jpg'}" id="profilePreview">
-                            </div>
-                            
-                            <input type="file" name="uploadFile" id="fileInput" style="display:none;" accept="image/*" onchange="readURL(this);">
-                            <button type="button" class="btn-img-change" onclick="document.getElementById('fileInput').click();">변경</button>
-                            
-                            <p class="img-guide">
-                                png, jpg, jpeg의 확장자<br>1MB 이하의 이미지
-                            </p>
-                        </div>
+							<input type="file" name="uploadFile" id="fileInput"
+								style="display: none;" accept="image/*"
+								onchange="readURL(this);">
+							<button type="button" class="btn-img-change"
+								onclick="document.getElementById('fileInput').click();">변경</button>
 
-                        <div class="profile-info-section">
-                            <table class="profile-table">
-                                <tr>
-                                    <th>이름</th>
-                                    <td>${user.user_name}</td>
-                                </tr>
-                                <tr>
-                                    <th>나이</th>
-                                    <td>${user.user_age}세</td>
-                                </tr>
-                                <tr>
-                                    <th>이메일</th>
-                                    <td>${user.user_email}</td>
-                                </tr>
-                                <tr>
-                                    <th>전화번호</th>
-                                    <td>${user.user_tel}</td>
-                                </tr>
-                                <tr>
-                                    <th>자기소개</th>
-                                    <td>
-                                        <textarea name="user_intro" class="user-intro-edit" rows="5" 
-                                            style="width:100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; resize: none;" 
-                                            placeholder="자기소개를 입력해주세요.">${user.user_intro}</textarea>
-                                    </td>
-                                </tr>
-                            </table>
-                            
-                            <div style="text-align: right; margin-top: 20px;">
-                                <button type="submit" style="background-color: #4A90E2; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                                    수정
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </main>
-        </div>
-    </div>
+							<p class="img-guide">
+								png, jpg, jpeg의 확장자<br>1MB 이하의 이미지
+							</p>
+						</div>
 
-    <jsp:include page="../footer.jsp" />
+						<div class="profile-info-section">
+							<table class="profile-table">
+								<tr>
+									<th>이름</th>
+									<td><span class="view-mode">${user.user_name}</span> <input
+										type="text" id="name-input" class="edit-mode"
+										value="${user.user_name}" style="display: none;"></td>
+								</tr>
+								<tr>
+									<th>생년월일</th>
+									<td><span class="view-mode">${user.user_age}세</span> <input
+										type="date" id="birthdate-input" class="edit-mode"
+										value="${user.user_birthdate}" style="display: none;"></td>
+								</tr>
+								<tr>
+									<th>이메일</th>
+									<td><span class="view-mode">${user.user_email}</span> <input
+										type="email" id="email-input" class="edit-mode"
+										value="${user.user_email}" style="display: none;"></td>
+								</tr>
+								<tr>
+									<th>전화번호</th>
+									<td><span class="view-mode">${user.user_tel}</span> <input
+										type="text" id="tel-input" class="edit-mode"
+										value="${user.user_tel}" style="display: none;"></td>
+								</tr>
+								<tr>
+									<th>자기소개</th>
+									<td>
+										<div id="intro-text" class="view-mode user-info-display"
+											style="padding: 10px; line-height: 1.5;">
+											${user.user_intro}</div> <textarea id="intro-input"
+											class="edit-mode user-intro-edit" rows="5"
+											style="display: none; width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; resize: none;">${user.user_intro}</textarea>
+									</td>
+								</tr>
+							</table>
+							<div style="text-align: right; margin-top: 20px;">
+								<div id="view-buttons">
+									<button type="button" onclick="toggleEditMode(true)"
+										style="background-color: #4A90E2; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+										수정하기</button>
+								</div>
 
-    <script>
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profilePreview').src = e.target.result;
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-    </script>
+								<div id="edit-buttons" style="display: none;">
+									<button type="button" onclick="submitProfileUpdate()"
+										style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-right: 5px;">
+										저장</button>
+									<button type="button" onclick="toggleEditMode(false)"
+										style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+										취소</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</form>
+			</main>
+		</div>
+	</div>
+
+	<script>
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					document.getElementById('profilePreview').src = e.target.result;
+				};
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+	</script>
+	<script>
+    // 서버의 절대 경로를 전역 변수로 선언 (예: /histudy)
+    var contextPath = "${pageContext.request.contextPath}";
+</script>
+	<script src="${pageContext.request.contextPath}/js/user/user.js"></script>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>
