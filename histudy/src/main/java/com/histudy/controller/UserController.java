@@ -26,140 +26,178 @@ import com.histudy.user.service.UserService;
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-   
-    // 1. 회원가입 View 이동
-    @GetMapping("/userSignUp.do")
-    public ModelAndView signUpView() {
-        ModelAndView mav = new ModelAndView();
-        java.util.List<Integer> yearList = new java.util.ArrayList<>();
-        for (int i = 2026; i >= 1950; i--) { yearList.add(i); }
-        java.util.List<String> monthList = new java.util.ArrayList<>();
-        for (int i = 1; i <= 12; i++) { monthList.add(String.format("%02d", i)); }
-        java.util.List<String> dayList = new java.util.ArrayList<>();
-        for (int i = 1; i <= 31; i++) { dayList.add(String.format("%02d", i)); }
+	// 1. 회원가입 View 이동
+	@GetMapping("/userSignUp.do")
+	public ModelAndView signUpView() {
+		ModelAndView mav = new ModelAndView();
+		java.util.List<Integer> yearList = new java.util.ArrayList<>();
+		for (int i = 2026; i >= 1950; i--) {
+			yearList.add(i);
+		}
+		java.util.List<String> monthList = new java.util.ArrayList<>();
+		for (int i = 1; i <= 12; i++) {
+			monthList.add(String.format("%02d", i));
+		}
+		java.util.List<String> dayList = new java.util.ArrayList<>();
+		for (int i = 1; i <= 31; i++) {
+			dayList.add(String.format("%02d", i));
+		}
 
-        mav.addObject("yearList", yearList);
-        mav.addObject("monthList", monthList);
-        mav.addObject("dayList", dayList);
-        mav.setViewName("user/userSignUp");
-        return mav;
-    }
+		mav.addObject("yearList", yearList);
+		mav.addObject("monthList", monthList);
+		mav.addObject("dayList", dayList);
+		mav.setViewName("user/userSignUp");
+		return mav;
+	}
 
-    // 2. 회원가입 완료
-    @PostMapping("/userSignUp.do")
-    public String signup(UserDTO dto, HttpServletRequest request) {
-        userService.userSignUp(dto);
-        request.setAttribute("msg", "회원가입 완료");
-        return "redirect:/index.do";
-    }
+	// 2. 회원가입 완료
+	@PostMapping("/userSignUp.do")
+	public String signup(UserDTO dto, HttpServletRequest request) {
+		userService.userSignUp(dto);
+		request.setAttribute("msg", "회원가입 완료");
+		return "redirect:/index.do";
+	}
 
-    // 3. 로그인 View 및 처리
-    @GetMapping("/userSignIn.do")
-    public String userSignInView() { return "user/userSignIn"; }
+	// 3. 로그인 View 및 처리
+	@GetMapping("/userSignIn.do")
+	public String userSignInView() {
+		return "user/userSignIn";
+	}
 
-    @PostMapping("/userSignIn.do")
-    @ResponseBody
-    public String userSignIn(@RequestBody Map<String, String> params, HttpSession session, HttpServletResponse response) {
-        String user_id = params.get("user_id");
-        String user_pwd = params.get("user_pwd");
-        String remember_id = params.get("remember_id");
-        int result = userService.userSignIn(user_id, com.histudy.security.PwdModule.securityPwd(user_pwd));
-        
-        if (result == 1) {
-            UserDTO loginUser = userService.userInfo(user_id); 
-            session.setAttribute("user_id", user_id);
-            session.setAttribute("user_idx", loginUser.getUser_idx());
-            session.setAttribute("user_name", loginUser.getUser_name());
-            // [중요] 세션에 DTO 객체를 저장해둬야 마이페이지 수정 시 편리합니다.
-            session.setAttribute("user", loginUser); 
+	@PostMapping("/userSignIn.do")
+	@ResponseBody
+	public String userSignIn(@RequestBody Map<String, String> params, HttpSession session,
+			HttpServletResponse response) {
+		String user_id = params.get("user_id");
+		String user_pwd = params.get("user_pwd");
+		String remember_id = params.get("remember_id");
+		int result = userService.userSignIn(user_id, com.histudy.security.PwdModule.securityPwd(user_pwd));
 
-            if (remember_id != null) {
-                Cookie ck = new Cookie("id", user_id);
-                ck.setMaxAge(24 * 60 * 60 * 30);
-                response.addCookie(ck);
-            } else {
-                Cookie ck = new Cookie("id", user_id);
-                ck.setMaxAge(0);
-                response.addCookie(ck);
-            }
-            return "로그인 성공";
-        } else {
-            return "아이디 또는 비밀번호를 잘못입력하셨습니다.";
-        }
-    }
+		if (result == 1) {
+			UserDTO loginUser = userService.userInfo(user_id);
+			session.setAttribute("user_id", user_id);
+			session.setAttribute("user_idx", loginUser.getUser_idx());
+			session.setAttribute("user_name", loginUser.getUser_name());
+			// [중요] 세션에 DTO 객체를 저장해둬야 마이페이지 수정 시 편리합니다.
+			session.setAttribute("user", loginUser);
 
-    // 4. 로그아웃 및 중복체크
-    @RequestMapping(value = "/userLogout.do", method = RequestMethod.GET)
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/index.do";
-    }
+			if (remember_id != null) {
+				Cookie ck = new Cookie("id", user_id);
+				ck.setMaxAge(24 * 60 * 60 * 30);
+				response.addCookie(ck);
+			} else {
+				Cookie ck = new Cookie("id", user_id);
+				ck.setMaxAge(0);
+				response.addCookie(ck);
+			}
+			return "로그인 성공";
+		} else {
+			return "아이디 또는 비밀번호를 잘못입력하셨습니다.";
+		}
+	}
 
-    @GetMapping("/userCheckId.do")
-    @ResponseBody
-    public String idCheck(String user_id) {
-        return String.valueOf(userService.userCheckId(user_id));
-    }
+	// 4. 로그아웃 및 중복체크
+	@RequestMapping(value = "/userLogout.do", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/index.do";
+	}
 
-    @GetMapping("/userCheckEmail.do")
-    @ResponseBody
-    public String emailCheck(String user_email) {
-        return String.valueOf(userService.userCheckEmail(user_email));
-    }
+	@GetMapping("/userCheckId.do")
+	@ResponseBody
+	public String idCheck(String user_id) {
+		return String.valueOf(userService.userCheckId(user_id));
+	}
 
-    // 5. 마이페이지 조회
-    @RequestMapping("/myPage.do")
-    public ModelAndView myPage(HttpSession session) {
-        String userId = (String) session.getAttribute("user_id");
-        UserDTO dto = userService.userInfo(userId);
-        
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("user", dto);
-        mav.setViewName("user/myPage");
-        return mav;
-    }
+	@GetMapping("/userCheckEmail.do")
+	@ResponseBody
+	public String emailCheck(String user_email) {
+		return String.valueOf(userService.userCheckEmail(user_email));
+	}
 
-    @RequestMapping("/updateProfile.do")
-    @ResponseBody
-    public String updateProfile(
-    		@RequestParam(value="uploadFile", required=false) MultipartFile uploadFile, UserDTO updatedData, HttpSession session) {
-        UserDTO user = (UserDTO) session.getAttribute("user");
-        if (user == null) return "fail";
+	// 5. 마이페이지 조회
+	@RequestMapping("/myPage.do")
+	public ModelAndView myPage(HttpSession session) {
+		String userId = (String) session.getAttribute("user_id");
+		UserDTO dto = userService.userInfo(userId);
 
-        // 1. 텍스트 정보 업데이트
-        user.setUser_name(updatedData.getUser_name());
-        user.setUser_birthdate(updatedData.getUser_birthdate());
-        user.setUser_email(updatedData.getUser_email());
-        user.setUser_tel(updatedData.getUser_tel());
-        user.setUser_intro(updatedData.getUser_intro());
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("user", dto);
+		mav.setViewName("user/myPage");
+		return mav;
+	}
 
-        // 1. 이미지 파일이 있으면 저장 (기존 로직 활용)
-     // UserController.java의 이미지 저장 부분 수정
-        if (uploadFile != null && !uploadFile.isEmpty()) {
-            String savePath = session.getServletContext().getRealPath("/mypage-img/");
-            String fileName = uploadFile.getOriginalFilename();
-            
-            // 경로와 파일명 사이에 File.separator 또는 "/" 추가 필요
-            File saveFile = new File(savePath, fileName); 
-            
-            try {
-                uploadFile.transferTo(saveFile);
-                user.setProfile_img(fileName);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        int result = userService.updateProfile(user);
+	@RequestMapping("/updateProfile.do")
+	@ResponseBody
+	public String updateProfile(@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
+			UserDTO updatedData, HttpSession session) {
+		UserDTO user = (UserDTO) session.getAttribute("user");
+		if (user == null)
+			return "fail";
 
-        if(result > 0) {
-            session.setAttribute("user", user); // 세션 갱신
-            return "success"; // AJAX 성공 메시지
-        } else {
-            return "fail";
-        }
-    }
-    
+		// 1. 텍스트 정보 업데이트
+		user.setUser_name(updatedData.getUser_name());
+		user.setUser_birthdate(updatedData.getUser_birthdate());
+		user.setUser_email(updatedData.getUser_email());
+		user.setUser_tel(updatedData.getUser_tel());
+		user.setUser_intro(updatedData.getUser_intro());
+
+		// 1. 이미지 파일이 있으면 저장 (기존 로직 활용)
+		// UserController.java의 이미지 저장 부분 수정
+		if (uploadFile != null && !uploadFile.isEmpty()) {
+			String savePath = session.getServletContext().getRealPath("/mypage-img/");
+			String fileName = uploadFile.getOriginalFilename();
+
+			// 경로와 파일명 사이에 File.separator 또는 "/" 추가 필요
+			File saveFile = new File(savePath, fileName);
+
+			try {
+				uploadFile.transferTo(saveFile);
+				user.setProfile_img(fileName);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		int result = userService.updateProfile(user);
+
+		if (result > 0) {
+			session.setAttribute("user", user); // 세션 갱신
+			return "success"; // AJAX 성공 메시지
+		} else {
+			return "fail";
+		}
+	}
+
+	@PostMapping("userFindId.do")
+	@ResponseBody
+	public String userFindId(@RequestBody Map<String, String> params) {
+		String user_name = params.get("user_name");
+		String user_tel = params.get("user_tel");
+		String foundId = userService.userFindId(user_name, user_tel);
+		return (foundId != null) ? foundId : "fail";
+	}
+
+	@GetMapping("/userFindId.do")
+	public String userFindIdView() {
+		return "user/userFindId";
+	}
+	
+	@PostMapping("/userFindPw.do")
+	@ResponseBody
+	public String userFindPw(@RequestBody Map<String, String> params) {
+		String id = params.get("user_id");
+		String name = params.get("user_name");
+		String tel = params.get("user_tel");
+	
+		String result = userService.userFindPw(id, name, tel);
+		return (result != null) ? result : "fail";
+	}
+	
+	@GetMapping("/userFindPw.do")
+	public String userFindPwView() {
+		return "user/userFindPw";
+	}
 }

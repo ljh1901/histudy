@@ -2,7 +2,6 @@ package com.histudy.user.model;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
-
 public class UserDAOImple implements UserDAO {
 
 	private SqlSessionTemplate sqlSession;
@@ -31,22 +30,37 @@ public class UserDAOImple implements UserDAO {
 	public int userCheckEmail(String user_email) {
 		return sqlSession.selectOne("userCheckEmailSQL", user_email);
 	}
+
 //마이페이지 관련
 	@Override
 	public UserDTO userInfo(String user_id) {
-	
+
 		return sqlSession.selectOne("mypage.userInfoSQL", user_id);
 	}
-	
-	
+
 	@Override
 	public int updateProfile(UserDTO dto) {
-	    // 1. mypage 테이블 (자기소개, 사진) 수정
-	    return sqlSession.update("mypage.updateProfileSQL", dto);
+		// 1. mypage 테이블 (자기소개, 사진) 수정
+		return sqlSession.update("mypage.updateProfileSQL", dto);
 	}
 
 	// [추가] usertb 테이블 (이름, 이메일, 전화번호) 수정 메서드
 	public int updateUserTb(UserDTO dto) {
-	    return sqlSession.update("mypage.updateUserTbSQL", dto);
+		return sqlSession.update("mypage.updateUserTbSQL", dto);
+	}
+
+	@Override
+	public String userFindId(UserDTO dto) {
+		return sqlSession.selectOne("com.histudy.user.userFindIdSQL", dto);
+	}
+
+	@Override
+	public int userCheckPw(UserDTO dto) {
+		return sqlSession.selectOne("com.histudy.user.userFindPwSQL", dto);
+	}
+
+	@Override
+	public int userUpdatePw(UserDTO dto) {
+		return sqlSession.update("com.histudy.user.userUpdatePwSQL", dto);
 	}
 }

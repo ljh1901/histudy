@@ -285,4 +285,50 @@ function submitProfileUpdate() {
         console.error("수정 오류:", err);
         alert('서버 통신 오류가 발생했습니다.');
     });
+    }
+    /** 아이디 찾기 함수 */
+    function findUserId() {
+    	var name = document.getElementById('find_name').value;
+    	var tel = document.getElementById('find_tel').value;
+    	
+    	if(!name || !tel) {
+    	alert("이름과 전화번호 모두 입력");
+    	return;
+    }
+    fetch("userFindId.do", {
+    method:"POST",
+    headers: {"Content-Type" : "application/json" },
+    body: JSON.stringify({
+    	user_name : name,
+    	user_tel: tel
+    	})
+    })
+    .then(res => res.text())
+    .then(data => {
+    if(data === "fail") {
+    alert("일치하는 정보가 없습니다");
+    } else{
+    	alert("찾으시는 아이디는 ["+data+"]입니다");
+    }
+    })
+    .catch(err=> console.error("아이디찾기 오류:",err));
+    
+    /** 비밀번호 찾기 함수 */
+    function findUserPw() {
+    const id = document.getElementById('find_pw_id').value;
+    const name = document.getElementById('find_pw_name').value;
+    const tel = document.getElementById('find_pw_tel').value;
+
+    fetch("userFindPw.do", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: id, user_name: name, user_tel: tel })
+    })
+    .then(res => res.text())
+    .then(data => {
+        if (data === "fail") { alert("정보가 일치하지 않습니다."); }
+        else { alert("임시 비밀번호가 발송되었습니다: [" + data + "]"); }
+    });
+}
+    
 } 
