@@ -10,7 +10,6 @@
 <link rel="stylesheet" type="text/css" href="/histudy/css/header.css">
 <link rel="stylesheet" type="text/css" href="/histudy/css/footer.css">
 <link rel="stylesheet" type="text/css" href="/histudy/css/root.css">
-
 <link rel="stylesheet" href="css/lectureDesign/lectureList.css" type="text/css">
 </head>
 <body id="lectureListPage" class="lectureList">
@@ -49,7 +48,7 @@
 		    </td>
 		    
 		    <c:set var="count" value="${count + 1}" />
-		    <c:if test="${count % 3 == 0}">
+		    <c:if test="${count % 4 == 0}">
 		        </tr><tr>
 		    </c:if>
 		</c:forEach>
