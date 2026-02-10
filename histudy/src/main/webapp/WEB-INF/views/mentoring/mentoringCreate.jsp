@@ -283,83 +283,89 @@
   }
 
   /* 스케줄 */
- const selectedSlots = new Set();
-  const TIMES = ["14:00","15:00","16:00","17:00","18:00","19:00","20:00"];
-  function onSlotClick(td){
-	  td.style.background="#c9ffbf";
-	  console.log("onSlotClick fired", td.dataset.day, td.dataset.time, document.getElementById("session_minutes")?.value);
-	
-    const minutes = parseInt(document.getElementById("session_minutes").value || "0", 10);
-    if(!minutes){
-      alert("먼저 1회 시간을 선택해 주세요.");
-      return;
-    }
+const selectedSlots = new Set();
 
-    const blocks = Math.ceil(minutes / 60);
-    const day = td.dataset.day;
-    const startTime = td.dataset.time;
+function onSlotClick(td) {
+  // 1. data 속성 가져오기 (dataset 사용 권장)
+  const day = td.dataset.day;
+  const time = td.dataset.time;
 
-    const startIdx = TIMES.indexOf(startTime);
-    if(startIdx < 0) return;
-
-    if(startIdx + blocks > TIMES.length){
-      alert("선택한 시작 시간으로는 설정한 시간만큼 채울 수 없어요.");
-      return;
-    }
-
-    const keys = [];
-    for(let i = startIdx; i < startIdx + blocks; i++){
-      keys.push(`${day}_${TIMES[i]}`);
-    }
-
-    const allSelected = keys.every(k => selectedSlots.has(k));
-
-    keys.forEach(k => {
-      const [d, t] = k.split("_");
-      const cell = document.querySelector(`.slot[data-day="${d}"][data-time="${t}"]`);
-      if(!cell) return;
-
-      if(allSelected){
-        selectedSlots.delete(k);
-        cell.classList.remove("selected");
-      }else{
-        selectedSlots.add(k);
-        cell.classList.add("selected");
-        td.style.background="#c9ffbf";
-      }
-    });
-
-    const arr = Array.from(selectedSlots).map(k => {
-      const [day, time] = k.split("_");
-      return { day, time };
-    });
-    document.getElementById("schedule_json").value = JSON.stringify(arr);
+  // 2. 값이 없으면 실행 중단
+  if (!day || !time) {
+    console.error("데이터 속성이 누락되었습니다:", td);
+    return;
   }
+
+  const key = day + "_" + time;
+
+  // 3. Set 업데이트 및 클래스 토글
+  if (selectedSlots.has(key)) {
+    selectedSlots.delete(key);
+    td.classList.remove("selected");
+  } else {
+    selectedSlots.add(key);
+    td.classList.add("selected");
+  }
+
+  // 4. JSON 변환 및 input 저장
+  const arr = Array.from(selectedSlots).map(k => {
+    const [d, t] = k.split("_");
+    return { day: d, time: t };
+  });
+
+  document.getElementById("schedule_json").value = JSON.stringify(arr);
+  
+  // 디버깅용 로그
+  console.log("현재 선택된 슬롯 수:", selectedSlots.size);
+  console.log("JSON 데이터:", document.getElementById("schedule_json").value);
+}
+
 
   /* 최종 제출 */
-  function submitMentoringForm(){
-    const phone = document.querySelector("input[name='contact_phone_public']").value.trim();
-    const email = document.querySelector("input[name='contact_email_public']").value.trim();
-    const sc = document.getElementById("sc_idx").value;
-    const title = document.querySelector("input[name='mentoring_title']").value.trim();
-    const jobGroup = document.querySelector("input[name='job_group']").value.trim();
-    const jobRole = document.querySelector("input[name='job_role']").value.trim();
-    const career = document.querySelector("input[name='career_years']").value.trim();
-    const session = document.getElementById("session_minutes").value;
-    const desc = document.querySelector("textarea[name='description']").value.trim();
+ function submitMentoringForm(){
+  const phone = document.querySelector("input[name='contact_phone_public']").value.trim();
+  const email = document.querySelector("input[name='contact_email_public']").value.trim();
+  const sc = document.getElementById("sc_idx").value;
+  const title = document.querySelector("input[name='mentoring_title']").value.trim();
+  const jobGroup = document.querySelector("input[name='job_group']").value.trim();
+  const jobRole = document.querySelector("input[name='job_role']").value.trim();
+  const career = document.querySelector("input[name='career_years']").value.trim();
+  const sessionNum = parseInt(document.getElementById("session_minutes").value || "0", 10);
+  const desc = document.querySelector("textarea[name='description']").value.trim();
 
-    if(!phone){ alert("연락 가능한 번호를 입력해 주세요."); return; }
-    if(!email){ alert("연락 가능한 이메일을 입력해 주세요."); return; }
-    if(!sc){ alert("카테고리를 선택해 주세요."); return; }
-    if(!title){ alert("멘토링명을 입력해 주세요."); return; }
-    if(!jobGroup || !jobRole || !career){ alert("직군/직무/경력을 입력해 주세요."); return; }
-    if(!session){ alert("1회 시간을 선택해 주세요."); return; }
-    if(selectedSlots.size === 0){ alert("스케줄을 1개 이상 선택해 주세요."); return; }
-    if(!desc){ alert("멘토링 상세 설명을 입력해 주세요."); return; }
+  if(!phone){ alert("연락 가능한 번호를 입력해 주세요."); return; }
+  if(!email){ alert("연락 가능한 이메일을 입력해 주세요."); return; }
+  if(!sc){ alert("카테고리를 선택해 주세요."); return; }
+  if(!title){ alert("멘토링명을 입력해 주세요."); return; }
+  if(!jobGroup || !jobRole || !career){ alert("직군/직무/경력을 입력해 주세요."); return; }
+  if(sessionNum === 0){ alert("1회 시간을 선택해 주세요."); return; }
+  if(selectedSlots.size === 0){ alert("스케줄을 1개 이상 선택해 주세요."); return; }
 
-    document.getElementById("mentoringOpenForm").submit();
+  const needSlots = sessionNum / 60;
+
+  console.log("selectedSlots.size =", selectedSlots.size);
+  console.log("selectedSlots =", Array.from(selectedSlots));
+  console.log("schedule_json =", document.getElementById("schedule_json").value);
+
+  if(selectedSlots.size < needSlots){
+    alert(`${needSlots}칸(${sessionNum}분)을 선택해야 합니다. 현재 선택: ${selectedSlots.size}칸`);
+    return;
   }
+
+  if(!desc){ alert("멘토링 상세 설명을 입력해 주세요."); return; }
+
+  document.getElementById("mentoringOpenForm").submit();
+}
+
+  
 </script>
+
+<c:if test="${not empty msg}">
+  <script>
+    alert("${msg}");
+  </script>
+</c:if>
+
 
 </section>
 
