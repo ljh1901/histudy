@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 찾기</title>
-<link rel="stylesheet" href="css/userSignIn.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/userSignIn.css">
 <script src="${pageContext.request.contextPath}/js/user/user.js"></script>
 </head>
 <body>

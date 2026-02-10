@@ -9,7 +9,7 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/root.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/loginModal.css">
+	href="${pageContext.request.contextPath}/css/user/loginModal.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/mypage.css">
 <link rel="stylesheet"
@@ -45,6 +45,7 @@
 
 				<form action="${pageContext.request.contextPath}/updateProfile.do"
 					method="post" enctype="multipart/form-data">
+					<input type="hidden" id="user_idx" value="${user.user_idx}">
 					<div class="profile-card">
 						<div class="profile-image-section">
 							<div class="image-container">
@@ -136,6 +137,10 @@
 			}
 		}
 	</script>
+	<script>
+    // 서버의 절대 경로를 전역 변수로 선언 (예: /histudy)
+    var contextPath = "${pageContext.request.contextPath}";
+</script>
 	<script src="${pageContext.request.contextPath}/js/user/user.js"></script>
 	<%@ include file="../footer.jsp"%>
 </body>

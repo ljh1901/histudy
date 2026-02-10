@@ -163,12 +163,16 @@ public class UserController {
 		}
 		int result = userService.updateProfile(user);
 
-		if (result > 0) {
-			session.setAttribute("user", user); // 세션 갱신
-			return "success"; // AJAX 성공 메시지
-		} else {
-			return "fail";
-		}
+        if (result > 0) {
+            // 성공 시 리턴
+            UserDTO loginUser = (UserDTO) session.getAttribute("user");
+            UserDTO updatedUser = userService.userInfo(loginUser.getUser_id()); 
+            session.setAttribute("user", updatedUser); 
+            return "success";
+        } else {
+            // 실패 시 리턴
+            return "fail";
+        }
 	}
 
 	@PostMapping("userFindId.do")

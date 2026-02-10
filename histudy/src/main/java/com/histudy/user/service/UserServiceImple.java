@@ -75,7 +75,7 @@ public class UserServiceImple implements UserService {
 	    int res2 = dao.updateProfile(dto);
 	    
 	    // 두 작업의 결과를 종합하여 리턴
-	    return (res1 > 0 && res2 > 0) ? 1 : 0;
+	    return (res1 > 0 || res2 > 0) ? 1 : 0;
 	}
 	
 	@Override

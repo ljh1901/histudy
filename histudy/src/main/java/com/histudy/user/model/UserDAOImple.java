@@ -56,7 +56,7 @@ public class UserDAOImple implements UserDAO {
 
 	@Override
 	public int userCheckPw(UserDTO dto) {
-		return sqlSession.selectOne("com.histudy.user.userFindPwSQL", dto);
+		return sqlSession.selectOne("com.histudy.user.userCheckPwSQL", dto);
 	}
 
 	@Override
