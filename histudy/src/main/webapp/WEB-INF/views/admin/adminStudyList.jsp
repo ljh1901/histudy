@@ -6,8 +6,9 @@
 <meta charset="UTF-8">
 <title>스터디 모임 관리</title>
 <link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+<%@ include file="adminCheck.jsp" %>
 </head>
-<body>
+<body id="adminStudyList">
     <div class="admin__study__container">
         <div class="admin__header">
             <h1>스터디 모임 관리</h1>

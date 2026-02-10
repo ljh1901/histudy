@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>요금제 등록 - ${param.studycafe_name}</title>
 <link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+<%@ include file="adminCheck.jsp" %>
 <style>
 table {
 	width: 100%;
@@ -49,7 +50,7 @@ select, input {
 }
 </style>
 </head>
-<body>
+<body id="adminCafePrice">
 	<fieldset>
 		<legend>
 			<strong>관리 중인 카페 : ${param.studycafe_name}</strong>

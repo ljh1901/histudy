@@ -3,10 +3,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
-<head>
+<head id="adminNoticeDetail">
     <meta charset="UTF-8">
     <title>공지사항 상세조회</title>
     <link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+    <%@ include file="adminCheck.jsp" %>
 </head>
 <body>
     <h1>공지사항 상세조회</h1>

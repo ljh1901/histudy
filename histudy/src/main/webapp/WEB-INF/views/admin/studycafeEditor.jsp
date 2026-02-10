@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>StudyCafe Editor - ${param.studycafe_name}</title>
 <link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+<%@ include file="adminCheck.jsp" %>
 <style>
     html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
     body { background: #F1F5F9; font-family: 'Pretendard', Arial, sans-serif; display: flex; flex-direction: column; }
@@ -46,7 +47,7 @@
     text { font-size: 11px; font-weight: bold; pointer-events: none; user-select: none; fill: #1E293B; }
 </style>
 </head>
-<body>
+<body id="studycafeEditor">
 
 <div class="editor-wrap">
     <fieldset>

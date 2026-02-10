@@ -6,8 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+<%@ include file="adminCheck.jsp" %>
 </head>
-<body>
+<body id="adminCafeInquiryList">
 <fieldset>
         <legend><strong>관리 중인 카페 : ${param.studycafe_name}</strong></legend>
         <div class="adminCafe">

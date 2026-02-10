@@ -122,4 +122,8 @@ public class AdminController {
 	public String adminInquiryList() {
 		return ("admin/adminInquiryList");
 	}
+	@GetMapping("/adminInquiryDetail.do")
+	public String adminInquiryDetail() {
+		return ("admin/adminInquiryDetail");
+	}
 }

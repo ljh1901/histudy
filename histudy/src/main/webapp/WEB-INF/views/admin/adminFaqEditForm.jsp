@@ -6,8 +6,9 @@
 <meta charset="UTF-8">
 <title>자주 묻는 질문 수정</title>
 <link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+<%@ include file="adminCheck.jsp" %>
 </head>
-<body>
+<body id="adminFaqEditForm">
     <h1>자주 묻는 질문 수정</h1>
 	
     <form action="adminFaqEditOk.do" method="post">

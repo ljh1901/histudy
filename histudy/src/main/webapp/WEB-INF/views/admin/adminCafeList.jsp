@@ -6,11 +6,12 @@
 <meta charset="UTF-8">
 <title>스터디 카페 관리자</title>
 <link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+<%@ include file="adminCheck.jsp" %>
 <style>
 
 </style>
 </head>
-<body>
+<body id="adminCafeList">
 <h1>입점 카페 목록</h1>	
 <fieldset class="adminCafe">
     <c:forEach var="cafe" items="${cafeList}">

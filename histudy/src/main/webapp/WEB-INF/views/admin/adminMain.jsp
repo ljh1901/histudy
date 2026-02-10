@@ -5,8 +5,9 @@
 <meta charset="UTF-8">
     <title>관리자 메인</title>
     <link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+    <%@ include file="adminCheck.jsp" %>
 </head>
-<body>
+<body id="adminMain">
 <form>
     <section class="admin">
         <ul class="admin__menu"> <li>대시보드</li>

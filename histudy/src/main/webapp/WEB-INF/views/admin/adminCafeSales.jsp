@@ -9,9 +9,10 @@
 <title>매출 통계</title>
 <link rel="stylesheet" href="css/admin_layout.css" type="text/css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<%@ include file="adminCheck.jsp" %>
 
 </head>
-<body>
+<body id="adminCafeSales">
 	<fieldset>
         <legend><strong >관리 중인 카페 : ${param.studycafe_name}</strong></legend>
         <div class="adminCafe">

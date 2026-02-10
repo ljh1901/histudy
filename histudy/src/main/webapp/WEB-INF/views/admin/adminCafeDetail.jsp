@@ -6,11 +6,9 @@
 <meta charset="UTF-8">
 <title>카페 관리 상세</title>
 <link rel="stylesheet" href="css/admin_layout.css" type="text/css">
-<style>
-
-</style>
+<%@ include file="adminCheck.jsp" %>
 </head>
-<body>
+<body id="adminCafeDetail">
     <fieldset>
 	<legend><strong>관리 중인 카페 : ${param.studycafe_name}</strong></legend>
         <div class="adminCafe">

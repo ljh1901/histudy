@@ -71,6 +71,7 @@ public class UserController {
             session.setAttribute("user_id", user_id);
             session.setAttribute("user_idx", loginUser.getUser_idx());
             session.setAttribute("user_name", loginUser.getUser_name());
+            session.setAttribute("role_idx", loginUser.getRole_idx());
             // [중요] 세션에 DTO 객체를 저장해둬야 마이페이지 수정 시 편리합니다.
             session.setAttribute("user", loginUser); 
 
