@@ -4,28 +4,47 @@ var isEmailChecked = false;
 
 /** 1. 로그인 처리 함수  */
 function loginCheck() {
-
-	var userId = document.login.user_id.value;
-    var userPwd = document.login.user_pwd.value;
-    var rememberId = document.login.rememberId.checked ? "on" : null;
+    var loginForm = document.login;
+    var userIdField = loginForm.user_id;
+    var userPwdField = loginForm.user_pwd;
+    var rememberId = loginForm.rememberId.checked ? "on" : null;
 
     return fetch("userSignIn.do", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+            "Content-Type": "application/json",
+            "Pragma": "no-cache",      // 캐시 방지
+            "Cache-Control": "no-cache" // 캐시 방지
+        },
         body: JSON.stringify({
-            user_id: userId,
-            user_pwd: userPwd,
+            user_id: userIdField.value,
+            user_pwd: userPwdField.value,
             remember_id: rememberId
         })
     })
     .then(function(res) { return res.text(); })
     .then(function(data) {
-        alert(data);
-        location.reload();
+        // 공백 제거 후 정확히 success인지 비교
+        var result = data.trim();
+        
+        if (result === "로그인 성공") {
+        	alert(result);
+            // 성공 시 리다이렉트 (이동 전 세션을 확실히 잡기 위해)
+            location.replace(contextPath + "/main.do"); 
+        } else {
+            alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+            // 필드 초기화
+            userIdField.value = "";
+            userPwdField.value = "";
+            userIdField.focus();
+        }
     })
-    .catch(function(err) { console.error("로그인 중 오류 발생:", err); });
+    .catch(function(err) { 
+        console.error("로그인 중 오류 발생:", err); 
+        // 네트워크 에러 등이 났을 때는 안전하게 새로고침 유도
+        location.reload(); 
+    });
 }
-
 
 /** 2. 쿠키 읽기 함수 (안전한 버전) */
 function getCookie(name) {
@@ -252,37 +271,95 @@ function toggleEditMode(isEdit) {
  */
 function submitProfileUpdate() {
     const formData = new FormData();
-    // [확인] JSP의 ID와 일치해야 합니다.
-    formData.append('user_name', document.getElementById('name-input').value);
-    formData.append('user_birthdate', document.getElementById('birthdate-input').value);
-    formData.append('user_email', document.getElementById('email-input').value);
-    formData.append('user_tel', document.getElementById('tel-input').value);
-    formData.append('user_intro', document.getElementById('intro-input').value);
+    const userIdx = document.getElementById('user_idx').value;
+    formData.append('user_idx', userIdx);
+    
+    // 안전한 엘리먼트 값 가져오기
+    const getValue = (id) => document.getElementById(id) ? document.getElementById(id).value : "";
+    
+    formData.append('user_name', getValue('name-input'));
+    formData.append('user_birthdate', getValue('birthdate-input'));
+    formData.append('user_email', getValue('email-input'));
+    formData.append('user_tel', getValue('tel-input'));
+    formData.append('user_intro', getValue('intro-input'));
     
     const fileInput = document.getElementById('fileInput');
-    if (fileInput.files && fileInput.files[0]) {
+    if (fileInput && fileInput.files[0]) {
         formData.append('uploadFile', fileInput.files[0]);
     }
 
-    // 경로 추출 로직 개선
-    const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
-
-    fetch(contextPath + "/updateProfile.do", {
+   // [변경 1] 요청 주소를 절대 경로로 변경
+    fetch(contextPath + "/updateProfile.do", { 
         method: 'POST',
         body: formData
     })
-    .then(function(response) { return response.text(); })
-    .then(function(data) {
+    .then(res => res.text())
+    .then(data => {
         if (data.trim() === 'success') {
             alert('프로필이 성공적으로 수정되었습니다.');
-            // 현재 페이지로 다시 이동하여 강제 갱신
-            location.href = location.href; 
+            
+            // [변경 2] 이동 주소도 절대 경로로 변경
+            location.href = contextPath + "/myPage.do"; 
+            
         } else {
             alert('수정에 실패했습니다.');
         }
     })
-    .catch(function(err) {
-        console.error("수정 오류:", err);
-        alert('서버 통신 오류가 발생했습니다.');
-    });
+    .catch(err => console.error("오류:", err));
+}
+    /** 아이디 찾기 함수 */
+    function findUserId() {
+    	var name = document.getElementById('find_name').value;
+    	var tel = document.getElementById('find_tel').value;
+    	
+    	if(!name || !tel) {
+    	alert("이름과 전화번호 모두 입력");
+    	return;
+    }
+    fetch("userFindId.do", {
+    method:"POST",
+    headers: {"Content-Type" : "application/json" },
+    body: JSON.stringify({
+    	user_name : name,
+    	user_tel: tel
+    	})
+    })
+    .then(res => res.text())
+    .then(data => {
+    if(data === "fail") {
+    alert("일치하는 정보가 없습니다");
+    } else{
+    	alert("찾으시는 아이디는 ["+data+"]입니다");
+    }
+    })
+    .catch(err=> console.error("아이디찾기 오류:",err));
+    }
+/** 비밀번호 찾기 함수 */
+function findUserPw() {
+    const id = document.getElementById('find_pw_id').value;
+    const name = document.getElementById('find_pw_name').value;
+    const tel = document.getElementById('find_pw_tel').value;
+
+    // [추가된 유효성 검사] 하나라도 빈 칸이면 서버에 보내지 않음
+    if (!id || !name || !tel) {
+        alert("아이디, 이름, 전화번호를 모두 입력해주세요.");
+        return; // 함수 종료
+    }
+
+    fetch("userFindPw.do", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: id, user_name: name, user_tel: tel })
+    })
+    .then(res => res.text())
+    .then(data => {
+        if (data === "fail") { 
+            alert("입력하신 정보와 일치하는 회원이 없습니다."); 
+        } else { 
+            alert("임시 비밀번호가 발급되었습니다: [" + data + "]\n로그인 후 비밀번호를 반드시 변경해주세요."); 
+            location.href = "userSignIn.do"; // 로그인 페이지로 이동
+        }
+    })
+    .catch(err => console.error("비밀번호 찾기 오류:", err));
+
 } 
