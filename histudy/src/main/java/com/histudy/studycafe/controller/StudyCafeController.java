@@ -22,10 +22,12 @@ public class StudyCafeController {
 	
 	@Autowired
 	private StudycafeSerivce studycafeService;
+	
 	@GetMapping
 	public ResponseEntity<List<TicketJoinTicketCategoryDTO>> ticketInfo(@RequestParam int ticket_category_idx) {
+		System.out.println(ticket_category_idx);
 		List<TicketJoinTicketCategoryDTO> data = studycafeService.ticketInfo(ticket_category_idx);
-		ResponseEntity<List<TicketJoinTicketCategoryDTO>> re = new ResponseEntity<List<TicketJoinTicketCategoryDTO>>(HttpStatus.OK);
+		ResponseEntity<List<TicketJoinTicketCategoryDTO>> re = new ResponseEntity<List<TicketJoinTicketCategoryDTO>>(data,HttpStatus.OK);
 		return re;
 	}
 	@PostMapping

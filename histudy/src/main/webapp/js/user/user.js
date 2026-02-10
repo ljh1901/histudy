@@ -1,3 +1,44 @@
+<<<<<<< HEAD
+    // 2. 로그인 함수 
+	function loginCheck(){
+		return fetch("userSignIn.do", 
+		{method: "POST",
+		 headers: {
+		 	"Content-Type":"application/json"	
+		 },
+		 body:JSON.stringify({
+		 	user_id: document.login.user_id.value,
+		 	user_pwd: document.login.user_pwd.value,
+		 	remember_id: document.login.rememberId.checked ? "on" : null
+		 })
+		})
+		.then(function(res){
+			return res.text();
+		})
+		.then(function(data){
+			alert(data);
+			location.reload();
+		})
+	
+	}	
+
+    // [2] 로그인 모달 열기 및 쿠키 처리 통합
+
+function getCookie(name){
+
+    const cookies = document.cookie.split(";");
+
+    for(let i=0; i<cookies.length; i++){
+
+        const cookie = cookies[i].trim();
+
+        if(cookie.indexOf(name + "=") === 0){
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return null;
+}
+=======
 /* === 전역 변수 (상태 관리) === */
 var contextPath = contextPath || "/histudy";
 var isIdChecked = false;
@@ -79,6 +120,7 @@ function getCookie(name) {
 }
 
 /** 3. 로그인 모달 열기 함수 */
+>>>>>>> develop2
 function openSignInModal() {
     fetch("userSignIn.do")
         .then(function(response) {
