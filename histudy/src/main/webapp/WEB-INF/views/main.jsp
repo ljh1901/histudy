@@ -16,11 +16,13 @@ rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/histudy/css/root.css">
 <link rel="stylesheet" type="text/css"
 	href="/histudy/css/user/loginModal.css">
+<script src="${pageContext.request.contextPath}/js/user/user.js"></script>
 <script>
 if(${!empty msg}){
 	alert(${requestScope.msg});
 }
 </script>
+
 </head>
 <body>
 	<%@include file="header.jsp"%>
@@ -211,7 +213,6 @@ if(${!empty msg}){
 		<div id="modalContent" class="login-modal-box"></div>
 	</div>
 </body>
-<script src="js/user/user.js"></script>
 <script>
    // == 서준범 JavaScript 코드 == 
    //== 페이지 스크롤 시 Header 커스텀 ==

@@ -1,6 +1,26 @@
 /* === 전역 변수 (상태 관리) === */
+var contextPath = contextPath || "/histudy";
 var isIdChecked = false;
 var isEmailChecked = false;
+
+/** 섹션 전환 함수 */
+function showSection(section) {
+    var loginSec = document.getElementById('login-section');
+    var findIdSec = document.getElementById('find-id-section');
+    var findPwSec = document.getElementById('find-pw-section');
+
+    if(loginSec) loginSec.style.display = 'none';
+    if(findIdSec) findIdSec.style.display = 'none';
+    if(findPwSec) findPwSec.style.display = 'none';
+
+    if (section === 'login') {
+        if(loginSec) loginSec.style.display = 'block';
+    } else if (section === 'find-id') {
+        if(findIdSec) findIdSec.style.display = 'block';
+    } else if (section === 'find-pw') {
+        if(findPwSec) findPwSec.style.display = 'block';
+    }
+}
 
 /** 1. 로그인 처리 함수  */
 function loginCheck() {
@@ -30,7 +50,7 @@ function loginCheck() {
         if (result === "로그인 성공") {
         	alert(result);
             // 성공 시 리다이렉트 (이동 전 세션을 확실히 잡기 위해)
-            location.replace(contextPath + "/main.do"); 
+            location.replace(window.location.origin + contextPath + "/index.do"); 
         } else {
             alert("아이디 또는 비밀번호가 일치하지 않습니다.");
             // 필드 초기화
@@ -336,15 +356,11 @@ function submitProfileUpdate() {
     }
 /** 비밀번호 찾기 함수 */
 function findUserPw() {
-    const id = document.getElementById('find_pw_id').value;
-    const name = document.getElementById('find_pw_name').value;
-    const tel = document.getElementById('find_pw_tel').value;
+    var id = document.getElementById('find_pw_id').value;
+    var name = document.getElementById('find_pw_name').value;
+    var tel = document.getElementById('find_pw_tel').value;
 
-    // [추가된 유효성 검사] 하나라도 빈 칸이면 서버에 보내지 않음
-    if (!id || !name || !tel) {
-        alert("아이디, 이름, 전화번호를 모두 입력해주세요.");
-        return; // 함수 종료
-    }
+    if (!id || !name || !tel) { alert("모든 정보를 입력해주세요."); return; }
 
     fetch("userFindPw.do", {
         method: "POST",
@@ -353,13 +369,23 @@ function findUserPw() {
     })
     .then(res => res.text())
     .then(data => {
-        if (data === "fail") { 
-            alert("입력하신 정보와 일치하는 회원이 없습니다."); 
-        } else { 
-            alert("임시 비밀번호가 발급되었습니다: [" + data + "]\n로그인 후 비밀번호를 반드시 변경해주세요."); 
-            location.href = "userSignIn.do"; // 로그인 페이지로 이동
+        if (data.trim() === "fail") {
+            alert("회원 정보가 일치하지 않습니다.");
+        } else {
+            alert("임시 비밀번호가 발급되었습니다: [" + data + "]");
+            
+            // [수정 포인트] location.href 대신 아래 함수 호출!
+            // 이렇게 하면 모달이 유지되면서 로그인 입력창으로 바뀝니다.
+            showSection('login'); 
+            
+            // 발급 후 입력했던 값들 초기화 (선택사항)
+            document.getElementById('find_pw_id').value = "";
+            document.getElementById('find_pw_name').value = "";
+            document.getElementById('find_pw_tel').value = "";
         }
     })
     .catch(err => console.error("비밀번호 찾기 오류:", err));
 
-} 
+}
+
+

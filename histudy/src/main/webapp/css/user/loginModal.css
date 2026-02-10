@@ -99,70 +99,87 @@
 
 /* 부모 컨테이너 위치 고정 */
 .user-dropdown {
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
 }
 
 /*  드롭다운 메뉴 (ul) 설정 */
 #userMenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white;
-    min-width: 150px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    border-radius: 8px;
-    padding: 0;           /* li 사이의 간격을 없애기 위해 0으로 설정 */
-    z-index: 9999;
-    margin-top: 12px;
-    list-style: none;     /* 불릿 기호 제거 */
-    overflow: hidden;
-    border: 1px solid #ccc;
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: white;
+	min-width: 150px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	border-radius: 8px;
+	padding: 0; /* li 사이의 간격을 없애기 위해 0으로 설정 */
+	z-index: 9999;
+	margin-top: 12px;
+	list-style: none; /* 불릿 기호 제거 */
+	overflow: hidden;
+	border: 1px solid #ccc;
 }
 
 /* 리스트 항목 (li)에 줄 추가 - 핵심! */
 #userMenu li {
-    border-bottom: 1px solid #ddd !important; /* 항목 사이의 구분선 */
-    margin: 0;
-    padding: 0;
+	border-bottom: 1px solid #ddd !important; /* 항목 사이의 구분선 */
+	margin: 0;
+	padding: 0;
 }
 
 /* 마지막 항목 줄 제거 */
 #userMenu li:last-child {
-    border-bottom: none !important;
+	border-bottom: none !important;
 }
 
 /*  내부 링크 (a) 스타일 */
 #userMenu li a {
-    display: block;
-    padding: 12px 20px;
-    color: #333;
-    text-decoration: none;
-    font-size: 14px;
-    text-align: left;
-    transition: background-color 0.2s;
+	display: block;
+	padding: 12px 20px;
+	color: #333;
+	text-decoration: none;
+	font-size: 14px;
+	text-align: left;
+	transition: background-color 0.2s;
 }
 
 /* 이름 위치 */
 .user-greeting {
-    font-size: 15px;            
-    text-align: center;         
-    margin-bottom: 5px;        
-    color: #555;                
-    font-weight: 500;           
-    display: block;             
+	font-size: 15px;
+	text-align: center;
+	margin-bottom: 5px;
+	color: #555;
+	font-weight: 500;
+	display: block;
 }
 
 .user-dropdown #userMenu li a.logout-link {
-    color: #e74c3c;
-    border-bottom: none; 
+	color: #e74c3c;
+	border-bottom: none;
 }
 
-
 .user-dropdown #userMenu li a.logout-link:hover {
-    background-color: #fdf2f2;
-    color: #c0392b;
+	background-color: #fdf2f2;
+	color: #c0392b;
+}
+
+/* 아이디찾기 모달 박스 성명 아이콘 */
+.login-modal-box .input-group input.icon-name {
+	background: url('/histudy/user-img/name-icon.png') no-repeat 15px center/20px
+		!important;
+}
+
+/* 모달 박스 내부의 전화번호 아이콘 */
+.login-modal-box .input-group input.icon-tel {
+	background: url('/histudy/user-img/tel-icon.png') no-repeat 15px center/20px
+		!important;
+}
+
+/* 공통: 아이콘이 들어갈 공간 확보 */
+.login-modal-box .input-group input.icon-name, .login-modal-box .input-group input.icon-tel
+	{
+	padding-left: 50px !important;
 }
