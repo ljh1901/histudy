@@ -21,12 +21,12 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 
-	// 관리자 메인 대시보드
+
 	@GetMapping("/adminMain.do")
 	public String adminMain() {
 		return "admin/adminMain";	
 	} 
-	// 스터디 카페 전체 목록
+
 	@GetMapping("/adminCafeList.do")
 	public ModelAndView adminList() {
 		List<StudycafeDTO> list = adminService.getCafeList(); 
@@ -38,14 +38,14 @@ public class AdminController {
 		return mav;
 	}
 
-	// 스터디 카페 상세 보기
+
 	@GetMapping("/adminCafeDetail.do")
 	public ModelAndView adminCafeDetail(@RequestParam("studycafe_idx") int idx) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("admin/adminCafeDetail");
 		return mav;
 	}
-	// 스터디 카페 매출화면
+
 
 	@GetMapping("/adminCafeSales.do")
 	public ModelAndView adminCafeSales(@RequestParam Map<String, Object> params) {
@@ -57,12 +57,12 @@ public class AdminController {
 
 		return mav;
 	}
-	// 스터디 카페 좌석현황
+
 	@GetMapping("/adminCafeSeat.do")
 	public String adminCafeSeat() {
 		return "admin/adminCafeSeat";
 	} 
-	// 스터디 카페 문의사항
+
 	@GetMapping("/adminCafeInquiryList.do")
 	public String adminCafeInquiryList() {
 		return "admin/adminCafeInquiryList";
@@ -80,7 +80,7 @@ public class AdminController {
 		mav.addObject("ticketList", ticketList);
 		return mav;
 	}
-	//스터디 카페 요금제 등록하기
+	//�뒪�꽣�뵒 移댄럹 �슂湲덉젣 �벑濡앺븯湲�
 	@PostMapping("/addTicketAction.do")
 	@ResponseBody
 	public Map<String, Object> addTicket(@RequestBody Map<String, Object> data) {
@@ -91,7 +91,7 @@ public class AdminController {
 		result.put("newIdx", newIdx);
 		return result;
 	}
-	// 스터디 카페 좌석 등록 에디터
+
 	@GetMapping("/studycafeEditor.do")
 	public ModelAndView studycafeEditor(@RequestParam("studycafe_idx") int studycafe_idx) {
 		List<Map<String, Object>> layoutList = adminService.getLayoutList(studycafe_idx);
@@ -104,7 +104,7 @@ public class AdminController {
 		return mav;
 	}
 
-	// 스터디 카페 좌석 저장하기
+
 	@PostMapping("/saveCafeLayoutAction.do")
 	@ResponseBody
 	public Map<String, Object> saveLayout(@RequestBody Map<String, Object> params) {
