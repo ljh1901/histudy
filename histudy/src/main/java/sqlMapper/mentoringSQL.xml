@@ -50,4 +50,218 @@
   <select id="mentorProfileCount" parameterType="int" resultType="int">
   	select count(*) from mento_profile where user_idx= #{value}
   </select>
+  
+  <select id="findMentorIdxAndUserIdx" parameterType="int" resultType="java.lang.Integer">
+  SELECT mentor_idx
+  FROM mento_profile
+  WHERE user_idx = #{value}
+</select>
+
+<!-- 멘토링 개설 -->
+<insert id="insertMentoring" parameterType="com.histudy.mentoring.model.MentoringDTO">
+  <!-- Oracle: insert 전에 NEXTVAL 뽑아서 DTO에 세팅 -->
+  <selectKey keyProperty="mentoring_idx" resultType="int" order="BEFORE">
+    SELECT SEQ_MENTORING.NEXTVAL FROM dual
+  </selectKey>
+
+  INSERT INTO mentoring (
+    mentoring_idx, mentoring_title, job_group,job_role, career_years, company_name,contact_phone_public,contact_email_public,
+    session_minutes, description, pre_notice, status,created_at, mentor_idx, sc_idx
+  ) VALUES (
+    #{mentoring_idx},
+    #{mentoring_title},
+    #{job_group},
+    #{job_role},
+    #{career_years},
+    #{company_name},
+    #{contact_phone_public},
+    #{contact_email_public},
+    #{session_minutes},
+    #{description},
+    #{pre_notice},
+    '승인',
+    SYSDATE,
+    #{mentor_idx},
+    #{sc_idx}
+  )
+</insert>
+
+<!-- 멘토링 스케줄 저장 -->
+<insert id="insertMentoringSchedule" parameterType="com.histudy.mentoring.model.MentoringScheduleDTO">
+  INSERT INTO mentoring_schedule (
+    schedule_id,
+    mentoring_id,
+    status,
+    mentoring_start_time,
+    mentoring_end_time
+  ) VALUES (
+    SEQ_MENTORING_SCHEDULE.NEXTVAL,
+    #{mentoring_id},
+    #{status},
+    #{mentoring_start_time},
+    #{mentoring_end_time}
+  )
+</insert>
+
+<!-- 상단 정보  -->
+<select id="selectMentorSummary" parameterType="int"
+        resultType="com.histudy.mentoring.model.MentorSummaryDTO">
+  SELECT * FROM (
+    SELECT
+        m.mentoring_title,
+        u.user_name AS mentor_name,
+        p.profile_img AS mentor_profile_img,
+        m.job_group,
+        m.job_role,
+        m.career_years
+    FROM mentoring m
+    JOIN mento_profile mp ON mp.mentor_idx = m.mentor_idx
+    JOIN usertb u ON u.user_idx = mp.user_idx
+    LEFT JOIN mypage p ON p.user_idx = u.user_idx
+    WHERE m.mentor_idx = #{mentor_idx}
+    ORDER BY m.created_at DESC
+) WHERE ROWNUM = 1
+</select>
+
+<!-- 태그 정보 -->
+<select id="selectMentorTags" parameterType="int" resultType="string">
+  SELECT s.skill_name
+  FROM mentoring_skill_map sm
+  JOIN mentoring_skill s ON s.skill_id = sm.skill_idx
+  WHERE sm.mentoring_idx = (
+    SELECT mentoring_idx
+    FROM (
+      SELECT mentoring_idx
+      FROM mentoring
+      WHERE mentor_idx = #{value}
+      ORDER BY created_at DESC
+    )
+    WHERE ROWNUM = 1
+  )
+  ORDER BY s.skill_name
+</select>
+
+
+
+<select id="selectMentorApplications" parameterType="int"
+        resultType="com.histudy.mentoring.model.MentorApplicationDTO">
+  SELECT
+    ma.ma_id,
+    ma.mentee_user_idx,
+    u.user_name            AS mentee_name,
+    u.user_email          AS mentee_email,
+    u.user_tel             AS mentee_phone,
+    p.profile_img          AS mentee_profile_img,
+    ma.apply_content,
+    ma.status,
+    ma.created_at,
+    ma.updated_at,
+    m.mentoring_idx        AS mentoring_idx,
+    m.mentoring_title      AS mentoring_title
+  FROM mentoring_application ma
+  JOIN mentoring m
+    ON ma.mentoring_idx = m.mentoring_idx
+  JOIN usertb u
+    ON u.user_idx = ma.mentee_user_idx
+  LEFT JOIN mypage p
+    ON p.user_idx = u.user_idx
+  WHERE m.mentor_idx = #{value}
+	<![CDATA[AND ma.status <>'삭제']]>
+  ORDER BY ma.created_at DESC
+</select>
+
+<select id="selectMentorApplicationDetail" parameterType="int"
+        resultType="com.histudy.mentoring.model.MentorApplicationDTO">
+  SELECT
+    ma.ma_id,
+    ma.mentee_user_idx,
+    u.user_name AS mentee_name,
+    u.user_email AS mentee_email,
+    u.user_tel AS mentee_phone,
+    p.profile_img AS mentee_profile_img,
+    ma.apply_content,
+    ma.status,
+    ma.reject_reason,
+    ma.created_at,
+    ma.updated_at,
+    m.mentoring_idx AS mentoring_idx,
+    m.mentoring_title AS mentoring_title
+  FROM mentoring_application ma
+  JOIN mentoring m ON ma.mentoring_idx = m.mentoring_idx
+  JOIN usertb u ON u.user_idx = ma.mentee_user_idx
+  LEFT JOIN mypage p ON p.user_idx = u.user_idx
+  WHERE ma.ma_id = #{value}
+</select>
+
+<!-- 멘토링 신청 현황 삭제 및 승인대기-->
+<update id="deleteMentorApplication" parameterType="int">
+  UPDATE mentoring_application
+  SET status = '삭제',
+      updated_at = SYSDATE
+  WHERE ma_id = #{value}
+    AND status = '승인대기중'
+</update>
+<!-- 멘토링 신천현황 승인 및 승인대기 -->
+<update id="approveMentorApplication" parameterType="int">
+  UPDATE mentoring_application
+  SET status = '승인됨',
+      updated_at = SYSDATE
+  WHERE ma_id = #{value}
+    AND status = '승인대기중'
+</update>
+
+<!-- 멘토링 매치 현황 -->
+<select id="selectMatchInfoMaId" parameterType="int"
+        resultType="com.histudy.mentoring.model.MentorMatchDTO">
+  SELECT
+    ma.mentoring_idx      AS mentoring_idx,
+    m.mentor_idx          AS mentor_idx,
+    ma.mentee_user_idx    AS mentee_user_idx
+  FROM mentoring_application ma
+  JOIN mentoring m
+    ON ma.mentoring_idx = m.mentoring_idx
+  WHERE ma.ma_id = #{value}
+</select>
+
+<!-- 멘토링 매칭됨 -->
+<insert id="insertMentoringMatch" parameterType="com.histudy.mentoring.model.MentorMatchDTO">
+  INSERT INTO mentoring_match (
+    match_id,
+    mentoring_idx,
+    matched_time,
+    status,
+    mentor_idx,
+    mentee_user_idx
+  ) VALUES (
+    SEQ_MENTORING_MATCH.NEXTVAL,
+    #{mentoring_idx},
+    SYSDATE,
+    '매칭됨',
+    #{mentor_idx},
+    #{mentee_user_idx}
+  )
+</insert>
+
+<!-- 매칭 중복 방지 -->
+<select id="countMentoringMatch" parameterType="com.histudy.mentoring.model.MentorMatchDTO"
+        resultType="int">
+  SELECT COUNT(*)
+  FROM mentoring_match
+  WHERE mentoring_idx = #{mentoring_idx}
+    AND mentee_user_idx = #{mentee_user_idx}
+</select>
+
+<!-- 최신 한개 가져오기 -->
+<select id="selectLatestMentoringIdxByMentor" parameterType="int" resultType="int">
+  SELECT mentoring_idx
+  FROM (
+    SELECT mentoring_idx
+    FROM mentoring
+    WHERE mentor_idx = #{value}
+    ORDER BY created_at DESC
+  )
+  WHERE ROWNUM = 1
+</select>
+
+
 </mapper>

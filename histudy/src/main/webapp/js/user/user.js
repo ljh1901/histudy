@@ -222,3 +222,5 @@ function toggleUserMenu(event) {
         menu.style.display = isVisible ? 'none' : 'block';
     }
 }
+
+
