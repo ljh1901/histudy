@@ -55,7 +55,7 @@
        </tr>
        <tfoot>
        		<tr>
-       			<td colspan="3">
+       			<td colspan="4">
       	 		<div>${pageStr }</div>
       	 		</td>
       	 	</tr>
