@@ -5,7 +5,7 @@
 
 <mapper namespace="com.histudy.mentoring">
 
-	<!-- 멘토 목록 -->
+   <!-- 멘토 목록 -->
   <select id="mentorList" resultType="com.histudy.mentoring.model.MentorListDTO">
     SELECT
       mp.mentor_idx,
@@ -18,7 +18,7 @@
     JOIN usertb u ON u.user_idx = mp.user_idx
     ORDER BY mp.mentor_idx DESC
   </select>
-	<!-- 멘토 카테고리 -->
+   <!-- 멘토 카테고리 -->
   <select id="mentorListCategory" parameterType="int"
           resultType="com.histudy.mentoring.model.MentorListDTO">
     SELECT
@@ -48,7 +48,7 @@
   </insert>
   
   <select id="mentorProfileCount" parameterType="int" resultType="int">
-  	select count(*) from mento_profile where user_idx= #{value}
+     select count(*) from mento_profile where user_idx= #{value}
   </select>
   
   <select id="findMentorIdxAndUserIdx" parameterType="int" resultType="java.lang.Integer">
@@ -166,7 +166,7 @@
   LEFT JOIN mypage p
     ON p.user_idx = u.user_idx
   WHERE m.mentor_idx = #{value}
-	<![CDATA[AND ma.status <>'삭제']]>
+   <![CDATA[AND ma.status <>'삭제']]>
   ORDER BY ma.created_at DESC
 </select>
 
@@ -263,5 +263,136 @@
   WHERE ROWNUM = 1
 </select>
 
+<select id="selectMentoringDetailForApply" parameterType="int"
+        resultType="com.histudy.mentoring.model.MentoringDTO">
+  SELECT *
+  FROM mentoring
+  WHERE mentoring_idx = #{value}
+</select>
+
+<select id="selectMentorInfoByMentoringIdx" parameterType="int"
+        resultType="com.histudy.mentoring.model.MentorSummaryDTO">
+  SELECT
+    m.mentoring_idx,
+    m.mentor_idx,
+    mp.user_idx,
+    m.mentoring_title,
+    u.user_name AS mentor_name,
+    p.profile_img AS mentor_profile_img,
+    m.job_group,
+    m.job_role,
+    m.career_years
+  FROM mentoring m
+  JOIN mento_profile mp ON mp.mentor_idx = m.mentor_idx
+  JOIN usertb u ON u.user_idx = mp.user_idx
+  LEFT JOIN mypage p ON p.user_idx = u.user_idx
+  WHERE m.mentoring_idx = #{value}
+</select>
+
+<insert id="insertMentoringApplication" parameterType="map">
+  INSERT INTO mentoring_application (
+    ma_id, apply_content, status, created_at, updated_at, mentoring_idx, mentee_user_idx
+  ) VALUES (
+    SEQ_MENTORING_APPLICATION.NEXTVAL,
+    #{apply_content},
+    '승인대기중',
+    SYSDATE,
+    SYSDATE,
+    #{mentoring_idx},
+    #{mentee_user_idx}
+  )
+</insert>
+
+<select id="selectMentoringDetailByMentor" parameterType="int"
+        resultType="com.histudy.mentoring.model.MentoringDetailDTO">
+SELECT *
+FROM (
+    SELECT
+        m.mentoring_idx,
+        m.mentoring_title,
+        m.job_group,
+        m.job_role,
+        m.career_years,
+        m.description,
+        m.pre_notice,
+
+        m.mentor_idx,
+        mp.user_idx AS mentor_user_idx,
+        u.user_name AS mentor_name,
+        p.profile_img AS mentor_profile_img,
+
+        (SELECT ROUND(AVG(r.rating), 2)
+           FROM mentoring_review r
+          WHERE r.mentoring_idx = m.mentoring_idx) AS avg_rating,
+
+        (SELECT COUNT(*)
+           FROM mentoring_review r
+          WHERE r.mentoring_idx = m.mentoring_idx) AS review_count
+
+    FROM mentoring m
+    JOIN mento_profile mp ON mp.mentor_idx = m.mentor_idx
+    JOIN usertb u ON u.user_idx = mp.user_idx
+    LEFT JOIN mypage p ON p.user_idx = u.user_idx
+    WHERE m.mentor_idx = #{value}
+    ORDER BY m.created_at DESC
+)
+WHERE ROWNUM = 1
+</select>
+
+<select id="selectWritableMatchId" parameterType="map" resultType="java.lang.Integer">
+
+SELECT match_id
+FROM (
+    SELECT mm.match_id
+    FROM mentoring_match mm
+    WHERE mm.mentor_idx = #{mentor_idx}
+      AND mm.mentee_user_idx = #{mentee_user_idx}
+      AND mm.status = '매칭됨'
+      AND NOT EXISTS (
+          SELECT 1
+          FROM mentoring_review r
+          WHERE r.match_id = mm.match_id
+      )
+    ORDER BY mm.matched_time DESC
+)
+WHERE ROWNUM = 1
+
+</select>
+
+
+<!-- 리뷰 리스트 -->
+<select id="selectMentoringReviews" parameterType="int"
+        resultType="com.histudy.mentoring.model.MentoringReviewDTO">
+  SELECT
+    r.review_id,
+    r.match_id,
+    r.mentoring_idx,
+    r.mentee_user_idx,
+    r.rating,
+    r.review_content,
+    r.review_date,
+    u.user_name AS mentee_name,
+    p.profile_img AS mentee_profile_img
+  FROM mentoring_review r
+  JOIN usertb u ON u.user_idx = r.mentee_user_idx
+  LEFT JOIN mypage p ON p.user_idx = u.user_idx
+  WHERE r.mentoring_idx = #{value}
+  ORDER BY r.review_date DESC
+</select>
+
+<insert id="insertMentoringReview" parameterType="com.histudy.mentoring.model.MentoringReviewDTO">
+  INSERT INTO mentoring_review (
+    review_id, match_id, mentoring_idx, mentee_user_idx,
+    rating, review_content, review_date
+  ) VALUES (
+    seq_mentoring_review.NEXTVAL,
+    #{match_id},
+    #{mentoring_idx},
+    #{mentee_user_idx},
+    #{rating},
+    #{review_content},
+    SYSDATE
+  )
+</insert>
 
 </mapper>
