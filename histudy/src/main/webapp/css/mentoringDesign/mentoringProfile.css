@@ -1,0 +1,10 @@
+@charset "UTF-8";
+#mentor_profile header{
+	background-color: white;
+}
+
+.mentor-profile-ground{
+ padding: 52px 0 30px 0;
+  margin-top: 80px;
+  background-color:#f4fff2;
+}

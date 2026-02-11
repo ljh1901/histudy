@@ -118,7 +118,7 @@
   <button type="button" class="cta-btn" onclick="openMentorGuideModal()">멘토 신청하기</button>
   </c:otherwise>
 </c:choose>
-	<button type="button" class="cta-btn" onclick="location.href='mentoringApplication.do'">멘토링 신청 현황</button>
+   <button type="button" class="cta-btn" onclick="location.href='mentoringApplication.do'">멘토링 신청 현황</button>
   </div>
 </section>
 
@@ -128,7 +128,7 @@
 
 <script>
 function openMentorProfile(mentor_idx) {
-	location.href = "mentoringApply.do?mentor_idx=" + mentor_idx;
+   location.href = "mentorProfile.do?mentor_idx=" + mentor_idx;
 }
 
 /* ===== 모달 토글(팀원이 하던 방식) ===== */

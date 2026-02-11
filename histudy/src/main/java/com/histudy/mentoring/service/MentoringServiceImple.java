@@ -1,6 +1,7 @@
 package com.histudy.mentoring.service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Calendar;
@@ -74,7 +75,7 @@ public class MentoringServiceImple implements MentoringService {
     
     @Override
     public int deleteMentorApplication(int ma_id) {
-    	return mentoringDAO.deleteMentorApplication(ma_id);
+       return mentoringDAO.deleteMentorApplication(ma_id);
     }
     
     @Override
@@ -96,7 +97,7 @@ public class MentoringServiceImple implements MentoringService {
         if(updated <= 0) return 0; 
     
         MentorMatchDTO info = mentoringDAO.selectMatchInfoMaId(ma_id);
-        if(info == null) return 0;
+        if(info == null) return 1;
   
         int cnt = mentoringDAO.countMentoringMatch(info);
         if(cnt > 0) return 1; 
@@ -112,7 +113,48 @@ public class MentoringServiceImple implements MentoringService {
     }
 
 
-    
+    @Override
+    public MentoringDTO selectMentoringDetailForApply(int mentoring_idx) {
+        return mentoringDAO.selectMentoringDetailForApply(mentoring_idx);
+    }
+
+    @Override
+    public MentorSummaryDTO selectMentorInfoByMentoringIdx(int mentoring_idx) {
+        return mentoringDAO.selectMentorInfoByMentoringIdx(mentoring_idx);
+    }
+
+    @Override
+    public int applyMentoring(int mentoring_idx, int mentee_user_idx, String apply_content) {
+        Map<String, Object> map = new java.util.HashMap<>();
+        map.put("mentoring_idx", mentoring_idx);
+        map.put("mentee_user_idx", mentee_user_idx);
+        map.put("apply_content", apply_content);
+        return mentoringDAO.insertMentoringApplication(map);
+    }
+
+    @Override
+    public MentoringDetailDTO selectMentoringDetailByMentor(int mentor_idx) {
+      return mentoringDAO.selectMentoringDetailByMentor(mentor_idx);
+    }
+
+    @Override
+    public List<MentoringReviewDTO> selectMentoringReviews(int mentor_idx) {
+      return mentoringDAO.selectMentoringReviews(mentor_idx);
+    }
+
+    @Override
+    public Integer getWritableMatchId(int mentor_idx, int mentee_user_idx) {
+      Map<String, Object> map = new HashMap<>();
+      map.put("mentor_idx", mentor_idx);
+      map.put("mentee_user_idx", mentee_user_idx);
+      return mentoringDAO.selectWritableMatchId(map);
+    }
+
+    @Override
+    public int writeReview(MentoringReviewDTO dto) {
+      return mentoringDAO.insertMentoringReview(dto);
+    }
+
     
     
     
@@ -125,8 +167,8 @@ public class MentoringServiceImple implements MentoringService {
   /*  @Override
     @Transactional
     public void createMentoring(MentoringDTO dto, String scheduleJson, String skillTags) {
-    	
-    	
+       
+       
 
         mentoringDAO.insertMentoring(dto);
         int mentoring_idx = dto.getMentoring_idx();

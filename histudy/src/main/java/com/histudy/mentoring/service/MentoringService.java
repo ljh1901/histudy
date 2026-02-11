@@ -27,5 +27,15 @@ public interface MentoringService {
     int approveAndMatch(int ma_id);
 
     int selectLatestMentoringIdxByMentor(int mentor_idx);
+    
+    MentoringDTO selectMentoringDetailForApply(int mentoring_idx);
+    MentorSummaryDTO selectMentorInfoByMentoringIdx(int mentoring_idx);
+    int applyMentoring(int mentoring_idx, int mentee_user_idx, String apply_content);
+
+    MentoringDetailDTO selectMentoringDetailByMentor(int mentor_idx);
+    List<MentoringReviewDTO> selectMentoringReviews(int mentor_idx);
+    Integer getWritableMatchId(int mentor_idx, int mentee_user_idx);
+    int writeReview(MentoringReviewDTO dto);
+
 
 }
