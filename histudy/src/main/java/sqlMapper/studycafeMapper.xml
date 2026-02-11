@@ -22,8 +22,35 @@
 		join studycafe_ticket st on tc.ticket_category_idx = st.ticket_category_idx
 		where tc.ticket_category_idx = #{ticket_category_idx}
   	</select>
-<<<<<<< HEAD
+  	 <select id="selectTicketTotalAmountSQL" parameterType="Integer" resultType="com.histudy.studycafe.model.TicketJoinTicketCategoryDTO">
+  		select *
+		from ticket_category tc 
+		join studycafe_ticket st on tc.ticket_category_idx = st.ticket_category_idx
+		where ticket_idx = #{ticket_idx}
+  	</select>
+  	<select id="selectSeatSQL" parameterType="Integer" resultType="com.histudy.studycafe.model.SeatDTO">
+  		select * 
+  		from seat
+  		where studycafe_idx = #{studycafe_idx}
+  	</select>
+  	<insert id="insertOrderSQL" parameterType="com.histudy.studycafe.model.PayDTO">
+  		insert into studycafe_pay(paymentId,orderName, totalAmount, pay_status, user_idx) values(#{paymentId}, #{orderName}, #{totalAmount}, 'NOT PAID', #{user_idx})
+  	</insert>
+  	<update id="updatePaySQL" parameterType="com.histudy.studycafe.model.PayDTO">
+  		update studycafe_pay set storeId = #{storeId},
+  		orderName = #{orderName}, 
+  		totalAmount = #{totalAmount}, 
+  		pay_status = #{pay_status},
+  		pay_method = #{pay_method},
+  		paidAt = #{paidAt},
+  		statusChangedAt = #{statusChangedAt},
+  		paid = #{paid},
+  		pgProvider = #{pgProvider},
+  		vat = #{vat},
+  		supply = #{supply}
+  		where paymentId = #{paymentId} and pay_status = 'NOT PAID'
+  	</update>
+  	<select id="selectReceiptSQL" parameterType="String" resultType="com.histudy.studycafe.model.PayDTO">
+  		select * from studycafe_pay where paymentId = #{paymentId} 
+  	</select>
   </mapper>
-=======
-  </mapper>
->>>>>>> 725a84cb5f63a6869b09b4c52998f28ff98eb596
