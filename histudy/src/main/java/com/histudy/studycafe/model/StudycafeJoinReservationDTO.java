@@ -8,9 +8,9 @@ public class StudycafeJoinReservationDTO {
 	private String reservation_status;
 	private int ticket_idx;
 	private String payment_id;
-	private String store_id; // 상점 번호
-	private String orderName; // 주문정보
-	private int paid; // 지불금액
+	private String store_id; // »óÁ¡ ¹øÈ£
+	private String orderName; // ÁÖ¹®Á¤º¸
+	private int paid; // ÁöºÒ±Ý¾×
 	private String paid_at;
 	private String pay_status;
 	
