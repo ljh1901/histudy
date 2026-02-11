@@ -7,10 +7,8 @@ import java.util.*;
 import com.histudy.admin.model.AdminUserDAO;
 import com.histudy.user.model.*;
 
-@Service
 public class AdminUserServiceImple implements AdminUserService {
 
-    @Autowired
     private AdminUserDAO adminUserDao;
 
     public AdminUserServiceImple(AdminUserDAO adminUserDao) {

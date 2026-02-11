@@ -6,7 +6,6 @@ import java.util.*;
 
 public class AdminReportDAOImple implements AdminReportDAO {
     
-	@Autowired
     private SqlSessionTemplate session;
 
     public AdminReportDAOImple(SqlSessionTemplate session) {

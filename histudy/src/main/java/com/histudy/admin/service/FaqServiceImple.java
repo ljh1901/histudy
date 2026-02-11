@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.histudy.admin.model.*;
 
-@Service
 public class FaqServiceImple implements FaqService {
-	@Autowired
 	private FaqDAO faqDAO;
 
 	public FaqServiceImple(FaqDAO faqDAO) {
