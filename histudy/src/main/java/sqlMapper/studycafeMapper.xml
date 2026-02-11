@@ -22,4 +22,6 @@
 		join studycafe_ticket st on tc.ticket_category_idx = st.ticket_category_idx
 		where tc.ticket_category_idx = #{ticket_category_idx}
   	</select>
+
   </mapper>
+

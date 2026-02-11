@@ -4,15 +4,14 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import com.histudy.studycafe.model.StudycafeDTO;
+import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
 import com.histudy.admin.model.*;
 import com.histudy.admin.service.*;
 
@@ -30,13 +29,13 @@ public class AdminController {
 	// 스터디 카페 전체 목록
 	@GetMapping("/adminCafeList.do")
 	public ModelAndView adminList() {
-		List<StudyCafeDTO> list = adminService.getCafeList();
+	    List<StudycafeDTO> list = adminService.getCafeList(); 
 
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin/adminCafeList");
-		mav.addObject("cafeList", list);
+	    ModelAndView mav = new ModelAndView();
+	    mav.setViewName("admin/adminCafeList");
+	    mav.addObject("cafeList", list);
 
-		return mav;
+	    return mav;
 	}
 
 	// 스터디 카페 상세 보기
@@ -69,10 +68,28 @@ public class AdminController {
 		return "admin/adminCafeInquiryList";
 	}
 	
-	// 스터디 카페 요금제 등록
+	// 스터디 카페 요금제 리스트
 	@GetMapping("/adminCafePrice.do")
-	public String adminCafePrice() {
-		return "admin/adminCafePrice";
+	public ModelAndView adminCafePrice(@RequestParam("studycafe_idx") int idx) {
+	    ModelAndView mav = new ModelAndView("admin/adminCafePrice");
+	    
+	    List<TicketCategoryDTO> categoryList = adminService.getTicketCategoryList();
+	    List<TicketJoinTicketCategoryDTO> ticketList = adminService.getTicketList(idx);
+
+	    mav.addObject("categoryList", categoryList);
+	    mav.addObject("ticketList", ticketList);
+	    return mav;
+	}
+	//스터디 카페 요금제 등록하기
+	@PostMapping("/addTicketAction.do")
+	@ResponseBody
+	public Map<String, Object> addTicket(@RequestBody Map<String, Object> data) {
+	    int newIdx = adminService.registerTicket(data);
+	    
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("status", "success");
+	    result.put("newIdx", newIdx);
+	    return result;
 	}
 	// 스터디 카페 좌석 등록 에디터
 	@GetMapping("/studycafeEditor.do")
