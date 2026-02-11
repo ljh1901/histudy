@@ -85,10 +85,10 @@ public class MentoringDAOImple implements MentoringDAO {
     public List<String> selectMentorTags(int mentor_idx) {
         return sqlSession.selectList("com.histudy.mentoring.selectMentorTags", mentor_idx);
     }
-
+ 
     @Override
     public MentorMatchDTO selectMatchInfoMaId(int ma_id) {
-        return sqlSession.selectOne("com.histudy.mentoring.selectMatchInfoByMaId", ma_id);
+        return sqlSession.selectOne("com.histudy.mentoring.selectMatchInfoMaId", ma_id);
     }
 
     @Override
