@@ -8,4 +8,7 @@ public interface UserDAO {
 	public UserDTO userInfo(String user_id);
 	public int userCheckEmail(String user_email);
 	public int updateProfile(UserDTO dto);
+	public String userFindId(UserDTO dto);
+	public int userCheckPw(UserDTO dto); //정보 확인용
+	public int userUpdatePw(UserDTO dto); //비밀번호 수정
 }

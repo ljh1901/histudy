@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.histudy.schedule">
+
+    <select id="getScheduleList" parameterType="int" resultType="com.histudy.schedule.model.ScheduleDTO">
+        SELECT 
+            schedule_idx, user_idx, study_idx, schedule_title, 
+            schedule_content, schedule_start_date, schedule_end_date, 
+            schedule_color, schedule_regdate
+        FROM schedule
+        WHERE user_idx = #{user_idx}
+        ORDER BY schedule_start_date ASC
+    </select>
+
+    <insert id="insertSchedule" parameterType="com.histudy.schedule.model.ScheduleDTO">
+        INSERT INTO schedule (
+            schedule_idx, user_idx, study_idx, schedule_title, 
+            schedule_content, schedule_start_date, schedule_end_date, schedule_color
+        ) VALUES (
+            seq_schedule_idx.NEXTVAL, #{user_idx}, #{study_idx}, #{schedule_title}, 
+            #{schedule_content}, #{schedule_start_date}, #{schedule_end_date}, #{schedule_color}
+        )
+    </insert>
+
+</mapper>

@@ -1,0 +1,87 @@
+@charset "UTF-8";
+/* [1] 헤더 고정 및 배경 설정 (Terms와 완벽 통일) */
+header.header {
+	background-color: white;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 9999;
+}
+
+/* [2] 전체 페이지 배경 및 폰트 설정 */
+body {
+	padding: 0;
+	margin: 0;
+	background-color: #f8f9fa;
+}
+
+/* [3] 중앙 정렬 및 상단 여백 (150px) */
+.privacy-container {
+	padding-bottom: 80px;
+	padding-top: 150px;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	min-height: 100vh;
+}
+
+/* [4] 본문 흰색 박스 디자인 */
+.policy-container {
+	width: 1000px;
+	padding: 60px 80px;
+	background: #ffffff;
+	border-radius: 20px;
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+	box-sizing: border-box;
+	margin: 0 auto;
+}
+
+/* [5] 텍스트 가독성 스타일 (Terms 형식 적용) */
+.policy-container h1 {
+	font-size: 32px;
+	color: #111;
+	text-align: center;
+	margin-bottom: 50px;
+	font-weight: 800;
+}
+
+.policy-section {
+	margin-bottom: 50px;
+}
+
+.policy-section h2 {
+	font-size: 24px;
+	color: #222;
+	border-bottom: 2px solid #eee;
+	padding-bottom: 12px;
+	margin-bottom: 25px;
+}
+
+.policy-section h3 {
+	font-size: 19px;
+	color: #333;
+	margin-top: 30px;
+	font-weight: 600;
+}
+
+p, li {
+	line-height: 1.8;
+	color: #555;
+	font-size: 16px;
+}
+
+ol {
+	margin-top: 10px;
+}
+
+li {
+	margin-bottom: 12px;
+}
+
+/* 내부 리스트 스타일 */
+.policy-section ul {
+	list-style-type: disc;
+	margin-left: 25px;
+	margin-top: 10px;
+}

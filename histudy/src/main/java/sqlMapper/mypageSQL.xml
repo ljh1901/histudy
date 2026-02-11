@@ -17,9 +17,23 @@
     </select>
 
     <update id="updateProfileSQL" parameterType="com.histudy.user.model.UserDTO">
-        UPDATE mypage
-        SET user_intro = #{user_intro},
+    UPDATE mypage
+    <set>
+        <if test="user_intro != null">
+            user_intro = #{user_intro},
+        </if>
+        <if test="profile_img != null">
             profile_img = #{profile_img}
+        </if>
+    </set>
+    WHERE user_idx = #{user_idx}
+</update>
+
+    <update id="updateUserTbSQL" parameterType="com.histudy.user.model.UserDTO">
+        UPDATE usertb
+        SET user_name = #{user_name},
+            user_email = #{user_email},
+            user_tel = #{user_tel}
         WHERE user_idx = #{user_idx}
     </update>
 </mapper>
