@@ -10,9 +10,12 @@
 <link rel="stylesheet" href="css/root.css" type="text/css">
 <link rel="stylesheet" href="css/header.css" type="text/css">
 <link rel="stylesheet" href="css/footer.css" type="text/css">
+<link rel="stylesheet" href="css/mentoringDesign/mentoringProfile.css" type="text/css">
 </head>
 <body id ="mentor_profile">
 <%@ include file="../header.jsp"%>
+
+<section class="mentor-profile-ground">
 
 <div style="max-width:1100px;margin:40px auto;padding:0 16px;">
 
@@ -61,7 +64,7 @@
         <c:forEach var="r" items="${reviews}">
           <div style="padding:12px 0;border-bottom:1px solid #eef2f7;">
             <div style="font-size:13px;color:#64748b;">
-              <fmt:formatDate value="${r.created_at}" pattern="yyyy.MM.dd HH:mm"/>
+              <fmt:formatDate value="${r.review_date}" pattern="yyyy.MM.dd HH:mm"/>
             </div>
             <div style="margin-top:4px;">
               평점: <b><c:out value="${r.rating}"/></b>
@@ -106,6 +109,8 @@
   </div>
 
 </div>
+
+</section>
 
 <%@ include file="../footer.jsp"%>
 </body>

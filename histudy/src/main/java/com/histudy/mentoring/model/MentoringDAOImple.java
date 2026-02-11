@@ -89,7 +89,7 @@ public class MentoringDAOImple implements MentoringDAO {
 
     @Override
     public MentorMatchDTO selectMatchInfoMaId(int ma_id) {
-        return sqlSession.selectOne("com.histudy.mentoring.selectMatchInfoByMaId", ma_id);
+        return sqlSession.selectOne("com.histudy.mentoring.selectMatchInfoMaId", ma_id);
     }
 
     @Override
