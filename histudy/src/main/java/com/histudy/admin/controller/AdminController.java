@@ -21,90 +21,90 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 
-	// 관리자 메인 대시보드
+
 	@GetMapping("/adminMain.do")
 	public String adminMain() {
 		return "admin/adminMain";	
 	} 
-	// 스터디 카페 전체 목록
+
 	@GetMapping("/adminCafeList.do")
 	public ModelAndView adminList() {
-	    List<StudycafeDTO> list = adminService.getCafeList(); 
+		List<StudycafeDTO> list = adminService.getCafeList(); 
 
-	    ModelAndView mav = new ModelAndView();
-	    mav.setViewName("admin/adminCafeList");
-	    mav.addObject("cafeList", list);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin/adminCafeList");
+		mav.addObject("cafeList", list);
 
-	    return mav;
+		return mav;
 	}
 
-	// 스터디 카페 상세 보기
+
 	@GetMapping("/adminCafeDetail.do")
 	public ModelAndView adminCafeDetail(@RequestParam("studycafe_idx") int idx) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("admin/adminCafeDetail");
 		return mav;
 	}
-	// 스터디 카페 매출화면
+
 
 	@GetMapping("/adminCafeSales.do")
 	public ModelAndView adminCafeSales(@RequestParam Map<String, Object> params) {
 		List<Map<String, Object>> salesData = adminService.getSalesList(params);
-		
+
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("admin/adminCafeSales");
 		mav.addObject("salesData", salesData);
-		
+
 		return mav;
 	}
-	// 스터디 카페 좌석현황
+
 	@GetMapping("/adminCafeSeat.do")
 	public String adminCafeSeat() {
 		return "admin/adminCafeSeat";
 	} 
-	// 스터디 카페 문의사항
+
 	@GetMapping("/adminCafeInquiryList.do")
 	public String adminCafeInquiryList() {
 		return "admin/adminCafeInquiryList";
 	}
-	
+
 	// 스터디 카페 요금제 리스트
 	@GetMapping("/adminCafePrice.do")
 	public ModelAndView adminCafePrice(@RequestParam("studycafe_idx") int idx) {
-	    ModelAndView mav = new ModelAndView("admin/adminCafePrice");
-	    
-	    List<TicketCategoryDTO> categoryList = adminService.getTicketCategoryList();
-	    List<TicketJoinTicketCategoryDTO> ticketList = adminService.getTicketList(idx);
+		ModelAndView mav = new ModelAndView("admin/adminCafePrice");
 
-	    mav.addObject("categoryList", categoryList);
-	    mav.addObject("ticketList", ticketList);
-	    return mav;
+		List<TicketCategoryDTO> categoryList = adminService.getTicketCategoryList();
+		List<TicketJoinTicketCategoryDTO> ticketList = adminService.getTicketList(idx);
+
+		mav.addObject("categoryList", categoryList);
+		mav.addObject("ticketList", ticketList);
+		return mav;
 	}
-	//스터디 카페 요금제 등록하기
+	//�뒪�꽣�뵒 移댄럹 �슂湲덉젣 �벑濡앺븯湲�
 	@PostMapping("/addTicketAction.do")
 	@ResponseBody
 	public Map<String, Object> addTicket(@RequestBody Map<String, Object> data) {
-	    int newIdx = adminService.registerTicket(data);
-	    
-	    Map<String, Object> result = new HashMap<>();
-	    result.put("status", "success");
-	    result.put("newIdx", newIdx);
-	    return result;
-	}
-	// 스터디 카페 좌석 등록 에디터
-	@GetMapping("/studycafeEditor.do")
-    public ModelAndView studycafeEditor(@RequestParam("studycafe_idx") int studycafe_idx) {
-        List<Map<String, Object>> layoutList = adminService.getLayoutList(studycafe_idx);
-        
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("admin/studycafeEditor");
-        mav.addObject("layoutList", layoutList);
-        mav.addObject("studycafe_idx", studycafe_idx);
-        
-        return mav;
-    }
+		int newIdx = adminService.registerTicket(data);
 
-	// 스터디 카페 좌석 저장하기
+		Map<String, Object> result = new HashMap<>();
+		result.put("status", "success");
+		result.put("newIdx", newIdx);
+		return result;
+	}
+
+	@GetMapping("/studycafeEditor.do")
+	public ModelAndView studycafeEditor(@RequestParam("studycafe_idx") int studycafe_idx) {
+		List<Map<String, Object>> layoutList = adminService.getLayoutList(studycafe_idx);
+
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin/studycafeEditor");
+		mav.addObject("layoutList", layoutList);
+		mav.addObject("studycafe_idx", studycafe_idx);
+
+		return mav;
+	}
+
+
 	@PostMapping("/saveCafeLayoutAction.do")
 	@ResponseBody
 	public Map<String, Object> saveLayout(@RequestBody Map<String, Object> params) {
@@ -118,8 +118,8 @@ public class AdminController {
 		return response;
 	}
 	
-	@GetMapping("/adminMember.do")
-	public String adminMemberList() {
-		return "admin/adminMember";	
+	@GetMapping("/adminInquiryList.do")
+	public String adminInquiryList() {
+		return ("admin/adminInquiryList");
 	}
 }

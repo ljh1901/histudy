@@ -4,6 +4,11 @@ import java.util.List;
 
 public interface StudycafeDAO {
 	public List<StudycafeDTO> studycafeList();
-	public StudycafeJoinReservationDTO seatInfo(int seat_idx);
+	public StudycafeJoinReservationDTO seatReservation(int seat_idx);
 	public List<TicketJoinTicketCategoryDTO> ticketInfo(int ticket_category_idx);
+	public List<SeatDTO> seatInfo(int studycafe_idx);
+	public int orderPay(PayDTO payOrder);
+	public int paySeat(PayDTO paydto);
+	public PayDTO receipt(String paymentId);
+	public TicketJoinTicketCategoryDTO ticketTotalAmount(int ticket_idx);
 }
