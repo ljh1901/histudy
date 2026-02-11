@@ -225,7 +225,7 @@ function closeMentorGuideModal(){
   document.body.style.overflow = "";
 }
 function openMentorFormModal(){
-  // 안내 모달 닫고 폼 모달 열기(2단계)
+
   document.getElementById("mentorGuideModal").style.display = "none";
   document.getElementById("mentorFormModal").style.display = "block";
   document.body.style.overflow = "hidden";
@@ -235,7 +235,7 @@ function closeMentorFormModal(){
   document.body.style.overflow = "";
 }
 function closeByBackdrop(e, modalId){
-  // 바깥(검은 배경) 클릭하면 닫기
+
   if(e.target.id === modalId){
     document.getElementById(modalId).style.display = "none";
     document.body.style.overflow = "";
