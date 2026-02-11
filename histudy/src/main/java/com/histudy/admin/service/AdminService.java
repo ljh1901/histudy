@@ -7,14 +7,14 @@ import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
 import java.util.*;
 
 public interface AdminService {
-    List<StudycafeDTO> getCafeList();
-    List<Map<String, Object>> getSalesList(Map<String, Object> params);
+    public List<StudycafeDTO> getCafeList();
+    public List<Map<String, Object>> getSalesList(Map<String, Object> params);
     
-    List<TicketCategoryDTO> getTicketCategoryList();
-    List<TicketJoinTicketCategoryDTO> getTicketList(int studycafe_idx);
-    int registerTicket(Map<String, Object> data);
-    int removeTicket(int ticket_idx);
+    public List<TicketCategoryDTO> getTicketCategoryList();
+    public List<TicketJoinTicketCategoryDTO> getTicketList(int studycafe_idx);
+    public int registerTicket(Map<String, Object> data);
+    public int removeTicket(int ticket_idx);
     
-    void updateCafeLayout(int studycafe_idx, List<Map<String, Object>> layoutList);
-    List<Map<String, Object>> getLayoutList(int studycafe_idx);
+    public void updateCafeLayout(int studycafe_idx, List<Map<String, Object>> layoutList);
+    public List<Map<String, Object>> getLayoutList(int studycafe_idx);
 }

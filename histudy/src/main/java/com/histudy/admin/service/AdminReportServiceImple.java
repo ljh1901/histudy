@@ -8,9 +8,8 @@ import org.springframework.stereotype.Service;
 import com.histudy.admin.model.AdminReportDAO;
 import com.histudy.admin.model.ReportDTO;
 
-@Service
 public class AdminReportServiceImple implements AdminReportService {
-    @Autowired
+	
     private AdminReportDAO adminReportDao;
 
     public AdminReportServiceImple(AdminReportDAO adminReportDao) {

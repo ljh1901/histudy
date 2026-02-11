@@ -6,10 +6,8 @@ import org.springframework.stereotype.Service;
 import com.histudy.admin.model.AdminStudyDAO;
 import com.histudy.study.model.StudyDTO;
 
-@Service
 public class AdminStudyServiceImple implements AdminStudyService {
 
-    @Autowired
     private AdminStudyDAO adminStudyDAO;
 
     public AdminStudyServiceImple(AdminStudyDAO adminStudyDAO) {

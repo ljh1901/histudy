@@ -4,7 +4,7 @@ import java.util.*;
 import com.histudy.user.model.*;
 
 public interface AdminUserService {
-    List<UserDTO> getUserList();
-    int getUserCount();
-    int deleteUser(int user_idx);
+	public List<UserDTO> getUserList();
+	public int getUserCount();
+	public int deleteUser(int user_idx);
 }
