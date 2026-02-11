@@ -17,21 +17,22 @@ import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
 import com.histudy.studycafe.service.StudycafeSerivce;
 
 @RestController
-@RequestMapping("/seatInfo.do")
+@RequestMapping("/seatReservation.do")
 public class StudyCafeController {
 	
 	@Autowired
 	private StudycafeSerivce studycafeService;
+	
 	@GetMapping
 	public ResponseEntity<List<TicketJoinTicketCategoryDTO>> ticketInfo(@RequestParam int ticket_category_idx) {
 		List<TicketJoinTicketCategoryDTO> data = studycafeService.ticketInfo(ticket_category_idx);
-		ResponseEntity<List<TicketJoinTicketCategoryDTO>> re = new ResponseEntity<List<TicketJoinTicketCategoryDTO>>(HttpStatus.OK);
+		ResponseEntity<List<TicketJoinTicketCategoryDTO>> re = new ResponseEntity<List<TicketJoinTicketCategoryDTO>>(data,HttpStatus.OK);
 		return re;
 	}
+	
 	@PostMapping
-	public StudycafeJoinReservationDTO seatInfo(@RequestBody StudycafeJoinReservationDTO sjrdto) {
-
-		StudycafeJoinReservationDTO info = studycafeService.seatInfo(sjrdto.getSeat_idx());
+	public StudycafeJoinReservationDTO seatReservation(@RequestBody StudycafeJoinReservationDTO sjrdto) {
+		StudycafeJoinReservationDTO info = studycafeService.seatReservation(sjrdto.getSeat_idx());
 		return info;
 	}
 }

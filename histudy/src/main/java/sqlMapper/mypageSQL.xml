@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mypage">
+
+    <select id="userInfoSQL" parameterType="String" resultType="com.histudy.user.model.UserDTO">
+        SELECT 
+            u.user_idx, u.user_id, u.user_name, u.user_birthdate, 
+            u.user_tel, u.user_email, u.role_idx,
+            m.user_intro, m.profile_img
+        FROM 
+            usertb u
+        LEFT JOIN 
+            mypage m ON u.user_idx = m.user_idx
+        WHERE 
+            u.user_id = #{user_id}
+    </select>
+
+    <update id="updateProfileSQL" parameterType="com.histudy.user.model.UserDTO">
+    UPDATE mypage
+    <set>
+        <if test="user_intro != null">
+            user_intro = #{user_intro},
+        </if>
+        <if test="profile_img != null">
+            profile_img = #{profile_img}
+        </if>
+    </set>
+    WHERE user_idx = #{user_idx}
+</update>
+
+    <update id="updateUserTbSQL" parameterType="com.histudy.user.model.UserDTO">
+        UPDATE usertb
+        SET user_name = #{user_name},
+            user_email = #{user_email},
+            user_tel = #{user_tel}
+        WHERE user_idx = #{user_idx}
+    </update>
+</mapper>

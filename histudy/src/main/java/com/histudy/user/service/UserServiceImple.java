@@ -1,9 +1,12 @@
 package com.histudy.user.service;
 
-import com.histudy.user.model.UserDTO;
-import com.histudy.user.model.UserDAO;
 import org.springframework.stereotype.Service;
 
+import com.histudy.user.model.UserDAO;
+import com.histudy.user.model.UserDAOImple;
+import com.histudy.user.model.UserDTO;
+
+import java.util.*;
 @Service
 public class UserServiceImple implements UserService {
 
@@ -47,8 +50,7 @@ public class UserServiceImple implements UserService {
 			// 한국식 나이 계산
 			int age = currentYear - birthYear + 1;
 			
-			// DTO의 가상 필드에 저장 (DB 컬럼 없음)
-			dto.setUser_age(age); 
+			
 		}
 		
 		return dto;
@@ -66,6 +68,41 @@ public class UserServiceImple implements UserService {
 	
 	@Override
 	public int updateProfile(UserDTO dto) {
-		return dao.updateProfile(dto);
+	    // 1. usertb 테이블 수정 (dao에 만든 새 메서드 호출)
+	    int res1 = ((UserDAOImple)dao).updateUserTb(dto); 
+	    
+	    // 2. mypage 테이블 수정 (기존 dao 메서드 호출)
+	    int res2 = dao.updateProfile(dto);
+	    
+	    // 두 작업의 결과를 종합하여 리턴
+	    return (res1 > 0 || res2 > 0) ? 1 : 0;
+	}
+	
+	@Override
+	public String userFindId(String user_name, String user_tel) {
+		UserDTO dto = new UserDTO();
+		dto.setUser_name(user_name);
+		dto.setUser_tel(user_tel);
+		return dao.userFindId(dto);
+	}
+	
+	@Override
+	public String userFindPw(String user_id,String user_name,String user_tel) {
+		UserDTO dto = new UserDTO();
+		dto.setUser_id(user_id);
+		dto.setUser_name(user_name);
+		dto.setUser_tel(user_tel);
+		
+		int count = dao.userCheckPw(dto);
+		if(count>0) {
+			String tempPw = java.util.UUID.randomUUID().toString().substring(0,7);
+
+		String hashPw= com.histudy.security.PwdModule.securityPwd(tempPw);
+		dto.setUser_pw(hashPw);
+		dao.userUpdatePw(dto);
+		return tempPw;
+		}
+		
+		return null;
 	}
 }

@@ -53,10 +53,27 @@
 	<bean id="userService" class="com.histudy.user.service.UserServiceImple">
 		<constructor-arg ref="userDAO" />
 	</bean>
+	<!-- 스케줄 서비스 -->
+	<bean id="scheduleService" class="com.histudy.schedule.service.ScheduleServiceImple">
+		<constructor-arg ref="scheduleDAO" />
+	</bean>
+	
 	<!-- 관리자 서비스 -->
 	<bean id="adminService" class="com.histudy.admin.service.AdminServiceImple">
     	<constructor-arg ref="adminDAO"/>
 	</bean>
+	<!-- 관리자 유저 관리 서비스 -->
+	<bean id="adminUserService" class="com.histudy.admin.service.AdminUserServiceImple">
+    	<constructor-arg ref="adminUserDAO"/>
+	</bean>
+	<!-- 관리자 신고 관리 서비스 -->
+	<bean id="adminReportService" class="com.histudy.admin.service.AdminReportServiceImple">
+    	<constructor-arg ref="adminReportDAO"/>
+	</bean>
+	<!-- 관리자 스터디 서비스 -->
+	<bean id="adminStudyService" class="com.histudy.admin.service.AdminStudyServiceImple">
+    	<constructor-arg ref="adminStudyDAO"/>
+    	</bean>
 	<!-- 강의수강 서비스 -->
 	<bean id="lectureService" class="com.histudy.lecture.service.LectureServiceImple">
 		<constructor-arg ref="lectureDAO"/>

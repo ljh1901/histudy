@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -9,22 +9,32 @@
   <title>결제하기</title>
   <!-- STEP 1. 부트페이 SDK 로드 -->
   <script src="https://js.bootpay.co.kr/bootpay-5.1.4.min.js"></script>
-<link rel="stylesheet" href="css/root.css" type="text/css">
-<link rel="stylesheet" href="css/header.css" type="text/css">
-<link rel="stylesheet" href="css/footer.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/histudy/css/header.css">
+<link rel="stylesheet" type="text/css" href="/histudy/css/root.css">
+<link rel="stylesheet" type="text/css" href="/histudy/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/histudy/css/membershipDesign/membershipPayment.css">
 </head>
 </head>
-<body>
-  <h1>결제하기</h1>
-  <div class="order-summary">
-    <p>상품명: 하이스터디 프리미엄 회원권 1개월</p>
-    <p>결제금액: <span id="price">1,000원</span></p>
-  </div>
-  <button id="pay-btn" onclick="requestPayment()">결제하기</button>
- 
+<body id="membershipPaymentPage">
+<%@ include file="../header.jsp" %>
+<main>
+<section class="membershipPaymentContainer">
+<c:choose>
+	<c:when test="${empty sessionScope.user_id}">
+		로그인이 필요합니다.		
+	</c:when>
+	<c:otherwise>
+	  <h1>결제하기</h1>
+	  <div class="order-summary">
+	    <p>상품명: 하이스터디 프리미엄 회원권 1개월</p>
+	    <p>결제금액: <span id="price">29,000원</span></p>
+	  </div>
+	  <button id="pay-btn" onclick="requestPayment('${uname}','${uemail }','${uid}','${utel }')">결제하기</button>
+	</c:otherwise>
+</c:choose>
   <script>
     // ------ STEP 2. 결제 요청 함수 ------
-    async function requestPayment() {
+    async function requestPayment(name,email,id,tel) {
       try {
         // ------ STEP 3. 결제 요청 파라미터 설정 ------
         const response = await Bootpay.requestPayment({
@@ -36,10 +46,10 @@
           method: '',        // 결제수단 선택
           tax_free: 0,
           user: {
-            id: 'user_123',
-            username: '홍길동'+Date.now(),
-            phone: '01012345678',
-            email: 'user@example.com'
+            id: id,
+            username: name+Date.now(),
+            phone: tel,
+            email: email
           },
           items: [
             {
@@ -61,7 +71,7 @@
           case 'done':
             // 결제 완료 - 서버에서 검증 필요
             console.log('결제 완료:', response.receipt_id)
-            verifyPaymentOnServer(response.receipt_id)
+            verifyPaymentOnServer(response.receipt_id,id)
             break
           case 'issued':
             // 가상계좌 발급 완료
@@ -90,13 +100,11 @@
     }
  
  // ------ STEP 5. 서버에서 결제 검증 ------
-    function verifyPaymentOnServer(receiptId) {
-      // 가맹점 서버로 receipt_id 전송
-      // 서버에서 부트페이 API로 결제 조회 및 금액 대조
-      fetch('/api/payment/verify', {
+    function verifyPaymentOnServer(receiptId,user_id) {
+      fetch('${pageContext.request.contextPath}/membership/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ receipt_id: receiptId })
+        body: JSON.stringify({ receipt_id: receiptId, user_id: user_id })
       })
       .then(res => res.json())
       .then(result => {
@@ -109,5 +117,8 @@
       })
     }
   </script>
+</section>
+</main>
+<%@include file="../footer.jsp"%>
 </body>
 </html>

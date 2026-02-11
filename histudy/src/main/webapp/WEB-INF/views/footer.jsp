@@ -53,7 +53,7 @@
 					<a href="#" id="footer__bottom__adminModeBtn">관리자모드</a>
 				</div>
 				<div>
-					<p><a href="#">개인정보처리방침</a> &nbsp;|&nbsp; <a href="#">이용약관</a> &nbsp;|&nbsp; <a href="#">Made with ❤️ by Hi, Study Team</a></p>
+					<p><a href="${pageContext.request.contextPath}/privacy.do">개인정보처리방침</a> &nbsp;|&nbsp; <a href="${pageContext.request.contextPath}/terms.do">이용약관</a> &nbsp;|&nbsp; <a href="#">Made with ❤️ by Hi, Study Team</a></p>
 				</div>
 			</div>
 		</div>

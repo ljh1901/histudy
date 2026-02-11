@@ -39,7 +39,24 @@
 	<bean id="userDAO" class="com.histudy.user.model.UserDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
+	<bean id="scheduleDAO" class="com.histudy.schedule.model.ScheduleDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
+	
 	<bean id="adminDAO" class="com.histudy.admin.model.AdminDAOImple">
+   	 <constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="adminUserDAO" class="com.histudy.admin.model.AdminUserDAOImple">
+   	 <constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="adminReportDAO" class="com.histudy.admin.model.AdminReportDAOImple">
+   	 <constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	
+	<!--Admin study -->
+	<bean id="adminStudyDAO" class="com.histudy.admin.model.AdminStudyDAOImple">
    	 <constructor-arg ref="sqlSessionTemplate" />
 	</bean>
 	

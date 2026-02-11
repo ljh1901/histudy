@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.histudy.user">
+
+	<insert id="userSignUpSQL"
+		parameterType="com.histudy.user.model.UserDTO">
+		INSERT INTO usertb (user_idx, user_id, user_pw,
+		user_name, user_birthdate, user_tel, user_email, role_idx)
+		VALUES
+		(user_idx.nextval, #{user_id}, #{user_pw}, #{user_name},
+		#{user_birthdate}, #{user_tel}, #{user_email}, 2)
+	</insert>
+
+	<select id="userSignInSQL" parameterType="String"
+		resultType="String">
+		SELECT user_pw
+		FROM usertb
+		WHERE user_id = #{user_id}
+	</select>
+
+	<select id="userCheckIdSQL" parameterType="String"
+		resultType="int">
+		SELECT count(*)
+		FROM usertb
+		WHERE user_id = #{user_id}
+	</select>
+
+	<select id="userCheckEmailSQL" parameterType="String"
+		resultType="int">
+		SELECT count(*)
+		FROM usertb
+		WHERE user_email = #{user_email}
+	</select>
+
+	<select id="userFindIdSQL"
+		parameterType="com.histudy.user.model.UserDTO" resultType="String">
+		SELECT
+		user_id
+		FROM usertb
+		WHERE user_name = #{user_name} AND user_tel =
+		#{user_tel}
+	</select>
+	<select id="userInfoSQL" parameterType="String"
+		resultType="com.histudy.user.model.UserDTO">
+		SELECT * FROM usertb WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="userCheckPwSQL" parameterType="com.histudy.user.model.UserDTO" resultType="int">
+		SELECT count(*)
+		FROM usertb
+		WHERE user_id = #{user_id} AND user_name = #{user_name} AND user_tel = #{user_tel}
+	</select>
+	
+	<update id="userUpdatePwSQL" parameterType="com.histudy.user.model.UserDTO">
+		UPDATE usertb
+		SET user_pw = #{user_pw}
+		WHERE user_id = #{user_id}
+	</update>
+</mapper>

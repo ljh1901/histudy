@@ -6,8 +6,35 @@ import com.histudy.mentoring.model.*;
 
 
 public interface MentoringService {
-    List<MentorListDTO> mentorList();
-    List<MentorListDTO> mentorListCategory(int sc_idx);
-    int mentorProfileCreate(MentoProfileDTO dto);
-    int mentorProfileCount(int user_idx);
+    public List<MentorListDTO> mentorList();
+    public List<MentorListDTO> mentorListCategory(int sc_idx);
+    public int mentorProfileCreate(MentoProfileDTO dto);
+    public int mentorProfileCount(int user_idx);
+    
+    public Integer findMentorIdxAndUserIdx(int user_idx);
+
+    public void createMentoring(MentoringDTO dto, String scheduleJson, String skillTags);
+    
+    public List<MentorApplicationDTO> selectMentorApplications(int mentor_idx);
+    public MentorApplicationDTO selectMentorApplicationDetail(int ma_id);
+
+    public int approveMentorApplication(int ma_id);
+    public int rejectMentorApplication(int ma_id, String reject_reason);
+    public int deleteMentorApplication(int ma_id);
+
+    public MentorSummaryDTO selectMentorSummary(int mentor_idx);
+    
+    public int approveAndMatch(int ma_id);
+
+    public int selectLatestMentoringIdxByMentor(int mentor_idx);
+    
+    public MentoringDTO selectMentoringDetailForApply(int mentoring_idx);
+    public MentorSummaryDTO selectMentorInfoByMentoringIdx(int mentoring_idx);
+    public int applyMentoring(int mentoring_idx, int mentee_user_idx, String apply_content);
+
+    public MentoringDetailDTO selectMentoringDetailByMentor(int mentor_idx);
+    public List<MentoringReviewDTO> selectMentoringReviews(int mentor_idx);
+    public Integer getWritableMatchId(int mentor_idx, int mentee_user_idx);
+    public int writeReview(MentoringReviewDTO dto);
+
 }

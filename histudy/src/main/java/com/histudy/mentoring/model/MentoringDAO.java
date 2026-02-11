@@ -1,11 +1,45 @@
 package com.histudy.mentoring.model;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MentoringDAO {
-    List<MentorListDTO> mentorList();
-    List<MentorListDTO> mentorListCategory(int sc_idx);
-    int mentorProfileCreate(MentoProfileDTO dto);
+    public List<MentorListDTO> mentorList();
+    public List<MentorListDTO> mentorListCategory(int sc_idx);
+    public int mentorProfileCreate(MentoProfileDTO dto);
     
-    int mentorProfileCount(int user_idx);
+    public int mentorProfileCount(int user_idx);
+    
+    public Integer findMentorIdxAndUserIdx(int user_idx);
+
+    public int insertMentoring(MentoringDTO dto);
+
+    public int insertMentoringSchedule(MentoringScheduleDTO dto);
+    
+    public List<MentorApplicationDTO> selectMentorApplications(int mentor_idx);
+    public MentorApplicationDTO selectMentorApplicationDetail(int ma_id);
+
+    public int approveMentorApplication(int ma_id);
+    public int rejectMentorApplication(Map<String, Object> map);
+    public int deleteMentorApplication(int ma_id);
+
+    public MentorSummaryDTO selectMentorSummary(int mentor_idx);
+    public List<String> selectMentorTags(int mentor_idx);
+
+    public MentorMatchDTO selectMatchInfoMaId(int ma_id);
+    public int insertMentoringMatch(MentorMatchDTO dto);
+    public int countMentoringMatch(MentorMatchDTO dto);
+
+    public int selectLatestMentoringIdxByMentor(int mentor_idx);
+
+    public MentoringDTO selectMentoringDetailForApply(int mentoring_idx);
+    public MentorSummaryDTO selectMentorInfoByMentoringIdx(int mentoring_idx);
+    public int insertMentoringApplication(java.util.Map<String, Object> map);
+
+    public  MentoringDetailDTO selectMentoringDetailByMentor(int mentor_idx);
+    public List<MentoringReviewDTO> selectMentoringReviews(int mentor_idx);
+    public  Integer selectWritableMatchId(Map<String, Object> map);
+    public int insertMentoringReview(MentoringReviewDTO dto);
+
+    
 }
