@@ -15,17 +15,21 @@
 <%@ include file="../header.jsp" %>
    <main>
       <section class="studyList">
-         <div class="studyList__container">
-            <div class="studyList__container__top">
-               <p>홈 &nbsp; > &nbsp;스터디 목록</p>
-            </div>
-            <h2 class="studyList__title">스터디 찾기</h2>   
-            <p class="studyList__sub">함께 성장할 스터디를 찾아보세요</p>
-            <div class="studyList__Find">
-               <img src="/histudy/main-img/search.png">
-               <input type="text" name="studyFind" placeholder="스터디 제목이나 강사명으로 검색하세요">
-            </div>
-         </div>
+      	 <form name="studySearchForm" action="studyList.do">
+	         <div class="studyList__container">
+	            <div class="studyList__container__top">
+	               <p>홈 &nbsp; > &nbsp;스터디 목록</p>
+	            </div>
+	            <h2 class="studyList__title">스터디 찾기</h2>   
+	            <p class="studyList__sub">함께 성장할 스터디를 찾아보세요</p>
+	            <div class="studyList__Find">
+	               <img src="/histudy/main-img/search.png">
+	               <input type="text" name="studyFind" placeholder="스터디 제목을 검색해서 원하는 스터디를 찾아보세요!" onkeyup="studySearch()">
+	               <input type="submit" value="검색">
+	            </div>
+	            <div id="findList"></div>
+	         </div>
+         </form>
       </section>
       <section class="studyCategory">
          <div class="studyCategory__container max-container">
@@ -93,4 +97,60 @@
    </main>
    <%@include file="../footer.jsp" %>
 </body>
+<script>
+	var xhr;
+	function getXHR(){
+		if(window.ActiveXObject){
+			return new ActiveXObject('Msxml2.XMLHTTP');	
+		}else if(window.XMLHttpRequest){
+			return new XMLHttpRequest();
+		}else{
+			return null;
+		}
+	}
+	function studySearch(){
+		var keyword = document.studySearchForm.studyFind.value;
+		
+		xhr = getXHR();
+		xhr.open('GET','studyFind.do?keyword=' + encodeURIComponent(keyword.trim()),true);
+		xhr.onreadystatechange = studySearchResult;
+		xhr.send(null);
+	}
+	function studySearchResult(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 200){
+				var data = xhr.responseText.trim();	// 서버에서 데이터 받아오기
+				var keyStr = data.split(','); // CSV - 콤마를 기준으로 짤라서 배열로 저장하기
+				var count = data==''?0:keyStr.length; // 서버에서 넘어온 데이터가 없다면 0 있다면 배열 길이 구하기
+				var findList = document.getElementById('findList'); // 데이터를 화면에 보여줄 수 있는 div 태그 생성 후 id로 가져오기
+				
+				if(count == 0){
+					findList.style.display = 'none';
+				}else{
+					var content = '';
+
+					for(let i=0; i<keyStr.length; i++){
+						content += '<div class="findTitle">'+keyStr[i]+'</div>';	
+					}
+					findList.innerHTML = content;
+					findList.style.display = 'block';
+					
+					var titleDivs = document.getElementsByClassName('findTitle');
+					for(let i=0; i<titleDivs.length; i++){
+						titleDivs[i].addEventListener('click', function(){
+							document.studySearchForm.studyFind.value = this.textContent; // this.textContent를 이용해서 값 넣기
+							findList.style.display = 'none'; // 클릭 후 숨기기
+						});
+					}
+				}
+					
+				// 바깥 클릭 시
+				document.addEventListener('click', function(){
+					findList.style.display = 'none';
+				});
+			}
+		}	
+	}
+		
+</script>
 </html>

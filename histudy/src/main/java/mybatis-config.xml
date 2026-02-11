@@ -12,5 +12,6 @@
 	<mapper resource="sqlMapper/lecture.xml"/>
 	<mapper resource="sqlMapper/studycafeMapper.xml"/>
 	<mapper resource="sqlMapper/mypage.xml" />
+	<mapper resource="sqlMapper/lmsSQL.xml"></mapper>
 </mappers>
 </configuration>
