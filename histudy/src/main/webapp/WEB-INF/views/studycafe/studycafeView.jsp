@@ -388,6 +388,7 @@ for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 		var ticketBtn= '<button id="timeTicket" value="1">시간권</button><button id="dayTicket" value="2">종일권</button>';
 		document.querySelector('.modal-content').innerHTML = ticketBtn;
 		document.getElementById('timeTicket').addEventListener('click', function(){
+			alert(this.value)
 			seatTicketInfo(this.value);
 			document.querySelector('.modal-content').innerHTML = '<h1 id="timeTicket">시간권</h1>';
 		})
@@ -410,7 +411,9 @@ function seatTicketInfo(ticket_category_idx){
 		}
 	})
 	.then(function(res){
-		alert(res);
+		res.forEach(function(data){
+			alert(data.ticket_amount);
+		})
 	})
 	.catch(error => console.log(error.message))
 }
@@ -427,8 +430,6 @@ function seatCurrent(){
 	})
 	.then(function(res){
 		if(res.ok){
-			res = res.json();
-			alert(res);
 			return res.json();
 		}
 	})

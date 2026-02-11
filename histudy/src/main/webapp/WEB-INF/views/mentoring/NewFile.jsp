@@ -7,8 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-window.alert("${msg}");
-window.self.close();
 
 </body>
 </html>

@@ -5,8 +5,5 @@ target/
 .classpath
 .springBeans
 .settings/
-<<<<<<< HEAD
 /bin/
-=======
 /histudy/bin/
->>>>>>> 80632938da60a25a9283f1783ccf5adffc8c0695
