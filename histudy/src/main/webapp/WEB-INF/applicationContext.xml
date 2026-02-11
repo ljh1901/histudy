@@ -83,5 +83,8 @@
 	<bean id="lmsSubmitDAO" class="com.histudy.lms.model.LmsSubmitDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
+	<bean id="membershipDAO" class="com.histudy.membership.model.MembershipDAOImple">
+    	<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 </beans>
 

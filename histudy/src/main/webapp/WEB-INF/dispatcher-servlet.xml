@@ -98,6 +98,10 @@
 	<bean id="lmsService" class="com.histudy.lms.service.LmsServiceImple">
 		<constructor-arg ref="lmsDAO"></constructor-arg>
 	</bean>
+	<!-- 멤버십 서비스 -->
+	<bean id="membershipService" class="com.histudy.membership.service.MembershipServiceImple">
+		<constructor-arg ref="membershipDAO"></constructor-arg>
+	</bean>
 	<bean id="lmsSubmitService" class="com.histudy.lms.service.LmsSubmitServiceImple">
 		<constructor-arg ref="lmsSubmitDAO"></constructor-arg>
 	</bean>
