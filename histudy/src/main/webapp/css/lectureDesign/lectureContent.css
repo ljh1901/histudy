@@ -2,7 +2,7 @@
 
 #lectureContentPage header {
     background-color: white;
-    z-index: 9999 !important;
+    z-index: 9999;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
@@ -15,16 +15,16 @@
 .LectureContentContainer, 
 .lectureContentContainer {
     width: 80% !important;
-    max-width: 1200px !important;
-    margin: 50px auto !important;
-    padding: 0 !important;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0;
     box-sizing: border-box;
-    display: block !important;
+    display: block;
 }
 
 .video-memo-container {
-    display: flex !important;
-    flex-direction: row !important;
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
     gap: 30px;
@@ -38,8 +38,8 @@
 }
 
 .video-area video {
-    width: 100% !important;
-    height: auto !important;
+    width: 100%;
+    height: auto;
     display: block;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -76,18 +76,16 @@
     padding-bottom: 15px;
     border-bottom: 1px solid #eee;
 }
-/* 영상 아래 제목과 버튼을 감싸는 박스 */
 .lecture-header {
     display: flex;
-    justify-content: space-between; /* 제목은 왼쪽, 버튼은 오른쪽 끝으로 밀어내기 */
-    align-items: center;            /* 위아래 수직 중앙 정렬 */
+    justify-content: space-between;  
+    align-items: center;      
     width: 100%;
-    margin-top: 20px;               /* 영상과의 간격 */
-    border-bottom: 1px solid #ddd;  /* 아래 구분선 */
+    margin-top: 20px;  
+    border-bottom: 1px solid #ddd;  
     padding-bottom: 20px;
 }
 
-/* 왼쪽: 제목과 강사명 */
 .lecture-title-group h2 {
     margin: 0;
     font-size: 1.8rem;
