@@ -189,7 +189,7 @@ public class MentoringController {
             return "redirect:/mentorList.do";
         }
 
-        int result = mentoringService.approveMentorApplication(ma_id);
+        int result = mentoringService.approveAndMatch(ma_id);
 
         if (result > 0) {
             ra.addFlashAttribute("msg", "승인 처리되었습니다.");
@@ -200,7 +200,6 @@ public class MentoringController {
         return "redirect:/mentoringApplication.do";
     }
 
-    
     //신청 삭제
     @PostMapping("/mentoringDelete.do")
     public String mentoringDelete(@RequestParam("ma_id") int ma_id,
@@ -231,9 +230,9 @@ public class MentoringController {
         return "redirect:/mentoringApplication.do";
     }
 
+    //멘토링 신청 폼
     @GetMapping("/mentoringApply.do")
     public String mentoringApply(@RequestParam("mentor_idx") int mentor_idx,
-                                 HttpServletRequest request,
                                  RedirectAttributes ra) {
 
         int mentoring_idx = mentoringService.selectLatestMentoringIdxByMentor(mentor_idx);
@@ -242,10 +241,115 @@ public class MentoringController {
             ra.addFlashAttribute("msg", "아직 개설된 멘토링이 없습니다.");
             return "redirect:/mentorList.do";
         }
-        
-        request.setAttribute("mentoring_idx", mentoring_idx);
-        return "/mentoring/mentoringApply";
+
+        return "redirect:/mentoringApplyForm.do?mentoring_idx=" + mentoring_idx;
     }
+
+
+    @GetMapping("/mentoringApplyForm.do")
+    public String mentoringApplyForm(@RequestParam("mentoring_idx") int mentoring_idx,
+                                     HttpServletRequest request,
+                                     RedirectAttributes ra) {
+        MentoringDTO mentoring = mentoringService.selectMentoringDetailForApply(mentoring_idx);
+        if (mentoring == null) {
+            ra.addFlashAttribute("msg", "존재하지 않는 멘토링입니다.");
+            return "redirect:/mentorList.do";
+        }
+
+        request.setAttribute("mentoring", mentoring);
+        request.setAttribute("mentorSummary", mentoringService.selectMentorInfoByMentoringIdx(mentoring_idx));
+        return "/mentoring/mentoringApply"; 
+    }
+
+    @PostMapping("/mentoringApplySubmit.do")
+    public String mentoringApplySubmit(@RequestParam("mentoring_idx") int mentoring_idx,
+                                       @RequestParam("apply_content") String apply_content,
+                                       HttpServletRequest request,
+                                       RedirectAttributes ra) {
+
+        HttpSession session = request.getSession();
+        Integer mentee_user_idx = (Integer) session.getAttribute("user_idx");
+        if (mentee_user_idx == null) {
+            ra.addFlashAttribute("msg", "로그인이 필요합니다.");
+            return "redirect:/mentorList.do";
+        }
+
+        int result = mentoringService.applyMentoring(mentoring_idx, mentee_user_idx, apply_content);
+
+        if (result > 0) {
+            ra.addFlashAttribute("msg", "멘토링 신청이 완료되었습니다.");
+        } else {
+            ra.addFlashAttribute("msg", "신청에 실패했습니다.");
+        }
+
+        return "redirect:/mentorList.do";
+    }
+    
+    @GetMapping("/mentorProfile.do")
+    public String mentorProfile(@RequestParam("mentor_idx") int mentor_idx,
+                                HttpServletRequest request,
+                                RedirectAttributes ra) {
+      HttpSession session = request.getSession();
+      Integer user_idx = (Integer) session.getAttribute("user_idx");
+
+      MentoringDetailDTO detail = mentoringService.selectMentoringDetailByMentor(mentor_idx);
+      if (detail == null) {
+        ra.addFlashAttribute("msg", "아직 개설된 멘토링이 없습니다.");
+        return "redirect:/mentorList.do";
+      }
+      
+      int mentoring_idx= detail.getMentoring_idx();
+
+      request.setAttribute("detail", detail);
+      request.setAttribute("reviews", mentoringService.selectMentoringReviews(mentoring_idx));
+
+      Integer writableMatchId = null;
+      if (user_idx != null) {
+        writableMatchId = mentoringService.getWritableMatchId(mentor_idx, user_idx);
+      }
+      request.setAttribute("writableMatchId", writableMatchId);
+
+      return "/mentoring/mentorProfile";
+    }
+    
+    @PostMapping("/mentoringReviewWrite.do")
+    public String mentoringReviewWrite(@RequestParam("mentor_idx") int mentor_idx,
+                                       @RequestParam("rating") double rating,
+                                       @RequestParam("review_content") String review_content,
+                                       HttpServletRequest request,
+                                       RedirectAttributes ra) {
+      HttpSession session = request.getSession();
+      Integer user_idx = (Integer) session.getAttribute("user_idx");
+      if (user_idx == null) {
+        ra.addFlashAttribute("msg", "로그인이 필요합니다.");
+        return "redirect:/mentorProfile.do?mentor_idx=" + mentor_idx;
+      }
+
+      Integer matchId = mentoringService.getWritableMatchId(mentor_idx, user_idx);
+      if (matchId == null) {
+        ra.addFlashAttribute("msg", "리뷰는 매칭 완료 후 1회만 작성할 수 있습니다.");
+        return "redirect:/mentorProfile.do?mentor_idx=" + mentor_idx;
+      }
+      
+      MentoringDetailDTO detail = mentoringService.selectMentoringDetailByMentor(mentor_idx);
+      if (detail == null) {
+          ra.addFlashAttribute("msg", "멘토링 정보를 찾을 수 없습니다.");
+          return "redirect:/mentorProfile.do?mentor_idx=" + mentor_idx;
+      }
+      int mentoring_idx = detail.getMentoring_idx();
+
+      MentoringReviewDTO dto = new MentoringReviewDTO();
+      dto.setMatch_id(matchId);
+      dto.setMentoring_idx(mentoring_idx);
+      dto.setMentee_user_idx(user_idx);
+      dto.setRating(rating);
+      dto.setReview_content(review_content);
+
+      mentoringService.writeReview(dto);
+      ra.addFlashAttribute("msg", "리뷰가 등록되었습니다.");
+      return "redirect:/mentorProfile.do?mentor_idx=" + mentor_idx;
+    }
+
 
 
 }
