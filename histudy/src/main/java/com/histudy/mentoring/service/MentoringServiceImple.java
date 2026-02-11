@@ -1,13 +1,10 @@
 package com.histudy.mentoring.service;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Calendar;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -15,12 +12,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;  
 import com.histudy.mentoring.model.*;
 
-@Service
+
 public class MentoringServiceImple implements MentoringService {
 
     private MentoringDAO mentoringDAO;
 
-    @Autowired
     public MentoringServiceImple(MentoringDAO mentoringDAO) {
         this.mentoringDAO = mentoringDAO;
     }
@@ -155,15 +151,6 @@ public class MentoringServiceImple implements MentoringService {
       return mentoringDAO.insertMentoringReview(dto);
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
   /*  @Override
     @Transactional
     public void createMentoring(MentoringDTO dto, String scheduleJson, String skillTags) {
