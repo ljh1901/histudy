@@ -108,5 +108,40 @@ public class MentoringDAOImple implements MentoringDAO {
         return (v == null) ? 0 : v;
     }
 
+    @Override
+    public MentoringDTO selectMentoringDetailForApply(int mentoring_idx) {
+        return sqlSession.selectOne("com.histudy.mentoring.selectMentoringDetailForApply", mentoring_idx);
+    }
+
+    @Override
+    public MentorSummaryDTO selectMentorInfoByMentoringIdx(int mentoring_idx) {
+        return sqlSession.selectOne("com.histudy.mentoring.selectMentorInfoByMentoringIdx", mentoring_idx);
+    }
+
+    @Override
+    public int insertMentoringApplication(Map<String, Object> map) {
+        return sqlSession.insert("com.histudy.mentoring.insertMentoringApplication", map);
+    }
+
+    @Override
+    public MentoringDetailDTO selectMentoringDetailByMentor(int mentor_idx) {
+      return sqlSession.selectOne("com.histudy.mentoring.selectMentoringDetailByMentor", mentor_idx);
+    }
+
+    @Override
+    public List<MentoringReviewDTO> selectMentoringReviews(int mentor_idx) {
+      return sqlSession.selectList("com.histudy.mentoring.selectMentoringReviews", mentor_idx);
+    }
+
+    @Override
+    public Integer selectWritableMatchId(Map<String, Object> map) {
+      return sqlSession.selectOne("com.histudy.mentoring.selectWritableMatchId", map);
+    }
+
+    @Override
+    public int insertMentoringReview(MentoringReviewDTO dto) {
+      return sqlSession.insert("com.histudy.mentoring.insertMentoringReview", dto);
+    }
+
     
 }

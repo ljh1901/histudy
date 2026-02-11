@@ -32,5 +32,14 @@ public interface MentoringDAO {
 
     int selectLatestMentoringIdxByMentor(int mentor_idx);
 
+    MentoringDTO selectMentoringDetailForApply(int mentoring_idx);
+    MentorSummaryDTO selectMentorInfoByMentoringIdx(int mentoring_idx);
+    int insertMentoringApplication(java.util.Map<String, Object> map);
+
+    MentoringDetailDTO selectMentoringDetailByMentor(int mentor_idx);
+    List<MentoringReviewDTO> selectMentoringReviews(int mentor_idx);
+    Integer selectWritableMatchId(Map<String, Object> map);
+    int insertMentoringReview(MentoringReviewDTO dto);
+
     
 }
