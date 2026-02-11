@@ -11,6 +11,7 @@
 	<mapper resource="sqlMapper/mentoringSQL.xml"/>
 	<mapper resource="sqlMapper/lectureSQL.xml"/>
 	<mapper resource="sqlMapper/studycafeMapper.xml"/>
+  <mapper resource="sqlMapper/lmsSQL.xml"></mapper>
 	<mapper resource="sqlMapper/membershipSQL.xml" />
 	<mapper resource="sqlMapper/mypageSQL.xml" />
 	<mapper resource="sqlMapper/scheduleSQL.xml" />

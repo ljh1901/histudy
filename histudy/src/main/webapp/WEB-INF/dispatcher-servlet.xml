@@ -46,6 +46,9 @@
 	<bean id="studyService" class="com.histudy.study.service.StudyServiceImple">
 		<constructor-arg ref="studyDao"></constructor-arg>
 	</bean>
+	<bean id="studyApplyService" class="com.histudy.study.service.StudyApplyServiceImple">
+		<constructor-arg ref="studyApplyDao"></constructor-arg>
+	</bean>
 	<!-- 회원 서비스 -->
 	<bean id="userService" class="com.histudy.user.service.UserServiceImple">
 		<constructor-arg ref="userDAO" />
@@ -90,5 +93,12 @@
 	<!-- 스터디 카페 서비스 -->
 	<bean id="studycafeService" class="com.histudy.studycafe.service.StudycafeServiceImple">
 		<constructor-arg ref="studycafeDAO"></constructor-arg>
+	</bean>
+	<!-- LMS 서비스 -->
+	<bean id="lmsService" class="com.histudy.lms.service.LmsServiceImple">
+		<constructor-arg ref="lmsDAO"></constructor-arg>
+	</bean>
+	<bean id="lmsSubmitService" class="com.histudy.lms.service.LmsSubmitServiceImple">
+		<constructor-arg ref="lmsSubmitDAO"></constructor-arg>
 	</bean>
 </beans>

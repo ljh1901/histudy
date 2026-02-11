@@ -52,5 +52,34 @@ public class StudyDAOImple implements StudyDAO {
 	   return dto;
 	}
    
+   @Override
+	public List<StudyDTO> findStudyTitle() {
+	   List<StudyDTO> titleList = sqlSession.selectList("studyTitleFind");
+		return titleList;
+	}
+   
+   @Override
+	public int studyTitleSearchTotalCnt(String searchTitle) {
+		int count = sqlSession.selectOne("studyTitleSearchTotalCnt", searchTitle);
+		return count;
+	}
+   // 개설자인지 체크
+   @Override
+	public List<StudyDTO> studyCreatorCheck(int user_idx) {
+	   List<StudyDTO> lists = sqlSession.selectList("studyCreatorCheck", user_idx);
+		return lists;
+	}
+   // 참여자인지 체크
+   @Override
+	public List<StudyApplyDTO> studyApplyCheck(int user_idx) {
+	   List<StudyApplyDTO> lists = sqlSession.selectList("studyApplyCheck", user_idx);
+		return lists;
+	}
+   // 참여자라면 어떤 스터디에 참여중인지
+   @Override
+	public List<StudyDTO> studyApproved(int study_idx) {
+	   List<StudyDTO> approvedList = sqlSession.selectList("studyApproved", study_idx);
+		return approvedList;
+	}
    
 }

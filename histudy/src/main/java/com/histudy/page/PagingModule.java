@@ -2,8 +2,8 @@ package com.histudy.page;
 
 public class PagingModule {
 	
-	public static String makePage(int cp, int listSize, int pageSize, int totalCnt, String pagename, Integer sc_idx) {
-
+	public static String makePage(int cp, int listSize, int pageSize, int totalCnt, String pagename, Integer sc_idx, String studyFind) {
+		// 카테고리 유효성 검사
 		if(sc_idx == null) {
 			sc_idx = 0;
 		}
@@ -30,6 +30,8 @@ public class PagingModule {
 			sb.append(startPage-1);
 			sb.append("&sc_idx=");
 			sb.append(sc_idx);
+			sb.append("&studyFind=");
+			sb.append(studyFind);
 			sb.append("'>");
 			sb.append("<img src='");
 			sb.append("/histudy/main-img/prev.png'>");
@@ -46,6 +48,8 @@ public class PagingModule {
 			sb.append(i);
 			sb.append("&sc_idx=");
 			sb.append(sc_idx);
+			sb.append("&studyFind=");
+			sb.append(studyFind);
 			sb.append("'>");
 			sb.append(i);
 			sb.append("</a>");
@@ -58,6 +62,8 @@ public class PagingModule {
 			sb.append(endPage+1);
 			sb.append("&sc_idx=");
 			sb.append(sc_idx);
+			sb.append("&studyFind=");
+			sb.append(studyFind);
 			sb.append("'>");
 			sb.append("<img src='");
 			sb.append("/histudy/main-img/next.png'>");
