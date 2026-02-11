@@ -54,7 +54,7 @@
             
             <div class="btn-area">
                 <button type="submit" class="btn btn-submit">답변 등록/수정</button>
-                <button type="button" class="btn btn-list" onclick="location.href='adminInquiryList.jsp'">목록으로</button>
+                <button type="button" class="btn btn-list" onclick="location.href='adminInquiryList.do'">목록으로</button>
             </div>
         </form>
     </div>
