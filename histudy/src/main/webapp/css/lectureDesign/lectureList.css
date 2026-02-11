@@ -66,3 +66,27 @@ tfoot td {
     text-align: center;
     padding-top: 30px;
 }
+
+.membership{
+	width: 100%;
+	background-color: #dbdefd;	
+}
+.membership div{
+	text-align: center;
+	font-size: 50px;
+}
+.membership p{
+	text-align:center;
+	font-size:20px;
+}
+.membership input[name="membership_go"] {
+	background-color: black;
+   	color: white;
+   	font-size:20px;
+   	border-radius:15px;
+   	display:block;
+   	margin:0px auto;
+   	padding: 15px 40px;
+   	cursor: pointer;
+}
+    

@@ -63,6 +63,20 @@
    </table>
    </form>
    </section>
+   <form name="membershipFm" action="membership.do">
+   <section class="membership">
+   <br>
+   <br>
+   <div>지금 바로 학습을 시작하세요</div>
+   <br>
+   <p>개의 강의와 명의 수강생들이 함께하고 있습니다</p>
+   <br>
+   <br>
+   <input type="submit" name="membership_go" value="멤버십 가입하기">
+   <br>
+   <br>
+   </section>
+   </form>
 </main>
 <%@include file="../footer.jsp"%>
 </body>
