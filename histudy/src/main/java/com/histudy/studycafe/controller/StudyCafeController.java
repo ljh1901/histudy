@@ -1,6 +1,7 @@
 package com.histudy.studycafe.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,6 @@ public class StudyCafeController {
 	private StudycafeSerivce studycafeService;
 	
 	@GetMapping
-
 	public ResponseEntity<List<TicketJoinTicketCategoryDTO>> ticketInfo(@RequestParam int ticket_category_idx) {
 		List<TicketJoinTicketCategoryDTO> data = studycafeService.ticketInfo(ticket_category_idx);
 		ResponseEntity<List<TicketJoinTicketCategoryDTO>> re = new ResponseEntity<List<TicketJoinTicketCategoryDTO>>(data,HttpStatus.OK);
@@ -33,8 +33,8 @@ public class StudyCafeController {
 	}
 	
 	@PostMapping
-	public StudycafeJoinReservationDTO seatReservation(@RequestBody StudycafeJoinReservationDTO sjrdto) {
-		StudycafeJoinReservationDTO info = studycafeService.seatReservation(sjrdto.getSeat_idx());
+	public StudycafeJoinReservationDTO seatReservation(@RequestBody Map<String,Integer> map) {
+		StudycafeJoinReservationDTO info = studycafeService.seatReservation(map.get("seat_idx"));
 		return info;
 	}
 }

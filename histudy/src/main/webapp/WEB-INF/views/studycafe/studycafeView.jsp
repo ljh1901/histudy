@@ -353,10 +353,12 @@ function showResult(){
 var queryNum=-1;
 var seat_idx = null;
 var ticket_idx = null;
+
 function seatReservation(){
 for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 	document.querySelectorAll(".seat-a")[i].addEventListener('click', function(){
 		seat_idx=document.querySelectorAll(".seat-a")[i].dataset.seatIdx;
+		seatCurrent(seat_idx);
 		queryNum=i;
 		document.querySelector('#seat').innerHTML = document.querySelectorAll(".seat-a")[i].getAttribute("value")+ '의 좌석현황';
 		document.querySelector('.modal-content').innerHTML='<button id="reserveBtn">이용 하기</button>';
@@ -456,14 +458,15 @@ function portOnePay(queryNum){
 
 
 // 1. 좌석 현황
-function seatCurrent(){
+function seatCurrent(seat_idx){
+	alert(seat_idx);
 	return fetch("seatReservation.do", {
 		method: "POST",
 		headers:{
 			"Content-Type":"application/json"
 		},
 		body:JSON.stringify({
-			seat_idx: (i+1)
+			seat_idx: seat_idx
 		})
 	})
 	.then(function(res){
@@ -472,10 +475,25 @@ function seatCurrent(){
 		}
 	})
 	.then(function(res){
-		alert(res)
-			data.forEach(function(responseData){
-				alert(responseData);
-			})
+		var divTag=document.createElement('div');
+		document.getElementById('seat').appendChild(divTag);
+		var reservation_starttime=new Date(res.reservation_starttime);
+		var reservation_endtime = new Date(res.reservation_endtime);
+		
+		reservation_starttime = reservation_starttime.getFullYear()+"년"
+		+(reservation_starttime.getMonth()+1)
+		+"월"+reservation_starttime.getDate()
+		+"일&nbsp;"+reservation_starttime.getHours()
+		+"시&nbsp;"+reservation_starttime.getMinutes()
+		+"분";
+		reservation_endtime=reservation_endtime.getFullYear()+"년"
+		+(reservation_endtime.getMonth()+1)
+		+"월"+reservation_endtime.getDate()
+		+"일&nbsp;"+reservation_endtime.getHours()
+		+"시&nbsp;"+reservation_endtime.getMinutes()
+		+"분";
+		var str="시작시간: "+reservation_starttime+"<div>종료시간: "+reservation_endtime;
+		divTag.innerHTML = str;
 	})
 	.catch(error => console.log(error.message))
 }

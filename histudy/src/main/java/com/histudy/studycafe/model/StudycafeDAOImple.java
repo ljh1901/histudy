@@ -58,4 +58,10 @@ public class StudycafeDAOImple implements StudycafeDAO{
 		TicketJoinTicketCategoryDTO tjtc = sqlSession.selectOne("selectTicketTotalAmountSQL", ticket_idx);
 		return tjtc;
 	}
+	
+	@Override
+	public int ticketTime(int ticket_idx) {
+		int ticket_time = sqlSession.selectOne("selectTicketTimeSQL", ticket_idx);
+		return ticket_time;
+	}
 }
