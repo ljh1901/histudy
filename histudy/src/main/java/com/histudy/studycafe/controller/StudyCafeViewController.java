@@ -85,12 +85,9 @@ public class StudyCafeViewController {
 				.send(request, HttpResponse
 						.BodyHandlers
 						.ofString()); 
-		 System.out.println(response.body());
 		 ObjectMapper mapper = new ObjectMapper();
 		 JsonNode root = mapper.readTree(response.body());
 		 Integer totalAmount = root.get("amount").get("total").asInt();
-		 System.out.println(totalAmount);
-		 System.out.println(viewTotalAmount);
 		 if(viewTotalAmount != totalAmount) {
 				mav.addObject("msg", "금액 변조 및 금액 검증 실패");
 				mav.setViewName("studycafe/receipt");
@@ -98,20 +95,23 @@ public class StudyCafeViewController {
 		 System.out.println(viewTotalAmount == totalAmount);
 		 String storeId = root.get("storeId").asText();
 		 String orderName = root.get("orderName").asText();
-		 Integer paid = root.get("amount").get("paid").asInt();
 		 String pay_status= root.get("status").asText();
 		 String pay_method=root.get("method").get("provider").asText();
 		 String statusChangedAt = root.get("statusChangedAt").asText();
 		 String paidAt= root.get("paidAt").asText();
 		 String pgProvider = root.get("channel").get("pgProvider").asText();
+		 ObjectMapper node = new ObjectMapper();
+		 JsonNode customData = node.readTree(root.get("customData").asText());
+		 int seat_idx=customData.get("seat_idx").asInt();
+		 int ticket_idx=customData.get("ticket_idx").asInt();
+		 Integer paid = root.get("amount").get("paid").asInt();
 		 Integer vat = root.get("amount").get("vat").asInt();//부가세
 		 Integer supply = root.get("amount").get("supply").asInt();// 과세 매출
-		 
 		 PayDTO paydto = new PayDTO(paymentId, storeId, orderName, paid, (Integer)session.getAttribute("user_idx"), pay_method, pay_status, 
 				 statusChangedAt, paidAt, totalAmount,"channel-key-da563d5f-f117-444f-aba5-ad9b66277c1b", pgProvider, vat, supply);
 		 int result = studycafeService.paySeat(paydto);
 		 if(result > 0) {
-		
+			int reservation = studycafeService.registerReservation((Integer) session.getAttribute("user_idx"),seat_idx,paidAt,orderName.substring(orderName.indexOf("/")+1),"RESERVED",ticket_idx,paymentId);
 		 }
 		}catch(Exception e) {
 			e.printStackTrace();

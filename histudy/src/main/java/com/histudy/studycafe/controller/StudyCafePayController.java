@@ -36,7 +36,7 @@ public class StudyCafePayController {
 	private StudycafeSerivce studycafeService;
 	
 	@PostMapping(value="/payNotComplete.do")
-	public ResponseEntity<PayDTO> payNotComplete(@RequestBody PayDTO payOrder, HttpSession session, @RequestParam int ticket_idx){
+	public ResponseEntity<PayDTO> payNotComplete(@RequestBody PayDTO payOrder,HttpSession session, @RequestParam int ticket_idx){
 		payOrder.setUser_idx((Integer) session.getAttribute("user_idx"));
 		int result = studycafeService.orderPay(payOrder);
 		TicketJoinTicketCategoryDTO tjtcdto = studycafeService.ticketTotalAmount(ticket_idx);

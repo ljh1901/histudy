@@ -6,12 +6,13 @@ public class TicketJoinTicketCategoryDTO {
 	private int studycafe_idx;
 	private int ticket_idx;
 	private int ticket_amount;
+	private int ticket_time;
 	private String ticket_name;
 	public TicketJoinTicketCategoryDTO() {
 		super();
 	}
 	public TicketJoinTicketCategoryDTO(int ticket_category_idx, String ticket_category_name, int studycafe_idx,
-			int ticket_idx, int ticket_amount, String ticket_name) {
+			int ticket_idx, int ticket_amount, String ticket_name, int ticket_time) {
 		super();
 		this.ticket_category_idx = ticket_category_idx;
 		this.ticket_category_name = ticket_category_name;
@@ -19,6 +20,7 @@ public class TicketJoinTicketCategoryDTO {
 		this.ticket_idx = ticket_idx;
 		this.ticket_amount = ticket_amount;
 		this.ticket_name = ticket_name;
+		this.ticket_time = ticket_time;
 	}
 	public int getTicket_category_idx() {
 		return ticket_category_idx;
@@ -55,6 +57,12 @@ public class TicketJoinTicketCategoryDTO {
 	}
 	public void setTicket_name(String ticket_name) {
 		this.ticket_name = ticket_name;
+	}
+	public int getTicket_time() {
+		return ticket_time;
+	}
+	public void setTicket_time(int ticket_time) {
+		this.ticket_time = ticket_time;
 	}
 	
 	
