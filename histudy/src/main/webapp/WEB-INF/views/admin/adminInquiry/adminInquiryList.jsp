@@ -10,7 +10,7 @@
 <%@ include file="../adminCheck.jsp" %>
 <style>
 /* 컨테이너 및 기본 설정 */
-.admin__inquiry__container {
+.inquiry__container {
 	padding: 40px;
 	max-width: 1200px;
 	margin: 0 auto;
@@ -28,7 +28,7 @@
 }
 
 /* 필터/검색 영역 */
-.filter__section {
+.inquiry__cat {
 	background-color: #f8fafc;
 	padding: 20px;
 	border-radius: 8px;
@@ -38,22 +38,22 @@
 	gap: 10px;
 }
 
-.filter__section select, .filter__section input {
+.inquiry__cat select, .inquiry__cat input {
 	padding: 10px;
 	border: 1px solid #e2e8f0;
 	border-radius: 6px;
 	font-size: 14px;
 }
 
-.filter__section select {
+.inquiry__cat select {
 	min-width: 120px;
 }
 
-.filter__section input {
+.inquiry__cat input {
 	flex-grow: 1;
 }
 
-.btn__search {
+.inquiry__btn__search {
 	background-color: #4f46e5;
 	color: white;
 	border: none;
@@ -63,18 +63,18 @@
 	transition: 0.2s;
 }
 
-.btn__search:hover {
+.inquiry__btn__search:hover {
 	background-color: #4338ca;
 }
 
 /* 테이블 스타일 */
-.inquiry__table {
+.inquiry__list__table {
 	width: 100%;
 	border-collapse: separate;
 	border-spacing: 0;
 }
 
-.inquiry__table th {
+.inquiry__list__table th {
 	background-color: #f1f5f9;
 	color: #64748b;
 	font-weight: 600;
@@ -84,7 +84,7 @@
 	text-transform: uppercase;
 }
 
-.inquiry__table td {
+.inquiry__list__table td {
 	padding: 16px 15px;
 	border-bottom: 1px solid #f1f5f9;
 	color: #334155;
@@ -92,7 +92,7 @@
 	vertical-align: middle;
 }
 
-.inquiry__table tr:hover {
+.inquiry__list__table tr:hover {
 	background-color: #fcfdfe;
 }
 
@@ -117,16 +117,16 @@
 	font-weight: bold;
 }
 
-.category--tag {
+.inquiry__cat__item {
 	background-color: #e2e8f0;
 	color: #475569;
 }
 
-.status--wait {
+.inquiry__status__ok__wait {
 	background-color: #fee2e2;
 	color: #ef4444;
 } /* 답변대기 */
-.status--done {
+.inquiry__status__ok {
 	background-color: #dcfce7;
 	color: #22c55e;
 }
@@ -134,12 +134,12 @@
 </head>
 <body id="adminInquiryList">
 
-	<div class="admin__inquiry__container">
+	<div class="inquiry__container">
 		<div class="admin__header">
 			<h1 class="admin__title">문의사항 관리</h1>
 		</div>
 
-		<div class="filter__section">
+		<div class="inquiry__cat">
 			<select name="category">
 				<option value="all">전체 카테고리</option>
 				<option value="study">스터디</option>
@@ -148,10 +148,10 @@
 				<option value="lecture">강의</option>
 				<option value="lms">LMS</option>
 			</select> <input type="text" placeholder="제목 또는 작성자 검색">
-			<button type="button" class="btn__search">검색</button>
+			<button type="button" class="inquiry__btn__search">검색</button>
 		</div>
 
-		<table class="inquiry__table">
+		<table class="inquiry__list__table">
 			<thead>
 				<tr>
 					<th>번호</th>
@@ -165,21 +165,21 @@
 			<tbody>
 				<tr>
 					<td align="center">1</td>
-					<td align="center"><span class="badge category--tag">스터디카페</span></td>
+					<td align="center"><span class="badge inquiry__cat__item">스터디카페</span></td>
 					<td style="text-align: left;"><a href="adminInquiryDetail.do"
 						class="inquiry__link">예약 취소 관련 문의드립니다.</a></td>
 					<td align="center">홍길동</td>
 					<td align="center">2026-02-10</td>
-					<td align="center"><span class="badge status--wait">답변대기</span></td>
+					<td align="center"><span class="badge inquiry__status__ok__wait">답변대기</span></td>
 				</tr>
 				<tr>
 					<td align="center">2</td>
-					<td align="center"><span class="badge category--tag">LMS</span></td>
+					<td align="center"><span class="badge inquiry__cat__item">LMS</span></td>
 					<td style="text-align: left;"><a href="adminInquiryDetail.do"
 						class="inquiry__link">강의 자료가 열리지 않아요.</a></td>
 					<td align="center">김철수</td>
 					<td align="center">2026-02-09</td>
-					<td align="center"><span class="badge status--done">답변완료</span></td>
+					<td align="center"><span class="badge inquiry__status__ok">답변완료</span></td>
 				</tr>
 			</tbody>
 		</table>
