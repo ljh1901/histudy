@@ -26,7 +26,7 @@ th {
 	background-color: #f4f4f4;
 }
 
-.btn-del {
+.ticket__btn__del {
 	background: #ff4d4d;
 	color: white;
 	border: none;
@@ -35,7 +35,7 @@ th {
 	cursor: pointer;
 }
 
-.reg-area {
+.adminCafeTicketReg {
 	margin-bottom: 20px;
 	padding: 15px;
 	background: #f9f9f9;
@@ -77,8 +77,8 @@ select, input {
 
 	<h3>요금제 등록하기</h3>
 
-	<div class="reg-area">
-		<form id="priceForm">
+	<div class="adminCafeTicketReg">
+		<form id="adminCafeTicketForm">
 			<input type="hidden" name="studycafe_idx" value="${param.studycafe_idx}"> 
 			<label>카테고리 선택: </label> <select name="ticket_category_idx" id="categorySelect">
 				<c:forEach var="cat" items="${categoryList}">
@@ -112,8 +112,7 @@ select, input {
 					<td>${ticket.ticket_name}</td>
 					<td>${ticket.ticket_time}</td>
 					<td>${ticket.ticket_amount}원</td>
-					<td><button class="btn-del"
-							onclick="deleteTicket(${ticket.ticket_idx})">삭제</button></td>
+					<td><button class="ticket__btn__del" onclick="deleteTicket(${ticket.ticket_idx})">삭제</button></td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -154,12 +153,11 @@ function registerTicket() {
                     <td>\${data.ticket_name}</td>
                     <td>\${data.ticket_time}</td>
                     <td>\${data.ticket_amount}원</td>
-                    <td><button class="btn-del" onclick="deleteTicket(\${result.newIdx})">삭제</button></td>
+                    <td><button class="ticket__btn__del" onclick="deleteTicket(\${result.newIdx})">삭제</button></td>
                 </tr>
             `;
             tbody.insertAdjacentHTML('beforeend', newRow);
             
-            // 입력창 초기화
             form.ticket_name.value = "";
             form.ticket_time.value = "";
             form.ticket_amount.value = "";
@@ -175,7 +173,7 @@ function deleteTicket(idx) {
     .then(result => {
         if(result.status === "success") {
             const row = document.getElementById("ticket_" + idx);
-            row.remove(); // 화면에서 즉시 제거
+            row.remove();
         }
     });
 }

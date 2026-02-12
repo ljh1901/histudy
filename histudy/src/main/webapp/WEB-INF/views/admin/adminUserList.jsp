@@ -9,11 +9,6 @@
 <link rel="stylesheet" href="css/admin/admin_layout.css" type="text/css">
 <%@ include file="adminCheck.jsp" %>
 <style>
-.admin__user__container {
-	padding: 30px;
-	max-width: 1200px;
-	margin: 0 auto;
-}
 
 /* 테이블 스타일 커스텀 */
 .user__table {

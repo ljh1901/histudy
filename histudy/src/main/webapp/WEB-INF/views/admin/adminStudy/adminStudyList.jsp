@@ -8,25 +8,13 @@
 <title>스터디 모임 관리</title>
 <link rel="stylesheet" href="css/admin/admin_layout.css" type="text/css">
 <%@ include file="../adminCheck.jsp" %>
-<style>
-    /* 제목 클릭 시 강조를 위한 스타일 */
-    .study__title__link {
-        text-decoration: none;
-        color: #1e293b;
-        font-weight: 700;
-        cursor: pointer;
-    }
-    .study__title__link:hover {
-        color: #4f46e5;
-        text-decoration: underline;
-    }
-</style>
+
 </head>
 <body>
 	<div class="admin__study__container">
 		<div class="admin__header">
 			<h1>스터디 모임 관리</h1>
-			<div class="admin__filter">
+			<div class="admin__study__cat">
 				<select id="cateFilter" class="admin__select"
 					onchange="filterCategory(this.value)">
 					<option value="0" ${param.sc_idx == '0' ? 'selected' : ''}>전체</option>
@@ -63,10 +51,10 @@
 					<div class="admin__actions">
 						<c:choose>
 							<c:when test="${s.study_current_members >= s.study_max_members}">
-								<span class="study__status status--closed">마감</span>
+								<span class="study__status study__status__closed">마감</span>
 							</c:when>
 							<c:otherwise>
-								<span class="study__status status--recruiting">모집중</span>
+								<span class="study__status study__status__recruiting">모집중</span>
 							</c:otherwise>
 						</c:choose>
 

@@ -7,8 +7,8 @@
 <title>StudyCafe Editor - ${param.studycafe_name}</title>
 <link rel="stylesheet" href="css/admin/admin_layout.css" type="text/css">
 <style>
-    html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
-    body {font-family: 'Pretendard', Arial, sans-serif; display: flex; flex-direction: column; }
+    html, #studycafeEditor { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+    #studycafeEditor {font-family: 'Pretendard', Arial, sans-serif; display: flex; flex-direction: column; }
 
     .editor-wrap { 
     	max-width: 1400px; height: 100vh;
@@ -68,7 +68,6 @@
             <button onclick="tool='room'">스터디룸 추가</button>
         </div>
         <div>
-            <span style="margin-right:20px; font-size:14px; color:#64748b;">카페: <strong>${param.studycafe_name}</strong></span>
             <button class="save-btn" onclick="saveLayout()">배치 저장하기</button>
         </div>
     </div>
