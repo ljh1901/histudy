@@ -21,12 +21,25 @@ public class AdminStudyController {
 
 	//스터디모임 리스트
 	@GetMapping("/adminStudyList.do")
-	public ModelAndView adminStudyList() {
-	    ModelAndView mav = new ModelAndView("admin/adminStudyList");
+	public ModelAndView adminStudyList(@RequestParam(value="sc_idx", defaultValue="0") int sc_idx) {
+	    ModelAndView mav = new ModelAndView();
+	    List<StudyDTO> list = adminStudyService.getStudyList(sc_idx);
 	    
-	    List<StudyDTO> list = adminStudyService.getStudyList();
 	    mav.addObject("studyList", list);
+	    mav.addObject("selectedCategory", sc_idx); 
+	    mav.setViewName("admin/adminStudy/adminStudyList");
 	    
+	    return mav;
+	}
+	//스터디모임 조회
+	@GetMapping("/adminStudyDetail.do")
+	public ModelAndView adminStudyDetail(@RequestParam("study_idx") int study_idx) {
+	    ModelAndView mav = new ModelAndView();
+	    
+	    StudyDTO dto = adminStudyService.getStudyDetail(study_idx);
+	    
+	    mav.addObject("dto", dto);
+	    mav.setViewName("admin/adminStudy/adminStudyDetail");
 	    return mav;
 	}
 	

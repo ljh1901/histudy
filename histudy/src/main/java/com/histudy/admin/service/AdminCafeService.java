@@ -6,7 +6,7 @@ import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
 
 import java.util.*;
 
-public interface AdminService {
+public interface AdminCafeService {
     public List<StudycafeDTO> getCafeList();
     public List<Map<String, Object>> getSalesList(Map<String, Object> params);
     

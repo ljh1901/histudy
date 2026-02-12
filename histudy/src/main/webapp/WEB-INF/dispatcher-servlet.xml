@@ -59,8 +59,8 @@
 	</bean>
 	
 	<!-- 관리자 서비스 -->
-	<bean id="adminService" class="com.histudy.admin.service.AdminServiceImple">
-    	<constructor-arg ref="adminDAO"/>
+	<bean id="adminCafeService" class="com.histudy.admin.service.AdminCafeServiceImple">
+    	<constructor-arg ref="adminCafeDAO"/>
 	</bean>
 	<!-- 관리자 유저 관리 서비스 -->
 	<bean id="adminUserService" class="com.histudy.admin.service.AdminUserServiceImple">
