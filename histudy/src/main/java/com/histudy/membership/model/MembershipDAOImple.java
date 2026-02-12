@@ -11,4 +11,9 @@ public class MembershipDAOImple implements MembershipDAO {
 	public int insertPayment(MembershipPaymentDTO paymentDTO) {
 		return sqlSession.insert("insertPayment",paymentDTO);
 	}
+	@Override
+	public String membershipGrade(int user_idx) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("com.histudy.membership.model.MembershipDAO.membershipGrade",user_idx);
+	}
 }

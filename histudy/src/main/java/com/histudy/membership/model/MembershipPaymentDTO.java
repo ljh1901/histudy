@@ -2,7 +2,6 @@ package com.histudy.membership.model;
 import java.sql.*;
 public class MembershipPaymentDTO {
 	private int payment_idx;
-	private String payId;
 	private String payNum;
 	private String payment_method;
 	private String payment_status;
@@ -18,12 +17,6 @@ public class MembershipPaymentDTO {
 	}
 	public void setPayment_idx(int payment_idx) {
 		this.payment_idx = payment_idx;
-	}
-	public String getPayId() {
-		return payId;
-	}
-	public void setPayId(String payId) {
-		this.payId = payId;
 	}
 	public String getPayNum() {
 		return payNum;
@@ -71,7 +64,6 @@ public class MembershipPaymentDTO {
 			String payment_status, int payment_amount, Date payment_date, int user_idx, int membership_idx) {
 		super();
 		this.payment_idx = payment_idx;
-		this.payId = payId;
 		this.payNum = payNum;
 		this.payment_method = payment_method;
 		this.payment_status = payment_status;

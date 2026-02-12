@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +20,7 @@ import com.histudy.lecture.model.LectureLikeDTO;
 import com.histudy.lecture.model.LectureNoteDTO;
 import com.histudy.lecture.model.LectureReviewDTO;
 import com.histudy.lecture.service.LectureService;
+import com.histudy.membership.service.MembershipService;
 
 
 @Controller
@@ -28,6 +28,8 @@ public class LectureController {
 
    @Autowired
     private LectureService lectureService;
+   @Autowired
+   private MembershipService membershipService;
    
    @GetMapping("lecture.do")
    public ModelAndView lectureList(
@@ -37,7 +39,6 @@ public class LectureController {
 	  int listSize=8;
 	  int pageSize=5;
 	  String pageStr=com.histudy.lecture.page.PageModule.makePage("lecture.do",totalCnt,listSize,pageSize,cp);
-	   
       ModelAndView mav= new ModelAndView();
       List<LectureDTO> lists;
 	try {
@@ -58,15 +59,13 @@ public class LectureController {
       map.put("lecture_idx", lecture_idx);
       map.put("user_idx", user_idx);
       ModelAndView mav=new ModelAndView();
+      String scIdx=lectureService.scIdx(lecture_idx);
+      mav.addObject("scIdx",scIdx);
       if(user_idx!=null) {
     	  Integer review_idx=lectureService.myReview(user_idx);
-    	  String userName=lectureService.selectName(user_idx);
-    	  String scIdx=lectureService.scIdx(lecture_idx);
     	  mav.addObject("myReview",review_idx);
     	  List<LectureReviewDTO> lists=lectureService.reviewList(lecture_idx);
     	  mav.addObject("reviewList",lists);
-    	  mav.addObject("userName",userName);
-    	  mav.addObject("scIdx",scIdx);
       LectureNoteDTO memo = lectureService.lectureMemoList(map);
       if (memo == null) {
           LectureNoteDTO dto = new LectureNoteDTO();

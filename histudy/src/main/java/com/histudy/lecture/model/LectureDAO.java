@@ -27,6 +27,5 @@ public interface LectureDAO {
    public Integer myReview(int user_idx);
    public int reviewUpdate(LectureReviewDTO dto);
    public int reviewDelete(int review_idx);
-   public String selectName(int user_idx);
    public String scIdx(int lecture_idx);
 }
