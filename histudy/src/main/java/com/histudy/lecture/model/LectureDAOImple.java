@@ -114,11 +114,6 @@ public class LectureDAOImple implements LectureDAO {
 		return sqlSession.delete("reviewDelete",review_idx);
 	}
    @Override
-	public String selectName(int user_idx) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("selectName",user_idx);
-	}
-   @Override
 	public String scIdx(int lecture_idx) {
 		return sqlSession.selectOne("scIdx",lecture_idx);
 	}

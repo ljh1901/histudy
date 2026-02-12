@@ -17,10 +17,12 @@
 <main>
 	<section class="lectureListContainer">
    <form name="lectureFm">
+   <section class="top">
    <fieldset>
 	   <p>Hi, Study 프리미엄 멤버십 29,000원 / <del>50,000원</del></p>
 	   <p>분야별 전문 강사의 강의 제공 !! 스터디 카페 이용권 할인 혜택 !!</p>
    </fieldset>
+   </section>
    <c:set var="count" value="0" />
    <table>
    		<tr>
@@ -41,7 +43,7 @@
 		                </video>
 		            </div>
 		            <div class="info-box">
-		                <p class="lecture-title">${dto.lecture_name}</p>
+		                <p class="lecture-title">[${dto.sc_name}] ${dto.lecture_name}</p>
 		                <p class="lecturer-name">${dto.lecture_lecturer}</p>
 		            </div>
 		        </a>

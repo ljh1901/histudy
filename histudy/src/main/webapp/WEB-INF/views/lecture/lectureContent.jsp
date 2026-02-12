@@ -19,6 +19,10 @@ function load(){
 		alert(message);
 		location.href="index.do";
 	}
+    var reviewMsg = "${param.reviewMsg}"; 
+    if(reviewMsg != "") {
+        alert(reviewMsg);
+    }
 }
 function show(lecture_idx) {
     var reviewDiv = document.getElementById('reviewWrite');
@@ -126,11 +130,7 @@ function dohate(lecture_idx, user_idx) {
 <!-- 유효성 검사 -->
 <c:choose>
 	<c:when test="${empty sessionScope.user_idx}">
-		
 	   <h1>프리미엄 회원만 볼 수 있는 컨텐츠입니다.</h1>
-	   <h1>프리미엄 회원만 볼 수 있는 컨텐츠입니다.</h1>
-	   <h1>프리미엄 회원만 볼 수 있는 컨텐츠입니다.</h1>
-		<h2><a href="membership.do">멤버십 가입하러가기</a></h2>
 	</c:when>
 	<c:otherwise>
 		<form name="lectureContent" action="lectureMemo.do">
@@ -169,7 +169,7 @@ function dohate(lecture_idx, user_idx) {
 	   <div class="lecture-header">
 	    
 	    <div class="lecture-title-group">
-	        <h2>${lectureContent.lecture_name}</h2>
+	        <h2>[${scIdx}] ${lectureContent.lecture_name}</h2>
 	        <h3>강사: ${lectureContent.lecture_lecturer}</h3>
 	    </div>
 	
@@ -213,8 +213,8 @@ function dohate(lecture_idx, user_idx) {
 	       </c:if>
 	       <c:forEach var="dto" items="${reviewList}">
 	       <tr>
-	       		<td><img src="${userPro}" width="20">${userName }</td>
-	       </tr>
+				<td><img src="${userPro}" width="20">${dto.user_name}</td>	       
+		   </tr>
 	       <tr>
 	       		<td>
 			    <c:choose>
@@ -248,7 +248,6 @@ function dohate(lecture_idx, user_idx) {
 							onclick="reviewDelete('${dto.review_idx }','${dto.lecture_idx }')"> 
 					</c:when>
 					<c:otherwise>
-						<input type="button" value="답글">
 					</c:otherwise>
 				</c:choose>
 				
@@ -280,7 +279,7 @@ function dohate(lecture_idx, user_idx) {
 	   		<td><textarea rows="10" cols="90" name="review_content"></textarea>
 	   	</tr>
 	   	<tr>
-	   		<td><input type="submit" name="reviewbt" value="리뷰 작성" onclick="reviewWrite()"></td>
+	   		<td><input type="submit" name="reviewbt" value="리뷰 작성"></td>
 	   	</tr>
 	   </table>
 		</form>

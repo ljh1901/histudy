@@ -9,6 +9,7 @@ public class LectureDTO {
 	private Date lecture_date;
 	private String lecture_file;
 	private int category_idx;
+	private String sc_name;
 	public LectureDTO() {
 		// TODO Auto-generated constructor stub
 	}
@@ -26,6 +27,12 @@ public class LectureDTO {
 		this.category_idx = category_idx;
 	}
 	
+	public String getSc_name() {
+		return sc_name;
+	}
+	public void setSc_name(String sc_name) {
+		this.sc_name = sc_name;
+	}
 	public int getLecture_idx() {
 		return lecture_idx;
 	}

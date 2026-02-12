@@ -47,7 +47,7 @@
           tax_free: 0,
           user: {
             id: id,
-            username: name+Date.now(),
+            username: name,
             phone: tel,
             email: email
           },
@@ -65,12 +65,14 @@
             escrow: false
           }
         })
- 
+        
         // ------ STEP 4. 결제 결과 처리 ------
         switch (response.event) {
           case 'done':
             // 결제 완료 - 서버에서 검증 필요
             console.log('결제 완료:', response.receipt_id)
+            alert('결제가 완료되었습니다! 프리미엄 멤버십에 오신걸 환영합니다!')
+            location.href="lecture.do";
             verifyPaymentOnServer(response.receipt_id,id)
             break
           case 'issued':
@@ -101,16 +103,22 @@
  
  // ------ STEP 5. 서버에서 결제 검증 ------
     function verifyPaymentOnServer(receiptId,user_id) {
-      fetch('${pageContext.request.contextPath}/membership/verify', {
+    	fetch('${pageContext.request.contextPath}/api/v1/bootpay/check', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ receipt_id: receiptId, user_id: user_id })
+        body: JSON.stringify({ 
+        	receipt_id: receiptId, 
+        	receipt_id: response.receipt_id,       // 결제 고유번호
+            order_id: response.order_id,           // 주문번호
+            method: response.method,               // 결제수단 
+            price: response.price
+        	})
       })
       .then(res => res.json())
       .then(result => {
         if (result.verified) {
           alert('결제가 완료되었습니다!')
-          location.href = '/order/complete'
+          location.href = '${pageContext.request.contextPath}/lecture.do';
         } else {
           alert('결제 검증에 실패했습니다.')
         }

@@ -13,5 +13,8 @@ public class MembershipServiceImple implements MembershipService {
 	public int insertPayment(MembershipPaymentDTO paymentDTO) {
 		return membershipDao.insertPayment(paymentDTO);
 	}
-
+	@Override
+	public String membershipGrade(int user_idx) {
+		return membershipDao.membershipGrade(user_idx);
+	}
 }

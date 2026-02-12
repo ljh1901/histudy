@@ -12,4 +12,5 @@ public interface StudycafeDAO {
 	public PayDTO receipt(String paymentId); // 영수증
 	public int registerReservation(StudycafeReservationDTO srdto);
 	public TicketJoinTicketCategoryDTO ticketTotalAmount(int ticket_idx);
+	public int ticketTime(int ticket_idx);
 }
