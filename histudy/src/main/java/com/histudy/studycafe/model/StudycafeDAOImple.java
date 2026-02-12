@@ -48,7 +48,11 @@ public class StudycafeDAOImple implements StudycafeDAO{
 		PayDTO receipt = sqlSession.selectOne("selectReceiptSQL",paymentId);
 		return receipt;
 	}
-	
+	@Override
+	public int registerReservation(StudycafeReservationDTO srdto) {
+		int result = sqlSession.insert("insertRegisterReservationSQL",srdto);
+		return result;
+	}
 	@Override
 	public TicketJoinTicketCategoryDTO ticketTotalAmount(int ticket_idx) {
 		TicketJoinTicketCategoryDTO tjtc = sqlSession.selectOne("selectTicketTotalAmountSQL", ticket_idx);

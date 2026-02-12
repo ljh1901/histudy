@@ -53,4 +53,8 @@
   	<select id="selectReceiptSQL" parameterType="String" resultType="com.histudy.studycafe.model.PayDTO">
   		select * from studycafe_pay where paymentId = #{paymentId} 
   	</select>
+  	<insert id="insertRegisterReservationSQL" parameterType="com.histudy.studycafe.model.StudycafeReservationDTO">
+  		INSERT INTO studycafe_reservation(user_idx, seat_idx, reservation_starttime, reservation_endtime,reservation_status, ticket_idx, paymentId) 
+  		VALUES(#{user_idx}, #{seat_idx}, #{reservation_starttime}, #{reservation_endtime}, #{reservation_status}, #{ticket_idx}, #{paymentId})
+  	</insert>
   </mapper>

@@ -36,7 +36,7 @@ public class LectureController {
 	  int totalCnt=lectureService.getTotalCnt();
 	  int listSize=8;
 	  int pageSize=5;
-	  String pageStr=com.histudy.page.PagingModule.makePage(cp, listSize, pageSize, totalCnt, "lecture.do", ls);
+	  String pageStr=com.histudy.lecture.page.PageModule.makePage("lecture.do",totalCnt,listSize,pageSize,cp);
 	   
       ModelAndView mav= new ModelAndView();
       List<LectureDTO> lists;

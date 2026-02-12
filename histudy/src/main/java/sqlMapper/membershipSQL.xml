@@ -3,7 +3,17 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.histudy.membership">
-	<select id="">
-		
-	</select>
+    <insert id="insertPayment" parameterType="com.histudy.membership.model.MembershipPaymentDTO">
+        INSERT INTO MEMBERSHIP_PAYMENT VALUES (
+            SEQ_PAYMENT_IDX.NEXTVAL,  
+            #{payId},
+            #{payNum},                
+            #{payment_method},        
+            #{payment_status},        
+            #{payment_amount},        
+            SYSDATE,                  
+            #{user_idx},              
+            #{membership_idx}         
+        )
+    </insert>
 </mapper>
