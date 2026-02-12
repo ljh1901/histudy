@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 관리 - Admin</title>
-<link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+<link rel="stylesheet" href="css/admin/admin_layout.css" type="text/css">
+<%@ include file="adminCheck.jsp" %>
 <style>
 .admin__user__container {
 	padding: 30px;
@@ -69,7 +70,7 @@
 }
 </style>
 </head>
-<body>
+<body id="adminUserList">
 	<div class="admin__user__container">
 		<div class="admin__header">
 			<h1 class="admin__title">회원 관리</h1>

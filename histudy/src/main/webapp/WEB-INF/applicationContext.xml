@@ -43,7 +43,7 @@
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
 	
-	<bean id="adminDAO" class="com.histudy.admin.model.AdminDAOImple">
+	<bean id="adminCafeDAO" class="com.histudy.admin.model.AdminCafeDAOImple">
    	 <constructor-arg ref="sqlSessionTemplate" />
 	</bean>
 	

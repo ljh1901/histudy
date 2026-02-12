@@ -30,8 +30,18 @@ public class AdminUserController {
     }
 
     @RequestMapping("/adminUserDelete.do")
-    public String adminUserDelete(@RequestParam("user_idx") int user_idx) {
+    public ModelAndView adminUserDelete(@RequestParam("user_idx") int user_idx) {
         int result = adminUserService.deleteUser(user_idx);
-        return "redirect:adminUserList.do";
+        ModelAndView mav = new ModelAndView();
+        
+        if (result>0) {
+        	mav.addObject("msg","해당 사용자 탈퇴 성공");
+        }else {
+        	mav.addObject("msg","해당 사용자 탈퇴 실패");
+        }
+        mav.addObject("url","adminUserList.do");
+        mav.setViewName("admin/adminMsg");
+        
+        return mav;
     }
 }

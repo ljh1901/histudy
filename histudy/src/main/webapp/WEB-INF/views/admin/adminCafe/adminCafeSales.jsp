@@ -7,11 +7,12 @@
 <head>
 <meta charset="UTF-8">
 <title>매출 통계</title>
-<link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+<link rel="stylesheet" href="css/admin/admin_layout.css" type="text/css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<%@ include file="../adminCheck.jsp" %>
 </head>
-<body>
+
+<body id="adminCafeSales">
 	<fieldset>
         <legend><strong >관리 중인 카페 : ${param.studycafe_name}</strong></legend>
         <div class="adminCafe">
@@ -34,9 +35,9 @@
 		</div>
 		<legend>기간 조회</legend>
 		<form action="adminCafeSales.do" method="get">
-			<input type="hidden" name="studycafe_idx"
-				value="${param.studycafe_idx}"> <input type="hidden"
-				name="type" value="${empty param.type ? 'day' : param.type}">
+			<input type="hidden" name="studycafe_idx" value="${param.studycafe_idx}"> 
+			<input type="hidden" name="studycafe_name" value="${param.studycafe_name}"> 
+			<input type="hidden" name="type" value="${empty param.type ? 'day' : param.type}">
 
 			<input type="date" name="startDate" value="${param.startDate}">
 			~ <input type="date" name="endDate" value="${param.endDate}">

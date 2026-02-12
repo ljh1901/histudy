@@ -5,14 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>StudyCafe Editor - ${param.studycafe_name}</title>
-<link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+<link rel="stylesheet" href="css/admin/admin_layout.css" type="text/css">
 <style>
     html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
-    body { background: #F1F5F9; font-family: 'Pretendard', Arial, sans-serif; display: flex; flex-direction: column; }
+    body {font-family: 'Pretendard', Arial, sans-serif; display: flex; flex-direction: column; }
 
     .editor-wrap { 
-        width: 98%; max-width: 1400px; margin: 0 auto; height: 100vh;
-        display: flex; flex-direction: column; padding: 10px 0; box-sizing: border-box;
+    	max-width: 1400px; height: 100vh;
+        display: flex; flex-direction: column;0; box-sizing: border-box;
     }
     .toolbar { 
         background: white; padding: 8px 16px; border-radius: 8px; margin-bottom: 8px; 
@@ -46,7 +46,7 @@
     text { font-size: 11px; font-weight: bold; pointer-events: none; user-select: none; fill: #1E293B; }
 </style>
 </head>
-<body>
+<body id="studycafeEditor">
 
 <div class="editor-wrap">
     <fieldset>

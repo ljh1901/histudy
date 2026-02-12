@@ -6,9 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>자주 묻는 질문 등록</title>
-<link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+<link rel="stylesheet" href="css/admin/admin_layout.css" type="text/css">
+<%@ include file="../adminCheck.jsp" %>
 </head>
-<body>
+
+<body id="adminFaqWrite">
 	<h1>새 질문 등록</h1>
 
 	<form action="adminFaqWriteOk.do" method="post">
