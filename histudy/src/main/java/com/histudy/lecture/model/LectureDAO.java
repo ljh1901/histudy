@@ -28,4 +28,6 @@ public interface LectureDAO {
    public int reviewUpdate(LectureReviewDTO dto);
    public int reviewDelete(int review_idx);
    public String scIdx(int lecture_idx);
+   public Map<String, Object> getCounts();
+   public Map<String, Object> lectureAvgCount(int lecture_idx);
 }

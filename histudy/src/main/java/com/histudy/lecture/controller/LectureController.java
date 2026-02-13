@@ -47,8 +47,13 @@ public class LectureController {
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-      mav.addObject("pageStr",pageStr);
-      mav.setViewName("lecture/lectureList");
+		Map<String, Object> counts = lectureService.getCounts();
+		int userCount = Integer.parseInt(String.valueOf(counts.get("USER_COUNT")));
+	    int lectureCount = Integer.parseInt(String.valueOf(counts.get("LECTURE_COUNT")));
+	    mav.addObject("userCount",userCount);
+	    mav.addObject("lectureCount",lectureCount);
+		mav.addObject("pageStr",pageStr);
+		mav.setViewName("lecture/lectureList");
       
       return mav;
    }
@@ -61,12 +66,14 @@ public class LectureController {
       ModelAndView mav=new ModelAndView();
       String scIdx=lectureService.scIdx(lecture_idx);
       mav.addObject("scIdx",scIdx);
+      String grade=membershipService.membershipGrade(user_idx);
+      mav.addObject("grade",grade);
       if(user_idx!=null) {
     	  Integer review_idx=lectureService.myReview(user_idx);
     	  mav.addObject("myReview",review_idx);
     	  List<LectureReviewDTO> lists=lectureService.reviewList(lecture_idx);
     	  mav.addObject("reviewList",lists);
-      LectureNoteDTO memo = lectureService.lectureMemoList(map);
+    	  LectureNoteDTO memo = lectureService.lectureMemoList(map);
       if (memo == null) {
           LectureNoteDTO dto = new LectureNoteDTO();
           dto.setLecture_idx(lecture_idx);

@@ -3,24 +3,36 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.histudy.lecture.model.LectureDAO">
-   <select id="lectureList" resultType="com.histudy.lecture.model.LectureDTO">
-     select *
+   <select id="lectureList" parameterType="map" resultType="com.histudy.lecture.model.LectureDTO">
+	    select *
 	    from (
 	        select rownum as rnum, a.*
 	        from (
-	            select l.*, s.sc_name
+	            select 
+	                l.*, 
+	                s.sc_name,
+	                (select count(*) from lecture_review where lecture_idx = l.lecture_idx) as review_count,
+	                (select round(nvl(avg(review_score), 0), 1) from lecture_review where lecture_idx = l.lecture_idx) as review_avg
 	            from lecture l
 	            join study_category s on l.sc_idx = s.sc_idx
 	            order by l.lecture_idx desc
 	        ) a
 	    ) b 
 	    where rnum <![CDATA[>=]]>#{start} and rnum <![CDATA[<=]]>#{end}
-   </select>
+	</select>
    <select id ="lectureContent" parameterType="int" resultType="com.histudy.lecture.model.LectureDTO">
       select *
       from lecture
       where lecture_idx=#{lecture_idx}
    </select>
+   <select id="lectureAvgCount" parameterType="int" resultType="com.histudy.lecture.model.LectureDTO">
+	    select
+	        l.*,
+	        (select count(*) from lecture_review where lecture_idx = l.lecture_idx) as review_count,
+	        (select round(nvl(avg(review_score), 0), 1) from lecture_review where lecture_idx = l.lecture_idx) as review_avg
+	    from lecture l
+	    where l.lecture_idx = #{lecture_idx}
+	</select>
    <select id="lectureMemoList" parameterType="Map" resultType="com.histudy.lecture.model.LectureNoteDTO">
 		select *
 		from lecture_note
@@ -136,5 +148,11 @@
 		from study_category,lecture
 		where study_category.sc_idx=lecture.sc_idx
 			and lecture_idx=#{lecture_idx}
+	</select>
+	<select id="getCounts" resultType="map">
+    select 
+        (select count(*) from usertb) as USER_COUNT,
+        (select count(*) from lecture) as LECTURE_COUNT
+    from dual
 	</select>
 </mapper>

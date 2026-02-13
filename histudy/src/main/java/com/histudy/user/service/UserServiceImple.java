@@ -1,7 +1,9 @@
 package com.histudy.user.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.histudy.membership.model.MembershipDAO;
 import com.histudy.user.model.UserDAO;
 import com.histudy.user.model.UserDAOImple;
 import com.histudy.user.model.UserDTO;
@@ -11,15 +13,18 @@ import java.util.*;
 public class UserServiceImple implements UserService {
 
 	private UserDAO dao;
-
+	@Autowired
+	private MembershipDAO mdao;
 	// 생성자 주입
 	public UserServiceImple(UserDAO dao) {
 		this.dao = dao;
+		this.mdao=mdao;
 	}
 
 	@Override
 	public int userSignUp(UserDTO dto) {
 		dto.setUser_pw(com.histudy.security.PwdModule.securityPwd(dto.getUser_pw()));
+		mdao.insertBasic(dto.getUser_idx());
 		return dao.userSignUp(dto);
 	}
 
