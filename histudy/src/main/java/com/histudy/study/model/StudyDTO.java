@@ -22,11 +22,63 @@ public class StudyDTO {
    
    private String user_name;
    private String sc_name;
+   
+   private int taskCount; // 개설자가 쓰는 과제 카운팅
+   private int taskCount2; // 참여자가 쓰는 과제 카운팅
  
    
    public StudyDTO() {
       // TODO Auto-generated constructor stub
    }
+
+
+	public int getTaskCount() {
+	return taskCount;
+}
+
+
+public void setTaskCount(int taskCount) {
+	this.taskCount = taskCount;
+}
+
+
+
+
+	public int getTaskCount2() {
+	return taskCount2;
+}
+
+
+public void setTaskCount2(int taskCount2) {
+	this.taskCount2 = taskCount2;
+}
+
+
+	public StudyDTO(int study_idx, String study_title, String study_content, String study_start_date, String study_end_date,
+		int study_current_members, int study_max_members, double study_location_lng, double study_location_lat,
+		String study_addr, String study_upload_img, int sc_idx, int user_idx, Date study_begin_date,
+		int study_total_weeks, String user_name, String sc_name, int taskCount, int taskCount2) {
+	super();
+	this.study_idx = study_idx;
+	this.study_title = study_title;
+	this.study_content = study_content;
+	this.study_start_date = study_start_date;
+	this.study_end_date = study_end_date;
+	this.study_current_members = study_current_members;
+	this.study_max_members = study_max_members;
+	this.study_location_lng = study_location_lng;
+	this.study_location_lat = study_location_lat;
+	this.study_addr = study_addr;
+	this.study_upload_img = study_upload_img;
+	this.sc_idx = sc_idx;
+	this.user_idx = user_idx;
+	this.study_begin_date = study_begin_date;
+	this.study_total_weeks = study_total_weeks;
+	this.user_name = user_name;
+	this.sc_name = sc_name;
+	this.taskCount = taskCount;
+	this.taskCount2 = taskCount2;
+}
 
 
 	public StudyDTO(int study_idx, String study_title, String study_content, String study_start_date, String study_end_date,

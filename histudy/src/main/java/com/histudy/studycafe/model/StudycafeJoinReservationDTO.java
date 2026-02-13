@@ -8,15 +8,9 @@ public class StudycafeJoinReservationDTO {
 	private String reservation_status;
 	private int ticket_idx;
 	private String payment_id;
-<<<<<<< HEAD
-	private String store_id; // »óÁ¡ ¹øÈ£
-	private String orderName; // ÁÖ¹®Á¤º¸
-	private int paid; // ÁöºÒ±Ý¾×
-=======
 	private String store_id; // ìƒì  ë²ˆí˜¸
 	private String orderName; // ì£¼ë¬¸ì •ë³´
 	private int paid; // ì§€ë¶ˆê¸ˆì•¡
->>>>>>> 725a84cb5f63a6869b09b4c52998f28ff98eb596
 	private String paid_at;
 	private String pay_status;
 	

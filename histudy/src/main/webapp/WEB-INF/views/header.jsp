@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/mypage.css">
 <header class="header">
 	<div class="header__left">
 		<img src="/histudy/main-img/logo1.png" class="header__logo">
@@ -14,17 +14,14 @@
 			<li class="header__nav__menu__item"><a href="index.do">Home</a></li>
 			<li class="header__nav__menu__item"><a href="studyList.do">Study</a></li>
 			<li class="header__nav__menu__item"><a href="mentorList.do">Mentoring</a></li>
-			<li class="header__nav__menu__item"><a href="studycafe.do">Study
-					Cafe</a></li>
-			<li class="header__nav__menu__item"><a href="#">LMS</a></li>
+			<li class="header__nav__menu__item"><a href="studycafe.do">Study Cafe</a></li>
+			<li class="header__nav__menu__item"><a href="lms.do">LMS</a></li>
 			<li class="header__nav__menu__item"><a href="lecture.do">Lecture</a></li>
 		</ul>
 	</nav>
-
 	<div class="header__right">
     <c:if test="${empty sessionScope.user_id}">
-        <input type="button" value="Login" class="header__login"
-            onclick="openSignInModal()">
+        <input type="button" value="Login" class="header__login" onclick="openSignInModal()">
     </c:if>
 
     <c:if test="${not empty sessionScope.user_id}">
@@ -36,7 +33,7 @@
 
             <button type="button" class="header__login"
                 onclick="toggleUserMenu(event)">
-                My Page <span style="font-size: 10px;"></span>
+                My Page <span style="font-size: 10px; margin-left: 5px;"></span>
             </button>
 
             <ul class="user-menu" id="userMenu">

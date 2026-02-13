@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.histudy.lms">
+	<select id="studyCreatorCheck" parameterType="Integer" resultType="com.histudy.study.model.StudyDTO">
+		SELECT *
+		FROM study
+		WHERE user_idx=#{user_idx}
+	</select>
+	<select id="studyApplyCheck" parameterType="Integer" resultType="com.histudy.study.model.StudyApplyDTO">
+		SELECT *
+		FROM study_application
+		WHERE user_idx = #{user_idx} and sa_status = 'Approved'
+	</select>
+	<select id="studyApproved" parameterType="Integer" resultType="com.histudy.study.model.StudyDTO">
+		SELECT *
+		FROM study
+		WHERE study_idx = #{study_idx}
+	</select>
+	<insert id="insertTask" parameterType="com.histudy.lms.model.LmsDTO">
+		INSERT INTO assignment VALUES(a_idx.nextval, #{a_title}, #{a_content}, #{a_fname}, sysdate, TO_DATE(#{a_end_date}, 'YYYY-MM-DD hh24:mi'), #{a_weeks}, #{user_idx}, #{study_idx})
+	</insert>
+	<select id="selectStudyCreatorTask" parameterType="Integer" resultType="com.histudy.lms.model.LmsDTO">
+		SELECT a.*, s.study_title
+		FROM study s JOIN assignment a ON s.study_idx = a.study_idx
+		WHERE s.user_idx=#{user_idx} and a.a_end_date > sysdate
+	</select>
+	<select id="selectStudyApprovedTask" parameterType="Integer" resultType="com.histudy.lms.model.LmsDTO">
+		SELECT a.*, s.study_title
+		FROM study s JOIN assignment a ON s.study_idx = a.study_idx
+		WHERE s.study_idx in 
+		                (SELECT study_idx 
+		                 FROM study_application
+		                 WHERE user_idx = #{user_idx} and sa_status = 'Approved') 
+		and a.a_idx not in
+		                (SELECT a_idx
+		                 FROM assignment_submit
+		                 WHERE user_idx = #{user_idx})
+		and a.a_end_date > sysdate
+	</select>
+	<select id="waitTaskCount" parameterType="Integer" resultType="Integer">
+		SELECT count(*)
+		FROM study s JOIN assignment a ON s.study_idx = a.study_idx
+		WHERE s.study_idx in
+		                (SELECT study_idx 
+		                 FROM study_application
+		                 WHERE user_idx = #{user_idx} and sa_status = 'Approved') 
+		and a.a_idx not in
+		                (SELECT a_idx
+		                 FROM assignment_submit
+		                 WHERE user_idx = #{user_idx})
+		and a.a_end_date > sysdate
+	</select>
+	<select id="taskSubmitOkCount" parameterType="Integer" resultType="Integer">
+		SELECT count(*)
+		FROM assignment_submit
+		WHERE user_idx = #{user_idx}
+	</select>
+	<select id="myStudyInTaskCount" parameterType="Integer" resultType="Integer">
+		SELECT count(*)
+		FROM assignment
+		WHERE study_idx = #{study_idx}
+	</select>
+	<select id="memberStudyInTaskCount" parameterType="map" resultType="Integer">
+		SELECT count(*)
+		FROM assignment
+		WHERE study_idx = #{study_idx} 
+		    and a_idx not in
+		                       (
+		                       SELECT a_idx
+		                       FROM assignment_submit
+		                       WHERE user_idx = #{user_idx}
+		                       )
+	</select>
+	<select id="selectTask" parameterType="Integer" resultType="com.histudy.lms.model.LmsDTO">
+		SELECT *
+		FROM assignment
+		WHERE a_idx=#{a_idx}
+	</select>
+	<select id="insertTaskSubmit" parameterType="com.histudy.lms.model.LmsSubmitDTO">
+		INSERT INTO assignment_submit VALUES(as_idx.nextval, #{as_content}, #{as_fname}, #{as_status}, sysdate, #{as_update_date}, #{user_idx}, #{a_idx})
+	</select>
+</mapper>

@@ -50,5 +50,36 @@ public class StudyServiceImple implements StudyService {
 	   StudyDTO dto = studyDao.getStudyContent(study_idx);
 	   return dto;
 	}
+   
+   @Override
+	public List<StudyDTO> findStudyTitle() {
+	   List<StudyDTO> titleList = studyDao.findStudyTitle();
+
+		return titleList;
+	}
+   
+   @Override
+	public int studyTitleSearchTotalCnt(String searchTitle) {
+		int result = studyDao.studyTitleSearchTotalCnt(searchTitle);
+		return result;
+	}
+   // 개설자인지 체크
+   @Override
+	public List<StudyDTO> studyCreatorCheck(int user_idx) {
+	   List<StudyDTO> lists = studyDao.studyCreatorCheck(user_idx);
+	   return lists;
+	}
+   // 참여자인지 체크
+   @Override
+	public List<StudyApplyDTO> studyApplyCheck(int user_idx) {
+	   List<StudyApplyDTO> lists = studyDao.studyApplyCheck(user_idx);
+		return lists;
+	}
+   // 참여자라면 어떤 스터디에 참여중인지
+   @Override
+	public List<StudyDTO> studyApproved(int study_idx) {
+		List<StudyDTO> approvedList = studyDao.studyApproved(study_idx);
+		return approvedList;
+	}
 
 }

@@ -11,10 +11,8 @@ import com.histudy.admin.model.NoticeCategoryDTO;
 import com.histudy.admin.model.NoticeDAO;
 import com.histudy.admin.model.NoticeDTO;
 
-@Service
 public class NoticeServiceImple implements NoticeService {
 	
-	@Autowired
 	private NoticeDAO noticeDAO;
 	
 	public NoticeServiceImple(NoticeDAO noticeDAO) {

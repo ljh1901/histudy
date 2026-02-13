@@ -1,13 +1,10 @@
 package com.histudy.mentoring.service;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Calendar;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -15,24 +12,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;  
 import com.histudy.mentoring.model.*;
 
-@Service
+
 public class MentoringServiceImple implements MentoringService {
 
     private MentoringDAO mentoringDAO;
 
-    @Autowired
     public MentoringServiceImple(MentoringDAO mentoringDAO) {
         this.mentoringDAO = mentoringDAO;
     }
 
     @Override
-    public List<MentorListDTO> mentorList() {
-        return mentoringDAO.mentorList();
+    public List<MentorListDTO> mentorList(Map<String, Object> map) {
+        return mentoringDAO.mentorList(map);
     }
 
     @Override
-    public List<MentorListDTO> mentorListCategory(int sc_idx) {
-        return mentoringDAO.mentorListCategory(sc_idx);
+    public int mentorTotalCnt(Map<String, Object> map) {
+        return mentoringDAO.mentorTotalCnt(map);
     }
 
     @Override
@@ -51,8 +47,13 @@ public class MentoringServiceImple implements MentoringService {
     }
     
     @Override
-    public List<MentorApplicationDTO> selectMentorApplications(int mentor_idx) {
-      return mentoringDAO.selectMentorApplications(mentor_idx);
+    public List<MentorApplicationDTO> selectMentorApplications(Map<String, Object> map) {
+        return mentoringDAO.selectMentorApplications(map);
+    }
+
+    @Override
+    public int mentorAppTotalCnt(Map<String, Object> map) {
+        return mentoringDAO.mentorAppTotalCnt(map);
     }
 
     @Override
@@ -75,7 +76,7 @@ public class MentoringServiceImple implements MentoringService {
     
     @Override
     public int deleteMentorApplication(int ma_id) {
-    	return mentoringDAO.deleteMentorApplication(ma_id);
+       return mentoringDAO.deleteMentorApplication(ma_id);
     }
     
     @Override
@@ -104,6 +105,7 @@ public class MentoringServiceImple implements MentoringService {
 
         mentoringDAO.insertMentoringMatch(info);
 
+        mentoringDAO.updateMentoringStatusClose(info.getMentoring_idx());
         return 1;
     }
     
@@ -134,7 +136,18 @@ public class MentoringServiceImple implements MentoringService {
 
     @Override
     public MentoringDetailDTO selectMentoringDetailByMentor(int mentor_idx) {
-      return mentoringDAO.selectMentoringDetailByMentor(mentor_idx);
+      MentoringDetailDTO detail = mentoringDAO.selectMentoringDetailByMentor(mentor_idx);
+      
+      if (detail != null) {
+
+          List<String> tags = mentoringDAO.selectMentorTags(mentor_idx);
+          List<MentoringScheduleDTO> schedules = mentoringDAO.selectMentoringSchedule(detail.getMentoring_idx());
+          detail.setSchedules(schedules);
+          
+          detail.setTags(tags);
+      }
+      
+      return detail;
     }
 
     @Override
@@ -155,23 +168,37 @@ public class MentoringServiceImple implements MentoringService {
       return mentoringDAO.insertMentoringReview(dto);
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  /*  @Override
+    @Override
     @Transactional
     public void createMentoring(MentoringDTO dto, String scheduleJson, String skillTags) {
-    	
-    	
-
+        
         mentoringDAO.insertMentoring(dto);
         int mentoring_idx = dto.getMentoring_idx();
+        
+
+        if (skillTags != null) skillTags = skillTags.trim();
+        if (skillTags != null && !skillTags.isEmpty()) {
+
+            String[] arr = skillTags.split(",");
+
+            for (String raw : arr) {
+                String tag = raw.trim();
+                if (tag.isEmpty()) continue;
+
+                Integer skillId = mentoringDAO.findSkillIdByName(tag);
+
+                if (skillId == null) {
+                    mentoringDAO.insertSkill(tag);
+                    skillId = mentoringDAO.findSkillIdByName(tag);
+                }
+                Map<String, Object> smap = new HashMap<>();
+                smap.put("mentoring_idx", mentoring_idx);
+                smap.put("skill_idx", skillId);
+
+                mentoringDAO.insertMentoringSkillMap(smap);
+            }
+        }
+
 
         ObjectMapper om = new ObjectMapper();
         List<Map<String, String>> slots;
@@ -179,49 +206,36 @@ public class MentoringServiceImple implements MentoringService {
         try {
             slots = om.readValue(scheduleJson, new TypeReference<List<Map<String, String>>>() {});
         } catch (Exception e) {
-            throw new IllegalArgumentException("스케줄 JSON 파싱 실패: " + scheduleJson);
+            throw new IllegalArgumentException("스케줄 데이터 형식이 잘못되었습니다.");
         }
 
         if (slots == null || slots.isEmpty()) {
-            throw new IllegalArgumentException("스케줄을 1개 이상 선택해 주세요.");
+            throw new IllegalArgumentException("최소 하나 이상의 스케줄을 선택해야 합니다.");
         }
 
         for (Map<String, String> m : slots) {
-            String day = m.get("day");
+            String actualDate = m.get("date");
             String time = m.get("time");
 
-            Date start = makeDate(day, time);
-            if (start == null) {
-                throw new IllegalArgumentException("스케줄 형식이 올바르지 않습니다: " + day + " " + time);
+            Date start = parseDateTime(actualDate, time);
+            if (start != null) {
+                Date end = add1Hour(start);
+
+                MentoringScheduleDTO sdto = new MentoringScheduleDTO();
+                sdto.setMentoring_idx(mentoring_idx); 
+                sdto.setStatus("가능");
+                sdto.setMentoring_starttime(start); 
+                sdto.setMentoring_endtime(end); 
+
+                mentoringDAO.insertMentoringSchedule(sdto);
             }
-            Date end = add1Hour(start);
-
-            MentoringScheduleDTO sdto = new MentoringScheduleDTO();
-            sdto.setMentoring_idx(mentoring_idx);
-            sdto.setStatus("승인");
-            sdto.setMentoring_start_time(start);
-            sdto.setMentoring_end_time(end);
-
-            mentoringDAO.insertMentoringSchedule(sdto);
         }
     }
 
-    // ✅ makeDate / add1Hour 다시 포함
-    private Date makeDate(String day, String time) {
-        if (day == null || time == null) return null;
-
-        String base = "";
-        if (day.equals("MON")) base = "2000-01-03 ";
-        else if (day.equals("TUE")) base = "2000-01-04 ";
-        else if (day.equals("WED")) base = "2000-01-05 ";
-        else if (day.equals("THU")) base = "2000-01-06 ";
-        else if (day.equals("FRI")) base = "2000-01-07 ";
-        else if (day.equals("SAT")) base = "2000-01-08 ";
-        else if (day.equals("SUN")) base = "2000-01-09 ";
-        else return null;
-
+    private Date parseDateTime(String date, String time) {
+        if (date == null || time == null) return null;
         try {
-            return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").parse(base + time);
+            return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date + " " + time);
         } catch (Exception e) {
             return null;
         }
@@ -232,5 +246,5 @@ public class MentoringServiceImple implements MentoringService {
         c.setTime(d);
         c.add(Calendar.HOUR, 1);
         return c.getTime();
-    }  */
+    }
 }

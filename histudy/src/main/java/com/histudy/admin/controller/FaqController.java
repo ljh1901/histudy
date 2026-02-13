@@ -19,25 +19,29 @@ public class FaqController {
 	
 	@Autowired
 	private FaqService faqService;
-
 	
 	@GetMapping("/adminFaqForm.do")
 	public ModelAndView adminFaqForm(
 			@RequestParam(value = "menu_category_idx", required = false) Integer menuCategoryIdx) {
-		ModelAndView mav = new ModelAndView("admin/adminFaqForm");
+		ModelAndView mav = new ModelAndView();
 
 		List<MenuCategoryDTO> categoryList = faqService.getCategoryList();
 		List<FaqDTO> faqList = faqService.getFaqList(menuCategoryIdx);
 
 		mav.addObject("categoryList", categoryList);
 		mav.addObject("faqList", faqList);
+		mav.setViewName("admin/adminFaq/adminFaqForm");
+		
 		return mav;
 	} 
 	// 자주 묻는 질문 등록 폼
 	@GetMapping("/adminFaqWrite.do")
 	public ModelAndView adminFaqWrite() {
-		ModelAndView mav = new ModelAndView("admin/adminFaqWrite");
+		ModelAndView mav = new ModelAndView();
+		
 		mav.addObject("categoryList", faqService.getCategoryList());
+		mav.setViewName("admin/adminFaq/adminFaqWrite");
+		
 		return mav;
 	}
 
@@ -69,7 +73,7 @@ public class FaqController {
 
 	    mav.addObject("faq", faqOne);
 	    mav.addObject("categoryList", categoryList);
-	    mav.setViewName("admin/adminFaqEditForm");
+	    mav.setViewName("admin/adminFaq/adminFaqEditForm");
 
 	    return mav;
 	}

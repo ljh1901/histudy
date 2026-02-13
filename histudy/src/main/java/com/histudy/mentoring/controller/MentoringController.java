@@ -1,6 +1,6 @@
 package com.histudy.mentoring.controller;
 
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,16 +23,51 @@ public class MentoringController {
     private MentoringService mentoringService;
 
     @GetMapping("/mentorList.do")
-    public String mentorList(HttpServletRequest request) {
+    public String mentorList(
+            @RequestParam(value="cp", defaultValue="1") int cp,
+            @RequestParam(value="sc_idx", required=false) Integer sc_idx,
+            @RequestParam(value="kw", required = false) String kw,
+            HttpServletRequest request,
+            RedirectAttributes ra
+    		) {
 
-        List<MentorListDTO> mentorList = mentoringService.mentorList();
+        // 페이징 기본값
+        int listSize = 15;   
+        int pageSize = 5; 
+
+        // 
+        Integer scParam = (sc_idx != null && sc_idx == 0) ? null : sc_idx;
+
+        if (kw != null) kw = kw.trim();
+        if (kw != null && kw.isEmpty()) kw = null;
+
+        int start_num = (cp - 1) * listSize + 1;
+        int end_num = cp * listSize;
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("start_num", start_num);
+        map.put("end_num", end_num);
+        map.put("sc_idx", scParam);
+        map.put("kw", kw);
         
+        int totalCnt = mentoringService.mentorTotalCnt(map);
+
+        List<MentorListDTO> mentorList = mentoringService.mentorList(map);
+
+        String pageStr = com.histudy.page.PagingModule.makePageWithKw(
+                cp, listSize, pageSize, totalCnt,
+                "mentorList.do",
+                (sc_idx == null ? 0 : sc_idx),
+                (kw == null ? "" : kw)
+        );
+
         request.setAttribute("mentorList", mentorList);
-        request.setAttribute("activeCategory", 0);
+        request.setAttribute("pageStr", pageStr);
+        request.setAttribute("activeCategory", (sc_idx == null ? 0 : sc_idx));
         
         HttpSession session = request.getSession();
         Integer user_idx = (Integer) session.getAttribute("user_idx");
-        
+         
         boolean isMentor = false;
         if (user_idx != null) {
             isMentor = mentoringService.mentorProfileCount(user_idx) > 0;
@@ -44,25 +79,8 @@ public class MentoringController {
 
     @GetMapping("/mentorListCategory.do")
     public String mentorListCategory(
-            @RequestParam("sc_idx") int sc_idx,
-            HttpServletRequest request) {
-
-        List<MentorListDTO> mentorList =
-                mentoringService.mentorListCategory(sc_idx);
-
-        request.setAttribute("mentorList", mentorList);
-        request.setAttribute("activeCategory", sc_idx);
-
-        HttpSession session = request.getSession();
-        Integer user_idx = (Integer) session.getAttribute("user_idx");
-
-        boolean isMentor = false;
-        if (user_idx != null) {
-            isMentor = mentoringService.mentorProfileCount(user_idx) > 0;
-        }
-        request.setAttribute("isMentor", isMentor);
-        
-        return "/mentoring/mentorList";
+            @RequestParam("sc_idx") int sc_idx) {
+        return "redirect:/mentorList.do?sc_idx=" + sc_idx;
     }
     
     @GetMapping("/mentorProfileForm.do")
@@ -77,18 +95,18 @@ public class MentoringController {
         HttpSession session = request.getSession();
         Integer user_idx = (Integer) session.getAttribute("user_idx");
         if(user_idx == null) {
-        	ra.addFlashAttribute("msg","로그인이 필요합니다.");
-        	return "redirect:/mentorList.do";
+           ra.addFlashAttribute("msg","로그인이 필요합니다.");
+           return "redirect:/mentorList.do";
         }
         dto.setUser_idx(user_idx);
         
         if(mentoringService.mentorProfileCount(user_idx)<=0) {
-        	int result = mentoringService.mentorProfileCreate(dto);
-        	ra.addFlashAttribute("msg","멘토 등록 완료!");
+           int result = mentoringService.mentorProfileCreate(dto);
+           ra.addFlashAttribute("msg","멘토 등록 완료!");
         }
         else {
-        	ra.addFlashAttribute("msg","멘토 등록이 이미 되어있음!");
-        	
+           ra.addFlashAttribute("msg","멘토 등록이 이미 되어있음!");
+           
         }
         return "redirect:/mentorList.do";
 
@@ -98,6 +116,7 @@ public class MentoringController {
     public String mentoringCreateForm(HttpServletRequest request, RedirectAttributes ra) {
         HttpSession session = request.getSession();
         Integer user_idx = (Integer) session.getAttribute("user_idx");
+        
 
         if (user_idx == null) {
             ra.addFlashAttribute("msg", "로그인이 필요합니다.");
@@ -114,60 +133,103 @@ public class MentoringController {
 
     @PostMapping("/mentoringCreate.do")
     public String mentoringCreateSubmit(MentoringDTO dto,
-                                       @RequestParam("schedule_json") String scheduleJson,
-                                       @RequestParam(value="skill_tags", required=false) String skillTags,
-                                       HttpServletRequest request,
-                                       RedirectAttributes ra) {
+                                         @RequestParam("schedule_json") String scheduleJson,
+                                         @RequestParam(value="skill_tags", required=false) String skillTags,
+                                         HttpServletRequest request,
+                                         RedirectAttributes ra) {
 
         HttpSession session = request.getSession();
         Integer user_idx = (Integer) session.getAttribute("user_idx");
+        System.out.println("skillTags=" + skillTags);
+        System.out.println("scheduleJson=" + scheduleJson);
 
+        
+        // 1. 로그인 체크
         if (user_idx == null) {
             ra.addFlashAttribute("msg", "로그인이 필요합니다.");
             return "redirect:/mentorList.do";
         }
 
+        // 2. 멘토 식별값(mentor_idx) 가져오기
         int mentor_idx = mentoringService.findMentorIdxAndUserIdx(user_idx);
         if (mentor_idx <= 0) {
             ra.addFlashAttribute("msg", "멘토 등록이 필요합니다.");
             return "redirect:/mentorList.do";
         }
 
+        // DTO에 멘토 번호 세팅
         dto.setMentor_idx(mentor_idx);
 
         try {
+            // 3. 서비스 호출 (메인 저장 + JSON 파싱 및 스케줄 반복 저장)
             mentoringService.createMentoring(dto, scheduleJson, skillTags);
-            ra.addFlashAttribute("msg", "멘토링 개설 완료!");
+            
+            ra.addFlashAttribute("msg", "멘토링 개설이 성공적으로 완료되었습니다!");
             return "redirect:/mentorList.do";
+            
         } catch (IllegalArgumentException e) {
+            // 서비스에서 던진 에러 메시지 (예: "스케줄을 선택하세요") 처리
             ra.addFlashAttribute("msg", e.getMessage());
             return "redirect:/mentoringCreate.do";
         } catch (Exception e) {
-            ra.addFlashAttribute("msg", "멘토링 개설 중 오류가 발생했습니다.");
+            e.printStackTrace();
+            ra.addFlashAttribute("msg", "시스템 오류로 개설에 실패했습니다.");
             return "redirect:/mentoringCreate.do";
         }
     }
     
     //신청현황 보기
     @GetMapping("/mentoringApplication.do")
-    public String mentorApplications(HttpServletRequest request, RedirectAttributes ra) {
-      HttpSession session = request.getSession();
-      Integer user_idx = (Integer) session.getAttribute("user_idx");
-      if (user_idx == null) {
-        ra.addFlashAttribute("msg", "로그인이 필요합니다.");
-        return "redirect:/mentorList.do";
-      }
+    public String mentorApplications(
+            @RequestParam(value="cp", defaultValue="1") int cp,
+            @RequestParam(value="kw", required=false) String kw,
+            HttpServletRequest request,
+            RedirectAttributes ra) {
 
-      Integer mentor_idx = mentoringService.findMentorIdxAndUserIdx(user_idx);
-      if (mentor_idx == null || mentor_idx <= 0) {
-        ra.addFlashAttribute("msg", "멘토만 접근 가능합니다.");
-        return "redirect:/mentorList.do";
-      }
+        HttpSession session = request.getSession();
+        Integer user_idx = (Integer) session.getAttribute("user_idx");
+        if (user_idx == null) {
+            ra.addFlashAttribute("msg", "로그인이 필요합니다.");
+            return "redirect:/mentorList.do";
+        }
 
-      List<MentorApplicationDTO> list = mentoringService.selectMentorApplications(mentor_idx);
-      request.setAttribute("applications", list);
-      request.setAttribute("mentorSummary", mentoringService.selectMentorSummary(mentor_idx));
-      return "/mentoring/mentoringApplication";
+        Integer mentor_idx = mentoringService.findMentorIdxAndUserIdx(user_idx);
+        if (mentor_idx == null || mentor_idx <= 0) {
+            ra.addFlashAttribute("msg", "멘토만 접근 가능합니다.");
+            return "redirect:/mentorList.do";
+        }
+
+        if (kw != null) kw = kw.trim();
+        if (kw != null && kw.isEmpty()) kw = null;
+        
+        int listSize = 10;
+        int pageSize = 5;
+
+        int start_num = (cp - 1) * listSize + 1;
+        int end_num = cp * listSize;
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("mentor_idx", mentor_idx);
+        map.put("start_num", start_num);
+        map.put("end_num", end_num);
+        map.put("kw", kw);
+        
+        int totalCnt = mentoringService.mentorAppTotalCnt(map);
+
+        List<MentorApplicationDTO> list = mentoringService.selectMentorApplications(map);
+
+        String pageStr = com.histudy.page.PagingModule.makePageWithKw(
+                cp, listSize, pageSize, totalCnt,
+                "mentoringApplication.do",
+                0,
+                (kw == null ? "" : kw)
+        );
+
+        request.setAttribute("applications", list);
+        request.setAttribute("pageStr", pageStr);
+        request.setAttribute("mentorSummary", mentoringService.selectMentorSummary(mentor_idx));
+
+        return "/mentoring/mentoringApplication";
     }
     
  // 신청 승인

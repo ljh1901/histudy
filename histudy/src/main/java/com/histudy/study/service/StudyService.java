@@ -3,6 +3,7 @@ package com.histudy.study.service;
 import java.util.List;
 import java.util.Map;
 
+import com.histudy.study.model.StudyApplyDTO;
 import com.histudy.study.model.StudyDTO;
 import com.histudy.user.model.UserDTO;
 
@@ -14,4 +15,9 @@ public interface StudyService {
    public UserDTO getStudyCreateUser(int user_idx);
    public int studyMaxCreate(int user_idx);
    public StudyDTO getStudyContent(int study_idx);
+   public List<StudyDTO> findStudyTitle();
+   public int studyTitleSearchTotalCnt(String searchTitle);
+   public List<StudyDTO> studyCreatorCheck(int user_idx);
+   public List<StudyApplyDTO> studyApplyCheck(int user_idx);
+   public List<StudyDTO> studyApproved(int study_idx);
 }

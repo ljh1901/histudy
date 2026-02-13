@@ -26,21 +26,21 @@
 </section>
 
 <section class="mentoring-search">
-    <div class="hero-search">
+    <form class="hero-search" method="get" action="mentorList.do" >
       <span style="color:#94a3b8;">🔎</span>
-      <input type="text" placeholder="멘토 이름, 분야, 키워드로 검색" />
-    </div>
+      <input type="text" name="kw" value="${param.kw}" placeholder="멘토 이름, 키워드로 검색!" />
+    </form>
 
    
 
     <!-- ===== 카테고리 필터 ===== -->
     <div class="mentor-filter">
       <a class="${activeCategory == 0 ? 'active' : ''}" href="mentorList.do">전체</a>
-      <a class="${activeCategory == 1 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=1">개발</a>
-      <a class="${activeCategory == 2 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=2">언어</a>
-      <a class="${activeCategory == 3 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=3">취업</a>
-      <a class="${activeCategory == 4 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=4">자격증</a>
-      <a class="${activeCategory == 5 ? 'active' : ''}" href="mentorListCategory.do?sc_idx=5">학업</a>
+      <a class="${activeCategory == 1 ? 'active' : ''}" href="mentorList.do?sc_idx=1&kw=${param.kw}">개발</a>
+      <a class="${activeCategory == 2 ? 'active' : ''}" href="mentorList.do?sc_idx=2&kw=${param.kw}">언어</a>
+      <a class="${activeCategory == 3 ? 'active' : ''}" href="mentorList.do?sc_idx=3&kw=${param.kw}">취업</a>
+      <a class="${activeCategory == 4 ? 'active' : ''}" href="mentorList.do?sc_idx=4&kw=${param.kw}">자격증</a>
+      <a class="${activeCategory == 5 ? 'active' : ''}" href="mentorList.do?sc_idx=5&kw=${param.kw}">학업</a>
     </div>
  
 </section>
@@ -49,6 +49,7 @@
 <section class="mentoring-list">
 <div class="mentor-list-wrap">
   <div class="mentor-grid">
+  
     <c:choose>
       <c:when test="${empty mentorList}">
         <p style="grid-column:1/-1; color:#6b7280;">등록된 멘토가 없습니다.</p>
@@ -100,6 +101,11 @@
       </c:otherwise>
     </c:choose>
   </div>
+  <c:if test="${not empty pageStr}">
+  <div class="paging">
+    ${pageStr}
+  </div>
+</c:if>
 </div>
 </section>
 <!-- ===== 하단 멘토 모집 ===== -->
@@ -118,7 +124,7 @@
   <button type="button" class="cta-btn" onclick="openMentorGuideModal()">멘토 신청하기</button>
   </c:otherwise>
 </c:choose>
-	<button type="button" class="cta-btn" onclick="location.href='mentoringApplication.do'">멘토링 신청 현황</button>
+   <button type="button" class="cta-btn" onclick="location.href='mentoringApplication.do'">멘토링 신청 현황</button>
   </div>
 </section>
 
@@ -128,10 +134,9 @@
 
 <script>
 function openMentorProfile(mentor_idx) {
-	location.href = "mentorProfile.do?mentor_idx=" + mentor_idx;
+   location.href = "mentorProfile.do?mentor_idx=" + mentor_idx;
 }
 
-/* ===== 모달 토글(팀원이 하던 방식) ===== */
 function openMentorGuideModal(){
   document.getElementById("mentorGuideModal").style.display = "block";
 }

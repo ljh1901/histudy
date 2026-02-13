@@ -9,7 +9,32 @@
    }
    .studyList__container{
       padding: 4rem;
+      position: relative;
    }
+   #findList{
+   	  position: absolute;
+   	  background-color: white;
+   	  border: 1px solid #ccc;
+   	  border-radius: 10px;
+   	  width: 600px;
+   	  padding: 0.5rem 0;
+   	  line-height: 3rem;
+   	  font-size: 0.8rem;
+   	  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 */
+      max-height: 300px;
+	  overflow-y: auto;
+   	  display: none;
+   }
+   #findList div {
+	    padding: 0 1rem; /* 좌우 패딩만 줌 */
+	    cursor: pointer;
+	    transition: background 0.2s;
+	}
+	
+	#findList div:hover {
+	    background-color: #f2f4f6; /* 연한 회색 */
+	    border-radius: 5px;
+	}
    .studyList__container__top{
       margin-bottom: 20px;
    }
@@ -32,6 +57,9 @@
       background-color: white;
       display: flex;
       align-items: center;
+   }
+   .studyList__Find input[type="submit"]{
+   	  display: none;
    }
    .studyList__Find img{
       width:20px;

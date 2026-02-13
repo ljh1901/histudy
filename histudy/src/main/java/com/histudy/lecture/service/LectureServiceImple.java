@@ -128,12 +128,18 @@ public class LectureServiceImple implements LectureService {
 		return lectureDao.reviewDelete(review_idx);
 	}
    @Override
-	public String selectName(int user_idx) {
-		return lectureDao.selectName(user_idx);
-	}
-   @Override
 	public String scIdx(int lecture_idx) {
 		// TODO Auto-generated method stub
 		return lectureDao.scIdx(lecture_idx);
+	}
+   @Override
+	public Map<String, Object> getCounts() {
+		// TODO Auto-generated method stub
+		return lectureDao.getCounts();
+	}
+   @Override
+	public Map<String, Object> lectureAvgCount(int lecture_idx) {
+		// TODO Auto-generated method stub
+		return lectureDao.lectureAvgCount(lecture_idx);
 	}
 }

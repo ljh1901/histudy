@@ -1,41 +1,45 @@
 package com.histudy.mentoring.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.histudy.mentoring.model.*;
 
 
 public interface MentoringService {
-    List<MentorListDTO> mentorList();
-    List<MentorListDTO> mentorListCategory(int sc_idx);
-    int mentorProfileCreate(MentoProfileDTO dto);
-    int mentorProfileCount(int user_idx);
+	public List<MentorListDTO> mentorList(Map<String, Object> map);
+    public int mentorTotalCnt(Map<String, Object> map);
     
-    Integer findMentorIdxAndUserIdx(int user_idx);
-
-    void createMentoring(MentoringDTO dto, String scheduleJson, String skillTags);
+    public int mentorProfileCreate(MentoProfileDTO dto);
+    public int mentorProfileCount(int user_idx);
     
-    List<MentorApplicationDTO> selectMentorApplications(int mentor_idx);
-    MentorApplicationDTO selectMentorApplicationDetail(int ma_id);
+    public Integer findMentorIdxAndUserIdx(int user_idx);
 
-    int approveMentorApplication(int ma_id);
-    int rejectMentorApplication(int ma_id, String reject_reason);
-    int deleteMentorApplication(int ma_id);
-
-    MentorSummaryDTO selectMentorSummary(int mentor_idx);
+    public void createMentoring(MentoringDTO dto, String scheduleJson, String skillTags);
     
-    int approveAndMatch(int ma_id);
-
-    int selectLatestMentoringIdxByMentor(int mentor_idx);
+    public List<MentorApplicationDTO> selectMentorApplications(Map<String, Object> map);
+    public int mentorAppTotalCnt(Map<String, Object> map);
     
-    MentoringDTO selectMentoringDetailForApply(int mentoring_idx);
-    MentorSummaryDTO selectMentorInfoByMentoringIdx(int mentoring_idx);
-    int applyMentoring(int mentoring_idx, int mentee_user_idx, String apply_content);
+    public MentorApplicationDTO selectMentorApplicationDetail(int ma_id);
 
-    MentoringDetailDTO selectMentoringDetailByMentor(int mentor_idx);
-    List<MentoringReviewDTO> selectMentoringReviews(int mentor_idx);
-    Integer getWritableMatchId(int mentor_idx, int mentee_user_idx);
-    int writeReview(MentoringReviewDTO dto);
+    public int approveMentorApplication(int ma_id);
+    public int rejectMentorApplication(int ma_id, String reject_reason);
+    public int deleteMentorApplication(int ma_id);
 
+    public MentorSummaryDTO selectMentorSummary(int mentor_idx);
+    
+    public int approveAndMatch(int ma_id);
+
+    public int selectLatestMentoringIdxByMentor(int mentor_idx);
+    
+    public MentoringDTO selectMentoringDetailForApply(int mentoring_idx);
+    public MentorSummaryDTO selectMentorInfoByMentoringIdx(int mentoring_idx);
+    public int applyMentoring(int mentoring_idx, int mentee_user_idx, String apply_content);
+
+    public MentoringDetailDTO selectMentoringDetailByMentor(int mentor_idx);
+    public List<MentoringReviewDTO> selectMentoringReviews(int mentor_idx);
+    public Integer getWritableMatchId(int mentor_idx, int mentee_user_idx);
+    public int writeReview(MentoringReviewDTO dto);
+    
 
 }
