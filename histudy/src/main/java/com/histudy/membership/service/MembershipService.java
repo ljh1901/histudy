@@ -3,6 +3,7 @@ package com.histudy.membership.service;
 import com.histudy.membership.model.MembershipPaymentDTO;
 
 public interface MembershipService {
-	int insertPayment(MembershipPaymentDTO paymentDTO);
+	int insertPrimium(MembershipPaymentDTO paymentDTO);
+	int insertBasic(int user_idx);
 	String membershipGrade(int user_idx);
 }

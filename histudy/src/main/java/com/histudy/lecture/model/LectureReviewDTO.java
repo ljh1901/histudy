@@ -9,11 +9,9 @@ public class LectureReviewDTO {
    private Integer user_idx;
    private Integer lecture_idx;
    private String user_name;
-
    public int getReview_idx() {
       return review_idx;
    }
-   
    
 public String getUser_name() {
 	return user_name;

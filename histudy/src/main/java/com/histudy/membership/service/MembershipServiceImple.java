@@ -10,11 +10,17 @@ public class MembershipServiceImple implements MembershipService {
 		this.membershipDao=membershipDao;
 	}
 	@Override
-	public int insertPayment(MembershipPaymentDTO paymentDTO) {
-		return membershipDao.insertPayment(paymentDTO);
-	}
-	@Override
 	public String membershipGrade(int user_idx) {
 		return membershipDao.membershipGrade(user_idx);
+	}
+	@Override
+	public int insertBasic(int user_idx) {
+		// TODO Auto-generated method stub
+		return membershipDao.insertBasic(user_idx);
+	}
+	@Override
+	public int insertPrimium(MembershipPaymentDTO paymentDTO) {
+		// TODO Auto-generated method stub
+		return membershipDao.insertPrimium(paymentDTO);
 	}
 }

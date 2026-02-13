@@ -279,7 +279,9 @@ function dohate(lecture_idx, user_idx) {
 	   		<td><textarea rows="10" cols="90" name="review_content"></textarea>
 	   	</tr>
 	   	<tr>
+	   	<c:if test="${grade == '일반'}">
 	   		<td><input type="submit" name="reviewbt" value="리뷰 작성"></td>
+	   	</c:if>
 	   	</tr>
 	   </table>
 		</form>

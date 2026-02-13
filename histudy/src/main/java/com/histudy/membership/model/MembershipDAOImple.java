@@ -8,12 +8,18 @@ public class MembershipDAOImple implements MembershipDAO {
 		this.sqlSession=sqlSession;
 	}
 	@Override
-	public int insertPayment(MembershipPaymentDTO paymentDTO) {
-		return sqlSession.insert("insertPayment",paymentDTO);
-	}
-	@Override
 	public String membershipGrade(int user_idx) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("com.histudy.membership.model.MembershipDAO.membershipGrade",user_idx);
+	}
+	@Override
+	public int insertBasic(int user_idx) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("insertBasic",user_idx);
+	}
+	@Override
+	public int insertPrimium(MembershipPaymentDTO paymentDTO) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("insertPrimium",paymentDTO);
 	}
 }

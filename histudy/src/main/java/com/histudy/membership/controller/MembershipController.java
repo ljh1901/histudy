@@ -57,15 +57,15 @@ public class MembershipController {
 	@ResponseBody 
 	public Map<String, Object> cookieMake(HttpServletResponse resp, @RequestBody MembershipPaymentDTO dto) {
 	    
-	    membershipService.insertPayment(dto);
+	    membershipService.insertPrimium(dto);
 	    System.out.println(dto.getPayment_amount());
 	    System.out.println("DB 저장 및 쿠키 생성 시작");
-
+	    
 	    Cookie ck = new Cookie("membershiip", "premium"); 
 	    ck.setPath("/"); 
-	    ck.setMaxAge(60 * 60 * 24 * 30); // 30일
+	    ck.setMaxAge(60*60*24*30); // 30일
 	    resp.addCookie(ck);
-
+	    
 	    Map<String, Object> map = new HashMap<>();
 	    map.put("result", "success");
 	    
