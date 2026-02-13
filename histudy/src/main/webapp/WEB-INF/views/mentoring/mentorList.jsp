@@ -137,7 +137,6 @@ function openMentorProfile(mentor_idx) {
    location.href = "mentorProfile.do?mentor_idx=" + mentor_idx;
 }
 
-/* ===== 모달 토글(팀원이 하던 방식) ===== */
 function openMentorGuideModal(){
   document.getElementById("mentorGuideModal").style.display = "block";
 }
