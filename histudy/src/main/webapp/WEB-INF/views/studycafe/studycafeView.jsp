@@ -174,10 +174,12 @@ section>h1>a:hover {
 .ticketGrid{
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 5%;
 }
 .ticketGrid button{
-	border-radius: 10%;
+	border-radius: 5px;
+	height: 100%;
+	padding: 5px;
+	margin: 5px;
 	border: 1px solid white;
 	background: blue;
 	color: white;
@@ -200,7 +202,12 @@ rect[data-seat-type="GENERAL_B"]{
 	fill: green;
 }
 
-
+rect[data-seat-type="SINGLE_ROOM"]{
+	fill: #ccc;
+	rx:18;
+	stroke: black;
+	stroke-width: 2;
+}
 </style>
 <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 <script>
@@ -277,10 +284,12 @@ window.onload=function(){
 <text x="870" y="710" text-anchor="middle" font-weight="700">스터디룸 B</text>
 <rect x="700" y="60" width="350" height="250" rx="20" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2" />
 <text x="865" y="350" text-anchor="middle" font-size="18" font-weight="700">1인 독방</text>
+<g id="seat__area">
 <c:forEach var="seat" items="${seatList}">
-<rect class="seat-a" x="${seat.seat_x}" y="${seat.seat_y}" width="${seat.seat_w}" height="${seat.seat_h}" value="${seat.seat_num}" data-seat-idx="${seat.seat_idx}"></rect>
+<rect class="seat-a" x="${seat.seat_x}" y="${seat.seat_y}" width="${seat.seat_w}" height="${seat.seat_h}" value="${seat.seat_num}" data-seat-idx="${seat.seat_idx}" data-seat-type="${seat.seat_type}" data-seat-status="${seat.seat_status}"></rect>
 <text x="${seat.seat_x+seat.seat_w/2}" y="${seat.seat_y + seat.seat_h / 2}" fill="black" text-anchor="middle" font-size="14">${seat.seat_num}</text>
 </c:forEach>
+</g>
 </svg>
 				</div>
 			</section>
@@ -310,13 +319,14 @@ function seatInfo(studycafe_idx){
 	xhr.send();
 }
 
-const studycafeSeat2=document.getElementById('studycafeSeat');
+const seat__area=document.getElementById('seat__area');
 function showResult(){
 	if(xhr.readyState==4){
 		if(xhr.status==200){
 			var data = JSON.parse(xhr.responseText);
+			seat__area.innerHTML = '';
 			data.forEach(seat => {
-
+			
 			var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 			rect.setAttribute('class', 'seat-a');
 			rect.setAttribute('data-seat-idx', seat.seat_idx);
@@ -340,8 +350,8 @@ function showResult(){
 				text.setAttribute('font-size', '14');
 				text.setAttribute('fill', 'black');
 				text.textContent=seat.seat_num;
-			studycafeSeat2.appendChild(rect);
-			studycafeSeat2.appendChild(text);
+			seat__area.appendChild(rect);
+			seat__area.appendChild(text);
 			
 			});
 			seatReservation();
@@ -353,11 +363,13 @@ function showResult(){
 var queryNum=-1;
 var seat_idx = null;
 var ticket_idx = null;
-
+var ticketBtn = null;
+var seat_type=null;
 function seatReservation(){
 for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 	document.querySelectorAll(".seat-a")[i].addEventListener('click', function(){
 		seat_idx=document.querySelectorAll(".seat-a")[i].dataset.seatIdx;
+		seat_type=document.querySelectorAll(".seat-a")[i].dataset.seatType;
 		seatCurrent(seat_idx);
 		queryNum=i;
 		document.querySelector('#seat').innerHTML = document.querySelectorAll(".seat-a")[i].getAttribute("value")+ '의 좌석현황';
@@ -371,10 +383,14 @@ for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 			}		
 			document.querySelector('.modal-content').addEventListener('click',function(e){
 				var ticket = e.target.closest('.ticket');
-				var ticketBtn= '<button class="ticket" value="1">시간권</button><button class="ticket" value="2">종일권</button>';
+				if(seat_type == 'SINGLE_ROOM'||seat_type =='ROOM'){
+					ticketBtn= '<button class="ticket" value="1">시간권</button><button class="ticket" value="2">종일권</button><button class="ticket" value="3">정기권</button>';
+				}else{
+					ticketBtn= '<button class="ticket" value="1">시간권</button><button class="ticket" value="2">종일권</button>';
+				}
 				document.querySelector('.modal-content').innerHTML = ticketBtn;
 				if(ticket != null){
-					seatTicketInfo(ticket.value);
+					seatTicketInfo(ticket.value, seat_idx);
 				}
 			});
 		});
@@ -383,8 +399,8 @@ for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 }
 }
 // 티켓 정보 가져오기
-function seatTicketInfo(ticket_category_idx){
-	return fetch("seatReservation.do?ticket_category_idx="+ticket_category_idx,{method: "GET"})
+function seatTicketInfo(ticket_category_idx, seat_idx){
+	return fetch("seatReservation.do?ticket_category_idx="+ticket_category_idx+"&seat_idx="+seat_idx,{method: "GET"})
 	.then(function(res){
 		if(res.ok){
 			return res.json();
@@ -459,7 +475,6 @@ function portOnePay(queryNum){
 
 // 1. 좌석 현황
 function seatCurrent(seat_idx){
-	alert(seat_idx);
 	return fetch("seatReservation.do", {
 		method: "POST",
 		headers:{
@@ -479,7 +494,6 @@ function seatCurrent(seat_idx){
 		document.getElementById('seat').appendChild(divTag);
 		var reservation_starttime=new Date(res.reservation_starttime);
 		var reservation_endtime = new Date(res.reservation_endtime);
-		
 		reservation_starttime = reservation_starttime.getFullYear()+"년"
 		+(reservation_starttime.getMonth()+1)
 		+"월"+reservation_starttime.getDate()

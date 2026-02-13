@@ -70,10 +70,16 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 	public int registerReservation(Integer user_idx, int seat_idx, String starttime, String endtime,
 			String reservation_status, int ticket_idx, String paymentId) {
 			int ticket_time = studycafeDAO.ticketTime(ticket_idx);
-			// yyyy-mm-dd + (hh24+hh) + :mi:ss.mis
+			// yyyy-mm-dd + (hh24+hh) + :mi:ss.ff
+			if(Integer.parseInt(starttime.substring(starttime.indexOf("T")+1,starttime.indexOf(":")))+ticket_time < 10) {
 			endtime = starttime.substring(0,starttime.indexOf("T")+1)+
 					"0"+(Integer.parseInt(starttime.substring(starttime.indexOf("T")+1,starttime.indexOf(":")))+ticket_time)
 					+starttime.substring(starttime.indexOf(":"));
+			}else {
+				endtime = starttime.substring(0,starttime.indexOf("T")+1)+
+						(Integer.parseInt(starttime.substring(starttime.indexOf("T")+1,starttime.indexOf(":")))+ticket_time)
+						+starttime.substring(starttime.indexOf(":"));
+			}
 			System.out.println(endtime);
 
 		StudycafeReservationDTO reservationDTO = new StudycafeReservationDTO(user_idx, seat_idx, 
@@ -81,5 +87,10 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 				reservation_status, ticket_idx, paymentId);
 		int reservation = studycafeDAO.registerReservation(reservationDTO);
 		return reservation;
+	}	
+	@Override
+	public int reservationComplete(int seat_idx) {
+		int reservationComplete = studycafeDAO.reservationComplete(seat_idx);
+		return reservationComplete;
 	}
 }

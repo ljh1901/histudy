@@ -34,7 +34,7 @@
   		where studycafe_idx = #{studycafe_idx}
   	</select>
   	<insert id="insertOrderSQL" parameterType="com.histudy.studycafe.model.PayDTO">
-  		insert into studycafe_pay(paymentId,orderName, totalAmount, pay_status, user_idx) values(#{paymentId}, #{orderName}, #{totalAmount}, 'NOT PAID', #{user_idx})
+  		insert into studycafe_pay(paymentId,orderName, totalAmount, pay_status, user_idx, paidAt) values(#{paymentId}, #{orderName}, #{totalAmount}, 'PENDING', #{user_idx}, systimestamp)
   	</insert>
   	<update id="updatePaySQL" parameterType="com.histudy.studycafe.model.PayDTO">
   		update studycafe_pay set storeId = #{storeId},
@@ -48,15 +48,20 @@
   		pgProvider = #{pgProvider},
   		vat = #{vat},
   		supply = #{supply}
-  		where paymentId = #{paymentId} and pay_status = 'NOT PAID'
+  		where paymentId = #{paymentId} and pay_status = 'PENDING'
   	</update>
   	<select id="selectReceiptSQL" parameterType="String" resultType="com.histudy.studycafe.model.PayDTO">
-  		select * from studycafe_pay where paymentId = #{paymentId} 
+  		select paymentId, storeId,  orderName, paid, user_idx, pay_method, pay_status, statusChangedAt+interval '9' hour as "statusChangedAt", paidAt+interval '9' hour as "paidAt", totalAmount, pgProvider, vat, supply 
+  		from studycafe_pay 
+  		where paymentId = #{paymentId} 
   	</select>
   	<insert id="insertRegisterReservationSQL" parameterType="com.histudy.studycafe.model.StudycafeReservationDTO">
   		INSERT INTO studycafe_reservation(user_idx, seat_idx, reservation_starttime, reservation_endtime,reservation_status, ticket_idx, paymentId) 
   		VALUES(#{user_idx}, #{seat_idx}, #{reservation_starttime}, #{reservation_endtime}, #{reservation_status}, #{ticket_idx}, #{paymentId})
   	</insert>
+  	<update id="reservationCompleteSQL" parameterType="Integer">
+  		update seat set seat_status = (select reservation_status from studycafe_reservation  where seat_idx = #{seat_idx}) where seat_idx = #{seat_idx}
+  	</update>
   	<select id="selectTicketTimeSQL" parameterType="Integer" resultType="Integer">
   		select ticket_time from studycafe_ticket where ticket_idx = #{ticket_idx}
   	</select>
