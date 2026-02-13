@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>요금제 등록 - ${param.studycafe_name}</title>
-<link rel="stylesheet" href="css/admin_layout.css" type="text/css">
+<link rel="stylesheet" href="css/admin/admin_layout.css" type="text/css">
+<%@ include file="../adminCheck.jsp" %>
 <style>
 table {
 	width: 100%;
@@ -25,7 +26,7 @@ th {
 	background-color: #f4f4f4;
 }
 
-.btn-del {
+.ticket__btn__del {
 	background: #ff4d4d;
 	color: white;
 	border: none;
@@ -34,7 +35,7 @@ th {
 	cursor: pointer;
 }
 
-.reg-area {
+.adminCafeTicketReg {
 	margin-bottom: 20px;
 	padding: 15px;
 	background: #f9f9f9;
@@ -49,7 +50,7 @@ select, input {
 }
 </style>
 </head>
-<body>
+<body id="adminCafePrice">
 	<fieldset>
 		<legend>
 			<strong>관리 중인 카페 : ${param.studycafe_name}</strong>
@@ -76,20 +77,19 @@ select, input {
 
 	<h3>요금제 등록하기</h3>
 
-	<div class="reg-area">
-		<form id="priceForm">
-			<input type="hidden" name="studycafe_idx"
-				value="${param.studycafe_idx}"> <label>카테고리 선택: </label> <select
-				name="ticket_category_idx" id="categorySelect">
+	<div class="adminCafeTicketReg">
+		<form id="adminCafeTicketForm">
+			<input type="hidden" name="studycafe_idx" value="${param.studycafe_idx}"> 
+			<label>카테고리 선택: </label> <select name="ticket_category_idx" id="categorySelect">
 				<c:forEach var="cat" items="${categoryList}">
 					<option value="${cat.ticket_category_idx}">${cat.ticket_category_name}</option>
 				</c:forEach>
-			</select> <input type="text" name="ticket_name" id="ticketName"
-				placeholder="시간권 (예: 2시간)" required> <input type="number"
-				name="ticket_amount" id="ticketAmount" placeholder="금액 (원)" required>
-
-			<button type="button" onclick="registerTicket()"
-				style="padding: 8px 20px; cursor: pointer;">등록</button>
+			</select> 
+			<input type="text" name="ticket_name" id="ticketName" placeholder="티켓명 (예: 2시간권)" required> 
+			<input type="number" name="ticket_time" id="ticketTime" placeholder="시간 (예: 2)" required> 
+			<input type="number" name="ticket_amount" id="ticketAmount" placeholder="금액 (원)" required>
+	
+			<button type="button" onclick="registerTicket()" style="padding: 8px 20px; cursor: pointer;">등록</button>
 		</form>
 	</div>
 
@@ -98,7 +98,8 @@ select, input {
 			<tr>
 				<th>카테고리 번호</th>
 				<th>카테고리 이름</th>
-				<th>권종(시간)</th>
+				<th>티켓명</th>
+				<th>요금제시간</th>
 				<th>금액</th>
 				<th>관리</th>
 			</tr>
@@ -109,9 +110,9 @@ select, input {
 					<td>${ticket.ticket_category_idx}</td>
 					<td>${ticket.ticket_category_name}</td>
 					<td>${ticket.ticket_name}</td>
+					<td>${ticket.ticket_time}</td>
 					<td>${ticket.ticket_amount}원</td>
-					<td><button class="btn-del"
-							onclick="deleteTicket(${ticket.ticket_idx})">삭제</button></td>
+					<td><button class="ticket__btn__del" onclick="deleteTicket(${ticket.ticket_idx})">삭제</button></td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -127,6 +128,7 @@ function registerTicket() {
         ticket_category_idx: form.ticket_category_idx.value,
         ticket_name: form.ticket_name.value,
         ticket_amount: form.ticket_amount.value,
+        ticket_time: form.ticket_time.value,
         category_name: select.options[select.selectedIndex].text
     };
 
@@ -149,14 +151,15 @@ function registerTicket() {
                     <td>\${data.ticket_category_idx}</td>
                     <td>\${data.category_name}</td>
                     <td>\${data.ticket_name}</td>
+                    <td>\${data.ticket_time}</td>
                     <td>\${data.ticket_amount}원</td>
-                    <td><button class="btn-del" onclick="deleteTicket(\${result.newIdx})">삭제</button></td>
+                    <td><button class="ticket__btn__del" onclick="deleteTicket(\${result.newIdx})">삭제</button></td>
                 </tr>
             `;
             tbody.insertAdjacentHTML('beforeend', newRow);
             
-            // 입력창 초기화
             form.ticket_name.value = "";
+            form.ticket_time.value = "";
             form.ticket_amount.value = "";
         }
     });
@@ -170,7 +173,7 @@ function deleteTicket(idx) {
     .then(result => {
         if(result.status === "success") {
             const row = document.getElementById("ticket_" + idx);
-            row.remove(); // 화면에서 즉시 제거
+            row.remove();
         }
     });
 }

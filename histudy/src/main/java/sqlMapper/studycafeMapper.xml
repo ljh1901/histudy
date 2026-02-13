@@ -12,9 +12,9 @@
 		from studycafe stc join ticket_category tic on stc.studycafe_idx = tic.studycafe_idx
   	</select>
   	<select id="selectSeatInfoSQL" parameterType="Integer" resultType="com.histudy.studycafe.model.StudycafeJoinReservationDTO">
-  		select * 
+		select *
 		from studycafe_reservation sr join studycafe_pay sp on sp.paymentId = sr.paymentId
-		where pay_status = 'PAID' and seat_idx = #{seat_idx}
+		where pay_status = 'PAID' and seat_idx = #{seat_idx} AND to_timestamp(substr(reservation_endtime, 0, instr(reservation_endtime, '.')-1), 'YYYY-MM-DD"T"HH24:MI:SS') + INTERVAL '9' HOUR > SYSDATE
   	</select>
   	<select id="selectTicketInfoSQL" parameterType="Integer" resultType="com.histudy.studycafe.model.TicketJoinTicketCategoryDTO">
   		select *
@@ -52,5 +52,12 @@
   	</update>
   	<select id="selectReceiptSQL" parameterType="String" resultType="com.histudy.studycafe.model.PayDTO">
   		select * from studycafe_pay where paymentId = #{paymentId} 
+  	</select>
+  	<insert id="insertRegisterReservationSQL" parameterType="com.histudy.studycafe.model.StudycafeReservationDTO">
+  		INSERT INTO studycafe_reservation(user_idx, seat_idx, reservation_starttime, reservation_endtime,reservation_status, ticket_idx, paymentId) 
+  		VALUES(#{user_idx}, #{seat_idx}, #{reservation_starttime}, #{reservation_endtime}, #{reservation_status}, #{ticket_idx}, #{paymentId})
+  	</insert>
+  	<select id="selectTicketTimeSQL" parameterType="Integer" resultType="Integer">
+  		select ticket_time from studycafe_ticket where ticket_idx = #{ticket_idx}
   	</select>
   </mapper>

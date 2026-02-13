@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -279,8 +278,8 @@ window.onload=function(){
 <rect x="700" y="60" width="350" height="250" rx="20" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2" />
 <text x="865" y="350" text-anchor="middle" font-size="18" font-weight="700">1인 독방</text>
 <c:forEach var="seat" items="${seatList}">
-<rect class="seat-a" x="${seat.seat_x}" y="${seat.seat_y}" width="${seat.seat_w}" height="${seat.seat_h}" value="${seat.seat_num}"></rect>
-
+<rect class="seat-a" x="${seat.seat_x}" y="${seat.seat_y}" width="${seat.seat_w}" height="${seat.seat_h}" value="${seat.seat_num}" data-seat-idx="${seat.seat_idx}"></rect>
+<text x="${seat.seat_x+seat.seat_w/2}" y="${seat.seat_y + seat.seat_h / 2}" fill="black" text-anchor="middle" font-size="14">${seat.seat_num}</text>
 </c:forEach>
 </svg>
 				</div>
@@ -320,6 +319,7 @@ function showResult(){
 
 			var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 			rect.setAttribute('class', 'seat-a');
+			rect.setAttribute('data-seat-idx', seat.seat_idx);
 			rect.setAttribute('data-seat-type', seat.seat_type);
 			rect.setAttribute('data-seat-status', seat.seat_status);
 			rect.setAttribute('x',seat.seat_x);
@@ -351,15 +351,19 @@ function showResult(){
 			seatReservation();
 // 좌석 정보
 var queryNum=-1;
+var seat_idx = null;
+var ticket_idx = null;
+
 function seatReservation(){
 for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 	document.querySelectorAll(".seat-a")[i].addEventListener('click', function(){
+		seat_idx=document.querySelectorAll(".seat-a")[i].dataset.seatIdx;
+		seatCurrent(seat_idx);
 		queryNum=i;
 		document.querySelector('#seat').innerHTML = document.querySelectorAll(".seat-a")[i].getAttribute("value")+ '의 좌석현황';
 		document.querySelector('.modal-content').innerHTML='<button id="reserveBtn">이용 하기</button>';
 		// 이용하기
-		document.getElementById('reserveBtn').addEventListener('click',function(e){
-			
+		document.getElementById('reserveBtn').addEventListener('click',function(e, seat_idx){
 			if(${empty sessionScope.user_id}){
 				alert('로그인 후 스터디 카페를 이용하실 수 있습니다');
 				e.preventDefault();
@@ -370,13 +374,12 @@ for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 				var ticketBtn= '<button class="ticket" value="1">시간권</button><button class="ticket" value="2">종일권</button>';
 				document.querySelector('.modal-content').innerHTML = ticketBtn;
 				if(ticket != null){
-				seatTicketInfo(ticket.value);
+					seatTicketInfo(ticket.value);
 				}
-			})
-
-		})
+			});
+		});
 			document.querySelector('.payseat').style.display="";
-		})
+		});
 }
 }
 // 티켓 정보 가져오기
@@ -403,9 +406,9 @@ function seatTicketInfo(ticket_category_idx){
 function portOnePay(queryNum){
 	for(let i=0; i<document.querySelectorAll('.payBtn').length; i++){
 	document.querySelectorAll('.payBtn')[i].addEventListener('click', async function(){
-
 		var now = new Date();
 		var str = ''+now.getFullYear()+(now.getMonth()+1)+now.getDate()+now.getHours()+now.getMinutes()+now.getSeconds();
+			ticket_idx = document.querySelectorAll('.payBtn')[i].value;
 		return fetch("studycafe/payment/payNotComplete.do?ticket_idx="+document.querySelectorAll('.payBtn')[i].value, {
 			method:"POST",
 			headers:{"Content-Type":"application/json"},
@@ -436,6 +439,10 @@ function portOnePay(queryNum){
 			    fullName: "${udto.user_name}",
 			  	phoneNumber: "${udto.user_tel}"
 				},
+				customData:{
+					seat_idx: seat_idx,
+					ticket_idx: ticket_idx
+				},
 				orderName: res.orderName,
 				totalAmount: res.totalAmount,
 				currency: "CURRENCY_KRW",
@@ -451,14 +458,15 @@ function portOnePay(queryNum){
 
 
 // 1. 좌석 현황
-function seatCurrent(){
+function seatCurrent(seat_idx){
+	alert(seat_idx);
 	return fetch("seatReservation.do", {
 		method: "POST",
 		headers:{
 			"Content-Type":"application/json"
 		},
 		body:JSON.stringify({
-			seat_idx: (i+1)
+			seat_idx: seat_idx
 		})
 	})
 	.then(function(res){
@@ -467,10 +475,25 @@ function seatCurrent(){
 		}
 	})
 	.then(function(res){
-		alert(res)
-			data.forEach(function(responseData){
-				alert(responseData);
-			})
+		var divTag=document.createElement('div');
+		document.getElementById('seat').appendChild(divTag);
+		var reservation_starttime=new Date(res.reservation_starttime);
+		var reservation_endtime = new Date(res.reservation_endtime);
+		
+		reservation_starttime = reservation_starttime.getFullYear()+"년"
+		+(reservation_starttime.getMonth()+1)
+		+"월"+reservation_starttime.getDate()
+		+"일&nbsp;"+reservation_starttime.getHours()
+		+"시&nbsp;"+reservation_starttime.getMinutes()
+		+"분";
+		reservation_endtime=reservation_endtime.getFullYear()+"년"
+		+(reservation_endtime.getMonth()+1)
+		+"월"+reservation_endtime.getDate()
+		+"일&nbsp;"+reservation_endtime.getHours()
+		+"시&nbsp;"+reservation_endtime.getMinutes()
+		+"분";
+		var str="시작시간: "+reservation_starttime+"<div>종료시간: "+reservation_endtime;
+		divTag.innerHTML = str;
 	})
 	.catch(error => console.log(error.message))
 }

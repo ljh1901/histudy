@@ -7,11 +7,11 @@ import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
 
 import java.util.*;
 
-public class AdminDAOImple implements AdminDAO {
+public class AdminCafeDAOImple implements AdminCafeDAO {
 
     private SqlSessionTemplate session;
 
-    public AdminDAOImple(SqlSessionTemplate session) {
+    public AdminCafeDAOImple(SqlSessionTemplate session) {
         this.session = session;
     }
     @Override

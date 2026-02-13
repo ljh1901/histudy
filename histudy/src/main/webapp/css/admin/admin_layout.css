@@ -22,7 +22,6 @@ h1 {
     font-size: 1.8rem;
 }
 
-
 .admin {
     margin-top: 2%;
     margin-left: 3%;
@@ -180,7 +179,6 @@ iframe {
     color: #555;
 }
 
-/* 호버 및 활성화 상태 통합 */
 .faq__category__item:hover, .faq__category__item.active, 
 .notice__category__item:hover, .notice__category__item.active {
     background-color: var(--color-navy);
@@ -193,7 +191,6 @@ iframe {
     font-weight: bold;
 }
 
-/* 리스트 테이블 통합 */
 .faq__list, .notice__list {
     width: 100%;
     border-collapse: collapse;
@@ -216,7 +213,6 @@ iframe {
     background-color: #f1f1f1;
 }
 
-/* 버튼 스타일 통합 */
 .faq__admin__btn, .notice__admin__btn {
     padding: 10px 15px;
     background-color: var(--color-navy);
@@ -245,7 +241,6 @@ iframe {
     cursor: pointer;
 }
 
-/* 작성/수정 폼 통합 */
 .faq__write__form, .notice__write__form, .notice__detail-form {
     width: 100%;
     max-width: 800px;
@@ -300,7 +295,6 @@ iframe {
     color: white;
 }
 
-/* 버튼 크기 보정 */
 .faq__admin__btn, .notice__admin__btn {
     padding: 12px 30px;
     border: none;
@@ -309,7 +303,6 @@ iframe {
     cursor: pointer;
 }
 
-/* 수정 폼 통합 */
 .faq__edit-form, .notice__edit-form {
     width: 100%;
     border-collapse: collapse;
@@ -376,7 +369,6 @@ iframe {
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 
-/* 정보 영역 */
 .study__info__left {
     display: flex;
     flex-direction: column;
@@ -418,7 +410,6 @@ iframe {
     gap: 4px;
 }
 
-/* 상태 및 액션 */
 .admin__actions {
     display: flex;
     align-items: center;
@@ -432,10 +423,9 @@ iframe {
     border-radius: 4px;
 }
 
-.status--recruiting { color: #10b981; background: #ecfdf5; }
-.status--closed { color: #ef4444; background: #fef2f2; }
+.study__status__recruiting { color: #10b981; background: #ecfdf5; }
+.study__status__closed { color: #ef4444; background: #fef2f2; }
 
-/* 삭제 버튼 (기존 faq/notice 스타일 활용) */
 .admin__btn__del_small {
     padding: 8px 16px;
     background-color: #ef4444;
@@ -451,10 +441,143 @@ iframe {
     background-color: #dc2626;
 }
 
-/* 필터 셀렉트 */
 .admin__select {
     padding: 8px;
     border: 1px solid var(--color-gray);
     border-radius: 4px;
     outline: none;
+}
+
+#adminStudyDetail {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.study__detail {
+    width: 95%;
+    max-width: 750px;
+    max-height: 90vh;
+    border: 3px solid #333;
+    border-radius: 20px;
+    padding: 25px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.study__detail__header {
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.study__detail__field {
+    border: 2px solid #444;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.study__detail__field::-webkit-scrollbar {
+    width: 8px;
+}
+
+.study__detail__field::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.study__detail__title {
+    display: block;
+    margin: 5px 0 10px 0;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #4f46e5;
+}
+
+.study__info {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+}
+
+.study__info li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.study__info li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+.highlight {
+    font-weight: bold;
+}
+
+.study__content {
+    line-height: 1.6;
+    font-size: 1rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.study__detail__footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.study__btn__del, .study__btn__list {
+    padding: 10px 30px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+}
+
+.study__btn__del {
+    background-color: #4f78ff;
+    color: white;
+}
+
+.study__btn__list {
+    background-color: #64748b;
+    color: white;
+}
+
+.study__btn__del:hover {
+    background-color: #3b5bdb;
+}
+
+.study__btn__list:hover {
+    background-color: #475569;
+}
+.study__title__link {
+	text-decoration: none;
+	color: #1e293b;
+    font-weight: 700;
+    cursor: pointer;
+}
+.study__title__link:hover {
+    color: #4f46e5;
+    text-decoration: underline;
 }

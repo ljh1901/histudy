@@ -5,7 +5,7 @@ import java.util.*;
 import com.histudy.studycafe.model.StudycafeDTO;
 import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
 
-public interface AdminDAO {
+public interface AdminCafeDAO {
 	public List<StudycafeDTO> selectAllCafes();
 	public List<Map<String, Object>> selectSalesList(Map<String, Object> params);
 	public void deleteLayoutByCafeIdx(int studycafe_idx);

@@ -1,12 +1,14 @@
 package com.histudy.studycafe.service;
 
 import java.util.List;
+import java.util.TimeZone;
 
 import com.histudy.studycafe.model.PayDTO;
 import com.histudy.studycafe.model.SeatDTO;
 import com.histudy.studycafe.model.StudycafeDAO;
 import com.histudy.studycafe.model.StudycafeDTO;
 import com.histudy.studycafe.model.StudycafeJoinReservationDTO;
+import com.histudy.studycafe.model.StudycafeReservationDTO;
 import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
 
 public class StudycafeServiceImple implements StudycafeSerivce {
@@ -62,5 +64,22 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 	public TicketJoinTicketCategoryDTO ticketTotalAmount(int ticket_idx) {
 		TicketJoinTicketCategoryDTO tjtc = studycafeDAO.ticketTotalAmount(ticket_idx);
 		return tjtc;
+	}
+	
+	@Override
+	public int registerReservation(Integer user_idx, int seat_idx, String starttime, String endtime,
+			String reservation_status, int ticket_idx, String paymentId) {
+			int ticket_time = studycafeDAO.ticketTime(ticket_idx);
+			// yyyy-mm-dd + (hh24+hh) + :mi:ss.mis
+			endtime = starttime.substring(0,starttime.indexOf("T")+1)+
+					"0"+(Integer.parseInt(starttime.substring(starttime.indexOf("T")+1,starttime.indexOf(":")))+ticket_time)
+					+starttime.substring(starttime.indexOf(":"));
+			System.out.println(endtime);
+
+		StudycafeReservationDTO reservationDTO = new StudycafeReservationDTO(user_idx, seat_idx, 
+				starttime, endtime, 
+				reservation_status, ticket_idx, paymentId);
+		int reservation = studycafeDAO.registerReservation(reservationDTO);
+		return reservation;
 	}
 }

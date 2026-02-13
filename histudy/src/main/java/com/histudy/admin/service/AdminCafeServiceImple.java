@@ -1,6 +1,6 @@
 package com.histudy.admin.service;
 
-import com.histudy.admin.model.AdminDAO;
+import com.histudy.admin.model.AdminCafeDAO;
 import com.histudy.admin.model.TicketCategoryDTO;
 import com.histudy.studycafe.model.StudycafeDTO;
 import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
@@ -9,11 +9,11 @@ import java.util.*;
 
 import org.springframework.transaction.annotation.Transactional;
 
-public class AdminServiceImple implements AdminService {
+public class AdminCafeServiceImple implements AdminCafeService {
 
-    private final AdminDAO adminDAO;
+    private final AdminCafeDAO adminDAO;
 
-    public AdminServiceImple(AdminDAO adminDAO) {
+    public AdminCafeServiceImple(AdminCafeDAO adminDAO) {
         this.adminDAO = adminDAO;
     }
 
