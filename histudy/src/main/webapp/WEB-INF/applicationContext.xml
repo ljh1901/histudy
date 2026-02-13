@@ -47,6 +47,10 @@
    	 <constructor-arg ref="sqlSessionTemplate" />
 	</bean>
 	
+	<bean id="inquiryDAO" class="com.histudy.inquiry.model.InquiryDAOImple">
+   	 <constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	
 	<bean id="adminUserDAO" class="com.histudy.admin.model.AdminUserDAOImple">
    	 <constructor-arg ref="sqlSessionTemplate" />
 	</bean>
