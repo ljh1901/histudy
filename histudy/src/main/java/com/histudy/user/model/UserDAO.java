@@ -11,4 +11,5 @@ public interface UserDAO {
 	public String userFindId(UserDTO dto);
 	public int userCheckPw(UserDTO dto); //정보 확인용
 	public int userUpdatePw(UserDTO dto); //비밀번호 수정
+	
 }

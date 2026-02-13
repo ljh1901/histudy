@@ -79,4 +79,8 @@
 	<bean id="studycafeService" class="com.histudy.studycafe.service.StudycafeServiceImple">
 		<constructor-arg ref="studycafeDAO"></constructor-arg>
 	</bean>
+	<!-- 비밀번호 변경 서비스 -->
+	<bean id="passwordService" class="com.histudy.user.service.PasswordServiceImple">
+		<constructor-arg ref="passwordDAO"></constructor-arg>
+	</bean>
 </beans>
