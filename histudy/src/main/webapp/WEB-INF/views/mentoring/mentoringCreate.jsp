@@ -1,5 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+
+<%
+    // 이번 주 월요일~일요일 날짜 계산 (DB 저장용 및 화면 표시용)
+    Calendar cal = Calendar.getInstance();
+    cal.setFirstDayOfWeek(Calendar.MONDAY);
+    int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+    int delta = (dayOfWeek == Calendar.SUNDAY) ? -6 : (Calendar.MONDAY - dayOfWeek);
+    cal.add(Calendar.DAY_OF_MONTH, delta);
+    
+    SimpleDateFormat sdfDisplay = new SimpleDateFormat("MM/dd");
+    SimpleDateFormat sdfFull = new SimpleDateFormat("yyyy-MM-dd");
+    
+    String[] displayDates = new String[7];
+    String[] dbDates = new String[7];
+    
+    for (int i = 0; i < 7; i++) {
+        displayDates[i] = sdfDisplay.format(cal.getTime());
+        dbDates[i] = sdfFull.format(cal.getTime());
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+    }
+%>
 
 <!DOCTYPE html>
 <html>
@@ -10,6 +32,7 @@
 <link rel="stylesheet" href="css/header.css" type="text/css">
 <link rel="stylesheet" href="css/footer.css" type="text/css">
 <link rel="stylesheet" href="css/mentoringDesign/mentoringCreate.css" type="text/css">
+
 </head>
 
 <body id="mentoringCreatePage">
@@ -17,10 +40,8 @@
 
 <section class="mentoringCreate">
 
-
   <form id="mentoringOpenForm" method="post" action="<c:url value='/mentoringCreate.do'/>">
 
- 
     <input type="hidden" id="sc_idx" name="sc_idx" value="">
     <input type="hidden" id="skill_tags" name="skill_tags" value="">
     <input type="hidden" id="schedule_json" name="schedule_json" value="[]">
@@ -40,7 +61,6 @@
       </div>
     </div>
 
-    <!-- 2 카테고리 -->
     <div class="card">
       <h3 class="section-title">카테고리</h3>
 
@@ -55,9 +75,8 @@
       <div class="hint">카테고리 1개를 선택해 주세요.</div>
     </div>
 
-    <!-- 3 멘토링 정보 -->
     <div class="card">
-      <h3 class="section-title">멘토링 정보 - 예시 보기</h3>
+      <h3 class="section-title">멘토링 정보</h3>
 
       <div style="margin-bottom:12px;">
         <label class="required">멘토링명 (한 줄 요약)</label>
@@ -115,80 +134,28 @@
             <thead>
               <tr>
                 <th class="time-col"></th>
-                <th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th><th>일</th>
+                <th>월(<%= displayDates[0] %>)</th>
+                <th>화(<%= displayDates[1] %>)</th>
+                <th>수(<%= displayDates[2] %>)</th>
+                <th>목(<%= displayDates[3] %>)</th>
+                <th>금(<%= displayDates[4] %>)</th>
+                <th>토(<%= displayDates[5] %>)</th>
+                <th>일(<%= displayDates[6] %>)</th>
               </tr>
             </thead>
             <tbody>
+              <% for(int h=14; h<=20; h++) { String t = h + ":00"; %>
               <tr>
-                <td class="time-col">14:00</td>
-                <td class="slot" data-day="MON" data-time="14:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="TUE" data-time="14:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="WED" data-time="14:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="THU" data-time="14:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="FRI" data-time="14:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SAT" data-time="14:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SUN" data-time="14:00" onclick="onSlotClick(this)"></td>
+                <td class="time-col"><%= t %></td>
+                <td class="slot" data-day="MON" data-time="<%= t %>" onclick="onSlotClick(this)"></td>
+                <td class="slot" data-day="TUE" data-time="<%= t %>" onclick="onSlotClick(this)"></td>
+                <td class="slot" data-day="WED" data-time="<%= t %>" onclick="onSlotClick(this)"></td>
+                <td class="slot" data-day="THU" data-time="<%= t %>" onclick="onSlotClick(this)"></td>
+                <td class="slot" data-day="FRI" data-time="<%= t %>" onclick="onSlotClick(this)"></td>
+                <td class="slot" data-day="SAT" data-time="<%= t %>" onclick="onSlotClick(this)"></td>
+                <td class="slot" data-day="SUN" data-time="<%= t %>" onclick="onSlotClick(this)"></td>
               </tr>
-              <tr>
-                <td class="time-col">15:00</td>
-                <td class="slot" data-day="MON" data-time="15:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="TUE" data-time="15:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="WED" data-time="15:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="THU" data-time="15:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="FRI" data-time="15:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SAT" data-time="15:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SUN" data-time="15:00" onclick="onSlotClick(this)"></td>
-              </tr>
-              <tr>
-                <td class="time-col">16:00</td>
-                <td class="slot" data-day="MON" data-time="16:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="TUE" data-time="16:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="WED" data-time="16:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="THU" data-time="16:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="FRI" data-time="16:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SAT" data-time="16:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SUN" data-time="16:00" onclick="onSlotClick(this)"></td>
-              </tr>
-              <tr>
-                <td class="time-col">17:00</td>
-                <td class="slot" data-day="MON" data-time="17:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="TUE" data-time="17:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="WED" data-time="17:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="THU" data-time="17:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="FRI" data-time="17:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SAT" data-time="17:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SUN" data-time="17:00" onclick="onSlotClick(this)"></td>
-              </tr>
-              <tr>
-                <td class="time-col">18:00</td>
-                <td class="slot" data-day="MON" data-time="18:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="TUE" data-time="18:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="WED" data-time="18:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="THU" data-time="18:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="FRI" data-time="18:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SAT" data-time="18:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SUN" data-time="18:00" onclick="onSlotClick(this)"></td>
-              </tr>
-              <tr>
-                <td class="time-col">19:00</td>
-                <td class="slot" data-day="MON" data-time="19:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="TUE" data-time="19:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="WED" data-time="19:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="THU" data-time="19:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="FRI" data-time="19:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SAT" data-time="19:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SUN" data-time="19:00" onclick="onSlotClick(this)"></td>
-              </tr>
-              <tr>
-                <td class="time-col">20:00</td>
-                <td class="slot" data-day="MON" data-time="20:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="TUE" data-time="20:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="WED" data-time="20:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="THU" data-time="20:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="FRI" data-time="20:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SAT" data-time="20:00" onclick="onSlotClick(this)"></td>
-                <td class="slot" data-day="SUN" data-time="20:00" onclick="onSlotClick(this)"></td>
-              </tr>
+              <% } %>
             </tbody>
           </table>
         </div>
@@ -218,154 +185,136 @@
   </form>
 
 <script>
-  /* 카테고리 */
+  /* [기능] 카테고리 선택 */
   function pickCategory(btn){
     const val = btn.getAttribute("data-val");
     const sc = document.getElementById("sc_idx");
     if(sc) sc.value = val;
-
     document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
   }
 
-  /* 스킬태그 (최대 5개) */
-  const tags = [];
+  /* [기능] 스킬태그 관리 */
+  const tags = []; 
   const tagInput = document.getElementById("tagInput");
   const tagChips = document.getElementById("tagChips");
 
-  if(tagInput){
-    tagInput.addEventListener("keydown", function(e){
-      if(e.key === "Enter"){
-        e.preventDefault();
-        addTag();
+  // 1. 태그 추가 함수
+  function addTag() {
+      const rawValue = tagInput.value.trim();
+      const tagValue = rawValue.replace(/\s+/g, ""); 
+
+      if (!tagValue) return;
+      if (tags.includes(tagValue)) { 
+          alert("이미 추가된 태그입니다."); 
+          return; 
       }
-    });
+      if (tags.length >= 5) { 
+          alert("스킬태그는 최대 5개까지 선택할 수 있어요."); 
+          return; 
+      }
+
+      tags.push(tagValue); 
+      tagInput.value = ""; 
+      renderTags(); 
   }
 
-  function addTag(){
-    const raw = (tagInput.value || "").trim();
-    if(!raw) return;
-
-    const t = raw.replace(/\s+/g, "");
-    if(!t) return;
-
-    if(tags.includes(t)){
-      alert("이미 추가된 태그입니다.");
-      return;
-    }
-    if(tags.length >= 5){
-      alert("스킬태그는 최대 5개까지 선택할 수 있어요.");
-      return;
-    }
-
-    tags.push(t);
-    tagInput.value = "";
-    renderTags();
+  // 2. 태그 삭제 함수
+  function removeTag(t) {
+      const idx = tags.indexOf(t);
+      if (idx >= 0) tags.splice(idx, 1); 
+      renderTags(); // 화면 갱신
   }
 
-  function removeTag(t){
-    const idx = tags.indexOf(t);
-    if(idx >= 0) tags.splice(idx, 1);
-    renderTags();
-  }
-
-  function renderTags(){
-    tagChips.innerHTML = "";
+  // 3. 화면에 태그 그려주는 함수
+  function renderTags() {
+    tagChips.innerHTML = ""; 
+    
     tags.forEach(t => {
-      const el = document.createElement("div");
-      el.className = "chip";
-      el.innerHTML = `<span>#${t}</span><button type="button" onclick="removeTag('${t}')">×</button>`;
-      tagChips.appendChild(el);
+        const el = document.createElement("div");
+        el.className = "chip"; 
+        
+        const tagText = document.createElement("span");
+        tagText.textContent = "#" + t; 
+        tagText.style.color = "#111827";
+        
+        const delBtn = document.createElement("button");
+        delBtn.type = "button";
+        delBtn.innerHTML = "&times;";
+        delBtn.onclick = function() { removeTag(t); };
+        
+        el.appendChild(tagText);
+        el.appendChild(delBtn);
+        tagChips.appendChild(el);
     });
+    
+    const hiddenInput = document.getElementById("skill_tags");
+    if (hiddenInput) hiddenInput.value = tags.join(",");
+ }
 
-    const hidden = document.getElementById("skill_tags");
-    if(hidden) hidden.value = tags.join(",");
-  }
 
-  /* 스케줄 */
-const selectedSlots = new Set();
-
-function onSlotClick(td) {
-  // 1. data 속성 가져오기 (dataset 사용 권장)
-  const day = td.dataset.day;
-  const time = td.dataset.time;
-
-  // 2. 값이 없으면 실행 중단
-  if (!day || !time) {
-    console.error("데이터 속성이 누락되었습니다:", td);
-    return;
-  }
-
-  const key = day + "_" + time;
-
-  // 3. Set 업데이트 및 클래스 토글
-  if (selectedSlots.has(key)) {
-    selectedSlots.delete(key);
-    td.classList.remove("selected");
-  } else {
-    selectedSlots.add(key);
-    td.classList.add("selected");
-  }
-
-  // 4. JSON 변환 및 input 저장
-  const arr = Array.from(selectedSlots).map(k => {
-    const [d, t] = k.split("_");
-    return { day: d, time: t };
+  tagInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+          e.preventDefault();
+          addTag();
+      }
   });
 
-  document.getElementById("schedule_json").value = JSON.stringify(arr);
-  
-  // 디버깅용 로그
-  console.log("현재 선택된 슬롯 수:", selectedSlots.size);
-  console.log("JSON 데이터:", document.getElementById("schedule_json").value);
-}
+  /* 스케줄 선택 */
+  const selectedSlots = new Set();
 
+  const dbDates = ["<%= dbDates[0] %>", "<%= dbDates[1] %>", "<%= dbDates[2] %>", "<%= dbDates[3] %>", "<%= dbDates[4] %>", "<%= dbDates[5] %>", "<%= dbDates[6] %>"];
+  const dayMap = {"MON":0, "TUE":1, "WED":2, "THU":3, "FRI":4, "SAT":5, "SUN":6};
 
-  /* 최종 제출 */
- function submitMentoringForm(){
-  const phone = document.querySelector("input[name='contact_phone_public']").value.trim();
-  const email = document.querySelector("input[name='contact_email_public']").value.trim();
-  const sc = document.getElementById("sc_idx").value;
-  const title = document.querySelector("input[name='mentoring_title']").value.trim();
-  const jobGroup = document.querySelector("input[name='job_group']").value.trim();
-  const jobRole = document.querySelector("input[name='job_role']").value.trim();
-  const career = document.querySelector("input[name='career_years']").value.trim();
-  const sessionNum = parseInt(document.getElementById("session_minutes").value || "0", 10);
-  const desc = document.querySelector("textarea[name='description']").value.trim();
+  function onSlotClick(td) {
+    const day = td.dataset.day;
+    const time = td.dataset.time;
+    const actualDate = dbDates[dayMap[day]]; // 요일을 실제 날짜로 변환
 
-  if(!phone){ alert("연락 가능한 번호를 입력해 주세요."); return; }
-  if(!email){ alert("연락 가능한 이메일을 입력해 주세요."); return; }
-  if(!sc){ alert("카테고리를 선택해 주세요."); return; }
-  if(!title){ alert("멘토링명을 입력해 주세요."); return; }
-  if(!jobGroup || !jobRole || !career){ alert("직군/직무/경력을 입력해 주세요."); return; }
-  if(sessionNum === 0){ alert("1회 시간을 선택해 주세요."); return; }
-  if(selectedSlots.size === 0){ alert("스케줄을 1개 이상 선택해 주세요."); return; }
+    const key = actualDate + "_" + time;
 
-  const needSlots = sessionNum / 60;
+    if (selectedSlots.has(key)) {
+      selectedSlots.delete(key);
+      td.classList.remove("selected");
+    } else {
+      selectedSlots.add(key);
+      td.classList.add("selected");
+    }
 
-  console.log("selectedSlots.size =", selectedSlots.size);
-  console.log("selectedSlots =", Array.from(selectedSlots));
-  console.log("schedule_json =", document.getElementById("schedule_json").value);
-
-  if(selectedSlots.size < needSlots){
-    alert(`${needSlots}칸(${sessionNum}분)을 선택해야 합니다. 현재 선택: ${selectedSlots.size}칸`);
-    return;
+    const arr = Array.from(selectedSlots).map(k => {
+      const [d, t] = k.split("_");
+      return { date: d, time: t };
+    });
+    document.getElementById("schedule_json").value = JSON.stringify(arr);
   }
 
-  if(!desc){ alert("멘토링 상세 설명을 입력해 주세요."); return; }
 
-  document.getElementById("mentoringOpenForm").submit();
-}
+ /* 4. 최종 제출  */
+  function submitMentoringForm(){
+    const f = document.getElementById("mentoringOpenForm");
+    const sessionMin = parseInt(document.getElementById("session_minutes").value || "0", 10);
+    const needSlots = sessionMin / 60; // 60분=1칸, 120분=2칸
 
-  
+
+    if(!document.getElementById("sc_idx").value){ alert("카테고리를 선택해 주세요."); return; }
+    if(!f.mentoring_title.value.trim()){ alert("멘토링명을 입력해 주세요."); return; }
+    if(!f.job_group.value.trim() || !f.job_role.value.trim() || !f.career_years.value.trim()){ alert("직군/직무/경력을 입력해 주세요."); return; }
+    if(sessionMin === 0){ alert("1회 시간을 선택해 주세요."); return; }
+    
+    if(selectedSlots.size !== needSlots){
+      alert(`선택한 시간이 잘못되었습니다. 다시 시간에 맞게 선택해주세요!`);
+      return;
+    }
+
+    if(!f.description.value.trim()){ alert("상세 설명을 입력해 주세요."); return; }
+
+    f.submit();
+  }
 </script>
 
 <c:if test="${not empty msg}">
-  <script>
-    alert("${msg}");
-  </script>
+  <script>alert("${msg}");</script>
 </c:if>
-
 
 </section>
 

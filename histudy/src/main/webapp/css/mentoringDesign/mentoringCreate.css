@@ -140,30 +140,41 @@ textarea:focus{
 }
 
 /* 태그 칩 */
-.chips{
-  margin-top:12px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
+.chips {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 40px; 
 }
 
-.chip{
-  background:#f1f5f9;
-  border:1px solid #cbd5e1;
-  border-radius:999px;
-  padding:7px 12px;
-  font-size:0.85rem;
-  font-weight:800;
-  display:flex;
-  align-items:center;
-  gap:8px;
+.chip {
+  background: #e2e8f0; 
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b; 
+  display: inline-flex; 
+  align-items: center;
+  gap: 6px;
 }
 
-.chip button{
-  border:none;
-  background:transparent;
-  font-weight:900;
-  cursor:pointer;
+.chip span {
+  display: inline-block;
+  color: #111827; 
+}
+
+.chip button {
+  border: none;
+  background: transparent;
+  color: #ef4444; 
+  font-weight: 900;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  font-size: 16px;
 }
 
 /* 스케줄 테이블 */
@@ -206,7 +217,7 @@ table.schedule th{
   background:#f3f4f6;
 }
 
-/* 너 JS가 .selected 붙이니까 selected에 맞춰줌 */
+
 table.schedule td.slot.selected,
 table.schedule td.slot.selected:hover{
   background:#c9ffbf;

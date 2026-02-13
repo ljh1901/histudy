@@ -73,10 +73,10 @@
       <div class="ma-table-head">
         <div class="ma-card-title">멘토링 신청 인원 현황</div>
 
-        <div class="ma-search">
-          <input id="kw" type="text" placeholder="이름/이메일 검색">
-          <button type="button" class="ma-btn ma-btn-dark" onclick="filterRows()">검색</button>
-        </div>
+        <form class="ma-search" method="get" action="mentoringApplication.do">
+          <input id="kw" name="kw" type="text" value="${param.kw}" placeholder="이름/이메일 검색">
+          <button type="button" class="ma-btn ma-btn-dark">검색</button>
+        </form>
       </div>
 
       <c:choose>
@@ -158,6 +158,11 @@
           </div>
         </c:otherwise>
       </c:choose>
+       <c:if test="${not empty pageStr}">
+        <div class="paging">
+          ${pageStr}
+        </div>
+      </c:if>
     </div>
   </div>
 </section>
