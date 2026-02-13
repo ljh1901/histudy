@@ -1,5 +1,7 @@
 package com.histudy.mentoring.model;
 
+import java.util.List;
+
 public class MentoringDetailDTO {
   private int mentoring_idx;
   private String mentoring_title;
@@ -8,7 +10,10 @@ public class MentoringDetailDTO {
   private Integer career_years;
   private String description;
   private String pre_notice;
-
+  private List<String> tags; 
+  private List<MentoringScheduleDTO> schedules;
+  private String status;
+  
   private int mentor_idx;
   private int mentor_user_idx;
   private String mentor_name;
@@ -17,6 +22,10 @@ public class MentoringDetailDTO {
   private Double avg_rating;
   private Integer review_count;
 
+  public MentoringDetailDTO() {
+	// TODO Auto-generated constructor stub
+}
+  
   public int getMentoring_idx() {
 	return mentoring_idx;
 }
@@ -95,9 +104,34 @@ public Integer getReview_count() {
 public void setReview_count(Integer review_count) {
 	this.review_count = review_count;
 }
+public List<String> getTags() {
+	return tags;
+}
+public void setTags(List<String> tags) {
+	this.tags = tags;
+}
+
+public List<MentoringScheduleDTO> getSchedules() {
+	return schedules;
+}
+
+public void setSchedules(List<MentoringScheduleDTO> schedules) {
+	this.schedules = schedules;
+}
+
+
+public String getStatus() {
+	return status;
+}
+
+public void setStatus(String status) {
+	this.status = status;
+}
+
 public MentoringDetailDTO(int mentoring_idx, String mentoring_title, String job_group, String job_role,
-		Integer career_years, String description, String pre_notice, int mentor_idx, int mentor_user_idx,
-		String mentor_name, String mentor_profile_img, Double avg_rating, Integer review_count) {
+		Integer career_years, String description, String pre_notice, List<String> tags,
+		List<MentoringScheduleDTO> schedules, String status, int mentor_idx, int mentor_user_idx, String mentor_name,
+		String mentor_profile_img, Double avg_rating, Integer review_count) {
 	super();
 	this.mentoring_idx = mentoring_idx;
 	this.mentoring_title = mentoring_title;
@@ -106,6 +140,9 @@ public MentoringDetailDTO(int mentoring_idx, String mentoring_title, String job_
 	this.career_years = career_years;
 	this.description = description;
 	this.pre_notice = pre_notice;
+	this.tags = tags;
+	this.schedules = schedules;
+	this.status = status;
 	this.mentor_idx = mentor_idx;
 	this.mentor_user_idx = mentor_user_idx;
 	this.mentor_name = mentor_name;
@@ -114,5 +151,6 @@ public MentoringDetailDTO(int mentoring_idx, String mentoring_title, String job_
 	this.review_count = review_count;
 }
 
-  
+
+
 }

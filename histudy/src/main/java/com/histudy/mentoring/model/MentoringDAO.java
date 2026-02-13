@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface MentoringDAO {
-    public List<MentorListDTO> mentorList();
-    public List<MentorListDTO> mentorListCategory(int sc_idx);
+	public List<MentorListDTO> mentorList(Map<String, Object> map);
+	public int mentorTotalCnt(Map<String, Object> map);
     public int mentorProfileCreate(MentoProfileDTO dto);
     
     public int mentorProfileCount(int user_idx);
@@ -16,7 +16,9 @@ public interface MentoringDAO {
 
     public int insertMentoringSchedule(MentoringScheduleDTO dto);
     
-    public List<MentorApplicationDTO> selectMentorApplications(int mentor_idx);
+    public List<MentorApplicationDTO> selectMentorApplications(Map<String, Object> map);
+    public int mentorAppTotalCnt(Map<String, Object> map);
+    
     public MentorApplicationDTO selectMentorApplicationDetail(int ma_id);
 
     public int approveMentorApplication(int ma_id);
@@ -41,5 +43,11 @@ public interface MentoringDAO {
     public  Integer selectWritableMatchId(Map<String, Object> map);
     public int insertMentoringReview(MentoringReviewDTO dto);
 
+    public Integer findSkillIdByName(String skill_name);
+    public int insertSkill(String skill_name);
+    public int insertMentoringSkillMap(Map<String, Object> map);
+
+    public List<MentoringScheduleDTO> selectMentoringSchedule(int mentoring_idx);
+    public int updateMentoringStatusClose(int mentoring_idx);
     
 }
