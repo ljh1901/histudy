@@ -10,7 +10,9 @@
             #{payment_method},        
             #{payment_status},        
             #{payment_amount},        
-            SYSDATE,                  
+            SYSDATE,    
+            #{tax_free},
+            ADD_MONTHS(SYSDATE, 1),            
             #{user_idx},              
             (SELECT membership_idx FROM membership WHERE membership_name = '프리미엄')
         )
@@ -33,7 +35,9 @@
         '0',       
         '가입',         
         0,            
-        SYSDATE,         
+        SYSDATE, 
+        0,
+        SYSDATE,        
         #{user_idx},       
         (SELECT membership_idx FROM membership WHERE membership_name = '일반')
     )

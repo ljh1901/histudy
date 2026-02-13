@@ -7,11 +7,30 @@ public class MembershipPaymentDTO {
 	private String payment_status;
 	private int payment_amount;
 	Date payment_date;
+	private int tax_free;
+	private Date end_date;
 	private int user_idx;
 	private int membership_idx;
 	public MembershipPaymentDTO() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public int getTax_free() {
+		return tax_free;
+	}
+
+	public void setTax_free(int tax_free) {
+		this.tax_free = tax_free;
+	}
+
+	public Date getEnd_date() {
+		return end_date;
+	}
+
+	public void setEnd_date(Date end_date) {
+		this.end_date = end_date;
+	}
+
 	public int getPayment_idx() {
 		return payment_idx;
 	}
@@ -60,8 +79,8 @@ public class MembershipPaymentDTO {
 	public void setMembership_idx(int membership_idx) {
 		this.membership_idx = membership_idx;
 	}
-	public MembershipPaymentDTO(int payment_idx, String payId, String payNum, String payment_method,
-			String payment_status, int payment_amount, Date payment_date, int user_idx, int membership_idx) {
+	public MembershipPaymentDTO(int payment_idx, String payNum, String payment_method, String payment_status,
+			int payment_amount, Date payment_date, int tax_free, Date end_date, int user_idx, int membership_idx) {
 		super();
 		this.payment_idx = payment_idx;
 		this.payNum = payNum;
@@ -69,7 +88,10 @@ public class MembershipPaymentDTO {
 		this.payment_status = payment_status;
 		this.payment_amount = payment_amount;
 		this.payment_date = payment_date;
+		this.tax_free = tax_free;
+		this.end_date = end_date;
 		this.user_idx = user_idx;
 		this.membership_idx = membership_idx;
 	}
+	
 }
