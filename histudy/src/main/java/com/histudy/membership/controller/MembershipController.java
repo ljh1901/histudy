@@ -34,37 +34,38 @@ public class MembershipController {
     @Autowired
     private UserService userService;
     
-	@GetMapping("membership.do")
-	public ModelAndView membershipPayment(HttpSession session) {
-	    String user_id = (String) session.getAttribute("user_id");
-		ModelAndView mav=new ModelAndView();
-		if(user_id!=null) {
-			UserDTO udto=userService.userInfo(user_id);
-			String name=udto.getUser_name();
-			String email=udto.getUser_email();
-			String tel=udto.getUser_tel();
-			String id=udto.getUser_id();
-			mav.addObject("uname",name);
-			mav.addObject("uemail",email);
-			mav.addObject("utel",tel);
-			mav.addObject("uid",id);
-		}
-		
-		mav.setViewName("membership/membershipPayment");
-		return mav;
-	}
+    @GetMapping("membership.do")
+    public ModelAndView membershipPayment(HttpSession session) {
+        ModelAndView mav = new ModelAndView();
+        String user_id = (String) session.getAttribute("user_id");
+        Integer user_idx = (Integer) session.getAttribute("user_idx");
+        if (user_id == null) {
+            mav.addObject("msg", "로그인 후 이용 가능합니다.");
+            mav.setViewName("membership/membershipPayment"); 
+            return mav;
+        }
+        if ("프리미엄".equals(membershipService.membershipGrade(user_idx))) {
+            mav.addObject("msg", "이미 프리미엄 회원입니다!");
+            mav.setViewName("membership/membershipPayment"); 
+            return mav;
+        }
+        UserDTO udto = userService.userInfo(user_id);
+        mav.addObject("uname", udto.getUser_name());
+        mav.addObject("uemail", udto.getUser_email());
+        mav.addObject("utel", udto.getUser_tel());
+        mav.addObject("uid", udto.getUser_id());
+        mav.addObject("uidx", udto.getUser_idx());
+        mav.setViewName("membership/membershipPayment");
+        return mav;
+    }
 	@PostMapping("/cookieMake.do") 
 	@ResponseBody 
-	public Map<String, Object> cookieMake(HttpServletResponse resp, @RequestBody MembershipPaymentDTO dto) {
+	public Map<String, Object> cookieMake(HttpSession session,
+			HttpServletResponse resp, 
+			@RequestBody MembershipPaymentDTO dto) {
 	    
 	    membershipService.insertPrimium(dto);
-	    System.out.println(dto.getPayment_amount());
-	    System.out.println("DB 저장 및 쿠키 생성 시작");
-	    
-	    Cookie ck = new Cookie("membershiip", "premium"); 
-	    ck.setPath("/"); 
-	    ck.setMaxAge(60*60*24*30); // 30일
-	    resp.addCookie(ck);
+	    session.setAttribute("membership_grade", "premium");
 	    
 	    Map<String, Object> map = new HashMap<>();
 	    map.put("result", "success");
