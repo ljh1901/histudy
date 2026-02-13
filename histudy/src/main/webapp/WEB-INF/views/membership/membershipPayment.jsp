@@ -19,38 +19,44 @@
 <%@ include file="../header.jsp" %>
 <main>
 <section class="membershipPaymentContainer">
-  <h1>결제하기</h1>
-  <div class="order-summary">
-    <p>상품명: 하이스터디 프리미엄 회원권 1개월</p>
-    <p>결제금액: <span id="price">29,000원</span></p>
-  </div>
-  <button id="pay-btn" onclick="requestPayment()">결제하기</button>
- 
+<c:choose>
+	<c:when test="${empty sessionScope.user_id}">
+		로그인이 필요합니다.		
+	</c:when>
+	<c:otherwise>
+	  <h1>결제하기</h1>
+	  <div class="order-summary">
+	    <p>상품명: 하이스터디 프리미엄 회원권 1개월</p>
+	    <p>결제금액: <span id="price">29,000원</span></p>
+	  </div>
+	  <button id="pay-btn" onclick="requestPayment('${uname}','${uemail }','${uid}','${utel }')">결제하기</button>
+	</c:otherwise>
+</c:choose>
   <script>
     // ------ STEP 2. 결제 요청 함수 ------
-    async function requestPayment() {
+    async function requestPayment(name,email,id,tel) {
       try {
         // ------ STEP 3. 결제 요청 파라미터 설정 ------
         const response = await Bootpay.requestPayment({
           application_id: '697f4c338bbb6b2084c4ba03',
-          price: 29000,
+          price: 1000,
           order_name: '하이스터디 프리미엄 회원권 1개월',
           order_id: 'ORD-' + Date.now(),	//가맹점 고유 주문번호
           pg: '',         // PG사 선택
           method: '',        // 결제수단 선택
           tax_free: 0,
           user: {
-            id: 'user_123',
-            username: '홍길동'+Date.now(),
-            phone: '01012345678',
-            email: 'user@example.com'
+            id: id,
+            username: name,
+            phone: tel,
+            email: email
           },
           items: [
             {
               id: 'ITEM-001',
               name: '하이스터디 프리미엄 회원권 1개월',
               qty: 1,
-              price: 29000
+              price: 1000
             }
           ],
           extra: {
@@ -59,13 +65,15 @@
             escrow: false
           }
         })
- 
+        
         // ------ STEP 4. 결제 결과 처리 ------
         switch (response.event) {
           case 'done':
             // 결제 완료 - 서버에서 검증 필요
             console.log('결제 완료:', response.receipt_id)
-            verifyPaymentOnServer(response.receipt_id)
+            alert('결제가 완료되었습니다! 프리미엄 멤버십에 오신걸 환영합니다!')
+            location.href="lecture.do";
+            verifyPaymentOnServer(response.receipt_id,id)
             break
           case 'issued':
             // 가상계좌 발급 완료
@@ -94,19 +102,23 @@
     }
  
  // ------ STEP 5. 서버에서 결제 검증 ------
-    function verifyPaymentOnServer(receiptId) {
-      // 가맹점 서버로 receipt_id 전송
-      // 서버에서 부트페이 API로 결제 조회 및 금액 대조
-      fetch('/api/payment/verify', {
+    function verifyPaymentOnServer(receiptId,user_id) {
+    	fetch('${pageContext.request.contextPath}/api/v1/bootpay/check', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ receipt_id: receiptId })
+        body: JSON.stringify({ 
+        	receipt_id: receiptId, 
+        	receipt_id: response.receipt_id,       // 결제 고유번호
+            order_id: response.order_id,           // 주문번호
+            method: response.method,               // 결제수단 
+            price: response.price
+        	})
       })
       .then(res => res.json())
       .then(result => {
         if (result.verified) {
           alert('결제가 완료되었습니다!')
-          location.href = '/order/complete'
+          location.href = '${pageContext.request.contextPath}/lecture.do';
         } else {
           alert('결제 검증에 실패했습니다.')
         }

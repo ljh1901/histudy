@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +20,7 @@ import com.histudy.lecture.model.LectureLikeDTO;
 import com.histudy.lecture.model.LectureNoteDTO;
 import com.histudy.lecture.model.LectureReviewDTO;
 import com.histudy.lecture.service.LectureService;
+import com.histudy.membership.service.MembershipService;
 
 
 @Controller
@@ -28,6 +28,8 @@ public class LectureController {
 
    @Autowired
     private LectureService lectureService;
+   @Autowired
+   private MembershipService membershipService;
    
    @GetMapping("lecture.do")
    public ModelAndView lectureList(
@@ -36,8 +38,7 @@ public class LectureController {
 	  int totalCnt=lectureService.getTotalCnt();
 	  int listSize=8;
 	  int pageSize=5;
-	  String pageStr=com.histudy.page.PagingModule.makePage(cp, listSize, pageSize, totalCnt, "lecture.do", ls);
-	   
+	  String pageStr=com.histudy.lecture.page.PageModule.makePage("lecture.do",totalCnt,listSize,pageSize,cp);
       ModelAndView mav= new ModelAndView();
       List<LectureDTO> lists;
 	try {
@@ -46,8 +47,13 @@ public class LectureController {
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-      mav.addObject("pageStr",pageStr);
-      mav.setViewName("lecture/lectureList");
+		Map<String, Object> counts = lectureService.getCounts();
+		int userCount = Integer.parseInt(String.valueOf(counts.get("USER_COUNT")));
+	    int lectureCount = Integer.parseInt(String.valueOf(counts.get("LECTURE_COUNT")));
+	    mav.addObject("userCount",userCount);
+	    mav.addObject("lectureCount",lectureCount);
+		mav.addObject("pageStr",pageStr);
+		mav.setViewName("lecture/lectureList");
       
       return mav;
    }
@@ -58,16 +64,16 @@ public class LectureController {
       map.put("lecture_idx", lecture_idx);
       map.put("user_idx", user_idx);
       ModelAndView mav=new ModelAndView();
+      String scIdx=lectureService.scIdx(lecture_idx);
+      mav.addObject("scIdx",scIdx);
+      String grade=membershipService.membershipGrade(user_idx);
+      mav.addObject("grade",grade);
       if(user_idx!=null) {
     	  Integer review_idx=lectureService.myReview(user_idx);
-    	  String userName=lectureService.selectName(user_idx);
-    	  String scIdx=lectureService.scIdx(lecture_idx);
     	  mav.addObject("myReview",review_idx);
     	  List<LectureReviewDTO> lists=lectureService.reviewList(lecture_idx);
     	  mav.addObject("reviewList",lists);
-    	  mav.addObject("userName",userName);
-    	  mav.addObject("scIdx",scIdx);
-      LectureNoteDTO memo = lectureService.lectureMemoList(map);
+    	  LectureNoteDTO memo = lectureService.lectureMemoList(map);
       if (memo == null) {
           LectureNoteDTO dto = new LectureNoteDTO();
           dto.setLecture_idx(lecture_idx);

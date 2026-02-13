@@ -2,6 +2,8 @@ package com.histudy.membership.model;
 import java.sql.*;
 public class MembershipPaymentDTO {
 	private int payment_idx;
+	private String payNum;
+	private String payment_method;
 	private String payment_status;
 	private int payment_amount;
 	Date payment_date;
@@ -10,21 +12,23 @@ public class MembershipPaymentDTO {
 	public MembershipPaymentDTO() {
 		// TODO Auto-generated constructor stub
 	}
-	public MembershipPaymentDTO(int payment_idx, String payment_status, int payment_amount, Date payment_date,
-			int user_idx, int membership_idx) {
-		super();
-		this.payment_idx = payment_idx;
-		this.payment_status = payment_status;
-		this.payment_amount = payment_amount;
-		this.payment_date = payment_date;
-		this.user_idx = user_idx;
-		this.membership_idx = membership_idx;
-	}
 	public int getPayment_idx() {
 		return payment_idx;
 	}
 	public void setPayment_idx(int payment_idx) {
 		this.payment_idx = payment_idx;
+	}
+	public String getPayNum() {
+		return payNum;
+	}
+	public void setPayNum(String payNum) {
+		this.payNum = payNum;
+	}
+	public String getPayment_method() {
+		return payment_method;
+	}
+	public void setPayment_method(String payment_method) {
+		this.payment_method = payment_method;
 	}
 	public String getPayment_status() {
 		return payment_status;
@@ -56,6 +60,16 @@ public class MembershipPaymentDTO {
 	public void setMembership_idx(int membership_idx) {
 		this.membership_idx = membership_idx;
 	}
-	
-		 	
+	public MembershipPaymentDTO(int payment_idx, String payId, String payNum, String payment_method,
+			String payment_status, int payment_amount, Date payment_date, int user_idx, int membership_idx) {
+		super();
+		this.payment_idx = payment_idx;
+		this.payNum = payNum;
+		this.payment_method = payment_method;
+		this.payment_status = payment_status;
+		this.payment_amount = payment_amount;
+		this.payment_date = payment_date;
+		this.user_idx = user_idx;
+		this.membership_idx = membership_idx;
+	}
 }

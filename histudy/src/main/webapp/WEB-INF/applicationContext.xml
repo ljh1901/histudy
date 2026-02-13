@@ -33,6 +33,9 @@
 	<bean id="studyDao" class="com.histudy.study.model.StudyDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
+	<bean id="studyApplyDao" class="com.histudy.study.model.StudyApplyDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 	<bean id="userDAO" class="com.histudy.user.model.UserDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
@@ -40,7 +43,20 @@
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
 	
-	<bean id="adminDAO" class="com.histudy.admin.model.AdminDAOImple">
+	<bean id="adminCafeDAO" class="com.histudy.admin.model.AdminCafeDAOImple">
+   	 <constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="adminUserDAO" class="com.histudy.admin.model.AdminUserDAOImple">
+   	 <constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="adminReportDAO" class="com.histudy.admin.model.AdminReportDAOImple">
+   	 <constructor-arg ref="sqlSessionTemplate" />
+	</bean>
+	
+	<!--Admin study -->
+	<bean id="adminStudyDAO" class="com.histudy.admin.model.AdminStudyDAOImple">
    	 <constructor-arg ref="sqlSessionTemplate" />
 	</bean>
 	
@@ -64,5 +80,13 @@
 	<bean id="passwordDAO" class="com.histudy.user.model.PasswordDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"/>
 	</bean>
+	<bean id="lmsDAO" class="com.histudy.lms.model.LmsDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
+	<bean id="lmsSubmitDAO" class="com.histudy.lms.model.LmsSubmitDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
+	<bean id="membershipDAO" class="com.histudy.membership.model.MembershipDAOImple">
+    	<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 </beans>
-

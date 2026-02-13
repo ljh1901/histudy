@@ -59,7 +59,7 @@
                </div>
                <div class="studyData">
                	  <label>스터디 진행 일정</label>
-               	  <select name="study_total_weeks" onchange="studyWeeksCheck()" required>
+               	  <select name="study_total_weeks" required>
                	  	 <option value="5">5주</option>
                	  	 <option value="6">6주</option>
                	  	 <option value="7">7주</option>

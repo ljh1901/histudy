@@ -1,70 +1,31 @@
 /* === 전역 변수 (상태 관리) === */
-var contextPath = contextPath || "/histudy";
 var isIdChecked = false;
 var isEmailChecked = false;
 
-/** 섹션 전환 함수 */
-function showSection(section) {
-    var loginSec = document.getElementById('login-section');
-    var findIdSec = document.getElementById('find-id-section');
-    var findPwSec = document.getElementById('find-pw-section');
-
-    if(loginSec) loginSec.style.display = 'none';
-    if(findIdSec) findIdSec.style.display = 'none';
-    if(findPwSec) findPwSec.style.display = 'none';
-
-    if (section === 'login') {
-        if(loginSec) loginSec.style.display = 'block';
-    } else if (section === 'find-id') {
-        if(findIdSec) findIdSec.style.display = 'block';
-    } else if (section === 'find-pw') {
-        if(findPwSec) findPwSec.style.display = 'block';
-    }
-}
-
 /** 1. 로그인 처리 함수  */
 function loginCheck() {
-    var loginForm = document.login;
-    var userIdField = loginForm.user_id;
-    var userPwdField = loginForm.user_pwd;
-    var rememberId = loginForm.rememberId.checked ? "on" : null;
+
+	var userId = document.login.user_id.value;
+    var userPwd = document.login.user_pwd.value;
+    var rememberId = document.login.rememberId.checked ? "on" : null;
 
     return fetch("userSignIn.do", {
         method: "POST",
-        headers: { 
-            "Content-Type": "application/json",
-            "Pragma": "no-cache",      // 캐시 방지
-            "Cache-Control": "no-cache" // 캐시 방지
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            user_id: userIdField.value,
-            user_pwd: userPwdField.value,
+            user_id: userId,
+            user_pwd: userPwd,
             remember_id: rememberId
         })
     })
     .then(function(res) { return res.text(); })
     .then(function(data) {
-        // 공백 제거 후 정확히 success인지 비교
-        var result = data.trim();
-        
-        if (result === "로그인 성공") {
-        	alert(result);
-            // 성공 시 리다이렉트 (이동 전 세션을 확실히 잡기 위해)
-            location.replace(window.location.origin + contextPath + "/index.do"); 
-        } else {
-            alert("아이디 또는 비밀번호가 일치하지 않습니다.");
-            // 필드 초기화
-            userIdField.value = "";
-            userPwdField.value = "";
-            userIdField.focus();
-        }
+        alert(data);
+        location.reload();
     })
-    .catch(function(err) { 
-        console.error("로그인 중 오류 발생:", err); 
-        // 네트워크 에러 등이 났을 때는 안전하게 새로고침 유도
-        location.reload(); 
-    });
+    .catch(function(err) { console.error("로그인 중 오류 발생:", err); });
 }
+
 
 /** 2. 쿠키 읽기 함수 (안전한 버전) */
 function getCookie(name) {
@@ -450,5 +411,4 @@ function findUserPw() {
     .catch(err => console.error("비밀번호 찾기 오류:", err));
 
 }
-
 

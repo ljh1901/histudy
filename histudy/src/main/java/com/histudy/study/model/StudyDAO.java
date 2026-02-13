@@ -11,4 +11,10 @@ public interface StudyDAO {
    public UserDTO getStudyCreateUser(int user_idx);
    public int studyMaxCreate(int user_idx);
    public StudyDTO getStudyContent(int study_idx);
+   public List<StudyDTO> findStudyTitle();
+   public int studyTitleSearchTotalCnt(String searchTitle);
+   public List<StudyDTO> studyCreatorCheck(int user_idx);
+   public List<StudyApplyDTO> studyApplyCheck(int user_idx);
+   public List<StudyDTO> studyApproved(int study_idx);
+
 }

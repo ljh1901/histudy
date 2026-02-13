@@ -8,21 +8,21 @@
 <title>Insert title here</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
-rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/histudy/css/mainLayout.css">
+<link
+	href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="/histudy/css/mainLayout.css">
 <link rel="stylesheet" type="text/css" href="/histudy/css/header.css">
 <link rel="stylesheet" type="text/css" href="/histudy/css/footer.css">
 <link rel="stylesheet" type="text/css" href="/histudy/css/root.css">
 <link rel="stylesheet" type="text/css"
 	href="/histudy/css/user/loginModal.css">
-<script src="${pageContext.request.contextPath}/js/user/user.js"></script>
 <script>
 if(${!empty msg}){
 	alert(${requestScope.msg});
 }
 </script>
-
 </head>
 <body>
 	<%@include file="header.jsp"%>
@@ -213,10 +213,11 @@ if(${!empty msg}){
 		<div id="modalContent" class="login-modal-box"></div>
 	</div>
 </body>
+<script src="js/user/user.js"></script>
 <script>
    // == 서준범 JavaScript 코드 == 
    //== 페이지 스크롤 시 Header 커스텀 ==
-    const header = document.querySelector('.header');
+   const header = document.querySelector('.header');
    const headerHeight = header.getBoundingClientRect().height;
    
    document.addEventListener('scroll', function () {
@@ -228,7 +229,7 @@ if(${!empty msg}){
    });
     //== 검색창 커스텀 ==
    //1. 데이터 수집
-    const selectBox = document.querySelector('.custom-select');
+   const selectBox = document.querySelector('.custom-select');
    const selected = document.querySelector('.selected');
    const options = document.querySelectorAll('.options li');
 
@@ -237,7 +238,8 @@ if(${!empty msg}){
       e.stopPropagation();
       this.classList.toggle('open');
    });
-    //3. 셀렉트 변경 후 닫기
+
+   //3. 셀렉트 변경 후 닫기
    for (var i = 0; i < options.length; i++) {
       options[i].addEventListener('click', function(e) {
          e.stopPropagation();
@@ -245,10 +247,10 @@ if(${!empty msg}){
          selectBox.classList.remove('open');
       });
    }
-    //4. 셀렉트 닫기
+
+   //4. 셀렉트 닫기
    document.addEventListener('click', function() {
       selectBox.classList.remove('open');
    });
-   
-   </script>
+</script>
 </html>
