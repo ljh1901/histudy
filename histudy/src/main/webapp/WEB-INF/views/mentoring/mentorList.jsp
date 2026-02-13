@@ -59,7 +59,20 @@
         <c:forEach var="m" items="${mentorList}">
           <div class="mentor-card" onclick="openMentorProfile(${m.mentor_idx})">
             <div class="card-top">
-              <div class="avatar"></div>
+              <div class="avatar">
+              <c:choose>
+            <c:when test="${not empty m.profile_img}">
+                <img src="${pageContext.request.contextPath}/upload/${m.profile_img}" 
+                     style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+            </c:when>
+            <c:otherwise>
+                <div style="width: 100%; height: 100%; border-radius: 50%; background: #f1f5f9; 
+                            display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                    👤
+                </div>
+            </c:otherwise>
+        </c:choose>
+    </div>
               <div>
                 <div class="m-name"><c:out value="${m.user_name}"/></div>
                 <div class="m-meta">
@@ -137,7 +150,6 @@ function openMentorProfile(mentor_idx) {
    location.href = "mentorProfile.do?mentor_idx=" + mentor_idx;
 }
 
-/* ===== 모달 토글(팀원이 하던 방식) ===== */
 function openMentorGuideModal(){
   document.getElementById("mentorGuideModal").style.display = "block";
 }

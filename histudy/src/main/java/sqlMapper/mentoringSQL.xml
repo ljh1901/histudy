@@ -17,19 +17,17 @@
         mp.sc_idx,
         mp.mentor_intro,
         mp.mentor_link,
-        mp.mentor_tel
-      FROM mento_profile mp
+        mp.mentor_tel,
+        p.profile_img  FROM mento_profile mp
       JOIN usertb u ON u.user_idx = mp.user_idx
-      <where>
+      LEFT JOIN mypage p ON p.user_idx = u.user_idx <where>
         <if test="sc_idx != null">
           AND mp.sc_idx = #{sc_idx}
         </if>
-        
         <if test="kw != null and kw != ''">
           AND (
             u.user_name LIKE '%' || #{kw} || '%'
             OR mp.mentor_intro LIKE '%' || #{kw} || '%'
-            OR mp.mentor_link LIKE '%' || #{kw} || '%'
           )
         </if>
       </where>
