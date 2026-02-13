@@ -1,12 +1,10 @@
 package com.histudy.user.service;
 
 import org.springframework.stereotype.Service;
-
+import org.springframework.dao.DuplicateKeyException;
 import com.histudy.user.model.UserDAO;
 import com.histudy.user.model.UserDAOImple;
 import com.histudy.user.model.UserDTO;
-
-import java.util.*;
 @Service
 public class UserServiceImple implements UserService {
 
@@ -49,8 +47,7 @@ public class UserServiceImple implements UserService {
 			
 			// 한국식 나이 계산
 			int age = currentYear - birthYear + 1;
-			
-			
+
 		}
 		
 		return dto;
@@ -68,14 +65,19 @@ public class UserServiceImple implements UserService {
 	
 	@Override
 	public int updateProfile(UserDTO dto) {
-	    // 1. usertb 테이블 수정 (dao에 만든 새 메서드 호출)
-	    int res1 = ((UserDAOImple)dao).updateUserTb(dto); 
-	    
-	    // 2. mypage 테이블 수정 (기존 dao 메서드 호출)
-	    int res2 = dao.updateProfile(dto);
-	    
-	    // 두 작업의 결과를 종합하여 리턴
-	    return (res1 > 0 || res2 > 0) ? 1 : 0;
+	    try {
+	    	((UserDAOImple)dao).updateUserTb(dto); 
+	        dao.updateProfile(dto);
+	        return 1; 
+	        
+	    } catch (org.springframework.dao.DuplicateKeyException e) {
+	        // 중복 시 -2를 던져도 컨트롤러가 "fail"로 바꾸므로, 
+	        // 일단 -2를 유지하고 JS에서 "fail" 처리 시 메시지를 보강합니다.
+	        return -2; 
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return 0; 
+	    }
 	}
 	
 	@Override

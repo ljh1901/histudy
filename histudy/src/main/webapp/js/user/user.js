@@ -262,9 +262,7 @@ function toggleUserMenu(event) {
     }
 }
 
-/**
- * 모든 항목 수정 모드 전환
- */
+/** 모든 항목 수정 모드 전환 */
 function toggleEditMode(isEdit) {
     const viewElements = document.querySelectorAll('.view-mode');
     const editElements = document.querySelectorAll('.edit-mode');
@@ -286,6 +284,71 @@ function toggleEditMode(isEdit) {
     }
 }
 
+/** 12. 비밀번호 변경 모드로 전환 */
+function openPasswordChange(event) {
+    if (event) event.preventDefault();
+    const profileForm = document.getElementById('profileForm');
+    const pwSection = document.getElementById('password-change-section');
+    const profileMain = document.getElementById('profile-main-section'); // 섹션 ID 확인 필요
+
+    // profileForm이 아닌 전체 섹션을 숨겨야 함
+    if (profileMain && pwSection) {
+        profileMain.style.display = 'none';
+        pwSection.style.display = 'block';
+        const title = document.querySelector('.content-title');
+        if(title) title.innerText = "비밀번호 변경";
+    }
+}
+
+/** 13. 비밀번호 변경 데이터 전송 */
+function submitPasswordUpdate() {
+    const currentPw = document.getElementById('current_pw').value;
+    const newPw = document.getElementById('new_pw').value;
+    const confirmPw = document.getElementById('confirm_new_pw').value;
+    const userIdx = document.getElementById('user_idx').value;
+
+    if (!currentPw || !newPw || !confirmPw) { alert("모든 필드를 입력해주세요."); return; }
+    if (newPw !== confirmPw) { alert("새 비밀번호가 일치하지 않습니다."); return; }
+    if (newPw.length < 7) { alert("비밀번호는 7자리 이상이어야 합니다."); return; }
+
+    const formData = new FormData();
+    formData.append('user_idx', userIdx);
+    formData.append('current_pw', currentPw);
+    formData.append('new_pw', newPw);
+
+    fetch(contextPath + "/updatePassword.do", { 
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.text())
+    .then(data => {
+        const result = data.trim();
+        if (result === 'success') {
+            alert('비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요.');
+            location.href = contextPath + "/index.do";
+        } else if (result === 'wrong_pw') {
+            alert('현재 비밀번호가 일치하지 않습니다.');
+        } else {
+            alert('비밀번호 변경에 실패했습니다.');
+        }
+    })
+    .catch(err => {
+        console.error("비밀번호 변경 중 오류 발생:", err);
+    });
+}
+
+/** 14. 다시 프로필 화면으로 복구 */
+function closePasswordChange() {
+    const profileSection = document.getElementById('profile-main-section');
+    const pwSection = document.getElementById('password-change-section');
+    
+    if (profileSection && pwSection) {
+        profileSection.style.display = 'block';
+        pwSection.style.display = 'none';
+        const title = document.querySelector('.content-title');
+        if(title) title.innerText = "내 프로필";
+    }
+}
 /**
  * 모든 정보 한꺼번에 서버로 전송
  */
@@ -315,16 +378,16 @@ function submitProfileUpdate() {
     })
     .then(res => res.text())
     .then(data => {
-        if (data.trim() === 'success') {
-            alert('프로필이 성공적으로 수정되었습니다.');
-            
-            // [변경 2] 이동 주소도 절대 경로로 변경
-            location.href = contextPath + "/myPage.do"; 
-            
-        } else {
-            alert('수정에 실패했습니다.');
-        }
-    })
+    const result = data.trim();
+    
+    if (result === "success" || result === "1") {
+        alert('프로필이 성공적으로 수정되었습니다.');
+        location.href = contextPath + "/myPage.do"; 
+    } else {
+        // 컨트롤러가 -2를 fail로 바꿔버리므로 여기서 포괄적으로 안내합니다.
+        alert('정보 수정에 실패했습니다.\n- 이미 사용 중인 이메일이나 전화번호일 수 있습니다.\n- 혹은 입력한 데이터에 문제가 있습니다.');
+    }
+})
     .catch(err => console.error("오류:", err));
 }
     /** 아이디 찾기 함수 */
