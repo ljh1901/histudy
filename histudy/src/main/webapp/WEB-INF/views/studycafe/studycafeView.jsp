@@ -174,10 +174,12 @@ section>h1>a:hover {
 .ticketGrid{
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 5%;
 }
 .ticketGrid button{
-	border-radius: 10%;
+	border-radius: 5px;
+	height: 100%;
+	padding: 5px;
+	margin: 5px;
 	border: 1px solid white;
 	background: blue;
 	color: white;
