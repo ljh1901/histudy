@@ -4,6 +4,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -96,7 +98,6 @@ public class StudyCafeViewController {
 				mav.addObject("msg", "금액 변조 및 금액 검증 실패");
 				mav.setViewName("studycafe/receipt");
 		 }
-		 System.out.println(viewTotalAmount == totalAmount);
 		 String storeId = root.get("storeId").asText();
 		 String orderName = root.get("orderName").asText();
 		 String pay_status= root.get("status").asText();
@@ -111,24 +112,32 @@ public class StudyCafeViewController {
 		 Integer paid = root.get("amount").get("paid").asInt();
 		 Integer vat = root.get("amount").get("vat").asInt();//부가세
 		 Integer supply = root.get("amount").get("supply").asInt();// 과세 매출
-		 PayDTO paydto = new PayDTO(paymentId, storeId, orderName, paid, (Integer)session.getAttribute("user_idx"), pay_method, pay_status, 
-				 statusChangedAt, paidAt, totalAmount,"channel-key-da563d5f-f117-444f-aba5-ad9b66277c1b", pgProvider, vat, supply);
-		 int result = studycafeService.paySeat(paydto);
+		 PayDTO paydto = new PayDTO(paymentId, storeId, "channel-key-da563d5f-f117-444f-aba5-ad9b66277c1b", orderName, paid, (Integer)session.getAttribute("user_idx"), pay_method, pay_status, 
+				 Timestamp.valueOf(LocalDateTime.parse(statusChangedAt.substring(0, statusChangedAt.indexOf("Z")))), Timestamp.valueOf(LocalDateTime.parse(paidAt.substring(0, paidAt.indexOf("Z")))),totalAmount, vat, supply, pgProvider);
+		 System.out.println("상태변경시각: "+Timestamp.valueOf(LocalDateTime.parse(statusChangedAt.substring(0, statusChangedAt.indexOf("Z")))));
 
+		 int result = studycafeService.paySeat(paydto);
+		 
 		 if(result > 0) {
-			int reservation = studycafeService.registerReservation((Integer) session.getAttribute("user_idx"),
+			int reservation = studycafeService.registerReservation(
+					(Integer) session.getAttribute("user_idx"),
 					seat_idx,paidAt,
 					orderName.substring(orderName.indexOf("/")+1),
 					"RESERVED",
 					ticket_idx,paymentId);
+				if(reservation > 0) {
+					int reservationComplete=studycafeService.reservationComplete(seat_idx);
+					System.out.println(reservationComplete);
+				}
 		 }
+		 
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		PayDTO receipt = studycafeService.receipt(paymentId);
 		
-		mav.setViewName("studycafe/receipt");
-		mav.addObject("receipt", receipt);
+			PayDTO receipt = studycafeService.receipt(paymentId);
+			mav.setViewName("studycafe/receipt");
+			mav.addObject("receipt", receipt);
 		}
 		return mav;
 	}

@@ -64,4 +64,9 @@ public class StudycafeDAOImple implements StudycafeDAO{
 		int ticket_time = sqlSession.selectOne("selectTicketTimeSQL", ticket_idx);
 		return ticket_time;
 	}
+	@Override
+	public int reservationComplete(int seat_idx) {
+		int reservationComplete = sqlSession.update("reservationCompleteSQL", seat_idx);
+		return reservationComplete;
+	}
 }

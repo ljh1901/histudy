@@ -18,5 +18,6 @@ public interface StudycafeSerivce {
 	public int paySeat(PayDTO paydto);
 	public PayDTO receipt(String paymentId);
 	public TicketJoinTicketCategoryDTO ticketTotalAmount(int ticket_idx);
+	public int reservationComplete(int seat_idx);
 	public int registerReservation(Integer user_idx, int seat_idx, String starttime, String endttime, String reservation_status, int ticket_idx, String paymentId);
 }
