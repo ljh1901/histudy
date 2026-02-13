@@ -58,6 +58,11 @@
 		<constructor-arg ref="scheduleDAO" />
 	</bean>
 	
+	<!-- 문의사항 서비스 -->
+	<bean id="inquiryService" class="com.histudy.inquiry.service.InquiryServiceImple">
+		<constructor-arg ref="inquiryDAO" />
+	</bean>
+
 	<!-- 관리자 서비스 -->
 	<bean id="adminCafeService" class="com.histudy.admin.service.AdminCafeServiceImple">
     	<constructor-arg ref="adminCafeDAO"/>

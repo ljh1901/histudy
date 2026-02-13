@@ -129,8 +129,8 @@ function dohate(lecture_idx, user_idx) {
 <section class="LectureContentContainer">
 <!-- 유효성 검사 -->
 <c:choose>
-	<c:when test="${empty sessionScope.user_idx}">
-	   <h1>프리미엄 회원만 볼 수 있는 컨텐츠입니다.</h1>
+	<c:when test="${empty sessionScope.user_id}">
+	   <h1>로그인이 필요합니다.</h1>
 	</c:when>
 	<c:otherwise>
 		<form name="lectureContent" action="lectureMemo.do">
