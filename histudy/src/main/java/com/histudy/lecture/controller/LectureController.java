@@ -72,6 +72,7 @@ public class LectureController {
        map.put("lecture_idx", lecture_idx);
        map.put("user_idx", user_idx);
 
+       
        String scIdx = lectureService.scIdx(lecture_idx);
        mav.addObject("scIdx", scIdx);
        String grade = membershipService.membershipGrade(user_idx);

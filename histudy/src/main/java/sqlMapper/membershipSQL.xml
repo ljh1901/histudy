@@ -24,8 +24,8 @@
 	        FROM membership_payment mp
 	        JOIN membership m ON mp.membership_idx = m.membership_idx
 	        WHERE mp.user_idx = #{user_idx}
-	        ORDER BY mp.payment_idx DESC  
-	        )
+	        ORDER BY mp.end_date DESC 
+	    )
 	    WHERE ROWNUM = 1 
 	</select>
 	<insert id="insertBasic" parameterType="int">
@@ -41,5 +41,6 @@
         #{user_idx},       
         (SELECT membership_idx FROM membership WHERE membership_name = '일반')
     )
-</insert>
+	</insert>
+	
 </mapper>

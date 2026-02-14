@@ -107,6 +107,20 @@ function reviewDelete(review_idx,lecture_idx){
 		location.href="reviewDelete.do?review_idx="+review_idx+"&lecture_idx="+lecture_idx;
 	}
 }
+function checkValid() {
+    var f = document.writeFm;
+    if (f.review_title.value.trim() == "") {
+        alert("리뷰 제목을 입력해 주세요.");
+        f.review_title.focus();
+        return false; 
+    }
+    if (f.review_content.value.trim() == "") {
+        alert("리뷰 내용을 입력해 주세요.");
+        f.review_content.focus();
+        return false; 
+    }
+    return true; 
+}
 function dolike(lecture_idx, user_idx) {
 	document.getElementById('like_img').src = "/histudy/lecture-img/like (1).png";
 	
@@ -179,12 +193,12 @@ function dohate(lecture_idx, user_idx) {
 	            <c:choose>
 	                <c:when test="${isLike > 0}">
 	                    <a href="reviewLike.do?lecture_idx=${lectureContent.lecture_idx}&user_idx=${sessionScope.user_idx}">
-	                        <img id="like_img" src="/histudy/lecture-img/like (1).png" width="30" alt="좋아요 취소">
+	                        <img id="like_img" src="/histudy/lecture-img/like (1).png" width="30" >
 	                    </a>
 	                </c:when>
 	                <c:otherwise>
 	                    <a href="reviewLike.do?lecture_idx=${lectureContent.lecture_idx}&user_idx=${sessionScope.user_idx}">
-	                        <img id="like_img" src="/histudy/lecture-img/like.png" width="30" alt="좋아요 하기">
+	                        <img id="like_img" src="/histudy/lecture-img/like.png" width="30"  >
 	                    </a>
 	                </c:otherwise>
 	            </c:choose>
@@ -202,90 +216,93 @@ function dohate(lecture_idx, user_idx) {
 	<div class="lecture-body" style="padding: 20px 0;">
 	    ${lectureContent.lecture_content}
 	</div>
-	   	<table>
-	   		<tr>	
-	   			<th>수강평</th>
-	   		</tr>
-	   		<c:if test="${empty reviewList }">
-	   		<tr>
-	   			<td>등록된 리뷰가 없습니다. 리뷰를 작성해 보세요!</td>
-	       </tr>
-	       </c:if>
-	       <c:forEach var="dto" items="${reviewList}">
-	       <tr>
-				<td><img src="${userPro}" width="20">${dto.user_name}</td>	       
-		   </tr>
-	       <tr>
-	       		<td>
-			    <c:choose>
-			        <c:when test="${dto.review_score == 5}">★★★★★</c:when>
-			        <c:when test="${dto.review_score == 4}">★★★★</c:when>
-			        <c:when test="${dto.review_score == 3}">★★★</c:when>
-			        <c:when test="${dto.review_score == 2}">★★</c:when>
-			        <c:when test="${dto.review_score == 1}">★</c:when>
-			    </c:choose>
-			    ${dto.review_date}
-			       	${dto.review_date }
-			    </td>
-	       </tr>
-	       <tr>
-			    <td>
-			    	제목: ${scIdx }${dto.review_title }
-			    </td>
-			</tr>
-			<tr>
-			    <td>
-			    	${dto.review_content }
-			    </td>
-			</tr>
-			<tr>	 
-				<td>
-				<c:choose>
-					<c:when test="${dto.review_idx == myReview }">
-						<input type="button" value="수정" 
-							onclick="reviewUpdate('${dto.review_idx}', '${dto.review_title}', '${dto.review_content}', '${dto.review_score}')"> 
-						<input type="button" value="삭제"
-							onclick="reviewDelete('${dto.review_idx }','${dto.lecture_idx }')"> 
-					</c:when>
-					<c:otherwise>
-					</c:otherwise>
-				</c:choose>
-				
-				</td>
-			</tr>
-			</c:forEach>
-	   </table>
-	   
-	   <input type="button" value="리뷰 남기기" onclick="show(${lectureContent.lecture_idx})">
-	   <div id="reviewStatus"></div>
-	   <div id="reviewWrite" style="display:none">
-		<form name="writeFm" action="reviewWrite.do" method="post">
-	   <table>
-	   	<tr>
-	   		<td>평점:<select name="review_score">
-	   			<option value="5">★★★★★</option>
-	   			<option value="4">★★★★</option>
-	   			<option value="3">★★★</option>
-	   			<option value="2">★★</option>
-	   			<option value="1">★</option>
-	   		</select></td>
-	   	</tr>
-	   	<input type="hidden" name="lecture_idx" value="${lectureContent.lecture_idx}">
-        <input type="hidden" name="user_idx" value="${sessionScope.user_idx}">
-	   	<tr>
-	   		<td>제목:<input type="text" name="review_title"></td>
-	   	</tr>
-	   	<tr>
-	   		<td><textarea rows="10" cols="90" name="review_content"></textarea>
-	   	</tr>
-	   	<tr>
-	   	<c:if test="${grade == '일반'}">
-	   		<td><input type="submit" name="reviewbt" value="리뷰 작성"></td>
-	   	</c:if>
-	   	</tr>
-	   </table>
-		</form>
-	   </div>
+	   	<div class="review-header-wrapper">
+	    <span class="header-left">수강평</span>
+	    <span class="header-right">
+	        <span class="star-icon">★</span>${lectureContent.review_avg} 
+	        <span class="count-text">(${lectureContent.review_count})</span>
+	    </span>
+	</div>
+	
+	<div class="review-list-container">
+    <div style="text-align: right; margin-bottom: 15px;">
+        <input type="button" value="리뷰 남기기" class="write-btn-small" onclick="show(${lectureContent.lecture_idx})">
+        <div id="reviewStatus" style="text-align: center; color: red; margin: 10px 0;"></div>
+    </div>
+    <div id="reviewWrite" class="review-write-form" style="display:none">
+	
+	<form name="writeFm" action="reviewWrite.do" method="post" onsubmit="return checkValid()">	        <input type="hidden" name="lecture_idx" value="${lectureContent.lecture_idx}">
+	        <input type="hidden" name="user_idx" value="${sessionScope.user_idx}">
+	        
+	        <div class="form-group">
+	            <label>평점</label>
+	            <select name="review_score">
+	                <option value="5">★★★★★</option>
+	                <option value="4">★★★★</option>
+	                <option value="3">★★★</option>
+	                <option value="2">★★</option>
+	                <option value="1">★</option>
+	            </select>
+	        </div>
+	        <div class="form-group">
+	            <input type="text" name="review_title" placeholder="제목을 입력하세요">
+	        </div>
+	        <div class="form-group">
+	            <textarea name="review_content" placeholder="수강평 내용을 입력하세요"></textarea>
+	        </div>
+	        <div class="form-actions">
+	            <input type="submit" id="reviewbt" name="reviewbt" value="리뷰 작성">
+				<input type="button" value="취소" onclick="show(${lectureContent.lecture_idx})" style="background:#ccc;">	        </div>
+	    </form>
+	</div>
+	    <c:choose>
+	        <c:when test="${empty reviewList}">
+	            <div class="no-review">
+	                <p>등록된 리뷰가 없습니다. 첫 리뷰를 작성해 보세요!</p><br>
+	            </div>
+	        </c:when>
+	        <c:otherwise>
+	            <div style="text-align: right; margin-bottom: 15px;">
+	            </div>
+	
+	            <c:forEach var="dto" items="${reviewList}">
+	                <div class="review-card">
+	                    <div class="review-card-header">
+	                        <div class="review-user-profile">
+	                            <img src="${userPro}" class="review-user-img" onerror="this.src='/histudy/lecture-img/default-user.png'">
+	                            <div>
+	                                <div class="review-user-name">${dto.user_name}</div>
+	                                <div class="review-stars">
+	                                    <c:choose>
+	                                        <c:when test="${dto.review_score == 5}">★★★★★</c:when>
+	                                        <c:when test="${dto.review_score == 4}">★★★★</c:when>
+	                                        <c:when test="${dto.review_score == 3}">★★★</c:when>
+	                                        <c:when test="${dto.review_score == 2}">★★</c:when>
+	                                        <c:when test="${dto.review_score == 1}">★</c:when>
+	                                    </c:choose>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="review-date">${dto.review_date}</div>
+	                    </div>
+	
+	                    <div class="review-body">
+	                        <strong class="review-title">${dto.review_title}</strong>
+	                        <p class="review-text">${dto.review_content}</p>
+	                    </div>
+	
+	                    <c:if test="${dto.review_idx == myReview}">
+	                        <div class="review-action-btns">
+	                            <input type="button" value="수정" onclick="reviewUpdate('${dto.review_idx}', '${dto.review_title}', '${dto.review_content}', '${dto.review_score}')">
+	                            <input type="button" value="삭제" onclick="reviewDelete('${dto.review_idx}', '${lectureContent.lecture_idx}')">
+	                        </div>
+	                    </c:if>
+	                </div>
+	            </c:forEach>
+	        </c:otherwise>
+	    </c:choose>
+	</div>
+	
 	</c:otherwise>
 </c:choose>
 </section>
