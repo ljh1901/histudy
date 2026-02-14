@@ -123,21 +123,27 @@ function load(){
         
         // ------ STEP 4. 결제 결과 처리 ------
         switch (response.event) {
-          case 'done':
-            console.log('결제 완료:', response.receipt_id)
-            document.getElementById("payment_method").value = response.method || 'card'; 
-            document.getElementById("payNum").value = response.receipt_id;
-            const paymentDto = {
-            		payNum: document.getElementById("payNum").value,  
-                    payment_method: document.getElementById("payment_method").value, 
-                    user_idx: parseInt(uidx),
-                    payment_amount: parseInt(document.getElementById("payment_amount").value), 
-                    tax_free: parseInt(document.getElementById("tax_free").value),
-                    payment_status: document.getElementById("payment_status").value,
-                    membership_idx: parseInt(document.getElementById("membership_idx").value)
-            };
-
-            console.log("서버로 보낼 DTO 객체:", paymentDto);        
+	        case 'done':
+	            console.log('결제 완료 데이터:', response);
+	            
+	            const paymentData = response.data; 
+	            const orderId = paymentData.order_id;
+	            const method = paymentData.method;
+	
+	            document.getElementById("payNum").value = orderId;
+	            document.getElementById("payment_method").value = method;
+	
+	            const paymentDto = {
+	                payNum: orderId,  
+	                payment_method: method, 
+	                user_idx: parseInt(uidx), 
+	                payment_amount: parseInt(document.getElementById("payment_amount").value), 
+	                tax_free: parseInt(document.getElementById("tax_free").value),
+	                payment_status: "완료", 
+	                membership_idx: parseInt(document.getElementById("membership_idx").value)
+	            };
+	
+	            console.log("서버로 보낼 DTO 객체:", paymentDto);
             
             fetch('${pageContext.request.contextPath}/cookieMake.do', {
                 method: 'POST',
