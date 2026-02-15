@@ -1,8 +1,16 @@
 package com.histudy.studycafe.service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.TimeZone;
 
+import javax.management.RuntimeErrorException;
+import javax.servlet.http.HttpSession;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.histudy.studycafe.model.PayDTO;
 import com.histudy.studycafe.model.SeatDTO;
 import com.histudy.studycafe.model.StudycafeDAO;
@@ -14,7 +22,6 @@ import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
 public class StudycafeServiceImple implements StudycafeSerivce {
 
 	private StudycafeDAO studycafeDAO;
-
 	public StudycafeServiceImple(StudycafeDAO studycafeDAO) {
 		super();
 		this.studycafeDAO = studycafeDAO;
@@ -55,42 +62,78 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 		return result;
 	}
 	@Override
-	public PayDTO receipt(String paymentId) {
-		PayDTO receipt = studycafeDAO.receipt(paymentId);
-		return receipt;
-	}
-	
-	@Override
-	public TicketJoinTicketCategoryDTO ticketTotalAmount(int ticket_idx) {
-		TicketJoinTicketCategoryDTO tjtc = studycafeDAO.ticketTotalAmount(ticket_idx);
-		return tjtc;
-	}
-	
-	@Override
-	public int registerReservation(Integer user_idx, int seat_idx, String starttime, String endtime,
-			String reservation_status, int ticket_idx, String paymentId) {
-			int ticket_time = studycafeDAO.ticketTime(ticket_idx);
-			// yyyy-mm-dd + (hh24+hh) + :mi:ss.ff
-			if(Integer.parseInt(starttime.substring(starttime.indexOf("T")+1,starttime.indexOf(":")))+ticket_time < 10) {
-			endtime = starttime.substring(0,starttime.indexOf("T")+1)+
-					"0"+(Integer.parseInt(starttime.substring(starttime.indexOf("T")+1,starttime.indexOf(":")))+ticket_time)
-					+starttime.substring(starttime.indexOf(":"));
-			}else {
-				endtime = starttime.substring(0,starttime.indexOf("T")+1)+
-						(Integer.parseInt(starttime.substring(starttime.indexOf("T")+1,starttime.indexOf(":")))+ticket_time)
-						+starttime.substring(starttime.indexOf(":"));
-			}
-			System.out.println(endtime);
+	public PayDTO processPaymentAndReservation(String paymentId, Integer viewTotalAmount, HttpSession session) throws Exception {
+	    // 1. PortOne 결제 확인
+	    JsonNode root = StudycafePortOneApiService.getPaymentInfo(paymentId);
 
-		StudycafeReservationDTO reservationDTO = new StudycafeReservationDTO(user_idx, seat_idx, 
-				starttime, endtime, 
-				reservation_status, ticket_idx, paymentId);
-		int reservation = studycafeDAO.registerReservation(reservationDTO);
-		return reservation;
-	}	
-	@Override
-	public int reservationComplete(int seat_idx) {
-		int reservationComplete = studycafeDAO.reservationComplete(seat_idx);
-		return reservationComplete;
+	    Integer totalAmount = root.get("amount").get("total").asInt();
+	    if(viewTotalAmount != null && !viewTotalAmount.equals(totalAmount)) {
+	        throw new RuntimeException("금액 검증 실패");
+	    }
+	    
+	    ObjectMapper mapper = new ObjectMapper();
+	    JsonNode customData = mapper.readTree(root.get("customData").asText());
+	    int seat_idx = customData.get("seat_idx").asInt();
+	    int ticket_idx = customData.get("ticket_idx").asInt();
+	    
+	    // 2. 시간 값 변환
+	    // 2-1. YYYY-MM-DDTHH24:MI:SS.FFZ
+	    System.out.println("YYYY-MM-DDTHH24:MI:SS.FFZ"+ root.get("paidAt").asText());
+	    // 2-2. YYYY-MM-DDTHH24:MI:SS.FFZ
+	    OffsetDateTime offSetPaidAt = OffsetDateTime.parse(root.get("paidAt").asText());
+	    System.out.println("OffsetDateTime: " + offSetPaidAt);
+	    // 2-3. YYYY-MM-DDTHH24:MI:SS 변환
+	    LocalDateTime localDatePaidAt = offSetPaidAt.plusHours(9).toLocalDateTime();
+	    System.out.println("localDateTime: "+ localDatePaidAt);
+	    // 2-4. YYYY-MM-DD HH24:MI:SS 변환
+	    Timestamp paidAt = Timestamp.valueOf(localDatePaidAt);
+	    System.out.println(paidAt);
+	    
+	    OffsetDateTime offSetStatusChangedAt = OffsetDateTime.parse(root.get("statusChangedAt").asText());
+	    LocalDateTime localDateStatusChangedAt = offSetStatusChangedAt.plusHours(9).toLocalDateTime();
+	    Timestamp statusChangedAt = Timestamp.valueOf(localDateStatusChangedAt);
+
+	    
+	    PayDTO paydto = new PayDTO(
+	        paymentId,
+	        root.get("storeId").asText(),
+	        "channel-key-da563d5f-f117-444f-aba5-ad9b66277c1b",
+	        root.get("orderName").asText(),
+	        root.get("amount").get("paid").asInt(),
+	        (Integer) session.getAttribute("user_idx"),
+	        root.get("method").get("provider").asText(),
+	        root.get("status").asText(),
+	        statusChangedAt,
+	        paidAt,
+	        totalAmount,
+	        root.get("amount").get("vat").asInt(),
+	        root.get("amount").get("supply").asInt(),
+	        root.get("channel").get("pgProvider").asText()
+	    );
+
+	    // 3. 결제 DB 저장
+	    int result = studycafeDAO.paySeat(paydto);
+	    if(result>0) {
+	    	Timestamp reservation_endtime = Timestamp.valueOf(localDatePaidAt.plusHours(studycafeDAO.ticketTime(ticket_idx)));
+	    	StudycafeReservationDTO srdto = new StudycafeReservationDTO(0, (Integer)session.getAttribute("user_idx"), seat_idx, paidAt, reservation_endtime, "RESERVED", ticket_idx, paymentId);
+	    	int reservationComplete = studycafeDAO.registerReservation(srdto);
+	    	if(reservationComplete >0) {
+	    	    // 영수증 조회
+	    	    return studycafeDAO.receipt(paymentId);
+	    	}
+	    	else {
+	    		throw new RuntimeException("예약 오류");
+	    	}
+	    }else {
+	    	throw new RuntimeException("결제 오류");
+	    }
 	}
+
+	
+	@Override
+	public int ticketTotalAmount(int ticket_idx) {
+		int ticketAmount = studycafeDAO.ticketTotalAmount(ticket_idx);
+		return ticketAmount;
+	}
+	
 }
