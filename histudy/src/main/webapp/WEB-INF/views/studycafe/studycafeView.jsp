@@ -8,207 +8,7 @@
 <link rel="stylesheet" href="css/root.css" type="text/css">
 <link rel="stylesheet" href="css/header.css" type="text/css">
 <link rel="stylesheet" href="css/footer.css" type="text/css">
-<style>
-:root {
-	-white-brown: #CDA56D;
-	-door-color: #99CCFF;
-}
-
-form {
-	margin: 0px auto;
-	text-align: center;
-}
-
-#map {
-	margin: 0px auto;
-	border: solid 2px;
-}
-
-#studycafeList a {
-	color: black;
-}
-.seat-a{
-	fill: red;
-
-}
-section {
-	width: 90%;
-	max-width: 1100px;
-	margin: 40px auto;
-	padding: 30px;
-	background: white;
-	border-radius: 20px;
-	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-	border: none;
-}
-
-section>h1>a {
-	color: black;
-}
-
-section>h1>a:hover {
-	color: blue;
-}
-
-.map_wrap {
-	position: relative;
-	width: 100%;
-	height: 350px;
-}
-
-.title {
-	font-weight: bold;
-	display: block;
-}
-
-#map, svg {
-
-	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-}
-
-.hAddr {
-	position: absolute;
-	left: 10px;
-	top: 10px;
-	border-radius: 2px;
-	background: #fff;
-	background: rgba(255, 255, 255, 0.8);
-	z-index: 1;
-	padding: 5px;
-}
-
-#centerAddr {
-	display: block;
-	margin-top: 2px;
-	font-weight: normal;
-}
-
-.bAddr {
-	padding: 5px;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
-}
-
-.seat-a:hover, .seat-a>rect:hover {
-	fill: gray;
-	cursor: pointer;
-	user-select: none;
-}
-
-.seat-a:hover {
-	cursor: pointer;
-	user-select: none;
-}
-
-.payseat {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	z-index: 1000;
-}
-
-.modal-overlay {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-box {
-	position: relative;
-	background: #fff;
-	border-radius: 16px;
-	width: 400px;
-	max-width: 90%;
-	padding: 20px;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-	z-index: 10;
-	animation: fadeIn 0.3s ease-out;
-}
-
-.modal-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-bottom: 1px solid #eee;
-	padding-bottom: 10px;
-}
-
-.modal-header h2 {
-	margin: 0;
-	font-size: 18px;
-}
-
-.modal-close {
-	background: transparent;
-	border: none;
-	font-size: 22px;
-	cursor: pointer;
-}
-
-.modal-content {
-	margin-top: 15px;
-	text-align: center;
-}
-
-#payBtn {
-	background-color: gray; /* 보라색 버튼 */
-	color: #fff;
-	border: none;
-	padding: 10px 20px;
-	border-radius: 10px;
-	cursor: pointer;
-	font-weight: bold;
-	transition: background 0.2s;
-}
-
-#payBtn:hover {
-	background-color: #4338ca;
-}
-.ticketGrid{
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-}
-.ticketGrid button{
-	border-radius: 5px;
-	height: 100%;
-	padding: 5px;
-	margin: 5px;
-	border: 1px solid white;
-	background: blue;
-	color: white;
-	text-align: center;
-}
-.ticketGrid button:hover{
-	background: magenta;
-	cursor: pointer;
-}
-.studycafeCurrent{
-    display:flex;
-    justify-content:center;
-}
-
-text {
-	user-select: none;
-
-}
-rect[data-seat-type="GENERAL_B"]{
-	fill: green;
-}
-
-rect[data-seat-type="SINGLE_ROOM"]{
-	fill: #ccc;
-	rx:18;
-	stroke: black;
-	stroke-width: 2;
-}
-</style>
+<link rel="stylesheet" href="css/studycafe/studycafe.css" type="text/css">
 <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 <script>
 window.onload=function(){
@@ -222,8 +22,8 @@ window.onload=function(){
 		<main>
 			<section>
 				<h1>
-					<a href="#" id="studycafeInfo">스터디 카페 정보</a> <a href="#"
-						id="studycafeCurrent">스터디 카페 좌석 현황</a>
+					<a href="#" id="studycafeInfo">스터디 카페 정보</a> 
+					<a href="#" id="studycafeCurrent">스터디 카페 좌석 현황</a>
 				</h1>
 				<div class="studycafeInfo">
 					<h1>스터디 카페 목록</h1>
@@ -298,20 +98,15 @@ window.onload=function(){
 	<%@include file="../footer.jsp"%>
 </body>
 <script>
-/* if(!document.getElementById('payBtn').disabled){
-	document.getElementById('payBtn').disabled=false;
-	document.getElementById('payBtn').style.background="#4f46e5";
-}else{
-	document.getElementById('payBtn').style.background="gray";
-} */
 // 위도, 경도
 var lat =0;
 var lng =0;
+var xhr = null;
+const seat__area=document.getElementById('seat__area');
 if(document.querySelector('.studycafe-item').text == 'histudy 1호점'){
 	lat = ${dto[0].studycafe_lat};
 	lng = ${dto[0].studycafe_lng};
 }
-var xhr = null;
 function seatInfo(studycafe_idx){
 	xhr = new XMLHttpRequest();
 	xhr.open("GET", "seatInfo.do?studycafe_idx="+studycafe_idx, true);
@@ -319,7 +114,6 @@ function seatInfo(studycafe_idx){
 	xhr.send();
 }
 
-const seat__area=document.getElementById('seat__area');
 function showResult(){
 	if(xhr.readyState==4){
 		if(xhr.status==200){
@@ -340,10 +134,7 @@ function showResult(){
 			rect.setAttribute('fill','#FFE4E6' );
 			rect.setAttribute('stroke','#FFE4E6' );
 			
-			var text = document.createElementNS(
-				    "http://www.w3.org/2000/svg",
-				    "text"
-				);
+			var text = document.createElementNS("http://www.w3.org/2000/svg","text");
 				text.setAttribute('x', Number(seat.seat_x) + seat.seat_w / 2);
 				text.setAttribute('y', Number(seat.seat_y) + seat.seat_h / 2);
 				text.setAttribute('text-anchor', 'middle'); 
@@ -358,7 +149,7 @@ function showResult(){
 		}
 	}
 }
-			seatReservation();
+seatReservation();
 // 좌석 정보
 var queryNum=-1;
 var seat_idx = null;
@@ -370,17 +161,23 @@ for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 	document.querySelectorAll(".seat-a")[i].addEventListener('click', function(){
 		seat_idx=document.querySelectorAll(".seat-a")[i].dataset.seatIdx;
 		seat_type=document.querySelectorAll(".seat-a")[i].dataset.seatType;
+		seat_status=document.querySelectorAll(".seat-a")[i].dataset.seatStatus;
 		seatCurrent(seat_idx);
 		queryNum=i;
 		document.querySelector('#seat').innerHTML = document.querySelectorAll(".seat-a")[i].getAttribute("value")+ '의 좌석현황';
 		document.querySelector('.modal-content').innerHTML='<button id="reserveBtn">이용 하기</button>';
 		// 이용하기
-		document.getElementById('reserveBtn').addEventListener('click',function(e, seat_idx){
+		document.getElementById('reserveBtn').addEventListener('click',function(e){
+			alert(seat_idx);
 			if(${empty sessionScope.user_id}){
 				alert('로그인 후 스터디 카페를 이용하실 수 있습니다');
 				e.preventDefault();
 				return;
-			}		
+			}
+			if(seat_status==='RESERVED'){
+				alert('이미 에약된 좌석입니다.')
+				return;
+			}
 			document.querySelector('.modal-content').addEventListener('click',function(e){
 				var ticket = e.target.closest('.ticket');
 				if(seat_type == 'SINGLE_ROOM'||seat_type =='ROOM'){
@@ -400,7 +197,7 @@ for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 }
 // 티켓 정보 가져오기
 function seatTicketInfo(ticket_category_idx, seat_idx){
-	return fetch("seatReservation.do?ticket_category_idx="+ticket_category_idx+"&seat_idx="+seat_idx,{method: "GET"})
+	return fetch("seatTicket.do?ticket_category_idx="+ticket_category_idx+"&seat_idx="+seat_idx,{method: "GET"})
 	.then(function(res){
 		if(res.ok){
 			return res.json();
@@ -473,7 +270,7 @@ function portOnePay(queryNum){
 }
 
 
-// 1. 좌석 현황
+// 좌석 현황
 function seatCurrent(seat_idx){
 	return fetch("seatReservation.do", {
 		method: "POST",
@@ -487,6 +284,9 @@ function seatCurrent(seat_idx){
 	.then(function(res){
 		if(res.ok){
 			return res.json();
+		}else{
+			var divTag=document.createElement('div');
+			divTag.innerHTML = '<p>이용 가능한 좌석 입니다</p>';
 		}
 	})
 	.then(function(res){
@@ -512,11 +312,10 @@ function seatCurrent(seat_idx){
 	.catch(error => console.log(error.message))
 }
 
-// 2. 모달 창 닫기
+// 모달 창 닫기
 function close1(){
 	document.querySelector('.payseat').style.display = "none";
-}
-// 3. 카페 정보 및 현황  
+} 
 // 카페 정보
 document.getElementById('studycafeCurrent').addEventListener('click',function(){
 	document.querySelector('.studycafeInfo').style.display="none";
