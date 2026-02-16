@@ -272,9 +272,9 @@
 }
 
 .review-write-form {
-    width: 80%;
+    width: 100%;
     max-width: 1200px;
-    margin: 20px auto;
+    margin-left: 0;
     padding: 25px;
     background: #fdfdfd;
     border: 2px dashed #ddd;
