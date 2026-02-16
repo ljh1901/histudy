@@ -126,6 +126,7 @@ section>h1>a:hover {
 	align-items: center;
 	border-bottom: 1px solid #eee;
 	padding-bottom: 10px;
+	flex: 1;
 }
 
 .modal-header h2 {
@@ -138,6 +139,10 @@ section>h1>a:hover {
 	border: none;
 	font-size: 22px;
 	cursor: pointer;
+	 position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
 }
 
 .modal-content {

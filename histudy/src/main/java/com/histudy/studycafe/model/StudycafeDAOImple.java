@@ -66,7 +66,12 @@ public class StudycafeDAOImple implements StudycafeDAO{
 	}
 	@Override
 	public int reservationComplete(int seat_idx) {
-		int reservationComplete = sqlSession.update("reservationCompleteSQL", seat_idx);
+		int reservationComplete = sqlSession.update("updateSeatToReservedSQL", seat_idx);
 		return reservationComplete;
+	}
+	@Override
+	public int payCancel(String paymentId) {
+		int payCancel = sqlSession.delete("payDeleteSQL", paymentId);
+		return payCancel;
 	}
 }

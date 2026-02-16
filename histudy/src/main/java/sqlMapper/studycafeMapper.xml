@@ -48,8 +48,8 @@
 	</select>
 
 	<!-- 7. 좌석 상태 확인 -->
-	<select id="selectSeatInfoSQL" parameterType="Integer" resultType="Integer">
-		select count(*)
+	<select id="selectSeatInfoSQL" parameterType="Integer" resultType="com.histudy.studycafe.model.StudycafeJoinReservationDTO">
+		select *
 		from studycafe_reservation sr
 		join studycafe_pay sp on sr.paymentId = sp.paymentId
 		where sr.seat_idx = #{seat_idx} and sp.pay_status = 'PAID' and sr.reservation_endtime > systimestamp
@@ -72,7 +72,7 @@
 	<!-- 10. 좌석 동시성 처리 -->
 	<update id="updateSeatToReservedSQL" parameterType="Integer">
 		update seat set seat_status = 'RESERVED'
-		where seat_idx = #{seat_idx} and seat_status = 'AVAILABLE'
+		where seat_idx = #{seat_idx} and seat_status = 'FREE'
 	</update>
 
 
@@ -88,4 +88,8 @@
 		from studycafe_pay
 		where paymentId = #{paymentId}
 	</select>
+	<!-- 13. 결제 취소 Pay 임시 저장 삭제 -->
+	<delete id="payDeleteSQL" parameterType="String">
+		delete from studycafe_pay where paymentId = #{paymentId}
+	</delete>
 </mapper>
