@@ -24,6 +24,7 @@
 	        FROM membership_payment mp
 	        JOIN membership m ON mp.membership_idx = m.membership_idx
 	        WHERE mp.user_idx = #{user_idx}
+	        	AND mp.end_date>=SYSDATE
 	        ORDER BY mp.end_date DESC 
 	    )
 	    WHERE ROWNUM = 1 
