@@ -15,6 +15,172 @@ window.onload=function(){
 	document.querySelector('.studycafeCurrent').style.display="none";
 }
 </script>
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #4f46e5;
+    --primary-light: #6366f1;
+    --gray-bg: #f8fafc;
+    --border-light: #e5e7eb;
+}
+
+
+section {
+    width: 90%;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+text {
+    user-select: none;
+}
+
+.seat-a {
+    fill: #ffe4e6;
+    stroke: #ffe4e6;
+    transition: 0.2s;
+}
+
+.seat-a:hover {
+    fill: #c7d2fe;
+    stroke: #6366f1;
+    cursor: pointer;
+}
+
+rect[data-seat-type="GENERAL_B"] {
+    fill: #10b981;
+}
+
+rect[data-seat-type="SINGLE_ROOM"] {
+    fill: #f1f5f9;
+    stroke: #000;
+    stroke-width: 2;
+    rx: 18;
+}
+
+.payseat {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-box {
+    position: relative;
+    width: 420px;
+    max-width: 95%;
+    background: #fff;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.modal-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+    transition: 0.2s;
+}
+
+.modal-close:hover {
+    color: #111;
+    transform: scale(1.1);
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.seatCurrent {
+    display: flex;
+    justify-content: space-between;
+    background: var(--gray-bg);
+    padding: 12px 15px;
+    border-radius: 14px;
+    margin: auto 0px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.reservationTime {
+    background: #e0e7ff;
+    color: var(--primary);
+    width: 100%;
+    padding: 6px 15px;
+    margin-left: 30px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+#reserveBtn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#reserveBtn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.ticketGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.ticketGrid button {
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    background: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.ticketGrid button:hover {
+    background: purple;
+    color: white;
+}
+</style>
 </head>
 <body>
 	<%@include file="../header.jsp"%>
@@ -53,6 +219,7 @@ window.onload=function(){
 					</div>
 <svg id="studycafeSeat" viewBox="0 0 1200 800" width="100%" height="100%">
 <!-- 벽 -->
+<g id="studycafe__structure">
 <rect x="0" y="0" width="1200" height="10" fill="#CDA56D" />
 <rect x="0" y="790" width="1200" height="10" fill="#CDA56D" />
 <rect x="0" y="0" width="10" height="800" fill="#CDA56D" />
@@ -84,6 +251,7 @@ window.onload=function(){
 <text x="870" y="710" text-anchor="middle" font-weight="700">스터디룸 B</text>
 <rect x="700" y="60" width="350" height="250" rx="20" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2" />
 <text x="865" y="350" text-anchor="middle" font-size="18" font-weight="700">1인 독방</text>
+</g>
 <g id="seat__area">
 <c:forEach var="seat" items="${seatList}">
 <rect class="seat-a" x="${seat.seat_x}" y="${seat.seat_y}" width="${seat.seat_w}" height="${seat.seat_h}" value="${seat.seat_num}" data-seat-idx="${seat.seat_idx}" data-seat-type="${seat.seat_type}" data-seat-status="${seat.seat_status}"></rect>
@@ -159,16 +327,19 @@ var seat_type=null;
 function seatReservation(){
 for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 	document.querySelectorAll(".seat-a")[i].addEventListener('click', function(){
+		// 좌석 번호 가져오기
 		seat_idx=document.querySelectorAll(".seat-a")[i].dataset.seatIdx;
+		// 좌석, 스터디룸, 독방 타입 가져오기
 		seat_type=document.querySelectorAll(".seat-a")[i].dataset.seatType;
+		// 좌석 상태 가져오기
 		seat_status=document.querySelectorAll(".seat-a")[i].dataset.seatStatus;
+		
 		seatCurrent(seat_idx);
 		queryNum=i;
 		document.querySelector('#seat').innerHTML = document.querySelectorAll(".seat-a")[i].getAttribute("value")+ '의 좌석현황';
 		document.querySelector('.modal-content').innerHTML='<button id="reserveBtn">이용 하기</button>';
 		// 이용하기
 		document.getElementById('reserveBtn').addEventListener('click',function(e){
-			alert(seat_idx);
 			if(${empty sessionScope.user_id}){
 				alert('로그인 후 스터디 카페를 이용하실 수 있습니다');
 				e.preventDefault();
@@ -291,23 +462,17 @@ function seatCurrent(seat_idx){
 	})
 	.then(function(res){
 		var divTag=document.createElement('div');
+		divTag.setAttribute('class', 'seatCurrent');
 		document.getElementById('seat').appendChild(divTag);
 		var reservation_starttime=new Date(res.reservation_starttime);
 		var reservation_endtime = new Date(res.reservation_endtime);
-		reservation_starttime = reservation_starttime.getFullYear()+"년"
-		+(reservation_starttime.getMonth()+1)
-		+"월"+reservation_starttime.getDate()
-		+"일&nbsp;"+reservation_starttime.getHours()
-		+"시&nbsp;"+reservation_starttime.getMinutes()
-		+"분";
-		reservation_endtime=reservation_endtime.getFullYear()+"년"
-		+(reservation_endtime.getMonth()+1)
-		+"월"+reservation_endtime.getDate()
-		+"일&nbsp;"+reservation_endtime.getHours()
-		+"시&nbsp;"+reservation_endtime.getMinutes()
-		+"분";
-		var str="시작시간: "+reservation_starttime+"<div>종료시간: "+reservation_endtime;
+		var start = reservation_starttime.getHours()+reservation_starttime.getMinutes()/60;
+		var end = reservation_endtime.getHours()+reservation_endtime.getMinutes()/60;
+		reservation_starttime = reservation_starttime.getHours()+":"+reservation_starttime.getMinutes();
+		reservation_endtime=reservation_endtime.getHours()+":"+reservation_endtime.getMinutes()
+		var str="<div class='reservationTime'>이용중</div>"+"<div class='reservationTime'>"+reservation_starttime+"~"+reservation_endtime+"</div>";
 		divTag.innerHTML = str;
+		divTag.appendChild(meter);
 	})
 	.catch(error => console.log(error.message))
 }

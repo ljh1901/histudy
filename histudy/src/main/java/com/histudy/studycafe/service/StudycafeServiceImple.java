@@ -65,13 +65,14 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 	public PayDTO processPaymentAndReservation(String paymentId, Integer viewTotalAmount, HttpSession session) throws Exception {
 	    // 1. PortOne 결제 확인
 	    JsonNode root = StudycafePortOneApiService.getPaymentInfo(paymentId);
-
-	    Integer totalAmount = root.get("amount").get("total").asInt();
-	    if(viewTotalAmount != null && !viewTotalAmount.equals(totalAmount)) {
-	        throw new RuntimeException("금액 검증 실패");
-	    }
 	    
 	    ObjectMapper mapper = new ObjectMapper();
+	  if(root.get("paidAt") !=null) {
+		    Integer totalAmount = root.get("amount").get("total").asInt();
+		    if(viewTotalAmount != null && !viewTotalAmount.equals(totalAmount)) {
+		        throw new RuntimeException("금액 검증 실패");
+		    }
+	  
 	    JsonNode customData = mapper.readTree(root.get("customData").asText());
 	    int seat_idx = customData.get("seat_idx").asInt();
 	    int ticket_idx = customData.get("ticket_idx").asInt();
@@ -116,10 +117,16 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 	    if(result>0) {
 	    	Timestamp reservation_endtime = Timestamp.valueOf(localDatePaidAt.plusHours(studycafeDAO.ticketTime(ticket_idx)));
 	    	StudycafeReservationDTO srdto = new StudycafeReservationDTO(0, (Integer)session.getAttribute("user_idx"), seat_idx, paidAt, reservation_endtime, "RESERVED", ticket_idx, paymentId);
-	    	int reservationComplete = studycafeDAO.registerReservation(srdto);
-	    	if(reservationComplete >0) {
-	    	    // 영수증 조회
-	    	    return studycafeDAO.receipt(paymentId);
+	    	int registerReservation = studycafeDAO.registerReservation(srdto);
+	    	if(registerReservation >0) {
+	    		// 좌석 상태 변경
+	    		int reservationComplete=studycafeDAO.reservationComplete(seat_idx);
+	    		if(reservationComplete>0) {
+	    			// 영수증 조회
+	    			return studycafeDAO.receipt(paymentId);
+	    		}else {
+	    			throw new RuntimeException("좌석 예약 실패");
+	    		}
 	    	}
 	    	else {
 	    		throw new RuntimeException("예약 오류");
@@ -127,8 +134,12 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 	    }else {
 	    	throw new RuntimeException("결제 오류");
 	    }
+	
+	}else {
+		int payCancel = studycafeDAO.payCancel(paymentId);
+		throw new Exception("결제 취소");
 	}
-
+	}
 	
 	@Override
 	public int ticketTotalAmount(int ticket_idx) {
