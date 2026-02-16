@@ -76,10 +76,11 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 	    JsonNode customData = mapper.readTree(root.get("customData").asText());
 	    int seat_idx = customData.get("seat_idx").asInt();
 	    int ticket_idx = customData.get("ticket_idx").asInt();
+	    int ticket_category_idx = customData.get("ticket_category_idx").asInt();
 	    
 	    // 2. 시간 값 변환
 	    // 2-1. YYYY-MM-DDTHH24:MI:SS.FFZ
-	    System.out.println("YYYY-MM-DDTHH24:MI:SS.FFZ"+ root.get("paidAt").asText());
+	    System.out.println("YYYY-MM-DDTHH24:MI:SS.FFZ: "+ root.get("paidAt").asText());
 	    // 2-2. YYYY-MM-DDTHH24:MI:SS.FFZ
 	    OffsetDateTime offSetPaidAt = OffsetDateTime.parse(root.get("paidAt").asText());
 	    System.out.println("OffsetDateTime: " + offSetPaidAt);
@@ -114,13 +115,20 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 
 	    // 3. 결제 DB 저장
 	    int result = studycafeDAO.paySeat(paydto);
-	    if(result>0) {
+	    int registerReservation = 0;
+	    if(result>0 && ticket_category_idx !=3) {
 	    	Timestamp reservation_endtime = Timestamp.valueOf(localDatePaidAt.plusHours(studycafeDAO.ticketTime(ticket_idx)));
 	    	StudycafeReservationDTO srdto = new StudycafeReservationDTO(0, (Integer)session.getAttribute("user_idx"), seat_idx, paidAt, reservation_endtime, "RESERVED", ticket_idx, paymentId);
-	    	int registerReservation = studycafeDAO.registerReservation(srdto);
+	    	registerReservation = studycafeDAO.registerReservation(srdto);
+	    }else if(result >0 && ticket_category_idx ==3) {
+	    	Timestamp reservation_endtime = Timestamp.valueOf(localDatePaidAt.plusDays(studycafeDAO.ticketTime(ticket_idx)));
+	    	StudycafeReservationDTO srdto = new StudycafeReservationDTO(0, (Integer)session.getAttribute("user_idx"), seat_idx, paidAt, reservation_endtime, "RESERVED", ticket_idx, paymentId);
+	    	registerReservation = studycafeDAO.registerReservation(srdto);
+	    }
 	    	if(registerReservation >0) {
 	    		// 좌석 상태 변경
 	    		int reservationComplete=studycafeDAO.reservationComplete(seat_idx);
+	    		System.out.println(reservationComplete >0);
 	    		if(reservationComplete>0) {
 	    			// 영수증 조회
 	    			return studycafeDAO.receipt(paymentId);
@@ -131,9 +139,6 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 	    	else {
 	    		throw new RuntimeException("예약 오류");
 	    	}
-	    }else {
-	    	throw new RuntimeException("결제 오류");
-	    }
 	
 	}else {
 		int payCancel = studycafeDAO.payCancel(paymentId);
@@ -145,6 +150,11 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 	public int ticketTotalAmount(int ticket_idx) {
 		int ticketAmount = studycafeDAO.ticketTotalAmount(ticket_idx);
 		return ticketAmount;
+	}
+	@Override
+	public int seatStatusUpdate() {
+		int seatStatusUpdate = studycafeDAO.seatStatusUpdate();
+		return seatStatusUpdate;
 	}
 	
 }

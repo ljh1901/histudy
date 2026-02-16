@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -8,7 +9,8 @@
 <link rel="stylesheet" href="css/root.css" type="text/css">
 <link rel="stylesheet" href="css/header.css" type="text/css">
 <link rel="stylesheet" href="css/footer.css" type="text/css">
-<link rel="stylesheet" href="css/studycafe/studycafe.css" type="text/css">
+<link rel="stylesheet" href="css/studycafe/studycafe.css"
+	type="text/css">
 <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 <script>
 window.onload=function(){
@@ -16,170 +18,245 @@ window.onload=function(){
 }
 </script>
 <style>
-
+/* ================= 기본 ================= */
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 :root {
-    --primary: #4f46e5;
-    --primary-light: #6366f1;
-    --gray-bg: #f8fafc;
-    --border-light: #e5e7eb;
+	--primary: #4f46e5;
+	--primary-light: #6366f1;
+	--gray-bg: #f8fafc;
+	--border-light: #e5e7eb;
+	--reserved: #dc2626;   /* 이용중 색 */
 }
 
+main {
+	margin-top: 120px;
+}
+
+/* ================= 레이아웃 ================= */
 
 section {
-    width: 90%;
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 30px;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+	width: 90%;
+	max-width: 1100px;
+	margin: 40px auto;
+	padding: 40px;
+	background: #ffffff;
+	border-radius: 24px;
+	box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
 }
 
-text {
-    user-select: none;
+/* 상단 탭 */
+section h1 {
+	display: flex;
+	gap: 30px;
+	font-size: 20px;
+	padding-bottom: 15px;
 }
+
+section h1 a {
+	text-decoration: none;
+	color: #333;
+	font-weight: 600;
+	transition: 0.2s;
+}
+
+section h1 a:hover {
+	color: var(--primary);
+}
+#studycafeList {
+	list-style: none;     /* 기본 점 제거 */
+	padding: 0;
+	margin-top: 20px;
+	border-top: 2px solid #eee;  /* 상단 구분선 */
+}
+
+#studycafeList li {
+	border-bottom: 1px solid #ddd;  /* 아래 구분선 */
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+#studycafeList li a {
+	display: block;
+	padding: 18px 10px;
+	text-decoration: none;
+	font-size: 18px;
+	font-weight: 600;
+	color: #333;
+	transition: 0.2s;
+}
+
+#studycafeList li a:hover {
+	background: #f3f4f6;
+	color: var(--primary);
+	padding-left: 20px;
+}
+/* ================= 지도 아래로 ================= */
+
+.studycafeInfo {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+#map {
+	width: 100% !important;
+	height: 350px;
+	order: 99; /* 항상 맨 아래 */
+	border-radius: 16px;
+	box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* ================= 좌석 ================= */
 
 .seat-a {
-    fill: #ffe4e6;
-    stroke: #ffe4e6;
-    transition: 0.2s;
+	fill: #ffe4e6;
+	stroke: #ffe4e6;
+	transition: 0.2s;
+}
+
+/* 예약된 좌석 색 변경 */
+.seat-a[data-seat-status="RESERVED"] {
+	fill: var(--reserved);
+	stroke: var(--reserved);
+}
+
+/* 예약된 좌석 hover 막기 */
+.seat-a[data-seat-status="RESERVED"]:hover {
+	cursor: not-allowed;
+	opacity: 0.8;
 }
 
 .seat-a:hover {
-    fill: #c7d2fe;
-    stroke: #6366f1;
-    cursor: pointer;
+	fill: #c7d2fe;
+	stroke: #6366f1;
+	cursor: pointer;
 }
 
-rect[data-seat-type="GENERAL_B"] {
-    fill: #10b981;
-}
-
-rect[data-seat-type="SINGLE_ROOM"] {
-    fill: #f1f5f9;
-    stroke: #000;
-    stroke-width: 2;
-    rx: 18;
-}
+/* ================= 모달 ================= */
 
 .payseat {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+	position: fixed;
+	inset: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 2000;
 }
 
 .modal-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.6);
 }
 
 .modal-box {
-    position: relative;
-    width: 420px;
-    max-width: 95%;
-    background: #fff;
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+	position: relative;
+	width: 420px;
+	max-width: 95%;
+	background: #fff;
+	border-radius: 24px;
+	padding: 30px;
+	box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
 }
 
 .modal-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
 }
 
 .modal-header h2 {
-    font-size: 20px;
-    font-weight: 700;
+	font-size: 20px;
+	font-weight: 700;
 }
 
 .modal-close {
-    margin-left: auto;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #888;
-    transition: 0.2s;
-}
-
-.modal-close:hover {
-    color: #111;
-    transform: scale(1.1);
+	margin-left: auto;
+	background: none;
+	border: none;
+	font-size: 24px;
+	cursor: pointer;
+	color: #888;
 }
 
 .modal-content {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
 }
+
+/* ================= 이용중 표시 ================= */
 
 .seatCurrent {
-    display: flex;
-    justify-content: space-between;
-    background: var(--gray-bg);
-    padding: 12px 15px;
-    border-radius: 14px;
-    margin: auto 0px;
-    font-size: 14px;
-    text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	background: var(--gray-bg);
+	padding: 15px;
+	border-radius: 12px;
+	font-size: 14px;
+	text-align: center;
 }
 
-.reservationTime {
-    background: #e0e7ff;
-    color: var(--primary);
-    width: 100%;
-    padding: 6px 15px;
-    margin-left: 30px;
-    border-radius: 20px;
-    font-weight: 600;
+.seatCurrent .reservationTime:first-child {
+	background: #fee2e2;
+	color: var(--reserved);
+	font-weight: 700;
+	padding: 6px 0;
+	border-radius: 8px;
 }
+
+.seatCurrent .reservationTime:last-child {
+	background: #eef2ff;
+	color: var(--primary);
+	font-weight: 600;
+	padding: 8px 0;
+	border-radius: 8px;
+}
+
+/* ================= 버튼 (기존 색 복구) ================= */
 
 #reserveBtn {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
+	background: var(--primary);
+	color: #fff;
+	border: none;
+	padding: 12px;
+	border-radius: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: 0.2s;
 }
 
 #reserveBtn:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
+	background: var(--primary-light);
 }
 
 .ticketGrid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 12px;
 }
 
 .ticketGrid button {
-    padding: 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border-light);
-    background: var(--primary);
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
+	padding: 14px;
+	border-radius: 14px;
+	border: 1px solid var(--border-light);
+	background: var(--primary);
+	color: #fff;
+	font-weight: 600;
+	cursor: pointer;
+	transition: 0.2s;
 }
 
 .ticketGrid button:hover {
-    background: purple;
-    color: white;
+	background: var(--primary-light);
 }
+
 </style>
 </head>
 <body>
@@ -201,9 +278,6 @@ rect[data-seat-type="SINGLE_ROOM"] {
 					<div id="map" style="width: 50%; height: 350px;"></div>
 					<div id="clickLatlng"></div>
 				</div>
-			</section>
-
-			<section>
 				<div class="studycafeCurrent" style="display: none">
 					<!-- (모달1) 안내사항 모달 -->
 					<div class="payseat" style="display: none;">
@@ -213,11 +287,11 @@ rect[data-seat-type="SINGLE_ROOM"] {
 								<h2 id="seat">좌석 현황</h2>
 								<button type="button" class="modal-close" onclick="close1()">&times;</button>
 							</div>
-							<div class="modal-content">
-							</div>
+							<div class="modal-content"></div>
 						</div>
 					</div>
-<svg id="studycafeSeat" viewBox="0 0 1200 800" width="100%" height="100%">
+					<svg id="studycafeSeat" viewBox="0 0 1200 800" width="100%"
+						height="100%">
 <!-- 벽 -->
 <g id="studycafe__structure">
 <rect x="0" y="0" width="1200" height="10" fill="#CDA56D" />
@@ -234,28 +308,44 @@ rect[data-seat-type="SINGLE_ROOM"] {
 
 <!-- 중앙 통로 -->
 <rect x="460" y="10" width="180" height="800" fill="#F1F5F9" />
-<text x="550" y="320" text-anchor="middle" font-size="20" fill="#94A3B8" font-weight="700"> MAIN HALL </text>
-<text x="220" y="40" text-anchor="middle" font-size="20" font-weight="700">노트북 존</text>
+<text x="550" y="320" text-anchor="middle" font-size="20" fill="#94A3B8"
+							font-weight="700"> MAIN HALL </text>
+<text x="220" y="40" text-anchor="middle" font-size="20"
+							font-weight="700">노트북 존</text>
 
 <!-- 책상 배경 -->
-<rect  id="desk" x="40" y="60" width="360" height="220" rx="20" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2" />
-<text x="220" y="340" text-anchor="middle" font-size="20" font-weight="700">일반존 A</text>
-<rect x="40" y="360" width="360" height="220" rx="20" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2" />
-<rect x="70" y="600" width="300" height="150" rx="18" fill="#EEF2FF" stroke="#C7D2FE" stroke-width="2" />
+<rect id="desk" x="40" y="60" width="360" height="220" rx="20"
+							fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2" />
+<text x="220" y="340" text-anchor="middle" font-size="20"
+							font-weight="700">일반존 A</text>
+<rect x="40" y="360" width="360" height="220" rx="20" fill="#FFFFFF"
+							stroke="#E5E7EB" stroke-width="2" />
+<rect x="70" y="600" width="300" height="150" rx="18" fill="#EEF2FF"
+							stroke="#C7D2FE" stroke-width="2" />
 
 <!-- 좌석 -->
-<text x="820" y="40" text-anchor="middle" font-size="20" font-weight="700">일반존 B</text>
+<text x="820" y="40" text-anchor="middle" font-size="20"
+							font-weight="700">일반존 B</text>
 
 <!-- 방 -->
-<rect x="720" y="670" width="300" height="80" rx="18" fill="#EEF2FF" stroke="#C7D2FE" stroke-width="2" />
+<rect x="720" y="670" width="300" height="80" rx="18" fill="#EEF2FF"
+							stroke="#C7D2FE" stroke-width="2" />
 <text x="870" y="710" text-anchor="middle" font-weight="700">스터디룸 B</text>
-<rect x="700" y="60" width="350" height="250" rx="20" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2" />
-<text x="865" y="350" text-anchor="middle" font-size="18" font-weight="700">1인 독방</text>
+<rect x="700" y="60" width="350" height="250" rx="20" fill="#FFFFFF"
+							stroke="#E5E7EB" stroke-width="2" />
+<text x="865" y="350" text-anchor="middle" font-size="18"
+							font-weight="700">1인 독방</text>
 </g>
 <g id="seat__area">
 <c:forEach var="seat" items="${seatList}">
-<rect class="seat-a" x="${seat.seat_x}" y="${seat.seat_y}" width="${seat.seat_w}" height="${seat.seat_h}" value="${seat.seat_num}" data-seat-idx="${seat.seat_idx}" data-seat-type="${seat.seat_type}" data-seat-status="${seat.seat_status}"></rect>
-<text x="${seat.seat_x+seat.seat_w/2}" y="${seat.seat_y + seat.seat_h / 2}" fill="black" text-anchor="middle" font-size="14">${seat.seat_num}</text>
+<rect class="seat-a" x="${seat.seat_x}" y="${seat.seat_y}"
+								width="${seat.seat_w}" height="${seat.seat_h}"
+								value="${seat.seat_num}" data-seat-idx="${seat.seat_idx}"
+								data-seat-type="${seat.seat_type}"
+								data-seat-status="${seat.seat_status}"></rect>
+<text x="${seat.seat_x+seat.seat_w/2}"
+								y="${seat.seat_y + seat.seat_h / 2}" fill="black"
+								text-anchor="middle" font-size="14">${seat.seat_num}</text>
 </c:forEach>
 </g>
 </svg>
@@ -347,6 +437,7 @@ for(let i = 0; i<document.querySelectorAll(".seat-a").length; i++){
 			}
 			if(seat_status==='RESERVED'){
 				alert('이미 에약된 좌석입니다.')
+				e.preventDefault();
 				return;
 			}
 			document.querySelector('.modal-content').addEventListener('click',function(e){
@@ -381,13 +472,13 @@ function seatTicketInfo(ticket_category_idx, seat_idx){
 			var ticketStr = '<button type="button" class="payBtn" value='+data.ticket_idx+'><div><h3 class="ticketName" value='+data.ticket_name+'>'+data.ticket_name+'</h3><span class="ticketAmount" value='+data.ticket_amount+'>'+data.ticket_amount+'원</span></div></button>';
 			document.querySelector('.ticketGrid').innerHTML += ticketStr;
 		})
-		portOnePay(queryNum);
+		portOnePay(queryNum, ticket_category_idx);
 	})
 	.catch(error => console.log(error.message))
 }
 
 // 1. 결제 요청
-function portOnePay(queryNum){
+function portOnePay(queryNum, ticket_category_idx){
 	for(let i=0; i<document.querySelectorAll('.payBtn').length; i++){
 	document.querySelectorAll('.payBtn')[i].addEventListener('click', async function(){
 		var now = new Date();
@@ -425,7 +516,8 @@ function portOnePay(queryNum){
 				},
 				customData:{
 					seat_idx: seat_idx,
-					ticket_idx: ticket_idx
+					ticket_idx: ticket_idx,
+					ticket_category_idx: ticket_category_idx
 				},
 				orderName: res.orderName,
 				totalAmount: res.totalAmount,
@@ -466,13 +558,10 @@ function seatCurrent(seat_idx){
 		document.getElementById('seat').appendChild(divTag);
 		var reservation_starttime=new Date(res.reservation_starttime);
 		var reservation_endtime = new Date(res.reservation_endtime);
-		var start = reservation_starttime.getHours()+reservation_starttime.getMinutes()/60;
-		var end = reservation_endtime.getHours()+reservation_endtime.getMinutes()/60;
-		reservation_starttime = reservation_starttime.getHours()+":"+reservation_starttime.getMinutes();
-		reservation_endtime=reservation_endtime.getHours()+":"+reservation_endtime.getMinutes()
+		reservation_starttime = reservation_starttime.getFullYear()+"년"+(reservation_starttime.getMonth()+1)+"월"+reservation_starttime.getDate()+"일"+ reservation_starttime.getHours()+":"+reservation_starttime.getMinutes();
+		reservation_endtime=reservation_endtime.getFullYear()+"년"+(reservation_endtime.getMonth()+1)+"월"+reservation_endtime.getDate()+"일"+reservation_endtime.getHours()+":"+reservation_endtime.getMinutes();
 		var str="<div class='reservationTime'>이용중</div>"+"<div class='reservationTime'>"+reservation_starttime+"~"+reservation_endtime+"</div>";
 		divTag.innerHTML = str;
-		divTag.appendChild(meter);
 	})
 	.catch(error => console.log(error.message))
 }
@@ -493,6 +582,8 @@ document.getElementById('studycafeInfo').addEventListener('click',function(){
 	document.querySelector('.studycafeCurrent').style.display="none";
 });
 </script>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cc8dabaa3a75dab670d03c068fae3a5d&libraries=services&libraries=services"type="text/javascript"></script>
+<script
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cc8dabaa3a75dab670d03c068fae3a5d&libraries=services&libraries=services"
+	type="text/javascript"></script>
 <script src="js/studycafe/map.js" type="text/javascript"></script>
 </html>

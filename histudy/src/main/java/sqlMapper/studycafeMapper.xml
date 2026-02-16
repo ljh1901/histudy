@@ -92,4 +92,14 @@
 	<delete id="payDeleteSQL" parameterType="String">
 		delete from studycafe_pay where paymentId = #{paymentId}
 	</delete>
+	<!-- 14. 좌석 상태 변경 -->
+	<update id="updateSeatStatusSQL">
+	update seat s 
+	set seat_status = 'FREE' 
+	where seat_status = 'RESERVED' and not exists (select s.seat_idx
+    											  from studycafe_reservation r
+    											  join studycafe_pay p on r.paymentId = p.paymentId
+    											  where r.seat_idx = s.seat_idx and r.reservation_status = 'RESERVED' and p.pay_status = 'PAID' 
+    											  and systimestamp between r.reservation_starttime and r.reservation_endtime)
+   </update>
 </mapper>
