@@ -74,4 +74,9 @@ public class StudycafeDAOImple implements StudycafeDAO{
 		int payCancel = sqlSession.delete("payDeleteSQL", paymentId);
 		return payCancel;
 	}
+	@Override
+	public int seatStatusUpdate() {
+		int seatStatusUpdate = sqlSession.update("updateSeatStatusSQL");
+		return seatStatusUpdate;
+	}
 }

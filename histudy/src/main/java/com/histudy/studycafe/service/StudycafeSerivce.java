@@ -20,4 +20,5 @@ public interface StudycafeSerivce {
 	public int paySeat(PayDTO paydto);
 	public PayDTO processPaymentAndReservation(String paymentId, Integer viewTotalAmount, HttpSession session) throws Exception;
 	public int ticketTotalAmount(int ticket_idx);
+	public int seatStatusUpdate();
 }

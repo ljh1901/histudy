@@ -49,6 +49,7 @@ public class StudyCafeViewController {
 	// 1. 스터디 카페 뷰
 	@GetMapping("/studycafe.do")
 	public String studycafeView(Model model, HttpSession session) {
+		int seatStatusUpdate = studycafeService.seatStatusUpdate();
 		List<StudycafeDTO> studycafeDTO = studycafeService.studycafeList();
 		List<SeatDTO> seatList = studycafeService.seatInfo(1);
 		if(session.getAttribute("user_id")!=null) {

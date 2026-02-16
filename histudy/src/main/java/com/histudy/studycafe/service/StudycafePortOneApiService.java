@@ -29,6 +29,7 @@ public class StudycafePortOneApiService {
         }
 
         ObjectMapper mapper = new ObjectMapper();
+        System.out.println(response.body());
         return mapper.readTree(response.body());
     }
 }
