@@ -79,8 +79,8 @@
 			#{lecture_idx}	
 		)
    </insert>
-   <select id="lectureLike" parameterType="map" resultType="com.histudy.lecture.model.LectureLikeDTO">
-		select *
+   <select id="lectureLike" parameterType="map" resultType="Integer">
+		select 1
 		from lecture_Like
 		where user_idx=#{user_idx}
 			and lecture_idx=#{lecture_idx}
@@ -93,8 +93,8 @@
    	update lecture set lecture_like=lecture_like-1
    	where lecture_idx=#{lecture_idx} 
    </update>
-   <select id="lectureHate" parameterType="map" resultType="com.histudy.lecture.model.LectureHateDTO">
-		select *
+   <select id="lectureHate" parameterType="map" resultType="Integer">
+		select 1
 		from lecture_hate
 		where user_idx=#{user_idx}
 			and lecture_idx=#{lecture_idx}

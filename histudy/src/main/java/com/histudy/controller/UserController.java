@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile; // [추가] 업로드 파일 처리를 위해 필요
 import org.springframework.web.servlet.ModelAndView;
 
+import com.histudy.membership.model.MembershipPaymentDTO;
+import com.histudy.membership.service.MembershipService;
 import com.histudy.user.model.UserDTO;
 import com.histudy.user.service.UserService;
 
@@ -28,6 +30,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private MembershipService membershipService;
 
 	// 1. 회원가입 View 이동
 	@GetMapping("/userSignUp.do")
@@ -75,7 +79,7 @@ public class UserController {
 		String user_pwd = params.get("user_pwd");
 		String remember_id = params.get("remember_id");
 		int result = userService.userSignIn(user_id, com.histudy.security.PwdModule.securityPwd(user_pwd));
-
+		
 		if (result == 1) {
 			UserDTO loginUser = userService.userInfo(user_id);
 			session.setAttribute("user_id", user_id);
@@ -93,6 +97,13 @@ public class UserController {
 				Cookie ck = new Cookie("id", user_id);
 				ck.setMaxAge(0);
 				response.addCookie(ck);
+			}
+			//멤버십처리------------------
+			String grade = membershipService.membershipGrade(loginUser.getUser_idx());			
+			if ("프리미엄".equals(grade)) {
+				session.setAttribute("membership", "premium");
+			}else {
+				session.setAttribute("membership", "basic");
 			}
 			return "로그인 성공";
 		} else {

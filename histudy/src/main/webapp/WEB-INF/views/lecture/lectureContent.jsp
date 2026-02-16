@@ -11,8 +11,6 @@
 <link rel="stylesheet" href="css/footer.css" type="text/css">
 <link rel="stylesheet" href="css/lectureDesign/lectureContent.css" type="text/css">
 <script>
-var limg = document.getElementById('like_img');
-var himg = document.getElementById('hate_img');
 function load(){
 	var message="${msg}";
     if(message!="") {
@@ -126,12 +124,13 @@ function dolike(lecture_idx, user_idx) {
 	
 }
 function dohate(lecture_idx, user_idx) {
-	himg = document.getElementById('hate_img');
+	var limg = document.getElementById('like_img');
+	var himg = document.getElementById('hate_img');
 	if (himg.src.includes('thumb-down (1).png')) {
         himg.src = "/histudy/lecture-img/thumb-down.png";
     } else {
         himg.src = "/histudy/lecture-img/thumb-down (1).png";
-        img.src = "/histudy/lecture-img/like.png";
+        limg.src = "/histudy/lecture-img/like.png";
     }
 }
 </script>
@@ -206,7 +205,18 @@ function dohate(lecture_idx, user_idx) {
 	        </div>
 	
 	        <div class="btn-item">
-	            <img id="hate_img" src="/histudy/lecture-img/thumb-down.png" width="30" onclick="dohate()" style="cursor:pointer;">
+	        	<c:choose>
+	        		<c:when test="${isHate>0 }">
+			            <a href="reviewHate.do?lecture_idx=${lectureContent.lecture_idx}&user_idx=${sessionScope.user_idx}">
+			            	<img id="hate_img" src="/histudy/lecture-img/thumb-down (1).png" width="30">
+			            </a>
+	        		</c:when>
+	        		<c:otherwise>
+			            <a href="reviewHate.do?lecture_idx=${lectureContent.lecture_idx}&user_idx=${sessionScope.user_idx}">
+			            	<img id="hate_img" src="/histudy/lecture-img/thumb-down.png" width="30">
+			            </a>
+	        		</c:otherwise>
+	        	</c:choose>
 	            <span id="hate">${lectureContent.lecture_hate}</span>
 	        </div>
 	

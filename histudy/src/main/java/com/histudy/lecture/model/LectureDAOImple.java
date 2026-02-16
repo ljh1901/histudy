@@ -54,7 +54,7 @@ public class LectureDAOImple implements LectureDAO {
    @Override
 	public Integer lectureHate(LectureHateDTO dto) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("com.histudy.lecture.model.LectureDao.lectureHate",dto);
+		return sqlSession.selectOne("com.histudy.lecture.model.LectureDAO.lectureHate",dto);
 	}
    @Override
 	public void lectureLikeUp(int idx) {
