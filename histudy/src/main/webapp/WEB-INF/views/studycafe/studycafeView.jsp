@@ -24,7 +24,10 @@ window.onload=function(){
 	margin: 0;
 	padding: 0;
 }
+header{
+	background: white;
 
+}
 :root {
 	--primary: #4f46e5;
 	--primary-light: #6366f1;
@@ -269,7 +272,6 @@ section h1 a:hover {
 					<a href="#" id="studycafeCurrent">스터디 카페 좌석 현황</a>
 				</h1>
 				<div class="studycafeInfo">
-					<h1>스터디 카페 목록</h1>
 					<ul id="studycafeList">
 						<c:forEach var="studycafe" items="${dto}">
 							<li><a href="#" class="studycafe-item" onclick="seatInfo(${studycafe.studycafe_idx})">${studycafe.studycafe_name}</a></li>
