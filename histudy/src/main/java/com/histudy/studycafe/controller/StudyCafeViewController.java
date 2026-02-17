@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,13 +46,20 @@ public class StudyCafeViewController {
 	
 	@Autowired
 	private UserService userService;
-	
+	@GetMapping("/studycafeList.do")
+	public ModelAndView studycafeListView() {
+		ModelAndView mav = new ModelAndView();
+		List<StudycafeDTO> studycafeList = studycafeService.studycafeList();
+		mav.addObject("studycafeList", studycafeList);
+		mav.setViewName("studycafe/studycafeList");
+		return mav;
+	}
 	// 1. 스터디 카페 뷰
 	@GetMapping("/studycafe.do")
-	public String studycafeView(Model model, HttpSession session) {
+	public String studycafeView(Model model, HttpSession session, @RequestParam(required = true ,defaultValue="1") Integer studycafe_idx) {
 		int seatStatusUpdate = studycafeService.seatStatusUpdate();
 		List<StudycafeDTO> studycafeDTO = studycafeService.studycafeList();
-		List<SeatDTO> seatList = studycafeService.seatInfo(1);
+		List<SeatDTO> seatList = studycafeService.seatInfo(studycafe_idx);
 		if(session.getAttribute("user_id")!=null) {
 		UserDTO udto = userService.userInfo((String)session.getAttribute("user_id"));
 		model.addAttribute("udto", udto);
