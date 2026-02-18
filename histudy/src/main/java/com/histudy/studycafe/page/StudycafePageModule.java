@@ -1,7 +1,7 @@
 package com.histudy.studycafe.page;
 
 public class StudycafePageModule {
-	public static String studycafePageAlgorithm(int totalCount, int currentPage, int listSize, int pageSize, String url) {
+	public static String studycafePageAlgorithm(int totalCount, int currentPage, int listSize, int pageSize, String url, String region) {
 		StringBuilder sb = new StringBuilder();
 		int totalPage = (int) Math.ceil((double)totalCount/listSize); // 전체 페이지 구하기
 		int userGroup = currentPage/listSize; // 유저 그룹 구하기
@@ -24,6 +24,8 @@ public class StudycafePageModule {
 			sb.append(url);
 			sb.append("?currentPage=");
 			sb.append(i);
+			sb.append("&region=");
+			sb.append(region);
 			sb.append("'>");
 			sb.append(i);
 			sb.append("</a>");
