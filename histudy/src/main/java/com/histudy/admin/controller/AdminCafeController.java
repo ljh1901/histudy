@@ -91,6 +91,21 @@ public class AdminCafeController {
 			result.put("newIdx", newIdx);
 			return result;
 		}
+		
+		@GetMapping("/deleteTicketAction.do")
+		@ResponseBody
+		public Map<String, Object> deleteTicket(@RequestParam("ticket_idx") int ticket_idx) {
+		    int result = adminService.removeTicket(ticket_idx);
+
+		    Map<String, Object> response = new HashMap<>();
+		    if(result > 0) {
+		        response.put("status", "success");
+		    } else {
+		        response.put("status", "fail");
+		        response.put("message", "삭제에 실패했습니다.");
+		    }
+		    return response;
+		}
 		// 스터디 카페 좌석 등록 에디터
 		@GetMapping("/studycafeEditor.do")
 		public ModelAndView studycafeEditor(@RequestParam("studycafe_idx") int studycafe_idx) {

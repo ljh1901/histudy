@@ -129,7 +129,7 @@
 
 		<div class="inquiry__reply">
 			<h3>관리자 답변 작성</h3>
-			<form action="adminInquiryReply" method="post">
+			<form action="adminInquiryReply.do" method="post">
 				<input type="hidden" name="inquiry_idx" value="${dto.inquiry_idx}">
 
 				<textarea class="inquiry__textarea" name="inquiry_reply"
