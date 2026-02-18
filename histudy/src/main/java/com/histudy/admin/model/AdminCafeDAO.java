@@ -16,4 +16,6 @@ public interface AdminCafeDAO {
 	public List<TicketJoinTicketCategoryDTO> getTicketList(int studycafe_idx);
 	public int insertTicket(Map<String, Object> data);
 	public int deleteTicket(int ticket_idx);
+	
+	public int insertStudyCafe(StudycafeDTO dto);
 }
