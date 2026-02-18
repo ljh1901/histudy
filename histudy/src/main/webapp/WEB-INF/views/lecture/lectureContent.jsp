@@ -150,7 +150,7 @@ function dohate(lecture_idx, user_idx) {
     <div class="video-memo-container">
         
         <div class="video-area">
-	   <video width="70%" controls="controls" controlsList="nodownload">   
+	   <video controls="controls" controlsList="nodownload">   
                 <source src="${pageContext.request.contextPath}/video/${lectureContent.lecture_file}" type="video/mp4">    
             </video>
         </div>

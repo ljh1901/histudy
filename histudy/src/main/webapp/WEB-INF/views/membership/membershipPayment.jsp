@@ -31,7 +31,10 @@ function load(){
 	<c:when test="${empty sessionScope.user_id}">
 		로그인이 필요합니다.		
 	</c:when>
-	<c:otherwise>
+	<c:when test="${sessionScope.membership == 'primium'}">
+		이미 프리미엄 회원입니다.
+	</c:when>
+	<c:otherwise >
 	<section class="why-learnhub">
     <div class="container">
         <h2 class="section-title">왜  Hi, Study를 선택해야 할까요?</h2>
