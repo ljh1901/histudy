@@ -4,102 +4,171 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.histudy.studycafe">
-	<!-- 1. 스터디카페 목록 -->
-	<select id="studycafeListSQL" resultType="com.histudy.studycafe.model.StudycafeDTO">
-		select studycafe_idx, studycafe_name, studycafe_lat, studycafe_lng
-		from studycafe
+	<!-- 1. 스터디카페 좌석 목록 -->
+	<select id="studycafeListSQL" parameterType="map" resultType="com.histudy.studycafe.model.StudycafeDTO">
+	SELECT *
+	FROM (SELECT rownum as rnum, a.*
+	FROM (SELECT sc.studycafe_idx, sc.studycafe_name, sc.studycafe_addr, sc.studycafe_lat, sc.studycafe_lng, SUM(CASE WHEN s.seat_status !=
+		'RESERVED' THEN 1 ELSE 0 END) as "avaliable", COUNT(*) AS "all"
+		FROM studycafe sc JOIN seat s ON sc.studycafe_idx = s.studycafe_idx
+		GROUP BY (sc.studycafe_idx, sc.studycafe_name, sc.studycafe_addr, sc.studycafe_lat, sc.studycafe_lng))a)b
+	<choose>
+		<when test="region != '전체'">
+			WHERE rnum <![CDATA[>=]]> #{start} and rnum <![CDATA[<=]]> #{end} and studycafe_addr LIKE '%'||#{region}||'%'
+		</when>
+		<otherwise>
+			WHERE rnum <![CDATA[>=]]> #{start} and rnum <![CDATA[<=]]> #{end}
+		</otherwise>
+	</choose>
 	</select>
-
-
-	<!-- 2. 카테고리 목록 -->
-	<select id="studycafeTicketCategorySQL" parameterType="Integer" resultType="com.histudy.studycafe.model.TicketJoinTicketCategoryDTO">
-		select ticket_category_idx, ticket_category_name, studycafe_idx
-		from ticket_category
+	<select id="studycafeListCountSQL" parameterType="String" resultType="int">
+		select count(*) 
+		from studycafe
+		<if test="region !='전체'">
+			where studycafe_addr LIKE '%'||#{region}||'%'
+		</if>
+	</select>
+	<!-- 2. 스터디 카페 이용하기 -->
+	<select id="selectStudycafeSQL"
+		resultType="com.histudy.studycafe.model.StudycafeDTO">
+		SELECT *
+		FROM studycafe
 		where studycafe_idx = #{studycafe_idx}
+	</select>
+	<!-- 3. 스터디 카페 레이아웃 가져오기 -->
+	<select id="selectStudycafeLayoutSQL" parameterType="Integer"
+		resultType="com.histudy.studycafe.model.StudycafeLayoutDTO">
+		SELECT *
+		FROM studycafe_layout
+		where studycafe_idx = #{studycafe_idx}
+	</select>
+	<!-- 2. 카테고리 목록 -->
+	<select id="studycafeTicketCategorySQL" parameterType="Integer"
+		resultType="com.histudy.studycafe.model.TicketJoinTicketCategoryDTO">
+		select ticket_category_idx, ticket_category_name,
+		studycafe_idx
+		from ticket_category
+		where studycafe_idx =
+		#{studycafe_idx}
 	</select>
 
 	<!-- 3. 티켓 목록 -->
-	<select id="selectTicketInfoSQL" parameterType="Integer" resultType="com.histudy.studycafe.model.TicketJoinTicketCategoryDTO">
-		select st.ticket_idx, st.ticket_name, st.ticket_amount, st.ticket_time, tc.ticket_category_name
+	<select id="selectTicketInfoSQL" parameterType="Integer"
+		resultType="com.histudy.studycafe.model.TicketJoinTicketCategoryDTO">
+		select st.ticket_idx, st.ticket_name, st.ticket_amount,
+		st.ticket_time, tc.ticket_category_name
 		from studycafe_ticket st
-		join ticket_category tc on st.ticket_category_idx = tc.ticket_category_idx
+		join
+		ticket_category tc on st.ticket_category_idx = tc.ticket_category_idx
 		where tc.ticket_category_idx = #{ticket_category_idx}
 	</select>
 
 	<!-- 4. 티켓 금액 조회 -->
-	<select id="selectTicketTotalAmountSQL" parameterType="Integer" resultType="Integer">
+	<select id="selectTicketTotalAmountSQL" parameterType="Integer"
+		resultType="Integer">
 		select ticket_amount
 		from studycafe_ticket
-		where ticket_idx = #{ticket_idx}
+		where ticket_idx =
+		#{ticket_idx}
 	</select>
 
 	<!-- 5. 티켓 시간 조회 -->
-	<select id="selectTicketTimeSQL" parameterType="Integer" resultType="Integer">
+	<select id="selectTicketTimeSQL" parameterType="Integer"
+		resultType="Integer">
 		select ticket_time
 		from studycafe_ticket
-		where ticket_idx = #{ticket_idx}
+		where ticket_idx =
+		#{ticket_idx}
 	</select>
 
 	<!-- 6. 좌석 목록 -->
-	<select id="selectSeatSQL" parameterType="Integer" resultType="com.histudy.studycafe.model.SeatDTO">
-		select seat_idx, seat_num, seat_type, seat_status, seat_x, seat_y, seat_w, seat_h, studycafe_idx
+	<select id="selectSeatSQL" parameterType="Integer"
+		resultType="com.histudy.studycafe.model.SeatDTO">
+		select seat_idx, seat_num, seat_type, seat_status, seat_x,
+		seat_y, seat_w, seat_h, studycafe_idx
 		from seat
-		where studycafe_idx = #{studycafe_idx}
+		where studycafe_idx =
+		#{studycafe_idx}
 	</select>
 
 	<!-- 7. 좌석 상태 확인 -->
-	<select id="selectSeatInfoSQL" parameterType="Integer" resultType="com.histudy.studycafe.model.StudycafeJoinReservationDTO">
+	<select id="selectSeatInfoSQL" parameterType="Integer"
+		resultType="com.histudy.studycafe.model.StudycafeJoinReservationDTO">
 		select *
 		from studycafe_reservation sr
-		join studycafe_pay sp on sr.paymentId = sp.paymentId
-		where sr.seat_idx = #{seat_idx} and sp.pay_status = 'PAID' and sr.reservation_endtime > systimestamp
+		join studycafe_pay sp
+		on sr.paymentId = sp.paymentId
+		where sr.seat_idx = #{seat_idx} and
+		sp.pay_status = 'PAID' and sr.reservation_endtime > systimestamp
 	</select>
 
 	<!-- 8. 결제 전 -->
-	<insert id="insertOrderSQL" parameterType="com.histudy.studycafe.model.PayDTO">
-		insert into studycafe_pay (paymentId, orderName, totalAmount, pay_status, user_idx, paidAt)
-		                    values(#{paymentId}, #{orderName}, #{totalAmount}, 'PENDING', #{user_idx}, systimestamp)
+	<insert id="insertOrderSQL"
+		parameterType="com.histudy.studycafe.model.PayDTO">
+		insert into studycafe_pay (paymentId, orderName,
+		totalAmount, pay_status, user_idx, paidAt)
+		values(#{paymentId}, #{orderName}, #{totalAmount}, 'PENDING', #{user_idx}, systimestamp)
 	</insert>
 
 	<!-- 9. 결제 완료 -->
-	<update id="updatePaySQL" parameterType="com.histudy.studycafe.model.PayDTO">
+	<update id="updatePaySQL"
+		parameterType="com.histudy.studycafe.model.PayDTO">
 		update studycafe_pay
-		set storeId = #{storeId}, orderName = #{orderName}, totalAmount = #{totalAmount}, pay_status = #{pay_status},
-		pay_method = #{pay_method}, paidAt = #{paidAt}, statusChangedAt= #{statusChangedAt}, paid = #{paid},
-		pgProvider = #{pgProvider}, vat = #{vat}, supply = #{supply} where paymentId = #{paymentId} and pay_status = 'PENDING'
+		set storeId = #{storeId}, orderName
+		= #{orderName}, totalAmount = #{totalAmount}, pay_status =
+		#{pay_status},
+		pay_method = #{pay_method}, paidAt = #{paidAt},
+		statusChangedAt= #{statusChangedAt}, paid = #{paid},
+		pgProvider =
+		#{pgProvider}, vat = #{vat}, supply = #{supply} where paymentId =
+		#{paymentId} and pay_status = 'PENDING'
 	</update>
 
 	<!-- 10. 좌석 동시성 처리 -->
 	<update id="updateSeatToReservedSQL" parameterType="Integer">
-		update seat set seat_status = 'RESERVED'
-		where seat_idx = #{seat_idx} and seat_status = 'FREE'
+		update seat
+		set seat_status = 'RESERVED'
+		where seat_idx = #{seat_idx} and
+		seat_status = 'FREE'
 	</update>
 
 
 	<!-- 11. 예약 등록 -->
-	<insert id="insertRegisterReservationSQL" parameterType="com.histudy.studycafe.model.StudycafeReservationDTO">
-		insert into studycafe_reservation (reservation_idx, user_idx, seat_idx, reservation_starttime, reservation_endtime, reservation_status, ticket_idx, paymentId)
-								   values (reservation_idx.nextval,#{user_idx}, #{seat_idx}, #{reservation_starttime}, #{reservation_endtime}, 'RESERVED', #{ticket_idx}, #{paymentId})
+	<insert id="insertRegisterReservationSQL"
+		parameterType="com.histudy.studycafe.model.StudycafeReservationDTO">
+		insert into studycafe_reservation (reservation_idx,
+		user_idx, seat_idx, reservation_starttime, reservation_endtime,
+		reservation_status, ticket_idx, paymentId)
+		values (reservation_idx.nextval,#{user_idx}, #{seat_idx},
+		#{reservation_starttime}, #{reservation_endtime}, 'RESERVED',
+		#{ticket_idx}, #{paymentId})
 	</insert>
 
 	<!-- 12. 영수증 조회 -->
-	<select id="selectReceiptSQL" parameterType="String" resultType="com.histudy.studycafe.model.PayDTO">
-		select paymentId, storeId, orderName, paid, user_idx, pay_method, pay_status, statusChangedAt, paidAt, totalAmount, pgProvider, vat, supply
+	<select id="selectReceiptSQL" parameterType="String"
+		resultType="com.histudy.studycafe.model.PayDTO">
+		select paymentId, storeId, orderName, paid, user_idx,
+		pay_method, pay_status, statusChangedAt, paidAt, totalAmount,
+		pgProvider, vat, supply
 		from studycafe_pay
-		where paymentId = #{paymentId}
+		where paymentId =
+		#{paymentId}
 	</select>
 	<!-- 13. 결제 취소 Pay 임시 저장 삭제 -->
 	<delete id="payDeleteSQL" parameterType="String">
-		delete from studycafe_pay where paymentId = #{paymentId}
+		delete from
+		studycafe_pay where paymentId = #{paymentId}
 	</delete>
 	<!-- 14. 좌석 상태 변경 -->
 	<update id="updateSeatStatusSQL">
-	update seat s 
-	set seat_status = 'FREE' 
-	where seat_status = 'RESERVED' and not exists (select s.seat_idx
-    											  from studycafe_reservation r
-    											  join studycafe_pay p on r.paymentId = p.paymentId
-    											  where r.seat_idx = s.seat_idx and r.reservation_status = 'RESERVED' and p.pay_status = 'PAID' 
-    											  and systimestamp between r.reservation_starttime and r.reservation_endtime)
-   </update>
+		update seat s
+		set seat_status = 'FREE'
+		where seat_status = 'RESERVED' and not exists (select s.seat_idx
+		from studycafe_reservation r
+		join studycafe_pay p on r.paymentId = p.paymentId
+		where r.seat_idx = s.seat_idx and r.reservation_status = 'RESERVED' and
+		p.pay_status = 'PAID'
+		and systimestamp between r.reservation_starttime and
+		r.reservation_endtime)
+	</update>
 </mapper>

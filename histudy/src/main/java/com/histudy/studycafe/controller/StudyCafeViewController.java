@@ -33,6 +33,7 @@ import com.histudy.studycafe.model.PayDTO;
 import com.histudy.studycafe.model.SeatDTO;
 import com.histudy.studycafe.model.StudycafeDTO;
 import com.histudy.studycafe.model.StudycafeJoinReservationDTO;
+import com.histudy.studycafe.model.StudycafeLayoutDTO;
 import com.histudy.studycafe.model.StudycafeReservationDTO;
 import com.histudy.studycafe.service.StudycafeSerivce;
 import com.histudy.studycafe.service.StudycafeServiceImple;
@@ -46,26 +47,56 @@ public class StudyCafeViewController {
 	
 	@Autowired
 	private UserService userService;
+	// 1. 스터디 카페 목록
 	@GetMapping("/studycafeList.do")
-	public ModelAndView studycafeListView() {
+	public ModelAndView studycafeListView(@RequestParam(defaultValue="전체", required=false) String region, @RequestParam(defaultValue="1") int currentPage) {
 		ModelAndView mav = new ModelAndView();
-		List<StudycafeDTO> studycafeList = studycafeService.studycafeList();
+		int pageSize = 5; // 한번에 보여줄 페이지 개수
+		int listSize = 3; // 한번에 보여줄 스터디 카페 개수
+		int totalCount = studycafeService.studycafeListCount(region); // 카테고리별 전체 개수
+		// int currentPage, int listSize, int pageSize, String url
+		String paging=com.histudy.studycafe.page.StudycafePageModule.studycafePageAlgorithm(totalCount, currentPage, listSize, pageSize, "studycafePageList.do");
+		List<StudycafeDTO> studycafeList = studycafeService.studycafeList(currentPage, region, listSize);
 		mav.addObject("studycafeList", studycafeList);
+		mav.addObject("region", region);
+		mav.addObject("paging", paging);
+		mav.addObject("currentPage", currentPage);
 		mav.setViewName("studycafe/studycafeList");
 		return mav;
 	}
-	// 1. 스터디 카페 뷰
+	
+	@PostMapping("studycafePageList.do")
+	@ResponseBody
+	public ResponseEntity<List<StudycafeDTO>> studycafeResponseList(@RequestBody Map<String, Object> map){
+		Integer currentPage = (Integer) map.get("currentPage");
+		String region = (String)map.get("region");
+		List<StudycafeDTO> studycafeList = studycafeService.studycafeList(currentPage, region, 3);
+		ResponseEntity<List<StudycafeDTO>>  respEntity = new ResponseEntity<List<StudycafeDTO>>(studycafeList,HttpStatus.OK);
+		return respEntity;
+	}
+	// 2. 스터디 카페 좌석 배치
 	@GetMapping("/studycafe.do")
 	public String studycafeView(Model model, HttpSession session, @RequestParam(required = true ,defaultValue="1") Integer studycafe_idx) {
+		// 좌석 상태 변경하기
 		int seatStatusUpdate = studycafeService.seatStatusUpdate();
-		List<StudycafeDTO> studycafeDTO = studycafeService.studycafeList();
+		
+		// 스터디 카페 불러오기
+		StudycafeDTO studycafeOne = studycafeService.studycafe(studycafe_idx);
+		
+		// 스터디 카페 레이아웃 불러오기
+		List<StudycafeLayoutDTO> layoutDTO = studycafeService.studycafeLayout(studycafe_idx);
+		
+		// 스터디 카페 좌석 레이아웃 불러오기 
 		List<SeatDTO> seatList = studycafeService.seatInfo(studycafe_idx);
+		
+		// 로그인 아이디 불러오기
 		if(session.getAttribute("user_id")!=null) {
-		UserDTO udto = userService.userInfo((String)session.getAttribute("user_id"));
-		model.addAttribute("udto", udto);
+			UserDTO udto = userService.userInfo((String)session.getAttribute("user_id"));
+			model.addAttribute("udto", udto);
 		}
-		model.addAttribute("dto",studycafeDTO);
+		model.addAttribute("studycafeOne", studycafeOne);
 		model.addAttribute("seatList", seatList);
+		model.addAttribute("layoutDTO", layoutDTO);
 		return "studycafe/studycafeView";
 	}
 	

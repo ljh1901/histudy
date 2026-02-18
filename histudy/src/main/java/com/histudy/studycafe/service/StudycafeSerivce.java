@@ -8,11 +8,14 @@ import com.histudy.studycafe.model.PayDTO;
 import com.histudy.studycafe.model.SeatDTO;
 import com.histudy.studycafe.model.StudycafeDTO;
 import com.histudy.studycafe.model.StudycafeJoinReservationDTO;
+import com.histudy.studycafe.model.StudycafeLayoutDTO;
 import com.histudy.studycafe.model.StudycafeReservationDTO;
 import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
 
 public interface StudycafeSerivce {
-	public List<StudycafeDTO> studycafeList();
+	public List<StudycafeDTO> studycafeList(int currentPage, String region, int listSize);
+	public int studycafeListCount(String region);
+	public StudycafeDTO studycafe(int studycafe_idx);
 	public StudycafeJoinReservationDTO seatReservation(int seat_idx);
 	public List<TicketJoinTicketCategoryDTO> ticketInfo(int ticket_category_idx);
 	public List<SeatDTO> seatInfo(int studycafe_idx);
@@ -21,4 +24,5 @@ public interface StudycafeSerivce {
 	public PayDTO processPaymentAndReservation(String paymentId, Integer viewTotalAmount, HttpSession session) throws Exception;
 	public int ticketTotalAmount(int ticket_idx);
 	public int seatStatusUpdate();
+	public List<StudycafeLayoutDTO> studycafeLayout(int studycafe_idx);
 }
