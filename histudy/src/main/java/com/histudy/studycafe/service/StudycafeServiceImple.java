@@ -1,9 +1,12 @@
 package com.histudy.studycafe.service;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.management.RuntimeErrorException;
@@ -16,6 +19,7 @@ import com.histudy.studycafe.model.SeatDTO;
 import com.histudy.studycafe.model.StudycafeDAO;
 import com.histudy.studycafe.model.StudycafeDTO;
 import com.histudy.studycafe.model.StudycafeJoinReservationDTO;
+import com.histudy.studycafe.model.StudycafeLayoutDTO;
 import com.histudy.studycafe.model.StudycafeReservationDTO;
 import com.histudy.studycafe.model.TicketJoinTicketCategoryDTO;
 
@@ -26,13 +30,29 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 		super();
 		this.studycafeDAO = studycafeDAO;
 	}
-
+	
 	@Override
-	public List<StudycafeDTO> studycafeList() {
-		List<StudycafeDTO> studycafeList = studycafeDAO.studycafeList();
+	public List<StudycafeDTO> studycafeList(int currentPage, String region, int listSize) {
+		System.out.println(region);
+		Map<String,Object> map = new HashMap<String,Object>();
+		int start = (currentPage-1)*listSize+1;
+		int end = currentPage*listSize;
+		map.put("start", start);
+		map.put("end", end);
+		map.put("region", region);
+		List<StudycafeDTO> studycafeList = studycafeDAO.studycafeList(map);
 		return studycafeList;
 	}
-
+	@Override
+	public int studycafeListCount(String region) {
+		int result = studycafeDAO.studycafeListCount(region);
+		return result;
+	}
+	@Override
+	public StudycafeDTO studycafe(int studycafe_idx) {
+		StudycafeDTO studycafeOne = studycafeDAO.studycafe(studycafe_idx);
+	return studycafeOne;
+	}
 	@Override
 	public StudycafeJoinReservationDTO seatReservation(int seat_idx) {
 		StudycafeJoinReservationDTO seatInfo = studycafeDAO.seatReservation(seat_idx);
@@ -156,5 +176,9 @@ public class StudycafeServiceImple implements StudycafeSerivce {
 		int seatStatusUpdate = studycafeDAO.seatStatusUpdate();
 		return seatStatusUpdate;
 	}
-	
+	@Override
+	public List<StudycafeLayoutDTO> studycafeLayout(int studycafe_idx) {
+		List<StudycafeLayoutDTO> layoutDTO = studycafeDAO.studycafeLayout(studycafe_idx);
+		return layoutDTO;
+	}
 }
