@@ -39,7 +39,10 @@
 
 .video-area video {
     width: 100%;
-    height: auto;
+    aspect-ratio: 16 / 9;  
+    object-fit: contain;  
+    background-color: #000; 
+    
     display: block;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);

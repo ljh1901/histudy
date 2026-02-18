@@ -1,5 +1,7 @@
 package com.histudy.membership.service;
 
+import java.util.List;
+
 import com.histudy.membership.model.MembershipDAO;
 import com.histudy.membership.model.MembershipPaymentDTO;
 
@@ -22,5 +24,10 @@ public class MembershipServiceImple implements MembershipService {
 	public int insertPrimium(MembershipPaymentDTO paymentDTO) {
 		// TODO Auto-generated method stub
 		return membershipDao.insertPrimium(paymentDTO);
+	}
+	@Override
+	public List<MembershipPaymentDTO> getPayment(int user_idx) {
+		// TODO Auto-generated method stub
+		return membershipDao.getPayment(user_idx);
 	}
 }

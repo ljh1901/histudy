@@ -100,7 +100,7 @@ if(${!empty msg}){
 						<p class="membership-sub">프리미엄 멤버십</p>
 						<h2 class="membership-title">더 많은 혜택을</h2>
 						<p class="membership-desc">경험하세요</p>
-						<button class="membership-btn">멤버십 알아보기</button>
+						<a href="membership.do"><button class="membership-btn">멤버십 알아보기</button></a>
 					</div>
 				</div>
 			</div>

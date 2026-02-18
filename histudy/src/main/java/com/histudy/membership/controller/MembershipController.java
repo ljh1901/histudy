@@ -65,7 +65,7 @@ public class MembershipController {
 			@RequestBody MembershipPaymentDTO dto) {
 	    
 	    membershipService.insertPrimium(dto);
-	    session.setAttribute("membership_grade", "premium");
+	    session.setAttribute("membership", "premium");
 	    
 	    Map<String, Object> map = new HashMap<>();
 	    map.put("result", "success");
