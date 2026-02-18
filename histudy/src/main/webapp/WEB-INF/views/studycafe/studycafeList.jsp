@@ -218,7 +218,7 @@ section>p {
 							<div class="studycafeInfo">
 								<div>${studycafe.studycafe_name}</div>
 								<div>
-									<a href="#">이용 후기</a>
+									<a href="studycafeReview.do?studycafe_idx=${studycafe.studycafe_idx}">이용 후기</a>
 								</div>
 							</div>
 						</div>
@@ -237,85 +237,14 @@ section>p {
 	</main>
 	<%@include file="../footer.jsp"%>
 </body>
-<script src="js/studycafe/studycafeList/swiper.js" type="text/javascript"></script>
 	<script>
-	var regionList = new Array();
-    regionList= ['전체', '서울', '경기', '충북', '충남', '경북', '경남', '강원', '전북', '제주'];
-	var regionListStr='';
-	for(let i=0; i<regionList.length; i++){
-		if(regionList[i] == '${region}'){
-			regionListStr = '<button class="regionBtn" type="button" value="'+regionList[i]+'">'+regionList[i]+'</button>'
-		}
-		else{
-			regionListStr += '<button class="regionBtn" type="button" value="'+regionList[i]+'">'+regionList[i]+'</button>'
-		}
-	}
-	document.querySelector('.korea__region').innerHTML = regionListStr;
-	var region = regionList[0];
-	var xhr = null;
-	function selectRegion(region){
-		xhr = new XMLHttpRequest();
-		xhr.open('POST','studycafePageList.do',true);
-		var data = JSON.stringify({
-			currentPage: ${requestScope.currentPage},
-			region: region
-			
-		})
-		xhr.setRequestHeader("Content-type", "application/json");
-		xhr.onreadystatechange=showRegion;
-		xhr.send(data);
-	}
-	function showRegion(){
-		if(xhr.readyState==4){
-			if(xhr.status==200){
-				var resp=JSON.parse(xhr.responseText);
-				if(resp == null || resp == ''){
-					document.querySelector('.studycafeList').innerHTML = '<p>해당하는 스터디카페 목록이 없습니다.</p>';
-				}else{
-					var str = ''
-					resp.forEach(function(respJsonData){
-						str += '<div class="studycafeIdx">'
-						+'<div class="studycafeList__header">'
-						+'<img src="img/histudyNum1.png" alt="histudy">'
-						+'<div class="studycafeInfo">'
-						+'<div>'+respJsonData.studycafe_name+'</div>'
-						+'<div><a href="#">이용 후기</a></div></div></div><div class="studycafeList__body">'
-						+'<div>💺' +respJsonData.avaliable+'/'+respJsonData.all+'석</div>'
-						+'<div>'+respJsonData.studycafe_addr+'</div></div><div class="studycafeList__footer">'
-						+'<button class="studycafeUse" value="'+respJsonData.studycafe_idx+'">이용하기</button></div></div>'	
-					})
-						document.querySelector('.studycafeList').innerHTML=str;
-				}
-			}
-		}
-	}
-	var order = 0;
-	for(let i=0; i<document.querySelectorAll('.regionBtn').length; i++){
-		document.querySelectorAll('.regionBtn')[i].addEventListener('click', function(){
-				if(document.querySelectorAll('.regionBtn') != null){
-					order = i;
-					region = document.querySelectorAll('.regionBtn')[i].value;
-					document.querySelectorAll('.regionBtn')[i].style.backgroundColor='#6366f1';
-					document.querySelectorAll('.regionBtn')[i].style.color='white';
-					document.querySelectorAll('.regionBtn')[i].style.borderColor='#6366f1';
-					selectRegion(region);
-					cssBtn(order);
-				}
-		})
-	}
-	function cssBtn(order){
-		for(let i=0; i<document.querySelectorAll('.regionBtn').length; i++){
-			if(order !=i){
-			document.querySelectorAll('.regionBtn')[i].style.backgroundColor='white';
-			document.querySelectorAll('.regionBtn')[i].style.color='black';
-			document.querySelectorAll('.regionBtn')[i].style.borderColor='black';
-			document.querySelectorAll('.regionBtn')[i].style.transition='0.2s';
-			}
-		}
-	}
+	var region = '${region}';
+	var currentPage = ${currentPage};
 	document.querySelector('.studycafeList').addEventListener('click', function(e) {
 		var btn = e.target.closest('.studycafeUse');
 		location.href = 'studycafe.do?studycafe_idx=' + btn.value;
 	});
 	</script>
+	<script src="js/studycafe/studycafeList/swiper.js" type="text/javascript"></script>
+<script src="js/studycafe/studycafeList/regionSelect.js" type="text/javascript"></script>
 </html>

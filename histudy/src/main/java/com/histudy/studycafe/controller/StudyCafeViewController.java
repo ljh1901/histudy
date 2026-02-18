@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,7 +56,7 @@ public class StudyCafeViewController {
 		int listSize = 3; // 한번에 보여줄 스터디 카페 개수
 		int totalCount = studycafeService.studycafeListCount(region); // 카테고리별 전체 개수
 		// int currentPage, int listSize, int pageSize, String url
-		String paging=com.histudy.studycafe.page.StudycafePageModule.studycafePageAlgorithm(totalCount, currentPage, listSize, pageSize, "studycafePageList.do");
+		String paging=com.histudy.studycafe.page.StudycafePageModule.studycafePageAlgorithm(totalCount, currentPage, listSize, pageSize, "studycafeList.do", region);
 		List<StudycafeDTO> studycafeList = studycafeService.studycafeList(currentPage, region, listSize);
 		mav.addObject("studycafeList", studycafeList);
 		mav.addObject("region", region);
@@ -67,11 +68,22 @@ public class StudyCafeViewController {
 	
 	@PostMapping("studycafePageList.do")
 	@ResponseBody
-	public ResponseEntity<List<StudycafeDTO>> studycafeResponseList(@RequestBody Map<String, Object> map){
-		Integer currentPage = (Integer) map.get("currentPage");
+	public ResponseEntity<Map<String,Object>> studycafeResponseList(@RequestBody Map<String, Object> map){
+		Map<String, Object> respMap = new HashMap<String, Object>();
 		String region = (String)map.get("region");
-		List<StudycafeDTO> studycafeList = studycafeService.studycafeList(currentPage, region, 3);
-		ResponseEntity<List<StudycafeDTO>>  respEntity = new ResponseEntity<List<StudycafeDTO>>(studycafeList,HttpStatus.OK);
+		int totalCount = studycafeService.studycafeListCount(region); // 지역별 전체 개수
+		System.out.println(totalCount);
+		if(totalCount !=0) {
+			int currentPage = (Integer)map.get("currentPage");
+			int pageSize = 5; // 한번에 보여줄 페이지 개수
+			int listSize = 3; // 한번에 보여줄 스터디 카페 개수
+			String paging=com.histudy.studycafe.page.StudycafePageModule.studycafePageAlgorithm(totalCount, currentPage, listSize, pageSize, "studycafeList.do", region);
+			List<StudycafeDTO> studycafeList = studycafeService.studycafeList(currentPage, region, 3);
+			respMap.put("studycafeList", studycafeList);
+			respMap.put("paging", paging);
+			respMap.put("currentPage", currentPage);
+		}
+		ResponseEntity<Map<String,Object>>  respEntity = new ResponseEntity<Map<String,Object>>(respMap,HttpStatus.OK);
 		return respEntity;
 	}
 	// 2. 스터디 카페 좌석 배치

@@ -45,11 +45,9 @@
 	<!-- 2. 카테고리 목록 -->
 	<select id="studycafeTicketCategorySQL" parameterType="Integer"
 		resultType="com.histudy.studycafe.model.TicketJoinTicketCategoryDTO">
-		select ticket_category_idx, ticket_category_name,
-		studycafe_idx
+		select ticket_category_idx, ticket_category_name, studycafe_idx
 		from ticket_category
-		where studycafe_idx =
-		#{studycafe_idx}
+		where studycafe_idx = #{studycafe_idx}
 	</select>
 
 	<!-- 3. 티켓 목록 -->
@@ -58,9 +56,8 @@
 		select st.ticket_idx, st.ticket_name, st.ticket_amount,
 		st.ticket_time, tc.ticket_category_name
 		from studycafe_ticket st
-		join
-		ticket_category tc on st.ticket_category_idx = tc.ticket_category_idx
-		where tc.ticket_category_idx = #{ticket_category_idx}
+		join ticket_category tc on st.ticket_category_idx = tc.ticket_category_idx
+		where tc.ticket_category_idx = #{ticket_category_idx} 
 	</select>
 
 	<!-- 4. 티켓 금액 조회 -->
