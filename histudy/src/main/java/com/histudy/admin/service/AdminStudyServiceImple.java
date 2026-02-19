@@ -16,9 +16,14 @@ public class AdminStudyServiceImple implements AdminStudyService {
 	}
     
 	@Override
-    public List<StudyDTO> getStudyList() {
-        return adminStudyDAO.selectAllStudyList();
+    public List<StudyDTO> getStudyList(int sc_idx) {
+        return adminStudyDAO.selectAllStudyList(sc_idx);
     }
+	
+	@Override
+	public StudyDTO getStudyDetail(int study_idx) {
+	    return adminStudyDAO.getStudyDetail(study_idx);
+	}
 	
 	@Override
 	public int deleteStudy(int study_idx) {

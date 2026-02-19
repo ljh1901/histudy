@@ -9,6 +9,9 @@ public interface StudycafeDAO {
 	public List<SeatDTO> seatInfo(int studycafe_idx);
 	public int orderPay(PayDTO payOrder);
 	public int paySeat(PayDTO paydto);
-	public PayDTO receipt(String paymentId);
+	public PayDTO receipt(String paymentId); // 영수증
+	public int registerReservation(StudycafeReservationDTO srdto);
 	public TicketJoinTicketCategoryDTO ticketTotalAmount(int ticket_idx);
+	public int ticketTime(int ticket_idx);
+	public int reservationComplete(int seat_idx);
 }

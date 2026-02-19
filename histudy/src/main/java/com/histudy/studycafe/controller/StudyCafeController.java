@@ -1,10 +1,12 @@
 package com.histudy.studycafe.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,8 +33,8 @@ public class StudyCafeController {
 	}
 	
 	@PostMapping
-	public StudycafeJoinReservationDTO seatReservation(@RequestBody StudycafeJoinReservationDTO sjrdto) {
-		StudycafeJoinReservationDTO info = studycafeService.seatReservation(sjrdto.getSeat_idx());
+	public StudycafeJoinReservationDTO seatReservation(@RequestBody Map<String,Integer> map) {
+		StudycafeJoinReservationDTO info = studycafeService.seatReservation(map.get("seat_idx"));
 		return info;
 	}
 }

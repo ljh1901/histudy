@@ -17,17 +17,14 @@
 <main>
 	<section class="lectureListContainer">
    <form name="lectureFm">
+   <section class="top">
    <fieldset>
 	   <p>Hi, Study 프리미엄 멤버십 29,000원 / <del>50,000원</del></p>
 	   <p>분야별 전문 강사의 강의 제공 !! 스터디 카페 이용권 할인 혜택 !!</p>
    </fieldset>
+   </section>
    <c:set var="count" value="0" />
    <table>
-   		<tr>
-  	 		<td>
-			   <h2>전체 강의</h2>
-		   </td>
-   		</tr>
        <tr>
        <c:if test="${empty lectureLists }">
        <td>등록된 강의가 없습니다.</td>
@@ -41,8 +38,9 @@
 		                </video>
 		            </div>
 		            <div class="info-box">
-		                <p class="lecture-title">${dto.lecture_name}</p>
+		                <p class="lecture-title">[${dto.sc_name}] ${dto.lecture_name}</p>
 		                <p class="lecturer-name">${dto.lecture_lecturer}</p>
+		                ★${dto.review_avg }(${dto.review_count })
 		            </div>
 		        </a>
 		    </td>
@@ -55,7 +53,7 @@
        </tr>
        <tfoot>
        		<tr>
-       			<td colspan="3">
+       			<td colspan="4">
       	 		<div>${pageStr }</div>
       	 		</td>
       	 	</tr>
@@ -63,6 +61,20 @@
    </table>
    </form>
    </section>
+   <form name="membershipFm" action="membership.do">
+   <section class="membership">
+   <br>
+   <br>
+   <div>지금 바로 학습을 시작하세요</div>
+   <br>
+   <p>${lectureCount }개의 강의와 ${userCount }명의 수강생들이 함께하고 있습니다</p>
+   <br>
+   <br>
+   <input type="submit" name="membership_go" value="멤버십 가입하기">
+   <br>
+   <br>
+   </section>
+   </form>
 </main>
 <%@include file="../footer.jsp"%>
 </body>

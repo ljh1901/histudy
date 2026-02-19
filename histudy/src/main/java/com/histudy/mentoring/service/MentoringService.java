@@ -1,13 +1,15 @@
 package com.histudy.mentoring.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.histudy.mentoring.model.*;
 
 
 public interface MentoringService {
-    public List<MentorListDTO> mentorList();
-    public List<MentorListDTO> mentorListCategory(int sc_idx);
+	public List<MentorListDTO> mentorList(Map<String, Object> map);
+    public int mentorTotalCnt(Map<String, Object> map);
+    
     public int mentorProfileCreate(MentoProfileDTO dto);
     public int mentorProfileCount(int user_idx);
     
@@ -15,7 +17,9 @@ public interface MentoringService {
 
     public void createMentoring(MentoringDTO dto, String scheduleJson, String skillTags);
     
-    public List<MentorApplicationDTO> selectMentorApplications(int mentor_idx);
+    public List<MentorApplicationDTO> selectMentorApplications(Map<String, Object> map);
+    public int mentorAppTotalCnt(Map<String, Object> map);
+    
     public MentorApplicationDTO selectMentorApplicationDetail(int ma_id);
 
     public int approveMentorApplication(int ma_id);
@@ -36,5 +40,6 @@ public interface MentoringService {
     public List<MentoringReviewDTO> selectMentoringReviews(int mentor_idx);
     public Integer getWritableMatchId(int mentor_idx, int mentee_user_idx);
     public int writeReview(MentoringReviewDTO dto);
+    
 
 }
