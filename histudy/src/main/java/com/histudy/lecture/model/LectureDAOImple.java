@@ -54,7 +54,7 @@ public class LectureDAOImple implements LectureDAO {
    @Override
 	public Integer lectureHate(LectureHateDTO dto) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("com.histudy.lecture.model.LectureDao.lectureHate",dto);
+		return sqlSession.selectOne("com.histudy.lecture.model.LectureDAO.lectureHate",dto);
 	}
    @Override
 	public void lectureLikeUp(int idx) {
@@ -114,12 +114,17 @@ public class LectureDAOImple implements LectureDAO {
 		return sqlSession.delete("reviewDelete",review_idx);
 	}
    @Override
-	public String selectName(int user_idx) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("selectName",user_idx);
-	}
-   @Override
 	public String scIdx(int lecture_idx) {
 		return sqlSession.selectOne("scIdx",lecture_idx);
+	}
+   @Override
+	public Map<String, Object> getCounts() {
+		// TODO Auto-generated method stub
+	   return sqlSession.selectOne("getCounts");
+	}
+   @Override
+	public Map<String, Object> lectureAvgCount(int lecture_idx) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("lectureAvgCount",lecture_idx);
 	}
 }

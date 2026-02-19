@@ -14,8 +14,13 @@ public class AdminStudyDAOImple implements AdminStudyDAO {
 	}
 
 	@Override
-	public List<StudyDTO> selectAllStudyList() {       
-		return session.selectList("selectAllStudyList");
+	public List<StudyDTO> selectAllStudyList(int sc_idx) {       
+		return session.selectList("selectAllStudyList",sc_idx);
+	}
+	
+	@Override
+	public StudyDTO getStudyDetail(int study_idx) {
+	    return session.selectOne("getStudyDetail", study_idx);
 	}
 	@Override
 	public int deleteStudy(int study_idx) {

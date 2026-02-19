@@ -6,3 +6,135 @@
  .membershipPaymentContainer{
 	padding-top:80px;
 }
+.why-learnhub {
+    padding: 80px 0;
+    background-color: #ffffff;
+    text-align: center;
+    font-family: 'Pretendard', sans-serif;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 50px;
+}
+.feature-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.feature-card {
+    flex: 1;
+    background: #f8f9fa;  
+    padding: 40px 30px;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.icon-box {
+    width: 60px;
+    height: 60px;
+    background-color: #00c471; 
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 1.8rem;
+}
+
+.feature-card h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #222;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    word-break: keep-all; 
+}
+.payment-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    min-height: 60vh;       
+    padding: 40px 20px;
+    background-color: #f9fafb;
+}
+
+.payment-container {
+    width: 100%;
+    max-width: 500px;        
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    text-align: center;   
+}
+
+.payment-container h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #111;
+}
+
+.order-summary {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+}
+
+.label {
+    color: #666;
+    font-size: 1rem;
+}
+
+.value {
+    font-weight: 600;
+    color: #333;
+}
+
+
+.pay-button {
+    width: 100%;
+    padding: 16px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}

@@ -2,7 +2,9 @@ package com.histudy.studycafe.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 
 public class StudycafeDAOImple implements StudycafeDAO{
@@ -14,9 +16,19 @@ public class StudycafeDAOImple implements StudycafeDAO{
 	}
 	
 	@Override
-	public List<StudycafeDTO> studycafeList() {
-		List<StudycafeDTO> list = sqlSession.selectList("studycafeListSQL");
+	public List<StudycafeDTO> studycafeList(Map<String,Object> map) {
+		List<StudycafeDTO> list = sqlSession.selectList("studycafeListSQL", map);
 		return list;
+	}
+	@Override
+	public int studycafeListCount(@Param(value="region")String region) {
+		int result = sqlSession.selectOne("studycafeListCountSQL", region);
+		return result;
+	}
+	@Override
+	public StudycafeDTO studycafe(int studycafe_idx) {
+		StudycafeDTO studycafeOne = sqlSession.selectOne("selectStudycafeSQL", studycafe_idx);
+		return studycafeOne;
 	}
 	@Override
 	public StudycafeJoinReservationDTO seatReservation(int seat_idx) {
@@ -48,10 +60,40 @@ public class StudycafeDAOImple implements StudycafeDAO{
 		PayDTO receipt = sqlSession.selectOne("selectReceiptSQL",paymentId);
 		return receipt;
 	}
+	@Override
+	public int registerReservation(StudycafeReservationDTO srdto) {
+		int result = sqlSession.insert("insertRegisterReservationSQL",srdto);
+		return result;
+	}
+	@Override
+	public int ticketTotalAmount(int ticket_idx) {
+		int ticketAmount = sqlSession.selectOne("selectTicketTotalAmountSQL", ticket_idx);
+		return ticketAmount;
+	}
 	
 	@Override
-	public TicketJoinTicketCategoryDTO ticketTotalAmount(int ticket_idx) {
-		TicketJoinTicketCategoryDTO tjtc = sqlSession.selectOne("selectTicketTotalAmountSQL", ticket_idx);
-		return tjtc;
+	public int ticketTime(int ticket_idx) {
+		int ticket_time = sqlSession.selectOne("selectTicketTimeSQL", ticket_idx);
+		return ticket_time;
+	}
+	@Override
+	public int reservationComplete(int seat_idx) {
+		int reservationComplete = sqlSession.update("updateSeatToReservedSQL", seat_idx);
+		return reservationComplete;
+	}
+	@Override
+	public int payCancel(String paymentId) {
+		int payCancel = sqlSession.delete("payDeleteSQL", paymentId);
+		return payCancel;
+	}
+	@Override
+	public int seatStatusUpdate() {
+		int seatStatusUpdate = sqlSession.update("updateSeatStatusSQL");
+		return seatStatusUpdate;
+	}
+	@Override
+	public List<StudycafeLayoutDTO> studycafeLayout(int studycafe_idx) {
+		List<StudycafeLayoutDTO> layoutDTO = sqlSession.selectList("selectStudycafeLayoutSQL", studycafe_idx);
+		return layoutDTO;
 	}
 }

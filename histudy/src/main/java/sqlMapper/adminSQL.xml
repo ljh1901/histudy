@@ -12,58 +12,103 @@
 
 	<select id="selectSalesList" parameterType="map"
 		resultType="map">
-		select
-		<choose>
-			<when test="type == 'month'"> to_char(sales_date, 'yyyy-mm') as sales_date,
-				sum(total_amount) as total_amount
-			</when>
-			<when test="type == 'total'"> '누적 매출' as sales_date,
-				sum(total_amount) as
-				total_amount
-			</when>
-			<otherwise>
-				to_char(sales_date, 'yyyy-mm-dd') as sales_date,
-				total_amount as total_amount
-			</otherwise>
-		</choose>
-		from sales_report
-		where studycafe_idx = #{studycafe_idx}
-		<if test="startDate != null and startDate != ''">
-			and sales_date &gt;= to_date(#{startDate}, 'yyyy-mm-dd')
-		</if>
-		<if test="endDate != null and endDate != ''">
-			and sales_date &lt;= to_date(#{endDate}, 'yyyy-mm-dd')
-		</if>
+		SELECT
 		<choose>
 			<when test="type == 'month'">
-				group by to_char(sales_date, 'yyyy-mm')
+				TO_CHAR(paidat + INTERVAL '9' HOUR, 'YYYY-MM') AS sales_date,
+				SUM(totalAmount) AS total_amount
 			</when>
 			<when test="type == 'total'">
-				group by '누적 매출'
+				'누적 매출' AS sales_date,
+				SUM(totalAmount) AS total_amount
 			</when>
+			<otherwise>
+				TO_CHAR(paidat + INTERVAL '9' HOUR, 'YYYY-MM-DD') AS sales_date,
+				SUM(totalAmount) AS total_amount
+			</otherwise>
 		</choose>
-		order by sales_date asc
+		FROM studycafe_pay
+		WHERE pay_status = 'PAID'
+		<if test="startDate != null and startDate != ''">
+			AND (paidat + INTERVAL '9' HOUR) &gt;= TO_DATE(#{startDate},
+			'YYYY-MM-DD')
+		</if>
+		<if test="endDate != null and endDate != ''">
+			AND (paidat + INTERVAL '9' HOUR) &lt;= TO_DATE(#{endDate} || '
+			23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+		</if>
+		GROUP BY
+		<choose>
+			<when test="type == 'month'">TO_CHAR(paidat + INTERVAL '9' HOUR, 'YYYY-MM')</when>
+			<when test="type == 'total'">'누적 매출'</when>
+			<otherwise>TO_CHAR(paidat + INTERVAL '9' HOUR, 'YYYY-MM-DD')
+			</otherwise>
+		</choose>
+		ORDER BY sales_date ASC
 	</select>
 
+	<insert id="insertStudyCafe"
+		parameterType="com.histudy.studycafe.model.StudycafeDTO">
+		INSERT INTO studycafe (
+		studycafe_idx,
+		studycafe_name,
+		studycafe_lat,
+		studycafe_lng,
+		studycafe_addr
+		) VALUES (
+		studycafe_idx.NEXTVAL,
+		#{studycafe_name},
+		#{studycafe_lat},
+		#{studycafe_lng},
+		#{studycafe_addr}
+		)
+	</insert>
+
 	<!-- 스터디모임 관련 -->
-	<select id="selectAllStudyList"
+	<select id="selectAllStudyList" parameterType="int"
 		resultType="com.histudy.study.model.StudyDTO">
-		select
+		SELECT
 		s.study_idx,
 		s.study_title,
-		c.sc_name as sc_name,
+		CASE
+		WHEN s.sc_idx = 1 THEN '코딩'
+		WHEN s.sc_idx = 2 THEN '언어'
+		WHEN s.sc_idx = 3 THEN '학업'
+		WHEN s.sc_idx = 4 THEN '자격증'
+		WHEN s.sc_idx = 5 THEN '취업'
+		ELSE '기타'
+		END as sc_name,
 		u.user_name as user_name,
 		s.study_current_members,
 		s.study_max_members,
 		TO_CHAR(s.study_start_date, 'YYYY-MM-DD') as study_start_date,
 		TO_CHAR(s.study_end_date, 'YYYY-MM-DD') as study_end_date,
 		s.study_addr
+		FROM study s
+		LEFT JOIN usertb u ON s.user_idx = u.user_idx
+		<where>
+			<if test="sc_idx != null and sc_idx != 0">
+				AND s.sc_idx = #{sc_idx}
+			</if>
+		</where>
+		ORDER BY s.study_idx DESC
+	</select>
+	<select id="getStudyDetail" parameterType="int"
+		resultType="com.histudy.study.model.StudyDTO">
+		select
+		s.*,
+		case
+		when s.sc_idx = 1 then '코딩'
+		when s.sc_idx = 2 then '언어'
+		when s.sc_idx = 3 then '학업'
+		when s.sc_idx = 4 then '자격증'
+		when s.sc_idx = 5 then '취업'
+		else '기타'
+		end as sc_name,
+		u.user_name as user_name
 		from study s
-		left join study_category c ON s.sc_idx =
-		c.sc_idx
-		left join usertb u ON s.user_idx = u.user_idx
-		ORDER BY
-		s.study_idx DESC
+		left JOIN usertb u ON s.user_idx = u.user_idx
+		where s.study_idx = #{study_idx}
 	</select>
 
 	<delete id="deleteStudy"
@@ -77,19 +122,16 @@
 		select
 		user_idx,
 		user_id,
-		user_pw,
 		user_name,
 		user_birthdate,
 		user_tel,
-		user_email,
-		role_idx
+		user_email
 		from usertb
-		order
-		by user_idx DESC
+		where role_idx = 2 order by user_idx DESC
 	</select>
 
 	<select id="getUserCount" resultType="int">
-		select count(*) from usertb
+		select count(*) from usertb where role_idx =2
 	</select>
 
 	<delete id="deleteUser" parameterType="int">
@@ -267,13 +309,15 @@
 		studycafe_idx,
 		ticket_category_idx,
 		ticket_name,
-		ticket_amount
+		ticket_amount,
+		ticket_time
 		) values (
 		#{newIdx},
 		#{studycafe_idx},
 		#{ticket_category_idx},
 		#{ticket_name},
-		#{ticket_amount}
+		#{ticket_amount},
+		#{ticket_time}
 		)
 	</insert>
 
@@ -282,28 +326,31 @@
 		studycafe_ticket where ticket_idx = #{ticket_idx}
 	</delete>
 
-	<select id="selectAllReportList" resultType="com.histudy.admin.model.ReportDTO">
-    SELECT 
-        r.report_idx,
-        r.report_type,
-        r.target_idx,
-        r.reporter_idx,
-        r.report_content,
-        r.report_date,
-        r.report_status,
-        u.user_name as reporter_name,
-        CASE 
-            WHEN r.report_type = 'STUDY' THEN (SELECT study_title FROM study WHERE study_idx = r.target_idx)
-            WHEN r.report_type = 'USER' THEN (SELECT user_name FROM usertb WHERE user_idx = r.target_idx)
-        END as target_name
-    FROM report r
-    JOIN usertb u ON r.reporter_idx = u.user_idx
-    ORDER BY r.report_idx DESC
-</select>
+	<select id="selectAllReportList"
+		resultType="com.histudy.admin.model.ReportDTO">
+		select
+		r.report_idx,
+		r.report_type,
+		r.target_idx,
+		r.reporter_idx,
+		r.report_content,
+		r.report_date,
+		r.report_status,
+		u.user_name as reporter_name,
+		case
+		when r.report_type = 'STUDY' THEN (select study_title FROM study where
+		study_idx = r.target_idx)
+		when r.report_type = 'USER' THEN (select user_name FROM usertb where
+		user_idx = r.target_idx)
+		end as target_name
+		from report r
+		join usertb u ON r.reporter_idx = u.user_idx
+		ORDER BY r.report_idx DESC
+	</select>
 
-<update id="updateReportStatus" parameterType="int">
-    UPDATE report SET report_status = '완료' WHERE report_idx = #{report_idx}
-</update>
+	<update id="updateReportStatus" parameterType="int">
+		update report set report_status = '완료' where report_idx = #{report_idx}
+	</update>
 
 
 </mapper>

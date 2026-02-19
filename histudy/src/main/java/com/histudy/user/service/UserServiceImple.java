@@ -1,7 +1,9 @@
 package com.histudy.user.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.histudy.membership.model.MembershipDAO;
 import com.histudy.user.model.UserDAO;
 import com.histudy.user.model.UserDAOImple;
 import com.histudy.user.model.UserDTO;
@@ -11,15 +13,18 @@ import java.util.*;
 public class UserServiceImple implements UserService {
 
 	private UserDAO dao;
-
+	@Autowired
+	private MembershipDAO mdao;
 	// 생성자 주입
 	public UserServiceImple(UserDAO dao) {
 		this.dao = dao;
+		this.mdao=mdao;
 	}
 
 	@Override
 	public int userSignUp(UserDTO dto) {
 		dto.setUser_pw(com.histudy.security.PwdModule.securityPwd(dto.getUser_pw()));
+		mdao.insertBasic(dto.getUser_idx());
 		return dao.userSignUp(dto);
 	}
 
@@ -68,14 +73,12 @@ public class UserServiceImple implements UserService {
 	
 	@Override
 	public int updateProfile(UserDTO dto) {
-	    // 1. usertb 테이블 수정 (dao에 만든 새 메서드 호출)
-	    int res1 = ((UserDAOImple)dao).updateUserTb(dto); 
-	    
-	    // 2. mypage 테이블 수정 (기존 dao 메서드 호출)
-	    int res2 = dao.updateProfile(dto);
-	    
-	    // 두 작업의 결과를 종합하여 리턴
-	    return (res1 > 0 || res2 > 0) ? 1 : 0;
+		int result1 = dao.userUpdateInfo(dto);
+		int result2 = dao.userUpdateMypage(dto);
+		if (result1 > 0 && result2 > 0) {
+	        return 1; 
+	    }
+	    return 0;
 	}
 	
 	@Override
@@ -104,5 +107,9 @@ public class UserServiceImple implements UserService {
 		}
 		
 		return null;
+	}
+	@Override
+	public void insertDefaultMypage(int user_idx) {
+		dao.insertDefaultMypage(user_idx);
 	}
 }

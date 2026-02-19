@@ -1,11 +1,10 @@
 package com.histudy.mentoring.model;
 
-import java.util.List;
 import java.util.*;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+
 
 public class MentoringDAOImple implements MentoringDAO {
 
@@ -16,14 +15,16 @@ public class MentoringDAOImple implements MentoringDAO {
         this.sqlSession = sqlSession;
     }
 
+    //멘토리스트
     @Override
-    public List<MentorListDTO> mentorList() {
-        return sqlSession.selectList("com.histudy.mentoring.mentorList");
+    public List<MentorListDTO> mentorList(Map<String, Object> map) {
+        return sqlSession.selectList("com.histudy.mentoring.mentorList", map);
     }
 
+    //멘토 총 개수 (카테고리 있으면 조건, 없으면 전체)
     @Override
-    public List<MentorListDTO> mentorListCategory(int sc_idx) {
-        return sqlSession.selectList("com.histudy.mentoring.mentorListCategory", sc_idx);
+    public int mentorTotalCnt(Map<String, Object> map) {
+        return sqlSession.selectOne("com.histudy.mentoring.mentorTotalCnt",map);
     }
     
     @Override
@@ -52,8 +53,14 @@ public class MentoringDAOImple implements MentoringDAO {
     }
 
     @Override
-    public List<MentorApplicationDTO> selectMentorApplications(int mentor_idx) {
-      return sqlSession.selectList("com.histudy.mentoring.selectMentorApplications", mentor_idx);
+    public List<MentorApplicationDTO> selectMentorApplications(Map<String, Object> map) {
+        return sqlSession.selectList("com.histudy.mentoring.selectMentorApplications", map);
+    }
+
+    //  신청현황 총 개수
+    @Override
+    public int mentorAppTotalCnt(Map<String, Object> map) {
+        return sqlSession.selectOne("com.histudy.mentoring.mentorAppTotalCnt", map);
     }
 
     @Override
@@ -85,10 +92,10 @@ public class MentoringDAOImple implements MentoringDAO {
     public List<String> selectMentorTags(int mentor_idx) {
         return sqlSession.selectList("com.histudy.mentoring.selectMentorTags", mentor_idx);
     }
-
+ 
     @Override
     public MentorMatchDTO selectMatchInfoMaId(int ma_id) {
-        return sqlSession.selectOne("com.histudy.mentoring.selectMatchInfoByMaId", ma_id);
+        return sqlSession.selectOne("com.histudy.mentoring.selectMatchInfoMaId", ma_id);
     }
 
     @Override
@@ -141,6 +148,29 @@ public class MentoringDAOImple implements MentoringDAO {
     public int insertMentoringReview(MentoringReviewDTO dto) {
       return sqlSession.insert("com.histudy.mentoring.insertMentoringReview", dto);
     }
-
     
+    @Override
+    public Integer findSkillIdByName(String skill_name) {
+        return sqlSession.selectOne("com.histudy.mentoring.findSkillIdByName", skill_name);
+    }
+
+    @Override
+    public int insertSkill(String skill_name) {
+        return sqlSession.insert("com.histudy.mentoring.insertSkill", skill_name);
+    }
+
+    @Override
+    public int insertMentoringSkillMap(Map<String, Object> map) {
+        return sqlSession.insert("com.histudy.mentoring.insertMentoringSkillMap", map);
+    }
+
+    @Override
+    public List<MentoringScheduleDTO> selectMentoringSchedule(int mentoring_idx) {
+        return sqlSession.selectList("com.histudy.mentoring.selectMentoringSchedule", mentoring_idx);
+    }
+    
+    @Override
+    public int updateMentoringStatusClose(int mentoring_idx) {
+        return sqlSession.update("com.histudy.mentoring.updateMentoringStatusClose", mentoring_idx);
+    }
 }

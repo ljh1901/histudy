@@ -109,7 +109,6 @@ if(${!empty msg}){
 var paidAt=new Date('${receipt.paidAt}');
 paidAt=''+paidAt.getFullYear()+"-0"+(paidAt.getMonth()+1)+"-"+paidAt.getDate()+" "+paidAt.getHours()+":"+paidAt.getMinutes()+":"+paidAt.getSeconds();
 document.getElementById('paidAt').textContent="결제시간 : "+paidAt;
-alert(paidAt)
 document.getElementById('receiptCheckBtn').addEventListener('click', function(){
 	location.href="index.do";
 })

@@ -38,9 +38,7 @@ function searchDetailAddrFromCoords(coords, callback) {
 }
 function requestAddr(result,status,resultDiv){
 	     if (status === kakao.maps.services.Status.OK) {
-            var detailAddr = !!result[0].road_address ? '도로명주소 : ' + result[0].road_address.address_name : '';
-            detailAddr += '지번 주소 : ' + result[0].address.address_name;
-            var content = '법정동 주소정보' + detailAddr;
+            var detailAddr = '지번 주소 : ' + result[0].address.address_name;
                 resultDiv.innerHTML = detailAddr;
         }
 }

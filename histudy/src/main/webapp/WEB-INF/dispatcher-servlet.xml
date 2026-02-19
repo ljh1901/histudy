@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
@@ -8,9 +9,12 @@
 	http://www.springframework.org/schema/context 
 	http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/mvc
-	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd">
 	<!-- Controller Auto scan 등록 -->
 	<context:component-scan base-package="com.histudy"></context:component-scan>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<!-- 설정 관련 파일 -->
 	<!-- 자동 주입 등록 -->
 	<bean id="Autowired" class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"></bean>
@@ -58,9 +62,14 @@
 		<constructor-arg ref="scheduleDAO" />
 	</bean>
 	
+	<!-- 문의사항 서비스 -->
+	<bean id="inquiryService" class="com.histudy.inquiry.service.InquiryServiceImple">
+		<constructor-arg ref="inquiryDAO" />
+	</bean>
+
 	<!-- 관리자 서비스 -->
-	<bean id="adminService" class="com.histudy.admin.service.AdminServiceImple">
-    	<constructor-arg ref="adminDAO"/>
+	<bean id="adminCafeService" class="com.histudy.admin.service.AdminCafeServiceImple">
+    	<constructor-arg ref="adminCafeDAO"/>
 	</bean>
 	<!-- 관리자 유저 관리 서비스 -->
 	<bean id="adminUserService" class="com.histudy.admin.service.AdminUserServiceImple">
@@ -97,6 +106,10 @@
 	<!-- LMS 서비스 -->
 	<bean id="lmsService" class="com.histudy.lms.service.LmsServiceImple">
 		<constructor-arg ref="lmsDAO"></constructor-arg>
+	</bean>
+	<!-- 멤버십 서비스 -->
+	<bean id="membershipService" class="com.histudy.membership.service.MembershipServiceImple">
+		<constructor-arg ref="membershipDAO"></constructor-arg>
 	</bean>
 	<bean id="lmsSubmitService" class="com.histudy.lms.service.LmsSubmitServiceImple">
 		<constructor-arg ref="lmsSubmitDAO"></constructor-arg>

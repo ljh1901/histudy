@@ -2,8 +2,72 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.histudy.membership">
-	<select id="">
-		
+<mapper namespace="com.histudy.membership.model.MembershipDAO">
+    <insert id="insertPrimium" parameterType="com.histudy.membership.model.MembershipPaymentDTO">
+        INSERT INTO MEMBERSHIP_PAYMENT VALUES (
+            MEMBERSHIP_PAYMENT_IDX.NEXTVAL,  
+            #{payNum},                
+            #{payment_method},        
+            #{payment_status},        
+            #{payment_amount},        
+            SYSDATE,    
+            #{tax_free},
+            ADD_MONTHS(SYSDATE, 1),            
+            #{user_idx},              
+            (SELECT membership_idx FROM membership WHERE membership_name = '프리미엄')
+        )
+    </insert>
+    <select id="membershipGrade" parameterType="int" resultType="String">
+	    SELECT membership_name 
+	    FROM (
+	        SELECT m.membership_name
+	        FROM membership_payment mp
+	        JOIN membership m ON mp.membership_idx = m.membership_idx
+	        WHERE mp.user_idx = #{user_idx}
+	        	AND mp.end_date>=SYSDATE
+	        ORDER BY mp.end_date DESC 
+	    )
+	    WHERE ROWNUM = 1 
+	</select>
+	<insert id="insertBasic" parameterType="int">
+    INSERT INTO MEMBERSHIP_PAYMENT VALUES (
+        MEMBERSHIP_PAYMENT_IDX.NEXTVAL,
+        '0',      
+        '0',       
+        '가입',         
+        0,            
+        SYSDATE, 
+        0,
+        SYSDATE,        
+        #{user_idx},       
+        (SELECT membership_idx FROM membership WHERE membership_name = '일반')
+    )
+	</insert>
+	<select id="getPayment" parameterType="int" resultType="map">
+		SELECT 
+        	'스터디카페' AS pay_type,    
+	        sp.paymentId AS pay_id,    
+	        sp.orderName AS pay_name,   
+	        sp.paid AS pay_amount,       
+	        sp.pay_method AS pay_method,  
+	        sp.paidAt AS pay_date,
+	        NULL AS end_date    
+	    FROM studycafe_pay sp 
+	    JOIN usertb utb ON sp.user_idx = utb.user_idx
+	    WHERE utb.user_idx = #{user_idx} 
+	      AND sp.pay_status = 'PAID'
+	    UNION ALL
+	    SELECT 
+	        '멤버십' AS pay_type, 
+	        payNum AS pay_id,    
+	        '프리미엄' AS pay_name,  
+	        payment_amount AS pay_amount, 
+	        payment_method AS pay_method,  
+	        payment_date AS pay_date, 
+	        end_date AS end_date 
+	    FROM membership_payment
+	    WHERE user_idx = #{user_idx} 
+	      AND membership_idx = 2
+	    ORDER BY pay_date DESC
 	</select>
 </mapper>

@@ -9,6 +9,9 @@ public class LectureDTO {
 	private Date lecture_date;
 	private String lecture_file;
 	private int category_idx;
+	private String sc_name;
+	private double review_avg;  
+	private int review_count;
 	public LectureDTO() {
 		// TODO Auto-generated constructor stub
 	}
@@ -26,6 +29,24 @@ public class LectureDTO {
 		this.category_idx = category_idx;
 	}
 	
+	public double getReview_avg() {
+		return review_avg;
+	}
+	public void setReview_avg(double review_avg) {
+		this.review_avg = review_avg;
+	}
+	public int getReview_count() {
+		return review_count;
+	}
+	public void setReview_count(int review_count) {
+		this.review_count = review_count;
+	}
+	public String getSc_name() {
+		return sc_name;
+	}
+	public void setSc_name(String sc_name) {
+		this.sc_name = sc_name;
+	}
 	public int getLecture_idx() {
 		return lecture_idx;
 	}

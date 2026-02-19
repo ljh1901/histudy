@@ -1,11 +1,12 @@
 package com.histudy.mentoring.model;
 
+import java.util.Date;
 
 public class MentoringScheduleDTO {
     private int schedule_id;
     private String status; 
-    private String mentoring_start_time;
-    private String mentoring_end_time;
+    private Date mentoring_starttime;
+    private Date mentoring_endtime;
     private int mentoring_idx;
 
     public MentoringScheduleDTO() {
@@ -28,20 +29,20 @@ public class MentoringScheduleDTO {
 		this.status = status;
 	}
 
-	public String getMentoring_start_time() {
-		return mentoring_start_time;
+	public Date getMentoring_starttime() {
+		return mentoring_starttime;
 	}
 
-	public void setMentoring_start_time(String mentoring_start_time) {
-		this.mentoring_start_time = mentoring_start_time;
+	public void setMentoring_starttime(Date mentoring_starttime) {
+		this.mentoring_starttime = mentoring_starttime;
 	}
 
-	public String getMentoring_end_time() {
-		return mentoring_end_time;
+	public Date getMentoring_endtime() {
+		return mentoring_endtime;
 	}
 
-	public void setMentoring_end_time(String mentoring_end_time) {
-		this.mentoring_end_time = mentoring_end_time;
+	public void setMentoring_endtime(Date mentoring_endtime) {
+		this.mentoring_endtime = mentoring_endtime;
 	}
 
 	public int getMentoring_idx() {
@@ -52,16 +53,14 @@ public class MentoringScheduleDTO {
 		this.mentoring_idx = mentoring_idx;
 	}
 
-	public MentoringScheduleDTO(int schedule_id, String status, String mentoring_start_time, String mentoring_end_time,
+	public MentoringScheduleDTO(int schedule_id, String status, Date mentoring_starttime, Date mentoring_endtime,
 			int mentoring_idx) {
 		super();
 		this.schedule_id = schedule_id;
 		this.status = status;
-		this.mentoring_start_time = mentoring_start_time;
-		this.mentoring_end_time = mentoring_end_time;
+		this.mentoring_starttime = mentoring_starttime;
+		this.mentoring_endtime = mentoring_endtime;
 		this.mentoring_idx = mentoring_idx;
 	}
 
-	
-    
 }
