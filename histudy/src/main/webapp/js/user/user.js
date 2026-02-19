@@ -378,6 +378,7 @@ function submitProfileUpdate() {
     })
     .catch(err=> console.error("아이디찾기 오류:",err));
     }
+    
 /** 비밀번호 찾기 함수 */
 function findUserPw() {
     var id = document.getElementById('find_pw_id').value;
@@ -411,4 +412,26 @@ function findUserPw() {
     .catch(err => console.error("비밀번호 찾기 오류:", err));
 
 }
+function showSection(sectionId) {
+    // 1. 실제 JSP에 정의된 ID들과 매칭
+    const sections = {
+        'login': 'login-section',
+        'find-id': 'find-id-section',
+        'find-pw': 'find-pw-section'
+    };
 
+    // 2. 모든 섹션을 먼저 숨김
+    Object.values(sections).forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+
+    // 3. 선택한 섹션만 보여줌
+    const targetId = sections[sectionId];
+    const targetEl = document.getElementById(targetId);
+    if (targetEl) {
+        targetEl.style.display = 'block';
+    } else {
+        console.error("대상 섹션을 찾을 수 없습니다: " + sectionId);
+    }
+}
