@@ -1,6 +1,7 @@
 package com.histudy.mypage.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,8 +34,8 @@ public class MypageController {
 	public ModelAndView myPurchase(HttpSession session) {
 		ModelAndView mav=new ModelAndView();
 		Integer user_idx=(Integer)session.getAttribute("user_idx");
-//		List<MembershipPaymentDTO> list=membershipService.getPayment(user_idx);
-//		mav.addObject("list",list);
+		List<Map<String, Object>> list=membershipService.getPayment(user_idx);
+		mav.addObject("list",list);
 		mav.setViewName("mypage/myPurchase");
 		return mav;
 	}

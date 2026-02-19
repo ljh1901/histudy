@@ -31,7 +31,7 @@ function load(){
 	<c:when test="${empty sessionScope.user_id}">
 		로그인이 필요합니다.		
 	</c:when>
-	<c:when test="${sessionScope.membership == 'primium'}">
+	<c:when test="${sessionScope.membership == 'premium'}">
 		이미 프리미엄 회원입니다.
 	</c:when>
 	<c:otherwise >
@@ -96,7 +96,7 @@ function load(){
         // ------ STEP 3. 결제 요청 파라미터 설정 ------
         const response = await Bootpay.requestPayment({
           application_id: '697f4c338bbb6b2084c4ba03',
-          price: 1000,
+          price: 29000,
           order_name: '하이스터디 프리미엄 회원권 1개월',
           order_id: 'ORD-' + Date.now(),	//가맹점 고유 주문번호
           pg: '',         // PG사 선택
@@ -114,7 +114,7 @@ function load(){
               id: 'ITEM-001',
               name: '하이스터디 프리미엄 회원권 1개월',
               qty: 1,
-              price: 1000
+              price: 29000
             }
           ],
           extra: {

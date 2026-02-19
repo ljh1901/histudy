@@ -10,4 +10,5 @@ public interface UserService {
 	public int updateProfile(UserDTO dto);
 	public String userFindId(String user_name,String user_tel);
 	public String userFindPw(String user_id,String user_name,String user_tel);
+	public void insertDefaultMypage(int user_idx);
 }

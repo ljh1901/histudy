@@ -1,6 +1,7 @@
 package com.histudy.membership.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.histudy.membership.model.MembershipDAO;
 import com.histudy.membership.model.MembershipPaymentDTO;
@@ -26,8 +27,7 @@ public class MembershipServiceImple implements MembershipService {
 		return membershipDao.insertPrimium(paymentDTO);
 	}
 	@Override
-	public List<MembershipPaymentDTO> getPayment(int user_idx) {
-		// TODO Auto-generated method stub
+	public List<Map<String, Object>> getPayment(int user_idx){
 		return membershipDao.getPayment(user_idx);
 	}
 }

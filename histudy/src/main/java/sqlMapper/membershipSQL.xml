@@ -43,14 +43,15 @@
         (SELECT membership_idx FROM membership WHERE membership_name = '일반')
     )
 	</insert>
-	<select id="getPayment" parameterType="int" resultType="com.histudy.membership.model.MembershipPaymentDTO">
+	<select id="getPayment" parameterType="int" resultType="map">
 		SELECT 
         	'스터디카페' AS pay_type,    
 	        sp.paymentId AS pay_id,    
 	        sp.orderName AS pay_name,   
 	        sp.paid AS pay_amount,       
 	        sp.pay_method AS pay_method,  
-	        sp.paidAt AS pay_date   
+	        sp.paidAt AS pay_date,
+	        NULL AS end_date    
 	    FROM studycafe_pay sp 
 	    JOIN usertb utb ON sp.user_idx = utb.user_idx
 	    WHERE utb.user_idx = #{user_idx} 
@@ -62,7 +63,8 @@
 	        '프리미엄' AS pay_name,  
 	        payment_amount AS pay_amount, 
 	        payment_method AS pay_method,  
-	        payment_date AS pay_date  
+	        payment_date AS pay_date, 
+	        end_date AS end_date 
 	    FROM membership_payment
 	    WHERE user_idx = #{user_idx} 
 	      AND membership_idx = 2
