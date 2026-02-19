@@ -45,16 +45,15 @@
 						<div class="profile-image-section">
 							<div class="image-container">
 								<img
-									src="mypage-img/${not empty user.profile_img ? user.profile_img : 'zoro.jpg'}"
+									src="mypage-img/${user.profile_img}"
 									id="profilePreview">
 							</div>
 
 							<input type="file" name="uploadFile" id="fileInput"
 								style="display: none;" accept="image/*"
 								onchange="readURL(this);">
-							<button type="button" class="btn-img-change"
-								onclick="document.getElementById('fileInput').click();">변경</button>
-
+							<button type="button" class="btn-img-change edit-mode" style="display: none;"
+  							    onclick="document.getElementById('fileInput').click();">변경</button>
 							<p class="img-guide">
 								png, jpg, jpeg의 확장자<br>1MB 이하의 이미지
 							</p>
@@ -62,6 +61,18 @@
 
 						<div class="profile-info-section">
 							<table class="profile-table">
+							<c:if test="${sessionScope.membership == 'premium'}">
+							    <tr>
+							        <th style="color: gold;">프리미엄 멤버</th>
+							        <td>
+							            <c:forEach var="pay" items="${list}">
+							                <c:if test="${pay.PAY_TYPE == '멤버십'}">
+							                    ${pay.PAY_DATE}~${pay.END_DATE}
+							                </c:if>
+							            </c:forEach>
+							        </td>
+							    </tr>
+							</c:if>
 								<tr>
 									<th>이름</th>
 									<td><span class="view-mode">${user.user_name}</span> <input
@@ -115,7 +126,6 @@
 							</div>
 						</div>
 					</div>
-
 				</form>
 			</main>
 		</div>

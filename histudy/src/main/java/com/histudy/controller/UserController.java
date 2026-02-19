@@ -1,6 +1,7 @@
    package com.histudy.controller;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -61,6 +62,8 @@ public class UserController {
    @PostMapping("/userSignUp.do")
    public String signup(UserDTO dto, HttpServletRequest request) {
       userService.userSignUp(dto);
+      UserDTO user = userService.userInfo(dto.getUser_id());
+      userService.insertDefaultMypage(user.getUser_idx());
       request.setAttribute("msg", "회원가입 완료");
       return "redirect:/index.do";
    }
@@ -135,10 +138,15 @@ public class UserController {
    public ModelAndView myPage(HttpSession session) {
       String userId = (String) session.getAttribute("user_id");
       UserDTO dto = userService.userInfo(userId);
-
+      Integer userIdx = (Integer) session.getAttribute("user_idx"); 
+      
       ModelAndView mav = new ModelAndView();
       mav.addObject("user", dto);
       mav.setViewName("user/myPage");
+      
+      List<Map<String, Object>> list = membershipService.getPayment(userIdx);
+      mav.addObject("list", list); 
+		
       return mav;
    }
 
@@ -149,7 +157,7 @@ public class UserController {
       UserDTO user = (UserDTO) session.getAttribute("user");
       if (user == null)
          return "fail";
-
+      
       // 1. 텍스트 정보 업데이트
       user.setUser_name(updatedData.getUser_name());
       user.setUser_birthdate(updatedData.getUser_birthdate());
