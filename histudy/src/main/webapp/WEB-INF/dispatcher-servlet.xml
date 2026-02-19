@@ -101,4 +101,7 @@
 	<bean id="lmsSubmitService" class="com.histudy.lms.service.LmsSubmitServiceImple">
 		<constructor-arg ref="lmsSubmitDAO"></constructor-arg>
 	</bean>
+	<bean id="notificationsService" class="com.histudy.notifications.service.NotificationsServiceImple">
+		<constructor-arg ref="notificationsDAO"></constructor-arg>
+	</bean>
 </beans>

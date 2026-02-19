@@ -72,6 +72,10 @@
 							<p>${dto.study_start_date} ~ ${dto.study_end_date.substring(0, 10)}</p>
 						</div>
 						<div class="studyContent__right__middle__box">
+							<p>스터디 시작일</p>
+							<p>${dto.study_begin_date.substring(0,10)}</p>
+						</div>
+						<div class="studyContent__right__middle__box">
 							<p>스터디 일정</p>
 							<p>${dto.study_total_weeks}주</p>
 						</div>
@@ -84,28 +88,39 @@
 				</div>
 			</div>
 		</section>
-		<div class="ajaxBtns">
-			<p id="studyOverview">개요</p>
-			<p>스터디 장소</p>
-			<p id="studyReview">참여자 후기</p>
-		</div>
 		<section class="studyContent__dt" id="scd">
 			<div class="studyContent__dt__container">
 				<h1>스터디 소개</h1>
 				<textarea name="studyContent__dt__content" rows="20" cols="40" readonly>${dto.study_content}</textarea>
 				<div class="studyContent__dt__btns">
-					<div class="studyContent__dt__btn_l">
+				
+					<!-- 모집 진행률 -->
+					<div class="studyCard progressCard">
 						<img src="/histudy/main-img/team.png">
-						<h1>목표 달성률</h1>
-						<h2>95%</h2>
-						<p>참여자의 95%가 목표 점수 달성</p>
+				
+						<h1>모집 진행률</h1>
+				
+						<div class="progressBar">
+							<div class="progressFill"
+								style="width:${(dto.study_current_members*100)/dto.study_max_members}%">
+							</div>
+						</div>
+				
+						<h2>${dto.study_current_members}/${dto.study_max_members}명</h2>
+						<p>현재 참여중인 스터디원</p>
 					</div>
-					<div class="studyContent__dt__btn_r">
-						<img src="/histudy/main-img/star.png">
-						<h1>만족도</h1>
-						<h2>4.9/5.0</h2>
-						<p>참여자 평균 만족도</p>
+				
+					<!-- 일정 요약 -->
+					<div class="studyCard infoCard">
+						<img src="/histudy/main-img/clock.png">
+				
+						<h1>스터디 일정</h1>
+				
+						<h2>${dto.study_total_weeks}주</h2>
+				
+						<p>시작일 · ${dto.study_begin_date.substring(0,10)}</p>
 					</div>
+				
 				</div>
 				<div class="studyLocation">
 					<!-- 지도 안내 문구 -->
@@ -129,83 +144,6 @@
 						value="${empty dto.study_location_lat?'':dto.study_location_lat}">
 					<input type="hidden" name="study_location_lng"
 						value="${empty dto.study_location_lng?'':dto.study_location_lng}">
-				</div>
-				<div class="studyReview">
-					<div class="studyReview__top">
-						<h1>참여자 후기</h1>
-						<p>★★★★☆<span>4.9 (24)</span></p>
-					</div>
-					<div class="studyReview__middle">
-						<div class="studyReview__card">
-							<div class="studyReview__card__top">
-								<div class="studyReview__card__top__left">
-									<img src="/histudy/main-img/junbeom.png">
-									<div class="studyReview__card__top__left__text">
-										<h3>이다빈</h3>
-										<p>2025.01.15</p>
-									</div>
-								</div>
-								<div class="studyReview__card__top__right">
-									<p>★★★★☆</p>
-								</div>
-							</div>
-							<div class="studyReview__card__row">
-								8주 만에 목표 점수 달성했어요! 체계적인 커리큘럼과 선생님의 세심한 피드백 덕분입니다.
-							</div>
-						</div>
-						<div class="studyReview__card">
-							<div class="studyReview__card__top">
-								<div class="studyReview__card__top__left">
-									<img src="/histudy/main-img/junbeom.png">
-									<div class="studyReview__card__top__left__text">
-										<h3>민채원</h3>
-										<p>2025.01.15</p>
-									</div>
-								</div>
-								<div class="studyReview__card__top__right">
-									<p>★★★★☆</p>
-								</div>
-							</div>
-							<div class="studyReview__card__row">
-								8주 만에 목표 점수 달성했어요! 체계적인 커리큘럼과 선생님의 세심한 피드백 덕분입니다.
-							</div>
-						</div>
-						<div class="studyReview__card">
-							<div class="studyReview__card__top">
-								<div class="studyReview__card__top__left">
-									<img src="/histudy/main-img/junbeom.png">
-									<div class="studyReview__card__top__left__text">
-										<h3>박지현</h3>
-										<p>2025.01.15</p>
-									</div>
-								</div>
-								<div class="studyReview__card__top__right">
-									<p>★★★★☆</p>
-								</div>
-							</div>
-							<div class="studyReview__card__row">
-								8주 만에 목표 점수 달성했어요! 체계적인 커리큘럼과 선생님의 세심한 피드백 덕분입니다.
-							</div>
-						</div>
-						<div class="studyReview__card">
-							<div class="studyReview__card__top">
-								<div class="studyReview__card__top__left">
-									<img src="/histudy/main-img/junbeom.png">
-									<div class="studyReview__card__top__left__text">
-										<h3>천은주</h3>
-										<p>2025.01.15</p>
-									</div>
-								</div>
-								<div class="studyReview__card__top__right">
-									<p>★★★★☆</p>
-								</div>
-							</div>
-							<div class="studyReview__card__row">
-								8주 만에 목표 점수 달성했어요! 체계적인 커리큘럼과 선생님의 세심한 피드백 덕분입니다.
-							</div>
-						</div>
-					</div>
-					
 				</div>
 			</div>
 		</section>

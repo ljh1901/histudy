@@ -18,4 +18,16 @@ public class LmsSubmitDAOImple implements LmsSubmitDAO {
 		return count;
 	}
 	
+	@Override
+	public LmsSubmitDTO selectAssignmentSubmit(int a_idx) {
+		LmsSubmitDTO dto = sqlSession.selectOne("selectAssignmentSubmit", a_idx);
+		return dto;
+	}
+	
+	@Override
+	public int taskSubmitUpdate(LmsSubmitDTO dto) {
+		int count = sqlSession.update("taskSubmitUpdate", dto);
+		return count;
+	}
+	
 }

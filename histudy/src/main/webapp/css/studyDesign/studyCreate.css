@@ -6,8 +6,22 @@
    .studyCreate{
       padding: 1rem;
       margin-top: 80px;
-      background-color: #FFF4EE;
+      background-color: #F9F9F9;
    }
+    .studyData__title{
+   	   display:flex;
+   	   align-items:center;
+   }
+   .studyCreate__title h1{
+	   font-size: 2rem;
+	   font-weight: 700;
+	   margin-bottom: 0.5rem;
+	}
+	
+	.studyCreate__title p{
+	   color: #6b7280;
+	   font-size: 1rem;
+	}
    .studyCreateContainer{
       max-width: 900px;
       margin: 0 auto;
@@ -15,28 +29,45 @@
       border-radius: 20px;
       width: 100%;
       padding:3rem;
+      box-shadow: 0 20px 50px rgba(8, 112, 184, 0.7);
+   }
+   .studyData span{
+   	  color: red;	
    }
    .studyCreate__Data{
-      margin-bottom: 30px;
+       margin-bottom: 50px;
+	   padding-bottom: 30px;
    }
+
    .studyCreate__title{
       display: flex;
       justify-content: center;
       flex-direction: column;
       margin-bottom: 30px;
    }
-   .studyData__title{
-   	   display:flex;
-   	   align-items:center;
-   }
    #maxTitle{
-   	     font-size:0.6rem;
-   		color:red;
+   	  font-size:0.6rem;
+   	  color:red;
+   	  margin-left: 10px;
    }
    .studyCreate__Data__Top{
       border-bottom: 1px solid black;
       text-align: left;
    }
+    .studyCreate__Data__Top h2{
+    	margin-bottom: 7px;
+    }
+	.studyRow{
+	   display: flex;
+	   gap: 20px;
+	   flex-wrap: wrap;
+	}
+	.studyRow .studyData{
+	   flex: 1;
+	   min-width: 200px;
+	   margin-top:20px;
+	}
+
    .studyData{
       display: flex;
       justify-content: flex-start;
@@ -50,33 +81,47 @@
       margin-right: 10px;
    }
    .studyData input, select{
-      border: 1px solid #888;
-      border-radius: 10px;
-      padding: 1rem;
+	   border: 1px solid #e5e7eb;
+	   border-radius: 12px;
+	   padding: 0.9rem 1rem;
+	   transition: 0.2s;
+	   font-size: 0.95rem;
    }
    .studyData textarea{
+   	  border: 1px solid #e5e7eb;
       border-radius: 10px;
       padding:1rem;
       resize: none;
    }
+   .studyData input:focus,
+	.studyData select:focus,
+	.studyData textarea:focus{
+	   outline: none;
+	   border-color: #111827;
+	   box-shadow: 0 0 0 3px rgba(17,24,39,0.08);
+	}
    .studyCreate__btns input[type="submit"]{
-      width:100%;
-      background-color: #111827;
-      color: white;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 1.3rem;
-      padding: 1rem;
+	   width:100%;
+	   background-color: #111827;
+	   color: white;
+	   border: none;
+	   border-radius: 14px;
+	   font-size: 1.1rem;
+	   padding: 1rem;
+	   font-weight: 600;
+	   transition: 0.25s;
    }
    .studyCreate__btns input[type="submit"]:hover{
       cursor: pointer;
       background-color: var(--color-navy);
    }
    .studyData__sub{
-      font-size: 0.8rem;
+      font-size: 0.6rem;
       color: #888;
    }
    #map{
+   	   border: 1px solid #e5e7eb;
+	   border-radius: 12px;
       z-index:0;
    }
    .map-instruction {

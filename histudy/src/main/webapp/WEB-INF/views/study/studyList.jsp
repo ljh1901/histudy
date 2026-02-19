@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="/histudy/css/root.css">
 <link rel="stylesheet" type="text/css" href="/histudy/css/footer.css">
 <link rel="stylesheet" type="text/css" href="/histudy/css/studyDesign/studyList.css">
+<script src="https://kit.fontawesome.com/3f5acacf0e.js" crossorigin="anonymous"></script>
 </head>
 <body id="studyPage">
 <%@ include file="../header.jsp" %>
@@ -19,6 +20,7 @@
 	         <div class="studyList__container">
 	            <div class="studyList__container__top">
 	               <p>홈 &nbsp; > &nbsp;스터디 목록</p>
+	               <p class="slt__text"><i class="fa-solid fa-circle-exclamation"></i> 모집 마감일이 지난 스터디는 조회되지 않습니다.</p>
 	            </div>
 	            <h2 class="studyList__title">스터디 찾기</h2>   
 	            <p class="studyList__sub">함께 성장할 스터디를 찾아보세요</p>
@@ -43,7 +45,9 @@
 					<a href="studyList.do?cp=1&sc_idx=4" class="cate ${param.sc_idx=='4'?'active':''}">자격증</a>
 					<a href="studyList.do?cp=1&sc_idx=5" class="cate ${param.sc_idx=='5'?'active':''}">취업</a>
                </div>
-               <p>총 <span>${studyListCount}</span>개의 스터디</p>
+               <div class="studyCategory__left__text">
+	               <p class="slt__count">총 <span>${studyListCount}</span>개의 스터디</p>
+               </div>
             </div>
          </div>
       </section>
@@ -61,8 +65,18 @@
 	                     </div>
 	                        <h3 class="studyCard__title">${dto.study_title}</h3>
 	                     <div class="studyCard__rating">
-	                       <div class="stars">
-	                         ★★★★☆ <span style="color:black; font-weight:bold">4.9 (24)</span>
+	                       <div>
+		                         <c:if test="${dto.dday == 0}">
+									  <span class="badge urgent">오늘마감</span>
+								 </c:if>
+									
+								 <c:if test="${dto.dday > 0 && dto.dday <= 3}">
+									  <span class="badge soon">마감임박 D-${dto.dday}</span>
+								 </c:if>
+									
+								 <c:if test="${dto.dday > 3}">
+									  <span class="badge normal">모집중</span>
+								 </c:if>
 	                       </div>
 	                    </div>
 	                        <ul class="studyCard__meta">
@@ -77,9 +91,11 @@
             </c:forEach>
          </c:if>
          <c:if test="${empty requestScope.studyList}">
-            <div id="notStudy">
-               <h2>개설된 스터디가 없습니다.</h2>
-            </div>
+		    <div id="notStudy">
+		        <img src="/histudy/main-img/cross-sign.png">
+		        <h2>아직 개설된 스터디가 없어요</h2>
+		        <p>첫 번째 스터디를 만들어보세요 🚀</p>
+		    </div>
          </c:if>
       </section>
       <div class="paging">
@@ -108,6 +124,7 @@
 			return null;
 		}
 	}
+	
 	function studySearch(){
 		var keyword = document.studySearchForm.studyFind.value;
 		
@@ -116,6 +133,7 @@
 		xhr.onreadystatechange = studySearchResult;
 		xhr.send(null);
 	}
+	
 	function studySearchResult(){
 		if(xhr.readyState == 4){
 			if(xhr.status == 200){

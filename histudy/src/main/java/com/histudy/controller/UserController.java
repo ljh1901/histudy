@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile; // [추가] 업로드 파일 처리를 위해 필요
 import org.springframework.web.servlet.ModelAndView;
 
+import com.histudy.study.service.StudyApplyService;
 import com.histudy.user.model.UserDTO;
 import com.histudy.user.service.UserService;
 
@@ -28,6 +29,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private StudyApplyService sa_Service;
 
 	// 1. 회원가입 View 이동
 	@GetMapping("/userSignUp.do")
@@ -71,6 +75,7 @@ public class UserController {
 	@ResponseBody
 	public String userSignIn(@RequestBody Map<String, String> params, HttpSession session,
 			HttpServletResponse response) {
+		
 		String user_id = params.get("user_id");
 		String user_pwd = params.get("user_pwd");
 		String remember_id = params.get("remember_id");
@@ -81,6 +86,10 @@ public class UserController {
 			session.setAttribute("user_id", user_id);
 			session.setAttribute("user_idx", loginUser.getUser_idx());
 			session.setAttribute("user_name", loginUser.getUser_name());
+			
+			/** 준범 작성 - 로그인 시간 */
+			sa_Service.userLoginTimeUpdate(loginUser.getUser_idx());
+			
 			// [중요] 세션에 DTO 객체를 저장해둬야 마이페이지 수정 시 편리합니다.
 			session.setAttribute("user", loginUser);
 
@@ -97,12 +106,20 @@ public class UserController {
 		} else {
 			return "아이디 또는 비밀번호를 잘못입력하셨습니다.";
 		}
+		
 	}
 
 	// 4. 로그아웃 및 중복체크
 	@RequestMapping(value = "/userLogout.do", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
+		
+		int user_idx = (Integer)session.getAttribute("user_idx");
+		
 		session.invalidate();
+		
+		/** 준범 작성 - 로그아웃 시간 */
+		sa_Service.userLogoutTimeUpdate(user_idx);
+		
 		return "redirect:/index.do";
 	}
 
