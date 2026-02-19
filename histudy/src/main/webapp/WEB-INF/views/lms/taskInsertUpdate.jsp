@@ -12,37 +12,35 @@
 <link rel="stylesheet" type="text/css" href="/histudy/css/lmsDesign/taskInsert.css">
 </head>
 <body class="taskInsertBody">
-<%@include file="../header.jsp" %>
 <main>
+<%@include file="../header.jsp" %>
 	<section class="taskInsertTopSection">
 		<div class="TIContainer">
 			<div class="TIContainer__top">
-				<p>LMS &nbsp; > &nbsp; 과제 등록</p>
+				<p>LMS &nbsp; > &nbsp; 과제 수정</p>
 			</div>
-			<h1 class="TIContainer__title">과제 등록</h1>
-			<p class="TIContainer__sub">스터디 멤버들에게 새로운 과제를 등록하세요</p>
+			<h1 class="TIContainer__title">과제 수정</h1>
+			<p class="TIContainer__sub">업로드한 과제를 수정할 수 있어요</p>
 		</div>
 	</section>
 	<section class="taskInsertForm">
 		<div class="TIFContainer">
-			<form name="taskInsertForm" action="taskInsert.do" method="POST" enctype="multipart/form-data">
+			<form name="taskInsertUpdateForm" action="taskInsertUpdateSubmit.do" method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="a_idx" value="${dto.a_idx}">
 				<div class="TIF_BOX">
 					<div class="TIF_card">
-						<label>스터디 선택 <span>*</span></label>
-						<select name="study_idx" required>
-							<c:forEach var="s" items="${studyList}">
-								<option value="${s.study_idx}">${s.study_title}</option>
-							</c:forEach>
-						</select>
-						<p>리더로 참여 중인 스터디만 표시됩니다.</p>
+						<label>스터디<span>*</span></label>
+						<input type="text" name="study_title" value="${study_title}" readonly>
+						<p>선택하신 스터디 입니다.</p>
 					</div>
 					<div class="TIF_card">
 						<label>과제 제목 <span>*</span><span id="maxTitle"></span></label>
-						<input type="text" name="a_title" oninput="titleCheck(this)" placeholder="과제 제목을 입력해주세요." required>
+						<input type="text" name="a_title" value="${dto.a_title}" oninput="titleCheck(this)" placeholder="과제 제목을 입력해주세요." required>
 					</div>
 					<div class="TIF_card">
 						<label>주차 <span>*</span></label>
-						<select name="a_weeks" required>
+						<select name="a_weeks">
+							<option value="${dto.a_weeks}" selected>${dto.a_weeks}주차</option>
 							<option value="1">1주차</option>
 							<option value="2">2주차</option>
 							<option value="3">3주차</option>
@@ -61,7 +59,8 @@
 							name="a_content"
 							rows="10" cols="40"
 							oninput="studyContentCheck(this)"
-                     		maxlength="300"required></textarea>
+                     		maxlength="300"
+                     		required>${dto.a_content}</textarea>
                      	<div class="TIF_card_keynum">
 							<p id="keynum">0</p>
                      		<p>/300자</p>
@@ -69,14 +68,14 @@
 					</div>
 					<div class="TIF_card">
 						<div class="TIF_card_date">
-							<div>
-								<label>마감 날짜 <span>*</span></label>
-								<input type="date" name="a_end_date" onchange="dateCheck()" required>
+							<div class="TIF__card__date__top">
+								<label>마감 날짜 <span>*</span><span class="endDate">${dto.a_end_date.substring(0,11)}</span></label>
+								<input type="date" name="a_end_date" onchange="dateCheck()" value="${dto.a_end_date}" required>
 							</div>
-							<div>
-								<label>마감 시간 <span>*</span></label>
+							<div class="TIF__card__date__top">
+								<label>마감 시간 <span>*</span><span class="endDate">${dto.a_end_date.substring(11)}</span></label>
 								<div class="TIF__selectbox">
-									<select name="a_end_time" required>
+									<select name="a_end_time">
 										<c:forEach var="i" begin="0" end="23" step="1">
 											<c:choose>
 												<c:when test="${i<=9}">
@@ -88,8 +87,8 @@
 											</c:choose>
 										</c:forEach>
 									</select>
-									<select name="a_end_time_m" required>
-										<c:forEach var="i" begin="0" end="59" step="1">
+									<select name="a_end_time_m">
+										<c:forEach var="i" begin="1" end="59" step="1">
 											<c:choose>
 												<c:when test="${i<=9}">
 													<option value="${i}">0${i} 분</option>
@@ -105,7 +104,9 @@
 						</div>
 					</div>
 					<div class="TIF_card">
-						<label>첨부 파일</label>
+						<div class="files">
+							<label>첨부 파일</label><span>${empty dto.a_fname?'첨부된 파일 없음':dto.a_fname}</span>
+						</div>
 						<div class="TIF_card_file">
 							<div class="TIF_card_file_imgbox">
 								<img src="/histudy/lms-img/fileimg.png">
@@ -132,7 +133,7 @@
 					</div>
 					<div class="TIF_btns">
 						<input type="reset" value="취소">
-						<input type="submit" value="과제 등록하기">
+						<input type="submit" value="과제 수정하기">
 					</div>
 				</div>
 			</form>
@@ -141,45 +142,4 @@
 </main>
 <%@include file="../footer.jsp" %>
 </body>
-<script>
-// 제목 글자수 제한 유효성 검사
-function titleCheck(el){
-	const MAX = 25;
-	const titleCount = el.value.length;
-	const data = document.getElementById('maxTitle');
-	
-	if(titleCount>=MAX){
-		data.innerHTML = '제목은 25자 이내로 작성해주세요!';
-	}else{
-		data.innerHTML = '';
-	}
-	
-}
-// 스터디 내용 글자수 제한 유효성 검사 
-function studyContentCheck(el){
-   const MAX = 300;
-   const count = el.value.length;
-   const keynum = document.getElementById('keynum');
-   
-   keynum.textContent = count;
-   
-    if (count >= MAX) {
-        keynum.style.color = 'red';
-    } else {
-        keynum.style.color = 'black';
-    } 
-}
-// 이전 날짜 제한 유효성 검사
-function dateCheck(){
-   var selectDate = document.taskInsertForm.a_end_date.value;
-   
-   var endDate = new Date(selectDate);
-   var today = new Date();
-   
-   if(endDate < today){
-	   alert('오늘 날짜 이후로 선택하셔야 합니다.');
-	   document.taskInsertForm.a_end_date.value='';
-   }
-}
-</script>
 </html>

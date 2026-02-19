@@ -15,14 +15,18 @@ public class LmsDTO {
 	private int user_idx;
 	private int study_idx;
 	
+	private String memberStatus; // 진행중 클릭하면 상태 판단해주려고 만든거
+	
 	
 	public LmsDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
 
+
 	public LmsDTO(int a_idx, String a_title, String a_content, String a_fname, String a_start_date, String a_end_date,
-			String a_end_time, String a_end_time_m, String study_title, int a_weeks, int user_idx, int study_idx) {
+			String a_end_time, String a_end_time_m, String study_title, int a_weeks, int user_idx, int study_idx,
+			String memberStatus) {
 		super();
 		this.a_idx = a_idx;
 		this.a_title = a_title;
@@ -36,7 +40,9 @@ public class LmsDTO {
 		this.a_weeks = a_weeks;
 		this.user_idx = user_idx;
 		this.study_idx = study_idx;
+		this.memberStatus = memberStatus;
 	}
+
 
 
 	public int getA_idx() {
@@ -156,6 +162,18 @@ public class LmsDTO {
 
 	public void setStudy_idx(int study_idx) {
 		this.study_idx = study_idx;
+	}
+
+
+
+	public String getMemberStatus() {
+		return memberStatus;
+	}
+
+
+
+	public void setMemberStatus(String memberStatus) {
+		this.memberStatus = memberStatus;
 	}
 
 	

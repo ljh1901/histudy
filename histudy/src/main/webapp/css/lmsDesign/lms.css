@@ -244,6 +244,11 @@
 	.lmsCenterContainer__rightBox__card:hover{
 		box-shadow: 0 8px 30px rgb(0,0,0,0.12);
 	}
+	.lmsCenterContainer__rightBox__card__top{
+	    display:flex;
+	    gap:7px;
+	    align-items:center;
+	}
 	.tag-weeks{
 		 display: inline-block;
 	     padding: 6px 14px;
@@ -344,6 +349,10 @@
 	.row__right__abtn:hover{
 		background-color: var(--color-navy);
 	}
+	.row__right__myTask{
+		display: flex;
+		gap:8px;
+	}
 	.row__right__myTask input[type="button"]{
 	   border: none;
 	   border-radius: 20px;
@@ -352,15 +361,43 @@
 	   font-size:0.8rem;
 	   background-color: orange;
 	   color: white;
+	   margin-top: 20px;
+	}
+	#row__right__myTask__updateBtn{
+	   border: none;
+	   border-radius: 20px;
+	   width:100px;
+	   padding: 0.8rem;
+	   font-size:0.8rem;
+	   background-color: #A9A9A9;
+	   color: white;
 	   cursor: pointer;
 	   margin-top: 20px;
 	}
-	.row__right__myTask input[type="button"]:hover{
+	#row__right__myTask__updateBtn:hover{
+		background-color: var(--color-navy);
+	}
+	#row__right__myTask__taskSubmitUpdateBtn{
+	   border: none;
+	   border-radius: 20px;
+	   width:100px;
+	   padding: 0.8rem;
+	   font-size:0.8rem;
+	   background-color: #A9A9A9;
+	   color: white;
+	   cursor: pointer;
+	   margin-top: 20px;
+	}
+	#row__right__myTask__taskSubmitUpdateBtn:hover{
 		background-color: var(--color-navy);
 	}
 	.emptyTask{
 		text-align: center;
 	}
-	.emptyTask h3{
-		font-size: 1.5rem;
+	.emptyTask img{
+		width: 100px;
+		height: 100px;
+	}
+	.emptyTask p{
+		font-size: 1.2rem;
 	}

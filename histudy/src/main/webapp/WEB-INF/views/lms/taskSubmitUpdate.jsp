@@ -13,14 +13,14 @@
 <body class="taskSubmitBody">
 <%@include file="../header.jsp" %>
 <main>
-	<form name="taskSubmit" action="taskSubmitOk.do" method="post" enctype="multipart/form-data">
+	<form name="taskSubmitUpdate" action="taskSubmitUpdateOk.do" method="post" enctype="multipart/form-data">
 	<section class="taskSubmitTopSection">
 		<div class="TSContainer">
 			<div class="TSContainer__top">
-				<p>LMS &nbsp; > &nbsp; 과제 제출</p>
+				<p>LMS &nbsp; > &nbsp; 과제 제출 수정</p>
 			</div>
-			<h1 class="TSContainer__title">과제 제출</h1>
-			<p class="TSContainer__sub">과제를 완료하고 제출하세요</p>
+			<h1 class="TSContainer__title">과제 제출 수정</h1>
+			<p class="TSContainer__sub">제출하신 과제를 수정할 수 있어요.</p>
 		</div>
 	</section>
 	<section class="taskSubmitForm">
@@ -29,16 +29,16 @@
 				<div class="lmsCenterContainer__rightBox__card">
 					<div class="lmsCenterContainer__rightBox__card__top">
 						<span class="tag-title">${study_title}</span>
-						<span class="tag-weeks">${taskData.a_weeks}주차</span>
+						<span class="tag-weeks">${lmsDto.a_weeks}주차</span>
 					</div>
 					<div class="lmsCenterContainer__rightBox__card__middle">
-						<h3>${taskData.a_title}</h3>
-						<p>${taskData.a_content }</p>
+						<h3>${lmsDto.a_title}</h3>
+						<p>${lmsDto.a_content }</p>
 						<div class="lmsCenterContainer__rightBox__middle__file">
 							<p>첨부 파일</p>
 							<div class="files__file">
 								<img src="/histudy/lms-img/clip.png">
-								<span>${empty taskData.a_fname?'첨부된 파일이 없습니다.':taskData.a_fname}</span>
+								<span>${empty lmsDto.a_fname?'첨부된 파일이 없습니다.':lmsDto.a_fname}</span>
 							</div>
 						</div>
 					</div>
@@ -46,25 +46,25 @@
 						<div class="row__left">
 							<img src="/histudy/lms-img/calendar.png">
 							<p>마감일: &nbsp;</p>
-							<p>${taskData.a_end_date}</p>
+							<p>${lmsDto.a_end_date}</p>
 							<p class="endDateText">마감</p>
 						</div>
 					</div>
 				</div>
 			</div>
-			<input type="hidden" name="a_idx" value="${taskData.a_idx}">
+			<input type="hidden" name="a_idx" value="${lmsDto.a_idx}">
 			<div class="taskData2">
 				<h3 class="taskData2__title">과제 제출하기</h3>
 				<div class="TIF_card">
 					<label>제출 내용 <span>*</span></label>
-					<textarea name="as_content" rows="20" cols="40" required></textarea>
+					<textarea name="as_content" rows="20" cols="40" required>${lmsSubmitDto.as_content}</textarea>
 					<div class="TIF_card_keynum">
 						<p>최소 100자 이상 작성해주세요</p>
 						<p>0자</p>
 					</div>
 				</div>
 				<div class="TIF_card">
-					<label>파일 첨부</label>
+					<label>파일 첨부</label><span>${empty lmsSubmitDto.as_fname?'첨부된 파일이 없습니다.':lmsSubmitDto.as_fname}</span>
 					<div class="TIF_card_file">
 						<div class="TIF_card_file_imgbox">
 							<img src="/histudy/lms-img/fileimg.png">
@@ -91,7 +91,7 @@
 				</div>
 				<div class="TIF_btns">
 					<input type="reset" value="취소">
-					<input type="submit" value="제출하기">
+					<input type="submit" value="수정하기">
 				</div>
 			</div>
 		</div>

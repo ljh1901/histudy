@@ -25,14 +25,16 @@ import com.histudy.membership.model.MembershipPaymentDTO;
 import com.histudy.membership.service.MembershipService;
 import com.histudy.user.model.UserDTO;
 import com.histudy.user.service.UserService;
+import com.histudy.study.service.StudyApplyService;
 
 @Controller
 public class UserController {
-
-   @Autowired
+  @Autowired
    private UserService userService;
    @Autowired
    private MembershipService membershipService;
+	@Autowired
+	private StudyApplyService sa_Service;
 
    // 1. 회원가입 View 이동
    @GetMapping("/userSignUp.do")
@@ -89,6 +91,8 @@ public class UserController {
          session.setAttribute("user_idx", loginUser.getUser_idx());
          session.setAttribute("role_idx", loginUser.getRole_idx());
          session.setAttribute("user_name", loginUser.getUser_name());
+
+sa_Service.userLoginTimeUpdate(loginUser.getUser_idx());
          // [중요] 세션에 DTO 객체를 저장해둬야 마이페이지 수정 시 편리합니다.
          session.setAttribute("user", loginUser);
 
@@ -118,6 +122,7 @@ public class UserController {
    @RequestMapping(value = "/userLogout.do", method = RequestMethod.GET)
    public String logout(HttpSession session) {
       session.invalidate();
+       sa_Service.userLogoutTimeUpdate(user_idx);
       return "redirect:/index.do";
    }
 
@@ -182,7 +187,7 @@ public class UserController {
          }
       }
       int result = userService.updateProfile(user);
-
+     
         if (result > 0) {
             // 성공 시 리턴
             UserDTO loginUser = (UserDTO) session.getAttribute("user");

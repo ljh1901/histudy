@@ -27,51 +27,72 @@
                <div class="studyData">
                	  <div class="studyData__title">
                	  	    <label>스터디 제목</label>
+               	  	    <span>*</span>
                	  		<span id="maxTitle"></span>
                	  </div>
-                  <input type="text" name="study_title" maxlength="25" oninput="titleCheck(this)" placeholder="ex) 정보처리기사 실기 스터디" required>
+                  <input type="text" name="study_title" maxlength="21" oninput="titleCheck(this)" placeholder="ex) 정보처리기사 실기 스터디" required>
                </div>
-               <div class="studyData">
-                  <label>카테고리</label>
-                  <select name="sc_idx" required>
-                     <option>선택해주세요</option>
-                     <option value="1">코딩</option>
-                     <option value="2">언어</option>
-                     <option value="3">학업</option>
-                     <option value="4">자격증</option>
-                     <option value="5">취업</option>
-                  </select>
-               </div>
-               <div class="studyData">
-                  <label>모집 인원</label>
-                  <select name="study_max_members" required>
-                     <option value="3">3명</option>
-                     <option value="4">4명</option>
-                     <option value="5">5명</option>
-                     <option value="6">6명</option>
-                     <option value="7">7명</option>
-                     <option value="8">8명</option>
-                  </select>
-               </div>
-               <div class="studyData">
-                  <label>마감일</label>
-                  <input type="date" name="study_end_date" onchange="dateCheck()" required>
-               </div>
-               <div class="studyData">
-               	  <label>스터디 진행 일정</label>
-               	  <select name="study_total_weeks" required>
-               	  	 <option value="5">5주</option>
-               	  	 <option value="6">6주</option>
-               	  	 <option value="7">7주</option>
-               	  	 <option value="8">8주</option>
-               	  	 <option value="9">9주</option>
-               	  	 <option value="10">10주</option>
-               	  </select>
-               </div>
-               <div class="studyData">
-                  <label>배경 이미지</label>
-                  <p class="studyData__sub">스터디 그룹의 배경 이미지를 넣어보세요 (.png 또는 .jpg)</p>
-                  <input type="file" name="rstudy_upload_img" onchange="fileCheck()">
+               <div class="studyRow">
+	               <div class="studyData">
+	               	  <div class="studyData__title">
+	                 	 <label>카테고리</label><span> * </span>
+	                  </div>
+	                  <select name="sc_idx" required>
+	                     <option>선택해주세요</option>
+	                     <option value="1">코딩</option>
+	                     <option value="2">언어</option>
+	                     <option value="3">학업</option>
+	                     <option value="4">자격증</option>
+	                     <option value="5">취업</option>
+	                  </select>
+	              </div>
+	              <div class="studyData">
+	               	  <div class="studyData__title">
+	                  	<label>모집 인원</label><span> * </span>
+	                  </div>
+	                  <select name="study_max_members" required>
+	                     <option value="3">3명</option>
+	                     <option value="4">4명</option>
+	                     <option value="5">5명</option>
+	                     <option value="6">6명</option>
+	                     <option value="7">7명</option>
+	                     <option value="8">8명</option>
+	                  </select>
+	               </div>
+	               <div class="studyData">
+	               	  <div class="studyData__title">
+		                  <label>배경 이미지</label>
+		                  <p class="studyData__sub">(.png 또는 .jpg)</p>
+	                  </div>
+	                  <input type="file" name="rstudy_upload_img" onchange="fileCheck()">
+	               </div>
+	           </div>
+	           <div class="studyRow">
+	               <div class="studyData">
+		               <div class="studyData__title">
+		                  <label>모집 마감일</label><span> * </span>
+		               </div>
+	                  <input type="date" name="study_end_date" onchange="dateCheck()" required>
+	               </div>
+	               <div class="studyData">
+	               		<div class="studyData__title">
+	               	  		<label>스터디 시작일</label><span> * </span>
+	               	    </div>
+	               	  <input type="date" name="study_begin_date" onchange="studyCheck()" required>
+	               </div>
+	               <div class="studyData" >
+	               	  	<div class="studyData__title">
+	               	  		<label>스터디 진행 일정</label><span> * </span>
+	               	  	</div>
+	               	  <select name="study_total_weeks" required>
+	               	  	 <option value="5">5주</option>
+	               	  	 <option value="6">6주</option>
+	               	  	 <option value="7">7주</option>
+	               	  	 <option value="8">8주</option>
+	               	  	 <option value="9">9주</option>
+	               	  	 <option value="10">10주</option>
+	               	  </select>
+	               </div>
                </div>
             </div>
             <div class="studyCreate__Data">
@@ -136,12 +157,12 @@
 <script>
 	// 제목 글자 수 유효성 검사
 	function titleCheck(el){
-		const MAX = 25;
+		const MAX = 21;
 		const titleCount = el.value.length;
 		const data = document.getElementById('maxTitle');
 		
 		if(titleCount>=MAX){
-			data.innerHTML = '제목은 20자 이내로 작성해주세요!';
+			data.innerHTML = '제목은 21자 이내로 작성해주세요!';
 		}else{
 			data.innerHTML = '';
 		}
@@ -200,23 +221,31 @@
    function dateCheck(){
       var selectDate = document.studyCreateForm.study_end_date.value;
       
-      var selectDateAll = selectDate.split('-');
+      var selected = new Date(selectDate);
+      selected.setHours(0, 0, 0, 0);
       
-      var now = new Date();
-      var nowYear = now.getFullYear();
-      var nowMonth = now.getMonth()+1;
-      var nowDate = now.getDate();
+      var today = new Date();
+      today.setHours(0, 0, 0, 0);
       
-      if(selectDateAll[0]<nowYear){
-         alert('현재 년도 이후로 선택하셔야 합니다.');
-         document.studyCreateForm.study_end_date.value='';
-      }else if(selectDateAll[1]<nowMonth){
-         alert('현재 월 이후로 선택하셔야 합니다.');
-         document.studyCreateForm.study_end_date.value='';
-      }else if(selectDateAll[2]<nowDate){
-         alert('현재 일 이후로 선택하셔야 합니다.');
-         document.studyCreateForm.study_end_date.value='';
+      if(selected < today){
+    	  alert('오늘 이후 날짜를 선택하세요.');
+    	  document.studyCreateForm.study_end_date.value='';
       }
+   }
+   // 모집 마감 <= 스터디 시작 
+   function studyCheck(){
+	   var endSelectDate = document.studyCreateForm.study_end_date.value;
+	   var endDate = new Date(endSelectDate);
+	   endDate.setHours(0, 0, 0, 0);
+	   
+	   var beginSelectDate = document.studyCreateForm.study_begin_date.value;
+	   var beginDate = new Date(beginSelectDate);
+	   beginDate.setHours(0, 0, 0, 0);
+	   
+	   if(endDate > beginDate){
+		   alert('스터디 시작일은 모집 마감일 이후여야 합니다.');
+		   document.studyCreateForm.study_begin_date.value='';
+	   }
    }
 </script>
 <script type="text/javascript" 
