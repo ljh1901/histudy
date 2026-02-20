@@ -144,7 +144,6 @@
 					<th>신고 사유</th>
 					<th>신고자</th>
 					<th>상태</th>
-					<th>관리</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -159,7 +158,6 @@
 							class="${r.report_status == '대기' ? 'status--pending' : 'status--resolved'}">
 								${r.report_status} </span></td>
 						<td>
-							<button class="btn__view" onclick="viewReport(${r.report_idx})">상세보기</button>
 							<c:if test="${r.report_status == '대기'}">
 								<button class="btn__user__del"
 									onclick="resolveReport(${r.report_idx})">처리완료</button>

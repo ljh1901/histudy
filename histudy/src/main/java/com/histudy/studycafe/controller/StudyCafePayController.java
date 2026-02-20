@@ -39,9 +39,9 @@ public class StudyCafePayController {
 	public ResponseEntity<PayDTO> payNotComplete(@RequestBody PayDTO payOrder,HttpSession session, @RequestParam int ticket_idx){
 		payOrder.setUser_idx((Integer) session.getAttribute("user_idx"));
 		int result = studycafeService.orderPay(payOrder);
-		TicketJoinTicketCategoryDTO tjtcdto = studycafeService.ticketTotalAmount(ticket_idx);
+		int ticketAmount = studycafeService.ticketTotalAmount(ticket_idx);
 		PayDTO payRequest = result>0?payOrder:null;
-		payRequest.setTotalAmount(tjtcdto.getTicket_amount());
+		payRequest.setTotalAmount(ticketAmount);
 		ResponseEntity<PayDTO> re = new ResponseEntity<PayDTO>(payRequest, HttpStatus.OK);
 		return re;
 	}

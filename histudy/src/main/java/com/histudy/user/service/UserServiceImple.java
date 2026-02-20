@@ -72,19 +72,12 @@ public class UserServiceImple implements UserService {
 
 	@Override
 	public int updateProfile(UserDTO dto) {
-		try {
-			((UserDAOImple) dao).updateUserTb(dto);
-			dao.updateProfile(dto);
-			return 1;
-
-		} catch (org.springframework.dao.DuplicateKeyException e) {
-			// 중복 시 -2를 던져도 컨트롤러가 "fail"로 바꾸므로,
-			// 일단 -2를 유지하고 JS에서 "fail" 처리 시 메시지를 보강합니다.
-			return -2;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+		int result1 = dao.userUpdateInfo(dto);
+		int result2 = dao.userUpdateMypage(dto);
+		if (result1 > 0 && result2 > 0) {
+	        return 1; 
+	    }
+	    return 0;
 	}
 
 	@Override
@@ -113,5 +106,9 @@ public class UserServiceImple implements UserService {
 		}
 
 		return null;
+	}
+	@Override
+	public void insertDefaultMypage(int user_idx) {
+		dao.insertDefaultMypage(user_idx);
 	}
 }

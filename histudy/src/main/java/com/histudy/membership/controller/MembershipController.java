@@ -1,6 +1,7 @@
 package com.histudy.membership.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -56,6 +57,10 @@ public class MembershipController {
         mav.addObject("uid", udto.getUser_id());
         mav.addObject("uidx", udto.getUser_idx());
         mav.setViewName("membership/membershipPayment");
+        
+        List<Map<String, Object>> list=membershipService.getPayment(user_idx);
+        mav.addObject("list",list);
+        
         return mav;
     }
 	@PostMapping("/cookieMake.do") 
@@ -65,7 +70,7 @@ public class MembershipController {
 			@RequestBody MembershipPaymentDTO dto) {
 	    
 	    membershipService.insertPrimium(dto);
-	    session.setAttribute("membership_grade", "premium");
+	    session.setAttribute("membership", "premium");
 	    
 	    Map<String, Object> map = new HashMap<>();
 	    map.put("result", "success");

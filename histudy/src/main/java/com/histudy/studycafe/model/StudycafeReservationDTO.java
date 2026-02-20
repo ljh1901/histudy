@@ -1,19 +1,25 @@
 package com.histudy.studycafe.model;
 
+import java.sql.Timestamp;
+
 public class StudycafeReservationDTO {
+	private int reservation_idx;
 	private int user_idx;
 	private int seat_idx;
-	private String reservation_starttime;
-	private String reservation_endtime;
+	private Timestamp reservation_starttime;
+	private Timestamp reservation_endtime;
 	private String reservation_status;
 	private int ticket_idx;
 	private String paymentId;
 	public StudycafeReservationDTO() {
 		super();
 	}
-	public StudycafeReservationDTO(int user_idx, int seat_idx, String reservation_starttime, String reservation_endtime,
-			String reservation_status, int ticket_idx, String paymentId) {
+	
+	
+	public StudycafeReservationDTO(int reservation_idx, int user_idx, int seat_idx, Timestamp reservation_starttime,
+			Timestamp reservation_endtime, String reservation_status, int ticket_idx, String paymentId) {
 		super();
+		this.reservation_idx = reservation_idx;
 		this.user_idx = user_idx;
 		this.seat_idx = seat_idx;
 		this.reservation_starttime = reservation_starttime;
@@ -21,6 +27,14 @@ public class StudycafeReservationDTO {
 		this.reservation_status = reservation_status;
 		this.ticket_idx = ticket_idx;
 		this.paymentId = paymentId;
+	}
+
+
+	public int getReservation_idx() {
+		return reservation_idx;
+	}
+	public void setReservation_idx(int reservation_idx) {
+		this.reservation_idx = reservation_idx;
 	}
 	public int getUser_idx() {
 		return user_idx;
@@ -34,16 +48,16 @@ public class StudycafeReservationDTO {
 	public void setSeat_idx(int seat_idx) {
 		this.seat_idx = seat_idx;
 	}
-	public String getReservation_starttime() {
+	public Timestamp getReservation_starttime() {
 		return reservation_starttime;
 	}
-	public void setReservation_starttime(String reservation_starttime) {
+	public void setReservation_starttime(Timestamp reservation_starttime) {
 		this.reservation_starttime = reservation_starttime;
 	}
-	public String getReservation_endtime() {
+	public Timestamp getReservation_endtime() {
 		return reservation_endtime;
 	}
-	public void setReservation_endtime(String reservation_endtime) {
+	public void setReservation_endtime(Timestamp reservation_endtime) {
 		this.reservation_endtime = reservation_endtime;
 	}
 	public String getReservation_status() {
@@ -64,5 +78,6 @@ public class StudycafeReservationDTO {
 	public void setPaymentId(String paymentId) {
 		this.paymentId = paymentId;
 	}
+	
 	
 }

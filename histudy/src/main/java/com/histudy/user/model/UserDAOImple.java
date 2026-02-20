@@ -63,5 +63,17 @@ public class UserDAOImple implements UserDAO {
 	public int userUpdatePw(UserDTO dto) {
 		return sqlSession.update("com.histudy.user.userUpdatePwSQL", dto);
 	}
-	
+	@Override
+	public void insertDefaultMypage(int user_idx) {
+		sqlSession.insert("insertDefaultMypage",user_idx);
+	}
+	@Override
+	public int userUpdateInfo(UserDTO dto) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("userUpdateInfoSQL", dto);
+	}
+	@Override
+	public int userUpdateMypage(UserDTO dto) {
+		return sqlSession.update("userUpdateMypageSQL", dto);
+	}
 }

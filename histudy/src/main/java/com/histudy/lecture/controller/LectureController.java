@@ -67,14 +67,20 @@ public class LectureController {
            mav.setViewName("lecture/lectureContent"); 
            return mav;
        }
+       String grade = membershipService.membershipGrade(user_idx);
        
+       if (grade == null || !"프리미엄".equals(grade)) {
+           mav.addObject("msg", "프리미엄 회원 전용 콘텐츠입니다.");
+           mav.setViewName("lecture/lectureContent");
+           return mav;
+       }
        Map<String, Object> map = new HashMap<>();
        map.put("lecture_idx", lecture_idx);
        map.put("user_idx", user_idx);
 
+       
        String scIdx = lectureService.scIdx(lecture_idx);
        mav.addObject("scIdx", scIdx);
-       String grade = membershipService.membershipGrade(user_idx);
        mav.addObject("grade", grade);
        
        Integer review_idx = lectureService.myReview(user_idx);
@@ -105,9 +111,14 @@ public class LectureController {
        LectureLikeDTO ldto = new LectureLikeDTO();
        ldto.setLecture_idx(lecture_idx);
        ldto.setUser_idx(user_idx);
+       LectureHateDTO hdto = new LectureHateDTO();
+       hdto.setLecture_idx(lecture_idx);
+       hdto.setUser_idx(user_idx);
 
        Integer isLike = lectureService.lectureLike(ldto);
        mav.addObject("isLike", isLike);
+       Integer isHate = lectureService.lectureHate(hdto);
+       mav.addObject("isHate", isHate);
 
        mav.setViewName("lecture/lectureContent");
        return mav;
@@ -165,13 +176,37 @@ public class LectureController {
    }
    @RequestMapping("reviewLike.do")
    public ModelAndView reviewLike(int lecture_idx,int user_idx,LectureLikeDTO ldto,LectureHateDTO hdto) {
-	   int result=lectureService.lectureLike(ldto);
-	   if(result>0) {//좋아요가 존재할때
+	   Object result=lectureService.lectureLike(ldto);
+	   if (result != null) {//좋아요가 존재할때
 		   lectureService.lectureLikeDown(lecture_idx);
+		   lectureService.lectureLikeDelete(ldto);
 	   }else {
 		   lectureService.lectureLikeUp(lecture_idx);
+		   lectureService.lectureLikeInsert(ldto);
+		   Object result_hate=lectureService.lectureHate(hdto);
+		   if(result_hate!=null) {//싫어요
+			   lectureService.lectureHateDown(lecture_idx);
+			   lectureService.lectureHateDelete(hdto);
+		   }
+	   }
+	   ModelAndView mav = new ModelAndView();
+	   mav.setViewName("redirect:lectureContent.do?lecture_idx=" + lecture_idx);
+	   return mav;
+   }
+   @RequestMapping("reviewHate.do")
+   public ModelAndView reviewHate(int lecture_idx,int user_idx,LectureLikeDTO ldto,LectureHateDTO hdto) {
+	   Object result=lectureService.lectureHate(hdto);
+	   if (result != null) {
 		   lectureService.lectureHateDown(lecture_idx);
 		   lectureService.lectureHateDelete(hdto);
+	   }else {
+		   lectureService.lectureHateUp(lecture_idx);
+		   lectureService.lectureHateInsert(hdto);
+		   Object result_like=lectureService.lectureLike(ldto);
+		   if(result_like!=null) {
+			   lectureService.lectureLikeDown(lecture_idx);
+			   lectureService.lectureLikeDelete(ldto);
+		   }
 	   }
 	   ModelAndView mav = new ModelAndView();
 	   mav.setViewName("redirect:lectureContent.do?lecture_idx=" + lecture_idx);

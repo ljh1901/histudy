@@ -1,0 +1,201 @@
+@charset "UTF-8";
+:root {
+	-white-brown: #CDA56D;
+	-door-color: #99CCFF;
+}
+
+form {
+	margin: 0px auto;
+	text-align: center;
+}
+
+#map {
+	margin: 0px auto;
+	border: solid 2px;
+}
+
+#studycafeList a {
+	color: black;
+}
+.seat-a{
+	fill: red;
+
+}
+section {
+	width: 90%;
+	max-width: 1100px;
+	margin: 40px auto;
+	padding: 30px;
+	background: white;
+	border-radius: 20px;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+	border: none;
+}
+
+section>h1>a {
+	color: black;
+}
+
+section>h1>a:hover {
+	color: blue;
+}
+
+.map_wrap {
+	position: relative;
+	width: 100%;
+	height: 350px;
+}
+
+.title {
+	font-weight: bold;
+	display: block;
+}
+
+#map, svg {
+
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.hAddr {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	border-radius: 2px;
+	background: #fff;
+	background: rgba(255, 255, 255, 0.8);
+	z-index: 1;
+	padding: 5px;
+}
+
+#centerAddr {
+	display: block;
+	margin-top: 2px;
+	font-weight: normal;
+}
+
+.bAddr {
+	padding: 5px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.seat-a:hover, .seat-a>rect:hover {
+	fill: gray;
+	cursor: pointer;
+}
+
+.seat-a:hover {
+	cursor: pointer;
+}
+
+.payseat {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.modal-overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-box {
+	position: relative;
+	background: #fff;
+	border-radius: 16px;
+	width: 400px;
+	max-width: 90%;
+	padding: 20px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+	z-index: 10;
+	animation: fadeIn 0.3s ease-out;
+}
+
+.modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+	flex: 1;
+}
+
+.modal-header h2 {
+	margin: 0;
+	font-size: 18px;
+}
+
+.modal-close {
+	background: transparent;
+	border: none;
+	font-size: 22px;
+	cursor: pointer;
+	 position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+}
+
+.modal-content {
+	margin-top: 15px;
+	text-align: center;
+}
+
+#payBtn {
+	background-color: gray; /* 보라색 버튼 */
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 10px;
+	cursor: pointer;
+	font-weight: bold;
+	transition: background 0.2s;
+}
+
+#payBtn:hover {
+	background-color: #4338ca;
+}
+.ticketGrid{
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+.ticketGrid button{
+	border-radius: 5px;
+	height: 100%;
+	padding: 5px;
+	margin: 5px;
+	border: 1px solid white;
+	background: blue;
+	color: white;
+	text-align: center;
+}
+.ticketGrid button:hover{
+	background: magenta;
+	cursor: pointer;
+}
+.studycafeCurrent{
+    display:flex;
+    justify-content:center;
+}
+text {
+	user-select: none;
+}
+rect[data-seat-type="GENERAL_B"]{
+	fill: green;
+}
+
+rect[data-seat-type="SINGLE_ROOM"]{
+	fill: #ccc;
+	rx:18;
+	stroke: black;
+	stroke-width: 2;
+}

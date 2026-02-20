@@ -24,8 +24,9 @@
 	        FROM membership_payment mp
 	        JOIN membership m ON mp.membership_idx = m.membership_idx
 	        WHERE mp.user_idx = #{user_idx}
-	        ORDER BY mp.payment_idx DESC  
-	        )
+	        	AND mp.end_date>=SYSDATE
+	        ORDER BY mp.end_date DESC 
+	    )
 	    WHERE ROWNUM = 1 
 	</select>
 	<insert id="insertBasic" parameterType="int">
@@ -41,5 +42,32 @@
         #{user_idx},       
         (SELECT membership_idx FROM membership WHERE membership_name = '일반')
     )
-</insert>
+	</insert>
+	<select id="getPayment" parameterType="int" resultType="map">
+		SELECT 
+        	'스터디카페' AS pay_type,    
+	        sp.paymentId AS pay_id,    
+	        sp.orderName AS pay_name,   
+	        sp.paid AS pay_amount,       
+	        sp.pay_method AS pay_method,  
+	        sp.paidAt AS pay_date,
+	        NULL AS end_date    
+	    FROM studycafe_pay sp 
+	    JOIN usertb utb ON sp.user_idx = utb.user_idx
+	    WHERE utb.user_idx = #{user_idx} 
+	      AND sp.pay_status = 'PAID'
+	    UNION ALL
+	    SELECT 
+	        '멤버십' AS pay_type, 
+	        payNum AS pay_id,    
+	        '프리미엄' AS pay_name,  
+	        payment_amount AS pay_amount, 
+	        payment_method AS pay_method,  
+	        payment_date AS pay_date, 
+	        end_date AS end_date 
+	    FROM membership_payment
+	    WHERE user_idx = #{user_idx} 
+	      AND membership_idx = 2
+	    ORDER BY pay_date DESC
+	</select>
 </mapper>

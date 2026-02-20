@@ -31,7 +31,10 @@ function load(){
 	<c:when test="${empty sessionScope.user_id}">
 		로그인이 필요합니다.		
 	</c:when>
-	<c:otherwise>
+	<c:when test="${sessionScope.membership == 'premium'}">
+		이미 프리미엄 회원입니다.
+	</c:when>
+	<c:otherwise >
 	<section class="why-learnhub">
     <div class="container">
         <h2 class="section-title">왜  Hi, Study를 선택해야 할까요?</h2>
@@ -93,7 +96,7 @@ function load(){
         // ------ STEP 3. 결제 요청 파라미터 설정 ------
         const response = await Bootpay.requestPayment({
           application_id: '697f4c338bbb6b2084c4ba03',
-          price: 1000,
+          price: 29000,
           order_name: '하이스터디 프리미엄 회원권 1개월',
           order_id: 'ORD-' + Date.now(),	//가맹점 고유 주문번호
           pg: '',         // PG사 선택
@@ -111,7 +114,7 @@ function load(){
               id: 'ITEM-001',
               name: '하이스터디 프리미엄 회원권 1개월',
               qty: 1,
-              price: 1000
+              price: 29000
             }
           ],
           extra: {
@@ -123,21 +126,27 @@ function load(){
         
         // ------ STEP 4. 결제 결과 처리 ------
         switch (response.event) {
-          case 'done':
-            console.log('결제 완료:', response.receipt_id)
-            document.getElementById("payment_method").value = response.method || 'card'; 
-            document.getElementById("payNum").value = response.receipt_id;
-            const paymentDto = {
-            		payNum: document.getElementById("payNum").value,  
-                    payment_method: document.getElementById("payment_method").value, 
-                    user_idx: parseInt(uidx),
-                    payment_amount: parseInt(document.getElementById("payment_amount").value), 
-                    tax_free: parseInt(document.getElementById("tax_free").value),
-                    payment_status: document.getElementById("payment_status").value,
-                    membership_idx: parseInt(document.getElementById("membership_idx").value)
-            };
-
-            console.log("서버로 보낼 DTO 객체:", paymentDto);        
+	        case 'done':
+	            console.log('결제 완료 데이터:', response);
+	            
+	            const paymentData = response.data; 
+	            const orderId = paymentData.order_id;
+	            const method = paymentData.method;
+	
+	            document.getElementById("payNum").value = orderId;
+	            document.getElementById("payment_method").value = method;
+	
+	            const paymentDto = {
+	                payNum: orderId,  
+	                payment_method: method, 
+	                user_idx: parseInt(uidx), 
+	                payment_amount: parseInt(document.getElementById("payment_amount").value), 
+	                tax_free: parseInt(document.getElementById("tax_free").value),
+	                payment_status: "완료", 
+	                membership_idx: parseInt(document.getElementById("membership_idx").value)
+	            };
+	
+	            console.log("서버로 보낼 DTO 객체:", paymentDto);
             
             fetch('${pageContext.request.contextPath}/cookieMake.do', {
                 method: 'POST',
