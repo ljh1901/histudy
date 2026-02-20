@@ -36,6 +36,8 @@ public class MypageController {
 	@GetMapping("mySchedule.do")
 	public ModelAndView mySchedule() {
 		ModelAndView mav=new ModelAndView();
+
+		
 		mav.setViewName("mypage/mySchedule");
 		return mav;
 	}
