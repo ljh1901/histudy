@@ -58,13 +58,8 @@
 								png, jpg, jpeg의 확장자<br>1MB 이하의 이미지
 							</p>
 						</div>
-					</form>
-				</div>
 
-				<div id="password-change-section" style="display: none;">
-					<h2 class="content-title">비밀번호 변경</h2>
-					<div class="profile-card">
-						<div class="profile-info-section" style="width: 100%;">
+						<div class="profile-info-section">
 							<table class="profile-table">
 							<c:if test="${sessionScope.membership == 'premium'}">
 							    <tr>
@@ -79,31 +74,55 @@
 							    </tr>
 							</c:if>
 								<tr>
-									<th>현재 비밀번호</th>
-									<td><input type="password" id="current_pw"
-										placeholder="현재 비밀번호 입력"
-										style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></td>
+									<th>이름</th>
+									<td><span class="view-mode">${user.user_name}</span> <input
+										type="text" id="name-input" class="edit-mode"
+										value="${user.user_name}" style="display: none;"></td>
 								</tr>
 								<tr>
-									<th>새 비밀번호</th>
-									<td><input type="password" id="new_pw"
-										placeholder="새 비밀번호 (7자 이상)"
-										style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></td>
+									<th>생년월일</th>
+									<td><span class="view-mode">${user.user_age}세</span> <input
+										type="date" id="birthdate-input" class="edit-mode"
+										value="${user.user_birthdate}" style="display: none;"></td>
 								</tr>
 								<tr>
-									<th>새 비밀번호 확인</th>
-									<td><input type="password" id="confirm_new_pw"
-										placeholder="새 비밀번호 확인"
-										style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></td>
+									<th>이메일</th>
+									<td><span class="view-mode">${user.user_email}</span> <input
+										type="email" id="email-input" class="edit-mode"
+										value="${user.user_email}" style="display: none;"></td>
+								</tr>
+								<tr>
+									<th>전화번호</th>
+									<td><span class="view-mode">${user.user_tel}</span> <input
+										type="text" id="tel-input" class="edit-mode"
+										value="${user.user_tel}" style="display: none;"></td>
+								</tr>
+								<tr>
+									<th>자기소개</th>
+									<td>
+										<div id="intro-text" class="view-mode user-info-display"
+											style="padding: 10px; line-height: 1.5;">
+											${user.user_intro}</div> <textarea id="intro-input"
+											class="edit-mode user-intro-edit" rows="5"
+											style="display: none; width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; resize: none;">${user.user_intro}</textarea>
+									</td>
 								</tr>
 							</table>
-
-							<input type="hidden" id="user_idx" value="${user.user_idx}">
 							<div style="text-align: right; margin-top: 20px;">
-								<button type="button" onclick="closePasswordChange()"
-									style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-right: 5px;">취소</button>
-								<button type="button" onclick="submitPasswordUpdate()"
-									style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">변경하기</button>
+								<div id="view-buttons">
+									<button type="button" onclick="toggleEditMode(true)"
+										style="background-color: #4A90E2; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+										수정하기</button>
+								</div>
+
+								<div id="edit-buttons" style="display: none;">
+									<button type="button" onclick="submitProfileUpdate()"
+										style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-right: 5px;">
+										저장</button>
+									<button type="button" onclick="toggleEditMode(false)"
+										style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+										취소</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -121,8 +140,11 @@
 				reader.readAsDataURL(input.files[0]);
 			}
 		}
-		var contextPath = "${pageContext.request.contextPath}";
 	</script>
+	<script>
+    // 서버의 절대 경로를 전역 변수로 선언 (예: /histudy)
+    var contextPath = "${pageContext.request.contextPath}";
+</script>
 	<script src="${pageContext.request.contextPath}/js/user/user.js"></script>
 	<%@ include file="../footer.jsp"%>
 </body>

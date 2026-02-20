@@ -222,3 +222,217 @@ function toggleUserMenu(event) {
         menu.style.display = isVisible ? 'none' : 'block';
     }
 }
+
+/** 모든 항목 수정 모드 전환 */
+function toggleEditMode(isEdit) {
+    const viewElements = document.querySelectorAll('.view-mode');
+    const editElements = document.querySelectorAll('.edit-mode');
+    const viewBtnGroup = document.getElementById('view-buttons');
+    const editBtnGroup = document.getElementById('edit-buttons');
+
+    if (isEdit) {
+        // 수정 모드: 텍스트 숨기고 입력창 보이기
+        viewElements.forEach(el => el.style.display = 'none');
+        editElements.forEach(el => el.style.display = 'block');
+        viewBtnGroup.style.display = 'none';
+        editBtnGroup.style.display = 'block';
+    } else {
+        // 읽기 모드: 다시 원상복구
+        viewElements.forEach(el => el.style.display = 'block');
+        editElements.forEach(el => el.style.display = 'none');
+        viewBtnGroup.style.display = 'block';
+        editBtnGroup.style.display = 'none';
+    }
+}
+
+/** 12. 비밀번호 변경 모드로 전환 */
+function openPasswordChange(event) {
+    if (event) event.preventDefault();
+    const profileForm = document.getElementById('profileForm');
+    const pwSection = document.getElementById('password-change-section');
+    const profileMain = document.getElementById('profile-main-section'); // 섹션 ID 확인 필요
+
+    // profileForm이 아닌 전체 섹션을 숨겨야 함
+    if (profileMain && pwSection) {
+        profileMain.style.display = 'none';
+        pwSection.style.display = 'block';
+        const title = document.querySelector('.content-title');
+        if(title) title.innerText = "비밀번호 변경";
+    }
+}
+
+/** 13. 비밀번호 변경 데이터 전송 */
+function submitPasswordUpdate() {
+    const currentPw = document.getElementById('current_pw').value;
+    const newPw = document.getElementById('new_pw').value;
+    const confirmPw = document.getElementById('confirm_new_pw').value;
+    const userIdx = document.getElementById('user_idx').value;
+
+    if (!currentPw || !newPw || !confirmPw) { alert("모든 필드를 입력해주세요."); return; }
+    if (newPw !== confirmPw) { alert("새 비밀번호가 일치하지 않습니다."); return; }
+    if (newPw.length < 7) { alert("비밀번호는 7자리 이상이어야 합니다."); return; }
+
+    const formData = new FormData();
+    formData.append('user_idx', userIdx);
+    formData.append('current_pw', currentPw);
+    formData.append('new_pw', newPw);
+
+    fetch(contextPath + "/updatePassword.do", { 
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.text())
+    .then(data => {
+        const result = data.trim();
+        if (result === 'success') {
+            alert('비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요.');
+            location.href = contextPath + "/index.do";
+        } else if (result === 'wrong_pw') {
+            alert('현재 비밀번호가 일치하지 않습니다.');
+        } else {
+            alert('비밀번호 변경에 실패했습니다.');
+        }
+    })
+    .catch(err => {
+        console.error("비밀번호 변경 중 오류 발생:", err);
+    });
+}
+
+/** 14. 다시 프로필 화면으로 복구 */
+function closePasswordChange() {
+    const profileSection = document.getElementById('profile-main-section');
+    const pwSection = document.getElementById('password-change-section');
+    
+    if (profileSection && pwSection) {
+        profileSection.style.display = 'block';
+        pwSection.style.display = 'none';
+        const title = document.querySelector('.content-title');
+        if(title) title.innerText = "내 프로필";
+    }
+}
+/**
+ * 모든 정보 한꺼번에 서버로 전송
+ */
+function submitProfileUpdate() {
+    const formData = new FormData();
+    const userIdx = document.getElementById('user_idx').value;
+    formData.append('user_idx', userIdx);
+    
+    // 안전한 엘리먼트 값 가져오기
+    const getValue = (id) => document.getElementById(id) ? document.getElementById(id).value : "";
+    
+    formData.append('user_name', getValue('name-input'));
+    formData.append('user_birthdate', getValue('birthdate-input'));
+    formData.append('user_email', getValue('email-input'));
+    formData.append('user_tel', getValue('tel-input'));
+    formData.append('user_intro', getValue('intro-input'));
+    
+    const fileInput = document.getElementById('fileInput');
+    if (fileInput && fileInput.files[0]) {
+        formData.append('uploadFile', fileInput.files[0]);
+    }
+
+   // [변경 1] 요청 주소를 절대 경로로 변경
+    fetch(contextPath + "/updateProfile.do", { 
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.text())
+    .then(data => {
+    const result = data.trim();
+    
+    if (result === "success" || result === "1") {
+        alert('프로필이 성공적으로 수정되었습니다.');
+        location.href = contextPath + "/myPage.do"; 
+    } else {
+        // 컨트롤러가 -2를 fail로 바꿔버리므로 여기서 포괄적으로 안내합니다.
+        alert('정보 수정에 실패했습니다.\n- 이미 사용 중인 이메일이나 전화번호일 수 있습니다.\n- 혹은 입력한 데이터에 문제가 있습니다.');
+    }
+})
+    .catch(err => console.error("오류:", err));
+}
+    /** 아이디 찾기 함수 */
+    function findUserId() {
+    	var name = document.getElementById('find_name').value;
+    	var tel = document.getElementById('find_tel').value;
+    	
+    	if(!name || !tel) {
+    	alert("이름과 전화번호 모두 입력");
+    	return;
+    }
+    fetch("userFindId.do", {
+    method:"POST",
+    headers: {"Content-Type" : "application/json" },
+    body: JSON.stringify({
+    	user_name : name,
+    	user_tel: tel
+    	})
+    })
+    .then(res => res.text())
+    .then(data => {
+    if(data === "fail") {
+    alert("일치하는 정보가 없습니다");
+    } else{
+    	alert("찾으시는 아이디는 ["+data+"]입니다");
+    }
+    })
+    .catch(err=> console.error("아이디찾기 오류:",err));
+    }
+    
+/** 비밀번호 찾기 함수 */
+function findUserPw() {
+    var id = document.getElementById('find_pw_id').value;
+    var name = document.getElementById('find_pw_name').value;
+    var tel = document.getElementById('find_pw_tel').value;
+
+    if (!id || !name || !tel) { alert("모든 정보를 입력해주세요."); return; }
+
+    fetch("userFindPw.do", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: id, user_name: name, user_tel: tel })
+    })
+    .then(res => res.text())
+    .then(data => {
+        if (data.trim() === "fail") {
+            alert("회원 정보가 일치하지 않습니다.");
+        } else {
+            alert("임시 비밀번호가 발급되었습니다: [" + data + "]");
+            
+            // [수정 포인트] location.href 대신 아래 함수 호출!
+            // 이렇게 하면 모달이 유지되면서 로그인 입력창으로 바뀝니다.
+            showSection('login'); 
+            
+            // 발급 후 입력했던 값들 초기화 (선택사항)
+            document.getElementById('find_pw_id').value = "";
+            document.getElementById('find_pw_name').value = "";
+            document.getElementById('find_pw_tel').value = "";
+        }
+    })
+    .catch(err => console.error("비밀번호 찾기 오류:", err));
+
+}
+function showSection(sectionId) {
+    // 1. 실제 JSP에 정의된 ID들과 매칭
+    const sections = {
+        'login': 'login-section',
+        'find-id': 'find-id-section',
+        'find-pw': 'find-pw-section'
+    };
+
+    // 2. 모든 섹션을 먼저 숨김
+    Object.values(sections).forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+
+    // 3. 선택한 섹션만 보여줌
+    const targetId = sections[sectionId];
+    const targetEl = document.getElementById(targetId);
+    if (targetEl) {
+        targetEl.style.display = 'block';
+    } else {
+        console.error("대상 섹션을 찾을 수 없습니다: " + sectionId);
+    }
+}
+
