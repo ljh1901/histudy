@@ -76,6 +76,9 @@
 		<bean id="studycafeDAO" class="com.histudy.studycafe.model.StudycafeDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"/>
 	</bean>
+	<bean id="passwordDAO" class="com.histudy.user.model.PasswordDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"/>
+	</bean>
 	<bean id="lmsDAO" class="com.histudy.lms.model.LmsDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
@@ -86,4 +89,3 @@
     	<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
 </beans>
-
