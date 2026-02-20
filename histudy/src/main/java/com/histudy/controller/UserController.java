@@ -122,6 +122,7 @@ sa_Service.userLoginTimeUpdate(loginUser.getUser_idx());
    @RequestMapping(value = "/userLogout.do", method = RequestMethod.GET)
    public String logout(HttpSession session) {
       session.invalidate();
+      Integer user_idx = (Integer) session.getAttribute("user_idx"); 
        sa_Service.userLogoutTimeUpdate(user_idx);
       return "redirect:/index.do";
    }

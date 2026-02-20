@@ -68,9 +68,9 @@ public class MypageController {
             @RequestParam("month") String month, 
             HttpSession session) {
         
-        Integer user_idx= (Integer) session.getAttribute("user_idx");
+        Integer user_idx=(Integer)session.getAttribute("user_idx");
         
-        if (user_idx== null) {
+        if (user_idx==null) {
             return new HashMap<>();
         }
 
