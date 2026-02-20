@@ -250,7 +250,7 @@ function openPasswordChange(event) {
     if (event) event.preventDefault();
     const profileForm = document.getElementById('profileForm');
     const pwSection = document.getElementById('password-change-section');
-    const profileMain = document.getElementById('profile-main-section'); // 섹션 ID 확인 필요
+    const profileMain = document.getElementById('profile-info-section'); // 섹션 ID 확인 필요
 
     // profileForm이 아닌 전체 섹션을 숨겨야 함
     if (profileMain && pwSection) {
@@ -300,7 +300,7 @@ function submitPasswordUpdate() {
 
 /** 14. 다시 프로필 화면으로 복구 */
 function closePasswordChange() {
-    const profileSection = document.getElementById('profile-main-section');
+    const profileSection = document.getElementById('profile-info-section');
     const pwSection = document.getElementById('password-change-section');
     
     if (profileSection && pwSection) {
