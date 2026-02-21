@@ -9,175 +9,7 @@
 <link rel="stylesheet" type="text/css" href="/histudy/css/header.css">
 <link rel="stylesheet" type="text/css" href="/histudy/css/footer.css">
 <link rel="stylesheet" type="text/css" href="/histudy/css/root.css">
-<style>
-	.taskInsertBody header{
-		background-color: white;
-		box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-	}
-	.taskInsertTopSection{
-		margin-top: 80px;
-		background: linear-gradient(
-	        180deg,
-	        #f5f7ff 0%,
-	        #f8f5ff 40%,
-	        #fff7fb 100%
-	    );
-		padding: 3.5rem 5rem;
-	}
-	.TIContainer{
-		max-width:1200px;
-		margin: 0 auto;
-	}
-	.TIContainer__top{
-		margin-bottom: 10px;
-	}
-	.TIContainer__top P{
-	    color: #888;
-	    padding-bottom: 10px;
-		font-size: 0.8rem;
-	}
-	.TIContainer__title{
-		font-size: 4rem;
-		font-weight: 600;
-	}
-	.TIContainer__sub{
-		font-size: 1.5rem;
-		color: #888;
-	}
-	.taskInsertForm{
-		padding: 1rem;
-		background-color: #FAFAFA;
-	}
-	.TIFContainer{
-		padding: 1rem;
-		max-width:1200px;
-		margin: 0 auto;
-
-	}
-	.TIF_BOX{
-		background-color: white;
-		border: none;
-		border-radius: 15px;
-		margin: 0 auto;
-		padding: 4rem;
-	}
-	.TIF_card{
-	  display: flex;
-      justify-content: flex-start;
-      flex-direction: column;
-      text-align: left;
-      margin-bottom: 20px;
-	}
-	.TIF_card label{
-	  margin-bottom: 10px;
-      margin-top: 10px;
-      font-weight: bold;
-      font-size: 1.3rem;
-      margin-right: 10px;
-	}
-	.TIF_card input, select{
-      border: 1px solid #888;
-      border-radius: 10px;
-      padding: 1rem;
-      font-size: 1rem;
-   }
-   .TIF_card textarea{
-      border-radius: 10px;
-      padding:1rem;
-      resize: none;
-   }
-   .TIF_card p{
-   	  font-size: 0.8rem;
-      color: #888;
-   }
-   .TIF_card_keynum{
-   	display: flex;
-   }
-   .TIF_card span{
-      color: red;
-   }
-   .TIF_card div{
-   	width: 100%;
-   }
-   .TIF_card_date{
-   	  display: flex;
-   	  gap: 2rem;
-   }
-   .TIF_card_date input{
-   	  flex: 1;
-   	  width: 100%;
-   }
-   .TIF__selectbox{
-   	 display: flex;
-   }
-   .TIF__selectbox select{
-   	  flex: 1;
-   	  width: 20%;
-   	  margin: 0 10px;
-   }
-   .TIF_card_file{
-   	 border: 1px double #ccc;
-   	 border-radius: 10px;
-   	 padding:5rem;
-   	 background-color: #F9FAFB;
-   	 text-align: center;
-   }
-   .TIF_card_file_imgbox img{
-   	 width: 80px;
-   	 height: 80px;
-   }
-   .TIF_card_imgBox{
-   	 max-width:70px;
-   }
-   .TIF_card_imgBox img{
-   	 width: 70px;
-   	 height: 70px;
-   }
-   .task_guide{
-   	 background-color: #EFF6FF;
-   	 display: flex;
-   	 padding: 1rem;
-   	 border-radius: 10px;
-   }
-   .TIF_card_text{
-   	 margin-left: 20px;
-   	 line-height: 2rem;
-   }
-   .TIF_card_text li{
-   	 color: #888;
-   	 font-size: 0.9rem;
-   }
-   .TIF_btns{
-   	  display: flex;
-   }
-   .TIF_btns input[type="reset"]{
-   	  width: 100%;
-   	  background-color: white;
-   	  border: 1px solid black;
-      border-radius: 10px;
-      font-size: 1.3rem;
-      padding: 1rem;
-   }
-   .TIF_btns input[type="reset"]:hover{
-   	 background-color: var(--color-navy);
-   	 color: white;
-   	 cursor: pointer;
-   }
-   .TIF_btns input[type="submit"]{
-      width:100%;
-      background-color: #111827;
-      color: white;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 1.3rem;
-      padding: 1rem;
-   }
-   .TIF_btns input[type="submit"]:hover{
-      cursor: pointer;
-      background-color: var(--color-navy);
-      cursor: pointer;
-   }
-</style>
+<link rel="stylesheet" type="text/css" href="/histudy/css/lmsDesign/taskInsert.css">
 </head>
 <body class="taskInsertBody">
 <%@include file="../header.jsp" %>
@@ -257,7 +89,7 @@
 										</c:forEach>
 									</select>
 									<select name="a_end_time_m" required>
-										<c:forEach var="i" begin="1" end="59" step="1">
+										<c:forEach var="i" begin="0" end="59" step="1">
 											<c:choose>
 												<c:when test="${i<=9}">
 													<option value="${i}">0${i} 분</option>
@@ -341,22 +173,12 @@ function studyContentCheck(el){
 function dateCheck(){
    var selectDate = document.taskInsertForm.a_end_date.value;
    
-   var selectDateAll = selectDate.split('-');
+   var endDate = new Date(selectDate);
+   var today = new Date();
    
-   var now = new Date();
-   var nowYear = now.getFullYear();
-   var nowMonth = now.getMonth()+1;
-   var nowDate = now.getDate();
-   
-   if(selectDateAll[0]<nowYear){
-      alert('현재 년도 이후로 선택하셔야 합니다.');
-      document.taskInsertForm.a_end_date.value='';
-   }else if(selectDateAll[1]<nowMonth){
-      alert('현재 월 이후로 선택하셔야 합니다.');
-      document.taskInsertForm.a_end_date.value='';
-   }else if(selectDateAll[2]<nowDate){
-      alert('현재 일 이후로 선택하셔야 합니다.');
-      document.taskInsertForm.a_end_date.value='';
+   if(endDate < today){
+	   alert('오늘 날짜 이후로 선택하셔야 합니다.');
+	   document.taskInsertForm.a_end_date.value='';
    }
 }
 </script>

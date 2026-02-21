@@ -10,11 +10,14 @@
 	<mapper resource="sqlMapper/adminSQL.xml"/>
 	<mapper resource="sqlMapper/mentoringSQL.xml"/>
 	<mapper resource="sqlMapper/lectureSQL.xml"/>
-	<mapper resource="sqlMapper/studycafeMapper.xml"/>
-  <mapper resource="sqlMapper/lmsSQL.xml"></mapper>
+	<mapper resource="sqlMapper/studycafeMapper.xml" />
+  	<mapper resource="sqlMapper/lmsSQL.xml"></mapper>
 	<mapper resource="sqlMapper/membershipSQL.xml" />
 	<mapper resource="sqlMapper/mypageSQL.xml" />
 	<mapper resource="sqlMapper/scheduleSQL.xml" />
+	<mapper resource="sqlMapper/notificationsSQL.xml"></mapper>
+	<mapper resource="sqlMapper/inquirySQL.xml" />
+	
 
 </mappers>
 </configuration>

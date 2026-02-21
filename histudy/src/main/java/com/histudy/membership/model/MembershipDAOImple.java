@@ -1,5 +1,8 @@
 package com.histudy.membership.model;
 
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 public class MembershipDAOImple implements MembershipDAO {
@@ -21,5 +24,9 @@ public class MembershipDAOImple implements MembershipDAO {
 	public int insertPrimium(MembershipPaymentDTO paymentDTO) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("insertPrimium",paymentDTO);
+	}
+	@Override
+	public List<Map<String, Object>> getPayment(int user_idx){
+		return sqlSession.selectList("getPayment",user_idx);
 	}
 }

@@ -24,18 +24,13 @@
 			<aside class="mypage-sidebar">
 				<nav class="sidebar-nav">
 					<ul>
-						<li class="active"><a
-							href="${pageContext.request.contextPath}/user/myPage.do"> <img
-								src="mypage-img/profile-icon.png" alt="프로필"> 프로필
-						</a></li>
-						<li><a href="#"><img src="mypage-img/dash-icon.png"
-								alt="대시보드"> 대시보드</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/mySchedule.do"> <img
-								src="mypage-img/calendar-icon.png" alt="일정관리"> 일정관리
-						</a></li>
-						<li><a href="#"><img src="mypage-img/cart-icon.png"
-								alt="구매"> 구매 / 혜택</a></li>
+						<li><a href="myPage.do"><img src="mypage-img/user.png" width="30">프로필</a>
+						<li><a href="myDashboard.do"><img src="mypage-img/report.png" width="30">대시보드</a>
+						<li><a href="mySchedule.do"><img src="mypage-img/calendar.png" width="30">일정관리</a>
+						<li><a href="myPurchase.do"><img src="mypage-img/shopping-cart.png" width="30">구매 / 혜택</a>
+						<li><a href="myHeart.do"><img src="mypage-img/heart.png" width="30">찜 목록</a>
+						<li><a href="myAlarm.do"><img src="mypage-img/bell.png" width="30">알림 설정</a>
+						</li>
 					</ul>
 				</nav>
 			</aside>
@@ -50,16 +45,15 @@
 						<div class="profile-image-section">
 							<div class="image-container">
 								<img
-									src="mypage-img/${not empty user.profile_img ? user.profile_img : 'zoro.jpg'}"
+									src="mypage-img/${user.profile_img}"
 									id="profilePreview">
 							</div>
 
 							<input type="file" name="uploadFile" id="fileInput"
 								style="display: none;" accept="image/*"
 								onchange="readURL(this);">
-							<button type="button" class="btn-img-change"
-								onclick="document.getElementById('fileInput').click();">변경</button>
-
+							<button type="button" class="btn-img-change edit-mode" style="display: none;"
+  							    onclick="document.getElementById('fileInput').click();">변경</button>
 							<p class="img-guide">
 								png, jpg, jpeg의 확장자<br>1MB 이하의 이미지
 							</p>
@@ -67,6 +61,18 @@
 
 						<div class="profile-info-section">
 							<table class="profile-table">
+							<c:if test="${sessionScope.membership == 'premium'}">
+							    <tr>
+							        <th style="color: gold;">프리미엄 멤버</th>
+							        <td>
+							            <c:forEach var="pay" items="${list}">
+							                <c:if test="${pay.PAY_TYPE == '멤버십'}">
+							                    ${pay.PAY_DATE}&nbsp;~&nbsp;${pay.END_DATE}
+							                </c:if>
+							            </c:forEach>
+							        </td>
+							    </tr>
+							</c:if>
 								<tr>
 									<th>이름</th>
 									<td><span class="view-mode">${user.user_name}</span> <input
@@ -120,12 +126,10 @@
 							</div>
 						</div>
 					</div>
-
 				</form>
 			</main>
 		</div>
 	</div>
-
 	<script>
 		function readURL(input) {
 			if (input.files && input.files[0]) {
@@ -138,7 +142,6 @@
 		}
 	</script>
 	<script>
-    // 서버의 절대 경로를 전역 변수로 선언 (예: /histudy)
     var contextPath = "${pageContext.request.contextPath}";
 </script>
 	<script src="${pageContext.request.contextPath}/js/user/user.js"></script>

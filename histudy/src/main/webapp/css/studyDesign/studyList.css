@@ -5,7 +5,7 @@
    }
    .studyList{
       margin-top: 80px;
-      background-color: #FFF4EE;
+      background-color: #FFF5EF;
    }
    .studyList__container{
       padding: 4rem;
@@ -16,7 +16,8 @@
    	  background-color: white;
    	  border: 1px solid #ccc;
    	  border-radius: 10px;
-   	  width: 600px;
+   	  max-width: 600px;
+	  width: 100%;
    	  padding: 0.5rem 0;
    	  line-height: 3rem;
    	  font-size: 0.8rem;
@@ -37,6 +38,12 @@
 	}
    .studyList__container__top{
       margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+   }
+   .studyList__container__top .slt__text{
+   	font-size: 0.85rem;
+   	color: red;
    }
    .studyList__container__top{
       color: #888;
@@ -52,7 +59,8 @@
       padding: 1rem;
       border: 1px solid #ccc;
       border-radius: 10px;
-      width: 600px;
+      max-width: 600px;
+	  width: 100%;
       margin-top: 20px;
       background-color: white;
       display: flex;
@@ -77,10 +85,8 @@
    }
    .studyCategory{
       padding: 1rem 4rem;
+      border-top: 1px solid #ccc;
       border-bottom: 1px solid #ccc;
-   }
-   .studyCategory__left p{
-      color: #888;
    }
    .studyCategory__left__list{
       display: flex;
@@ -89,19 +95,21 @@
       padding: 1rem;
       background-color: #F2F4F6;
       margin:10px;
+      border: 1px solid transparent;
       border-radius: 50px;
       width: 100%;
       text-align: center;
-      transition: transform 0.4s ease;
    }
+    .studyCategory__left__text .slt__count{
+    	color: #222;
+    }
    .studyCategory__left__list a:hover{
-   	background-color: black;
-   	color: white;
-   	transform: translateY(-3px);
+	   border: 1px solid #222; 
+   	   background-color: #E5E7EB;
    }
    .studyCategory__left__list a.active{
-      background-color: black;
-      color: white;
+      background-color: #E5E7EB;
+      border: 1px solid #222; 
    }
    .studyGrid {
      display: grid;
@@ -110,11 +118,44 @@
      padding: 4rem;
      background-color: #FAFAFA;
    }
-   .stars {
-     color: #FFC107;
-     font-size: 0.9rem;
-     letter-spacing: 1px;
-   }
+   .studyCard__rating{
+    margin: 8px 0;
+}
+
+.badge{
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* 오늘 마감 */
+.badge.urgent{
+    background: #FEE2E2;
+    color: #B91C1C;
+    animation: pulse 1.4s infinite;
+}
+
+/* 마감 임박 */
+.badge.soon{
+    background: #FEF3C7;
+    color: #B45309;
+}
+
+/* 모집중 */
+.badge.normal{
+    background: #DCFCE7;
+    color: #166534;
+}
+
+/* 오늘마감 살짝 깜빡이게 */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
    .studyCard {
      background: white;
      border-radius: 16px;
@@ -177,8 +218,8 @@
       padding:4rem;
    }
    .studyCreateContainer h1{
-      font-size: 4rem;
-      font-weight: 580;
+      font-size: 3.5rem;
+      font-weight: 600;
       margin:10px;
    }
    .studyCreateContainer p{
@@ -214,9 +255,34 @@
    .paging img{
       width: 30px;
    }
-   #notStudy{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1rem;
-   }
+	#notStudy{
+	    grid-column: 1 / -1; 
+	    min-height: 400px;
+	
+	    display:flex;
+	    flex-direction:column;
+	    justify-content:center;
+	    align-items:center;
+	
+	    text-align:center;
+	    padding:60px 20px;
+	    background:#fafafa;
+	    border-radius:16px;
+	}
+	
+	#notStudy img{
+	    width:160px;
+	    opacity:.8;
+	    margin-bottom:20px;
+	}
+	
+	#notStudy h2{
+	    font-size:1.4rem;
+	    margin-bottom:8px;
+	    color:#333;
+	}
+	
+	#notStudy p{
+	    color:#777;
+	    margin-bottom:24px;
+	}

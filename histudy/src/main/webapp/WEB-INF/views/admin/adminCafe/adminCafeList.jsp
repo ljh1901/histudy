@@ -12,6 +12,7 @@
 <body>
 <h1>입점 카페 목록</h1>	
 <fieldset class="adminCafe">
+<div><a href="adminCafeReg.do"><input type="button" value="입점등록"></a></div>
     <c:forEach var="cafe" items="${cafeList}">
     <ul class="adminCafeList__menu">
         <li class="adminCafeList__menu__item">

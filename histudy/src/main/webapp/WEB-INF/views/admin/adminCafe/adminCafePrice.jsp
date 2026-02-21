@@ -64,9 +64,6 @@ select, input {
 					href="adminCafeSeat.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}">스터디카페
 						현황 보기</a></li>
 				<li class="adminCafe__menu__item"><a
-					href="adminCafeInquiryList.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}">스터디카페
-						문의</a></li>
-				<li class="adminCafe__menu__item"><a
 					href="studycafeEditor.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}">좌석등록</a></li>
 				<li class="adminCafe__menu__item"><a
 					href="adminCafePrice.do?studycafe_idx=${param.studycafe_idx}&studycafe_name=${param.studycafe_name}">요금제
@@ -120,7 +117,7 @@ select, input {
 
 	<script>
 function registerTicket() {
-    const form = document.getElementById("priceForm");
+    const form = document.getElementById("adminCafeTicketForm");
     const select = document.getElementById("categorySelect"); 
 
     const data = {
@@ -165,7 +162,7 @@ function registerTicket() {
     });
 }
 
-function deleteTicket(idx) {
+function deleteTicket(idx) {	
     if(!confirm("삭제하시겠습니까?")) return;
 
     fetch("deleteTicketAction.do?ticket_idx=" + idx)

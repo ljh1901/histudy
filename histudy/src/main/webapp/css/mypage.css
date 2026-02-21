@@ -12,8 +12,8 @@
 
 .mypage-container {
 	display: flex;
-	width: 1000px;
-	gap: 100px;
+	width: 1500px;
+	gap: 150px;
 	align-items: flex-start;
 }
 
@@ -46,8 +46,8 @@
 .mypage-sidebar .sidebar-nav li a {
 	display: flex; /* 정렬을 위한 Flexbox 활성화 */
 	align-items: center; /* 수직(상하) 기준 정중앙 정렬 */
-	justify-content: center; /* 수평(좌우) 기준 정중앙 정렬 */
-	padding: 20px; /* 클릭 영역 확보 */
+	justify-content: flex-start; /* 수평(좌우) 기준 정중앙 정렬 */
+	padding: 15px 25px; /* 클릭 영역 확보 */
 	gap: 15px; /* 아이콘과 글자 사이 간격 */
 	text-decoration: none;
 	color: #333;
@@ -58,8 +58,6 @@
 
 /* 아이콘 크기 및 정렬 보정 */
 .mypage-sidebar .sidebar-nav li a img {
-	width: 80px; /* 아이콘 크기 소폭 확대 */
-	height: 90px;
 	display: block; /* 하단 불필요한 여백 제거 */
 }
 

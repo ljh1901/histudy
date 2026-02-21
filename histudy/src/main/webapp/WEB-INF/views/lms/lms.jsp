@@ -35,7 +35,7 @@
 					</div>
 					<div class="lmsTopContainer__card__text">
 						<p class="lmsTopContainer__card__text__num">${waitTaskCount}</p>
-						<p class="lmsTopContainer__card__text__sub">대기 중인 과제</p>
+						<p class="lmsTopContainer__card__text__sub">제출해야 할 과제</p>
 					</div>
 				</div>
 				<div class="lmsTopContainer__card">
@@ -52,7 +52,7 @@
 						<img src="/histudy/lms-img/lms-taskOk.png">
 					</div>
 					<div class="lmsTopContainer__card__text">
-						<p class="lmsTopContainer__card__text__num">3</p>
+						<p class="lmsTopContainer__card__text__num">${finishStudyCount}</p>
 						<p class="lmsTopContainer__card__text__sub">완료한 스터디</p>
 					</div>
 				</div>
@@ -65,27 +65,27 @@
 				<div class="lmsCenterContainer__leftBox__stduyIng">
 					<div class="lmsCenterContainer__leftBox__stduyIng__top">
 						<h2>내 스터디</h2>
-						<p>전체보기</p>
+						<p><a href="lms.do">전체보기</a></p>
 					</div>
 					<c:if test="${!empty s_list}">
 						<c:forEach var="s_list" items="${s_list}">
-							<div class="lmsCenterContainer__leftBox__stduyIng__card">
+							<div class="lmsCenterContainer__leftBox__stduyIng__card" onclick="memberCheck('leader', ${s_list.study_idx})">
 								<div class="studyIng__card__title">
 									<h3>${s_list.study_title }</h3>
 									<div class="leader">
 										<span>리더</span>
-										<span>멤버</span>
+										<span><a href="memberManagement.do?study_idx=${s_list.study_idx}">멤버</a></span>
 									</div>
 								</div>
 								<div class="studyIng__card__members">
-									<span>5/${s_list.study_total_weeks}주차</span>
+									<span>${s_list.study_current_weeks}/${s_list.study_total_weeks}주차</span>
 									<span class="maxMembers">${s_list.study_current_members}명</span>
 								</div>
 								<div class="studyIng__card__graph">
-									<meter value="70" min="0" max="100"></meter>
+									<meter value="${s_list.studyProgress}" min="0" max="100"></meter>
 								</div>
 								<div class="studyIng__card__graphText">
-									<span>진도율 80%</span>
+									<span>진행률 ${s_list.studyProgress}%</span>
 									<span class="taskCount">과제 ${s_list.taskCount}개</span>
 								</div>
 							</div>
@@ -93,19 +93,19 @@
 					</c:if>
 					<c:if test="${!empty approved_List}">
 						<c:forEach var="a_list" items="${approved_List }">
-							<div class="lmsCenterContainer__leftBox__stduyIng__card">
+							<div class="lmsCenterContainer__leftBox__stduyIng__card" onclick="memberCheck('member', ${a_list.study_idx})">
 								<div class="studyIng__card__title">
 									<h3>${a_list.study_title}</h3>
 								</div>
 								<div class="studyIng__card__members">
-									<span>5/${a_list.study_total_weeks}주차</span>
+									<span>${a_list.study_current_weeks}/${a_list.study_total_weeks}주차</span>
 									<span class="maxMembers">${a_list.study_current_members}명</span>
 								</div>
 								<div class="studyIng__card__graph">
-									<meter value="70" min="0" max="100"></meter>
+									<meter value="${a_list.studyProgress}" min="0" max="100"></meter>
 								</div>
 								<div class="studyIng__card__graphText">
-									<span>진도율 80%</span>
+									<span>진행률 ${a_list.studyProgress}%</span>
 									<span class="taskCount">과제 ${a_list.taskCount2}개</span>
 								</div>
 							</div>
@@ -113,14 +113,19 @@
 					</c:if>
 				<div class="lmsCenterContainer__leftBox__studyOk">
 					<h3>완료한 스터디</h3>
-					<div class="lmsCenterContainer__leftBox__studyOk__card">
-						<p>Python 데이터 분석</p>
-						<div>★★★★☆ <span>2024.12.20</span></div>
-					</div>
-					<div class="lmsCenterContainer__leftBox__studyOk__card">
-						<p>정보처리기사 실기 대비</p>
-						<div>★★★★☆ <span>2025.01.30</span></div>
-					</div>
+					<c:if test="${!empty finishStudyList}">
+						<c:forEach var="f_list" items="${finishStudyList}">
+							<div class="lmsCenterContainer__leftBox__studyOk__card">
+								<p>${f_list.study_title }</p>
+								<span>리더 - ${f_list.user_name}</span>
+							</div>
+						</c:forEach>
+					</c:if>
+					<c:if test="${empty finishStudyList}">
+							<div class="lmsCenterContainer__leftBox__studyOk__card">
+								<p>완료한 스터디가 아직 없습니다.</p>
+							</div>
+					</c:if>
 				</div>
 				</div>
 			</div>
@@ -132,80 +137,86 @@
 					</c:if>
 				</div>
 				<div class="lmsCenterContainer__rightBox__toggleBtns">
-					<input type="button" value="진행중(${C_task_list.size()+A_task_list.size()})" class="togglebtn toggle">
-					<input type="button" value="완료" class="togglebtn">
+					<input type="button" value="진행중" class="togglebtn toggle" onclick="taskCheck('진행중')">
+					<input type="button" value="제출 완료" class="togglebtn" onclick="taskCheck('제출 완료')">
 				</div>
-				<c:if test="${!empty C_task_list}">
-					<c:forEach var="c_task_list" items="${C_task_list}">
-						<div class="lmsCenterContainer__rightBox__card">
-							<div class="lmsCenterContainer__rightBox__card__top">
-								<span class="tag-title">${c_task_list.study_title}</span>
-								<span class="tag-weeks">${c_task_list.a_weeks}주차</span>
-							</div>
-							<div class="lmsCenterContainer__rightBox__card__middle">
-								<h3>${c_task_list.a_title}</h3>
-								<p>${c_task_list.a_content }</p>
-								<div class="lmsCenterContainer__rightBox__middle__file">
-									<div class="files__file">
-										<img src="/histudy/lms-img/clip.png">
-										<span>${empty c_task_list.a_fname?'첨부된 파일이 없습니다.':c_task_list.a_fname}</span>
-									</div>
+				<div id="taskArea">
+					<c:if test="${!empty C_task_list}">
+						<c:forEach var="c_task_list" items="${C_task_list}">
+							<div class="lmsCenterContainer__rightBox__card">
+								<div class="lmsCenterContainer__rightBox__card__top">
+									<span class="tag-title">${c_task_list.study_title}</span>
+									<span class="tag-weeks">${c_task_list.a_weeks}주차</span>
 								</div>
-							</div>
-							<div class="lmsCenterContainer__rightBox__card__row">
-								<div class="row__left">
-									<img src="/histudy/lms-img/calendar.png">
-									<p>${c_task_list.a_end_date}</p>
-									<p class="endDateText">마감</p>
-								</div>
-								<div class="row__right__myTask">
-									<input type="button" value="내가 등록한 과제">
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-				</c:if>
-				<c:if test="${!empty A_task_list}">
-					<c:forEach var="A_task_list" items="${A_task_list}">
-						<div class="lmsCenterContainer__rightBox__card">
-							<div class="lmsCenterContainer__rightBox__card__top">
-								<span class="tag-title">${A_task_list.study_title}</span>
-								<span class="tag-weeks">${A_task_list.a_weeks}주차</span>
-							</div>
-							<div class="lmsCenterContainer__rightBox__card__middle">
-								<h3>${A_task_list.a_title}</h3>
-								<p>${A_task_list.a_content }</p>
-								<div class="lmsCenterContainer__rightBox__middle__file">
-									<div class="files__file">
-										<img src="/histudy/lms-img/clip.png">
-										<span>${empty A_task_list.a_fname?'첨부된 파일이 없습니다.':A_task_list.a_fname}</span>
-									</div>
-								</div>
-							</div>
-							<div class="lmsCenterContainer__rightBox__card__row">
-								<div class="row__left">
-									<img src="/histudy/lms-img/calendar.png">
-									<p>${A_task_list.a_end_date}</p>
-									<p class="endDateText">마감</p>
-								</div>
-								<div class="row__right">
-									<c:if test="${empty OK_task_list}">
-										<div class="row__right__abtn">
-											<a href="taskSubmit.do?a_idx=${A_task_list.a_idx}&study_title=${A_task_list.study_title}">제출하기</a>
+								<div class="lmsCenterContainer__rightBox__card__middle">
+									<h3>${c_task_list.a_title}</h3>
+									<p>${c_task_list.a_content }</p>
+									<div class="lmsCenterContainer__rightBox__middle__file">
+										<div class="files__file">
+											<img src="/histudy/lms-img/clip.png">
+											<span>${empty c_task_list.a_fname?'첨부된 파일이 없습니다.':c_task_list.a_fname}</span>
 										</div>
-									</c:if>
+									</div>
+								</div>
+								<div class="lmsCenterContainer__rightBox__card__row">
+									<div class="row__left">
+										<img src="/histudy/lms-img/calendar.png">
+										<p>${c_task_list.a_end_date}</p>
+										<p class="endDateText">마감</p>
+									</div>
+									<div class="row__right__myTask">
+										<input type="button" value="내가 등록한 과제">
+										<input type="button" value="수정하기"
+										 id="row__right__myTask__updateBtn"
+										 onclick="taskUpdate(${c_task_list.a_idx}, '${c_task_list.study_title}')">
+									</div>
 								</div>
 							</div>
+						</c:forEach>
+					</c:if>
+					<c:if test="${!empty A_task_list}">
+						<c:forEach var="A_task_list" items="${A_task_list}">
+							<div class="lmsCenterContainer__rightBox__card">
+								<div class="lmsCenterContainer__rightBox__card__top">
+									<span class="tag-title">${A_task_list.study_title}</span>
+									<span class="tag-weeks">${A_task_list.a_weeks}주차</span>
+								</div>
+								<div class="lmsCenterContainer__rightBox__card__middle">
+									<h3>${A_task_list.a_title}</h3>
+									<p>${A_task_list.a_content }</p>
+									<div class="lmsCenterContainer__rightBox__middle__file">
+										<div class="files__file">
+											<img src="/histudy/lms-img/clip.png">
+											<span>${empty A_task_list.a_fname?'첨부된 파일이 없습니다.':A_task_list.a_fname}</span>
+										</div>
+									</div>
+								</div>
+								<div class="lmsCenterContainer__rightBox__card__row">
+									<div class="row__left">
+										<img src="/histudy/lms-img/calendar.png">
+										<p>${A_task_list.a_end_date}</p>
+										<p class="endDateText">마감</p>
+									</div>
+									<div class="row__right">
+										<c:if test="${empty OK_task_list}">
+											<div class="row__right__abtn">
+												<a href="taskSubmit.do?a_idx=${A_task_list.a_idx}&study_title=${A_task_list.study_title}">제출하기</a>
+											</div>
+										</c:if>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</c:if>
+					<c:if test="${(empty A_task_list && empty C_task_list)}">
+						<div class="lmsCenterContainer__rightBox__card">
+							<div class="emptyTask">
+								<img src="/histudy/lms-img/emptyTask.png">
+								<p>과제가 없습니다.</p>
+							</div>
 						</div>
-					</c:forEach>
-				</c:if>
-				<c:if test="${(empty A_task_list && empty C_task_list)}">
-					<div class="lmsCenterContainer__rightBox__card">
-						<div class="emptyTask">
-							<h3>등록된 과제가 없습니다!</h3>
-						</div>
-					</div>
-				</c:if>
+					</c:if>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -214,6 +225,210 @@
 <%@include file="../footer.jsp" %>
 </body>
 <script>
+	var currentRole = '';
+	var xhr;
+	function getXHR(){
+		if(window.ActiveXObject){
+			return new ActiveXObject('Msxml2.XMLHTTP');
+		}else if(window.XMLHttpRequest){
+			return new XMLHttpRequest();
+		}else{
+			return null;
+		}
+	}
+	
+	function memberCheck(data, idx){
+		currentRole = data; // 리더인지 참여자인지
+		
+		xhr = getXHR();
+		xhr.open('GET', 'lmsRest/memberCheck.do?data='+data+'&study_idx='+idx, true);
+		xhr.onreadystatechange=myStudyClickResult;
+		xhr.send(null); 
+	}
+	
+	function myStudyClickResult(){
+		if(xhr.readyState==4){
+			if(xhr.status==200){
+
+				var lmsList = xhr.responseText;
+				var jsonData = JSON.parse(lmsList);
+
+				var emptyTask =
+					'<div class="lmsCenterContainer__rightBox__card">' +
+						'<div class="emptyTask">' +
+							'<img src="/histudy/lms-img/emptyTask.png">' +
+							'<p>과제가 없습니다.</p>' +
+						'</div>' +
+					'</div>';
+				
+				var rightLists = document.getElementById('taskArea');
+				rightLists.innerHTML = '';
+				
+				if(lmsList==''||lmsList==null||jsonData==null||jsonData.length==0||jsonData==''){
+					rightLists.innerHTML = emptyTask;
+				}
+				
+				for(var i=0; i<jsonData.length; i++){
+
+					var rightBtn = '';
+
+					if(currentRole == 'leader'){
+						rightBtn =
+						'<div class="row__right__myTask">' +
+							'<input type="button" value="내가 등록한 과제">' +
+							'<input type="button" value="수정하기" id="row__right__myTask__updateBtn" onclick="taskUpdate(' + jsonData[i].a_idx + ', \'' + jsonData[i].study_title.replace(/'/g, "\\'") + '\')">' +
+						'</div>';
+					}else{
+						rightBtn =
+						'<div class="row__right__abtn">' +
+							'<a href="taskSubmit.do?a_idx=' + jsonData[i].a_idx +
+							'&study_title=' + jsonData[i].study_title + '">' +
+							'제출하기</a>' +
+						'</div>';
+					}
+
+					rightLists.innerHTML +=
+					'<div class="lmsCenterContainer__rightBox__card">' +
+
+						'<div class="lmsCenterContainer__rightBox__card__top">' +
+							'<span class="tag-title">' + jsonData[i].study_title + '</span>' +
+							'<span class="tag-weeks">' + jsonData[i].a_weeks + '주차</span>' +
+						'</div>' +
+
+						'<div class="lmsCenterContainer__rightBox__card__middle">' +
+							'<h3>' + jsonData[i].a_title + '</h3>' +
+							'<p>' + jsonData[i].a_content + '</p>' +
+
+							'<div class="lmsCenterContainer__rightBox__middle__file">' +
+								'<div class="files__file">' +
+									'<img src="/histudy/lms-img/clip.png">' +
+									'<span>' +
+									(jsonData[i].a_fname == null ? '첨부된 파일이 없습니다.' : jsonData[i].a_fname) +
+									'</span>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+
+						'<div class="lmsCenterContainer__rightBox__card__row">' +
+							'<div class="row__left">' +
+								'<img src="/histudy/lms-img/calendar.png">' +
+								'<p>' + jsonData[i].a_end_date + '</p>' +
+								'<p class="endDateText">마감</p>' +
+							'</div>' +
+
+							'<div class="row__right">' +
+								rightBtn +
+							'</div>' +
+						'</div>' +
+
+					'</div>';
+				}
+			}
+		}
+	}
+	
+	function taskCheck(data){
+		xhr = getXHR();
+		xhr.open('GET', 'lmsRest/taskCheck.do?toggle='+data, true);
+		xhr.onreadystatechange=taskCheckResult;
+		xhr.send(null);
+	}
+	function taskCheckResult(){
+		if(xhr.readyState==4){
+			if(xhr.status==200){
+				var taskSubmitOkList = xhr.responseText;
+				var jsonData = JSON.parse(taskSubmitOkList);
+				
+				var rightLists = document.getElementById('taskArea');
+				rightLists.innerHTML = '';
+				
+				var emptyTask =
+					'<div class="lmsCenterContainer__rightBox__card">' +
+						'<div class="emptyTask">' +
+							'<img src="/histudy/lms-img/emptyTask.png">' +
+							'<p>과제가 없습니다.</p>' +
+						'</div>' +
+					'</div>';
+					
+				if(jsonData==null || jsonData.length==0){
+					rightLists.innerHTML = emptyTask;
+				}	
+					
+				
+				for(let i=0; i<jsonData.length; i++){
+					
+					var rightBtn = '';
+					
+					if(jsonData[i].memberStatus == '개설자'){
+						rightBtn = 
+						'<div class="row__right__myTask">' +
+							'<input type="button" value="내가 등록한 과제">' +
+							'<input type="button" value="수정하기" id="row__right__myTask__updateBtn" onclick="taskUpdate(' + jsonData[i].a_idx + ', \'' + jsonData[i].study_title.replace(/'/g, "\\'") + '\')">' +
+						'</div>';
+					}else if(jsonData[i].memberStatus == '참여자'){
+						rightBtn = 
+						'<div class="row__right__abtn">' +
+							'<a href="taskSubmit.do?a_idx=' + jsonData[i].a_idx +
+								'&study_title=' + jsonData[i].study_title + '">' +
+							'제출하기</a>' +
+						'</div>';
+					}else if(jsonData[i].memberStatus == null || jsonData[i].memberStatus == ''){
+						rightBtn = 
+						'<div class="row__right__myTask">' +
+							'<input type="button" value="제출 완료">' +
+							'<input type="button" value="수정하기" id="row__right__myTask__taskSubmitUpdateBtn" onclick="taskSubmitUpdate(' + jsonData[i].a_idx + ', \'' + jsonData[i].study_title.replace(/'/g, "\\'") + '\')">' +
+						'</div>';
+					}
+					
+					rightLists.innerHTML += 
+					'<div class="lmsCenterContainer__rightBox__card">' +
+
+						'<div class="lmsCenterContainer__rightBox__card__top">' +
+							'<span class="tag-title">' + jsonData[i].study_title + '</span>' +
+							'<span class="tag-weeks">' + jsonData[i].a_weeks + '주차</span>' +
+						'</div>' +
+
+						'<div class="lmsCenterContainer__rightBox__card__middle">' +
+							'<h3>' + jsonData[i].a_title + '</h3>' +
+							'<p>' + jsonData[i].a_content + '</p>' +
+
+							'<div class="lmsCenterContainer__rightBox__middle__file">' +
+								'<div class="files__file">' +
+									'<img src="/histudy/lms-img/clip.png">' +
+									'<span>' +
+									(jsonData[i].a_fname == null ? '첨부된 파일이 없습니다.' : jsonData[i].a_fname) +
+									'</span>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+
+						'<div class="lmsCenterContainer__rightBox__card__row">' +
+							'<div class="row__left">' +
+								'<img src="/histudy/lms-img/calendar.png">' +
+								'<p>' + jsonData[i].a_end_date + '</p>' +
+								'<p class="endDateText">마감</p>' +
+							'</div>' +
+
+							'<div class="row__right">' +
+								rightBtn +
+							'</div>' +
+						'</div>' +
+
+					'</div>';
+				}
+				
+			}
+		}
+	}
+	// 과제 등록 수정
+	function taskUpdate(a_idx, study_title){
+		location.href='taskInsertUpdate.do?a_idx='+a_idx+'&study_title='+study_title;
+	}
+	// 제출한 과제 수정
+	function taskSubmitUpdate(a_idx, study_title){
+		location.href='taskSubmitUpdate.do?a_idx='+a_idx+'&study_title='+study_title;
+	}
+
 	// 왼쪽 카드 클릭 시
 	var cards = document.querySelectorAll('.lmsCenterContainer__leftBox__stduyIng__card');
 	for(let i=0; i<cards.length; i++){
@@ -222,10 +437,11 @@
 			for(let j=0; j<cards.length; j++){
 				cards[j].classList.remove('active');
 			}
-			
 			cards[i].classList.add('active');
+			
 		});	
 	}
+	
 	// 오른쪽 토글 버튼 클릭 시
 	var togglebtns = document.querySelectorAll('.togglebtn');
 	for(let i=0; i<togglebtns.length; i++){

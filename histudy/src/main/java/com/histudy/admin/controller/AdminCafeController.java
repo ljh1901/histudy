@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -57,9 +58,17 @@ public class AdminCafeController {
 		}
 		// 스터디 카페 좌석현황
 		@GetMapping("/adminCafeSeat.do")
-		public String adminCafeSeat() {
-			return "admin/adminCafe/adminCafeSeat";
-		} 
+		public ModelAndView adminCafeSeat(@RequestParam("studycafe_idx") int studycafe_idx) {
+		    List<Map<String, Object>> layoutList = adminService.getLayoutList(studycafe_idx);
+
+		    ModelAndView mav = new ModelAndView();
+		    mav.setViewName("admin/adminCafe/adminCafeSeat");
+		    
+		    mav.addObject("layoutList", layoutList);
+		    mav.addObject("studycafe_idx", studycafe_idx);
+
+		    return mav;
+		}
 		// 스터디 카페 문의사항
 		@GetMapping("/adminCafeInquiryList.do")
 		public String adminCafeInquiryList() {
@@ -90,6 +99,21 @@ public class AdminCafeController {
 			result.put("newIdx", newIdx);
 			return result;
 		}
+		
+		@GetMapping("/deleteTicketAction.do")
+		@ResponseBody
+		public Map<String, Object> deleteTicket(@RequestParam("ticket_idx") int ticket_idx) {
+		    int result = adminService.removeTicket(ticket_idx);
+
+		    Map<String, Object> response = new HashMap<>();
+		    if(result > 0) {
+		        response.put("status", "success");
+		    } else {
+		        response.put("status", "fail");
+		        response.put("message", "삭제에 실패했습니다.");
+		    }
+		    return response;
+		}
 		// 스터디 카페 좌석 등록 에디터
 		@GetMapping("/studycafeEditor.do")
 		public ModelAndView studycafeEditor(@RequestParam("studycafe_idx") int studycafe_idx) {
@@ -116,5 +140,27 @@ public class AdminCafeController {
 			response.put("status", "success");
 			return response;
 		}
+		
+		@GetMapping("/adminCafeReg.do")
+	    public String adminCafeRegForm() {
+	        return "admin/adminCafe/adminCafeReg";
+	    }
+
+	    // 등록 실행
+	    @RequestMapping("/adminCafeRegOk.do")
+	    public ModelAndView adminCafeReg(StudycafeDTO dto) {
+	        int result = adminService.insertStudyCafe(dto);
+	        ModelAndView mav = new ModelAndView();
+	        
+	        if(result > 0) {
+	            mav.addObject("msg", "스터디카페가 성공적으로 등록되었습니다.");
+	            mav.addObject("url", "adminCafeList.do");
+	        } else {
+	            mav.addObject("msg", "등록 실패");
+	            mav.addObject("url", "adminCafeReg.do");
+	        }
+	        mav.setViewName("admin/adminMsg");
+	        return mav;
+	    }
 
 }

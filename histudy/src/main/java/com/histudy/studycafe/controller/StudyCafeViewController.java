@@ -4,9 +4,12 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +34,7 @@ import com.histudy.studycafe.model.PayDTO;
 import com.histudy.studycafe.model.SeatDTO;
 import com.histudy.studycafe.model.StudycafeDTO;
 import com.histudy.studycafe.model.StudycafeJoinReservationDTO;
+import com.histudy.studycafe.model.StudycafeLayoutDTO;
 import com.histudy.studycafe.model.StudycafeReservationDTO;
 import com.histudy.studycafe.service.StudycafeSerivce;
 import com.histudy.studycafe.service.StudycafeServiceImple;
@@ -43,93 +48,105 @@ public class StudyCafeViewController {
 	
 	@Autowired
 	private UserService userService;
+	// 1. 스터디 카페 목록
+	@GetMapping("/studycafeList.do")
+	public ModelAndView studycafeListView(@RequestParam(defaultValue="전체", required=false) String region, @RequestParam(defaultValue="1") int currentPage) {
+		ModelAndView mav = new ModelAndView();
+		int pageSize = 5; // 한번에 보여줄 페이지 개수
+		int listSize = 3; // 한번에 보여줄 스터디 카페 개수
+		int totalCount = studycafeService.studycafeListCount(region); // 카테고리별 전체 개수
+		// int currentPage, int listSize, int pageSize, String url
+		String paging=com.histudy.studycafe.page.StudycafePageModule.studycafePageAlgorithm(totalCount, currentPage, listSize, pageSize, "studycafeList.do", region);
+		List<StudycafeDTO> studycafeList = studycafeService.studycafeList(currentPage, region, listSize);
+		mav.addObject("studycafeList", studycafeList);
+		mav.addObject("region", region);
+		mav.addObject("paging", paging);
+		mav.addObject("currentPage", currentPage);
+		mav.setViewName("studycafe/studycafeList");
+		return mav;
+	}
 	
-	@GetMapping("/studycafe.do")
-	public String studycafeView(Model model, HttpSession session) {
-		List<StudycafeDTO> studycafeDTO = studycafeService.studycafeList();
-		List<SeatDTO> seatList = studycafeService.seatInfo(1);
-		if(session.getAttribute("user_id")!=null) {
-		UserDTO udto = userService.userInfo((String)session.getAttribute("user_id"));
-		model.addAttribute("udto", udto);
+	@PostMapping("studycafePageList.do")
+	@ResponseBody
+	public ResponseEntity<Map<String,Object>> studycafeResponseList(@RequestBody Map<String, Object> map){
+		Map<String, Object> respMap = new HashMap<String, Object>();
+		String region = (String)map.get("region");
+		int totalCount = studycafeService.studycafeListCount(region); // 지역별 전체 개수
+		System.out.println(totalCount);
+		if(totalCount !=0) {
+			int currentPage = (Integer)map.get("currentPage");
+			int pageSize = 5; // 한번에 보여줄 페이지 개수
+			int listSize = 3; // 한번에 보여줄 스터디 카페 개수
+			String paging=com.histudy.studycafe.page.StudycafePageModule.studycafePageAlgorithm(totalCount, currentPage, listSize, pageSize, "studycafeList.do", region);
+			List<StudycafeDTO> studycafeList = studycafeService.studycafeList(currentPage, region, 3);
+			respMap.put("studycafeList", studycafeList);
+			respMap.put("paging", paging);
+			respMap.put("currentPage", currentPage);
 		}
-		model.addAttribute("dto",studycafeDTO);
+		ResponseEntity<Map<String,Object>>  respEntity = new ResponseEntity<Map<String,Object>>(respMap,HttpStatus.OK);
+		return respEntity;
+	}
+	// 2. 스터디 카페 좌석 배치
+	@GetMapping("/studycafe.do")
+	public String studycafeView(Model model, HttpSession session, @RequestParam(required = true ,defaultValue="1") Integer studycafe_idx) {
+		// 좌석 상태 변경하기
+		int seatStatusUpdate = studycafeService.seatStatusUpdate();
+		
+		// 스터디 카페 불러오기
+		StudycafeDTO studycafeOne = studycafeService.studycafe(studycafe_idx);
+		
+		// 스터디 카페 레이아웃 불러오기
+		List<StudycafeLayoutDTO> layoutDTO = studycafeService.studycafeLayout(studycafe_idx);
+		
+		// 스터디 카페 좌석 레이아웃 불러오기 
+		List<SeatDTO> seatList = studycafeService.seatInfo(studycafe_idx);
+		
+		// 로그인 아이디 불러오기
+		if(session.getAttribute("user_id")!=null) {
+			UserDTO udto = userService.userInfo((String)session.getAttribute("user_id"));
+			model.addAttribute("udto", udto);
+		}
+		model.addAttribute("studycafeOne", studycafeOne);
 		model.addAttribute("seatList", seatList);
+		model.addAttribute("layoutDTO", layoutDTO);
 		return "studycafe/studycafeView";
 	}
 	
+	// 스터디 카페 좌석 정보
 	@GetMapping("/seatInfo.do")
 	@ResponseBody
 	public ResponseEntity<List<SeatDTO>> seatInfo(@RequestParam(value="studycafe_idx", required = true, defaultValue = "1") int studycafe_idx){
 		System.out.println(studycafe_idx);
 		List<SeatDTO> seatList = studycafeService.seatInfo(studycafe_idx);
-		ResponseEntity<List<SeatDTO>> seatDTO = new ResponseEntity<List<SeatDTO>>(seatList, HttpStatus.OK);
-		
+		ResponseEntity<List<SeatDTO>> seatDTO = new ResponseEntity<List<SeatDTO>>(seatList, HttpStatus.OK);	
 		return seatDTO;
 	}
 
+	// 스터디 카페 영수증 뷰
 	@GetMapping("/receipt.do")
-	public ModelAndView receiptView(@RequestParam String paymentId, @RequestParam(required=false, value="message") String message,HttpSession session, @RequestParam(required=false, value="totalAmount")int viewTotalAmount) {
+	public ModelAndView receiptView(@RequestParam String paymentId,
+	                                @RequestParam(required=false) Integer viewTotalAmount,
+	                                HttpSession session) {
+	    ModelAndView mav = new ModelAndView();
+	    try {
+	        PayDTO receipt = studycafeService.processPaymentAndReservation(paymentId, viewTotalAmount, session);
+	        mav.setViewName("studycafe/receipt");
+	        mav.addObject("receipt", receipt);
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	        mav.setViewName("studycafe/receipt");
+	        mav.addObject("msg", "결제를 취소하셨습니다.");
+	    }
+	    return mav;
+	}
+	
+	@GetMapping("studycafeReview.do")
+	public ModelAndView studycafeReply(@RequestParam(required = true, value="studycafe_idx") int studycafe_idx) {
 		ModelAndView mav = new ModelAndView();
-		if(message !=null) {
-			mav.addObject("msg", message);
-			mav.setViewName("studycafe/receipt");
-			System.out.println(message);
-			return mav;
-		}else {
-		try {
-		HttpRequest request = HttpRequest
-				.newBuilder()
-				.uri(URI.create("https://api.portone.io/payments/"+paymentId+"?storeId=store-83eacdb9-6d28-4c80-b53b-26d96da03490"))
-				.header("Authorization","PortOne pRHF7tzUF0KgA2pG1KQWOo53nVunQCNYHLkfcagOTGtuPrwb8sShS2MbU2REjgqRjysw5KTuVMmpzyS3")
-				.header("Content-Type", "application/json")
-				.method("GET",HttpRequest.BodyPublishers.ofString("{}"))
-				.build(); 
-		HttpResponse<String> response = HttpClient
-				.newHttpClient()
-				.send(request, HttpResponse
-						.BodyHandlers
-						.ofString()); 
-		 ObjectMapper mapper = new ObjectMapper();
-		 JsonNode root = mapper.readTree(response.body());
-		 Integer totalAmount = root.get("amount").get("total").asInt();
-		 if(viewTotalAmount != totalAmount) {
-				mav.addObject("msg", "금액 변조 및 금액 검증 실패");
-				mav.setViewName("studycafe/receipt");
-		 }
-		 System.out.println(viewTotalAmount == totalAmount);
-		 String storeId = root.get("storeId").asText();
-		 String orderName = root.get("orderName").asText();
-		 String pay_status= root.get("status").asText();
-		 String pay_method=root.get("method").get("provider").asText();
-		 String statusChangedAt = root.get("statusChangedAt").asText();
-		 String paidAt= root.get("paidAt").asText();
-		 String pgProvider = root.get("channel").get("pgProvider").asText();
-		 ObjectMapper node = new ObjectMapper();
-		 JsonNode customData = node.readTree(root.get("customData").asText());
-		 int seat_idx=customData.get("seat_idx").asInt();
-		 int ticket_idx=customData.get("ticket_idx").asInt();
-		 Integer paid = root.get("amount").get("paid").asInt();
-		 Integer vat = root.get("amount").get("vat").asInt();//부가세
-		 Integer supply = root.get("amount").get("supply").asInt();// 과세 매출
-		 PayDTO paydto = new PayDTO(paymentId, storeId, orderName, paid, (Integer)session.getAttribute("user_idx"), pay_method, pay_status, 
-				 statusChangedAt, paidAt, totalAmount,"channel-key-da563d5f-f117-444f-aba5-ad9b66277c1b", pgProvider, vat, supply);
-		 int result = studycafeService.paySeat(paydto);
-
-		 if(result > 0) {
-			int reservation = studycafeService.registerReservation((Integer) session.getAttribute("user_idx"),
-					seat_idx,paidAt,
-					orderName.substring(orderName.indexOf("/")+1),
-					"RESERVED",
-					ticket_idx,paymentId);
-		 }
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		PayDTO receipt = studycafeService.receipt(paymentId);
-		
-		mav.setViewName("studycafe/receipt");
-		mav.addObject("receipt", receipt);
-		}
+		mav.setViewName("studycafe/studycafeReview");
 		return mav;
 	}
+
+
+
 }

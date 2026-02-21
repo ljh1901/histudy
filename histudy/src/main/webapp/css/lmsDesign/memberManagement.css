@@ -1,0 +1,650 @@
+@charset "UTF-8";
+#memberManagementBody header{
+		background-color: white;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+	}
+	.memberTopSection{
+		margin-top: 80px;
+		background: linear-gradient(
+	        180deg,
+	        #f5f7ff 0%,
+	        #f8f5ff 40%,
+	        #fff7fb 100%
+	    );
+		padding: 3.5rem 5rem;
+	}
+	.memberTopContainer{
+		max-width:1600px;
+		margin: 0 auto;
+	}
+	.memberTopContainer__top{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.memberTopContainer__top__left{
+		margin-top: 20px;
+	}
+	.memberTopContainer__sub i{
+		margin-right: 10px;
+	}
+	.memberTopContainer__sub span, i{
+		font-size: 0.9rem;
+	}
+	.category{
+		display: inline-block;
+	    padding: 6px 14px;
+	    font-size: 0.7rem;
+	    font-weight: 500;
+	    border-radius: 999px; 
+	    background-color: #F3E8FF;
+	    color: #7C3AED; 
+	    margin-right: 10px;
+	}
+	.date{
+		font-size: 0.9rem;
+		color: #222;
+	}
+	.studyBeginDate{
+		display:inline-flex;
+		align-items:center;
+		gap:6px;
+		margin-left:20px;
+		padding:8px 14px;
+		font-size:0.8rem;
+		font-weight:500;
+		color:#92400F;
+		background:#FFFBEB;
+		border:1px solid #FDE68A;
+		border-radius:999px;
+	}
+	.memberTopContainer__top__right{
+		background-color: black;
+		color: white;
+		border: none;
+		border-radius:20px;
+		padding:1rem;
+	}
+	.memberTopContainer__top__right:hover{
+		background-color: var(--color-navy);
+		cursor: pointer;
+	}
+	.memberTopContainer__top__right input{
+		border: none;
+		background: transparent;
+		color: white;
+		cursor: pointer;
+	}
+	.memberTopContainer__title{
+		font-size: 3rem;
+		font-weight: bold;
+	}
+	.memberTopContainer__sub{
+		font-size: 1.2rem;
+		color: #888;
+	}
+	.memberTopContainer__textBox{
+		display: flex;
+		align-items: center;
+	}
+	.MTC__box{
+		display: flex;
+		align-items: center;
+		margin-top:10px;
+		color: #222;
+		font-size:0.9rem;
+	}
+	.MTC__box i{
+		margin-right: 8px;
+	}
+	.MTC__box.right{
+		margin-left:15px;
+	}
+	.memberTopContainer__cards{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 30px;
+	}
+	.memberTopContainer__card{
+		width: 305px;
+		padding: 1.3rem;
+		background-color: white;
+		border: none;
+		border-radius: 20px;
+		display: flex;
+		align-items: center;
+		box-shadow: 0 8px 30px rgb(0,0,0,0.12);
+	}
+	.memberTopContainer__card__imgBox img{
+		width: 50px;
+		height: 50px;
+		border-radius: 100%;
+	}
+	.memberTopContainer__card__text{
+		margin-left: 15px;
+	}
+	.memberTopContainer__card__text__num{
+		font-size: 1.5rem;
+		font-weight: bold;
+	}
+	.memberTopContainer__card__text__sub{
+		font-size: 0.9rem;
+		color: #888;
+	}
+	.memberCenterSection{
+		background-color: #FAFAFA;
+		padding: 3rem 5rem;
+	}
+	.memberCenterContainer{
+		max-width: 1600px;
+		margin: 0 auto;
+	}
+	.memberToggleBtns{
+		background-color: #F2F4F6;
+		padding: 5px;
+		width: 500px;
+		height: 50px;
+		border-radius: 15px;
+		display: flex;
+		margin-bottom:20px;
+	}
+	.memberToggleBtns input[type="button"].toggle{
+		background:#25292D;
+		color: white;
+		box-shadow: 0 2px 6px rgba(0,0,0,.1);
+	}
+	.memberToggleBtns input[type="button"]{
+		flex: 1;
+		border: none;
+		border-radius: 15px;
+		background: transparent;
+	}
+	.memberToggleBtns input[type="button"]:hover{
+		cursor: pointer;
+	}
+	.leaderCard{
+		border: 2px solid #E8D5FF;
+		border-radius:18px;
+		background-color: white;
+	}
+	.leaderCard__Container__data{
+		display: flex;
+		padding: 1rem;
+		gap:1rem;
+	}
+	.leaderCard__Container__data__imgBox{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.leaderCard__Container__data__imgBox img{
+		width: 75px;
+		height: 75px;
+		border-radius: 100%;
+	}
+	.leaderCard__Container__data__textBox{
+		line-height: 1.5rem;
+	}
+	.leaderCard__Container__data__textBox p{
+		font-size: 0.9rem;
+		color: #222;
+		margin-top:5px;
+	}
+	.leaderCard__Container__data__textBox p.startDate{
+		color: #888;
+		font-size: 0.8rem;
+	}
+	.leaderCard__Container__data__textBox__name{
+		display: flex;
+		align-items: center;
+	}
+	.leaderCard__Container__data__textBox__name span{
+		display: inline-block;
+	    padding: 6px 14px;
+	    font-size: 0.7rem;
+	    font-weight: 500;
+	    border-radius: 999px; 
+	    background-color: #F3E8FF;
+	    color: #7C3AED; 
+	    margin-left: 10px;
+	}
+	/* 멤버카드 영역 */
+	.memberCard{
+		padding: 1rem;
+		border: none;
+		border-radius:18px;
+		background-color: white;
+		margin-top:20px;
+		box-shadow: 0 2px 6px rgba(0,0,0,.05);
+		transition:.25s ease;
+	}
+	.memberCard:hover{
+		transform:translateY(-2px);
+		box-shadow:0 12px 30px rgba(0,0,0,.12);
+	}
+	.memberCard__Container{
+		display:flex;
+		align-items:flex-start;
+	}
+	.memberCard__Container__data{
+		display: flex;
+		align-items:flex-start;
+		gap:1rem;
+		flex:1;
+	}
+	.memberCard__Container__data__imgBox{
+		display: flex;
+		align-items:flex-start;
+		margin-top:4px;
+	}
+	.memberCard__Container__data__imgBox img{
+		width: 80px;
+		height: 80px;
+		border-radius: 100%;
+	}
+	.memberCard__Container__data__textBox{
+		flex: 1;
+	}
+	.memberCard__Container__data__textBox__name p{
+		font-size: 0.9rem;
+		color: #222;
+		margin-top:5px;
+	}
+	.memberCard__Container__data__studyData{
+		display: grid;
+		grid-template-columns: repeat(4, 1fr); /* 4등분 */
+		gap: 1.5rem;
+		margin-top: 10px;
+	}
+	.memberCard__divBox{
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		font-size: 0.8rem;
+		color: #222;
+	}
+	.memberCard__divBox p:first-child{
+		color:#888;
+		font-size:0.75rem;
+	}
+	.memberCard__divBox meter{
+		width:100%;
+		height:8px;
+	}
+	.memberCard__Container__right{
+		margin-left: auto;
+		display: flex;
+		align-items: center;
+		gap:10px;
+	}
+	.msgIconBtn{
+		border:1px solid #E5E7EB;
+		background:#F9FAFB;
+		border-radius:999px;
+		padding:0.6rem;
+		display:flex;
+		align-items:center;
+		justify-content:center;
+		transition:.2s;
+	}
+	.msgIconBtn i{
+		color:#374151;
+		font-size:0.95rem;
+	}
+	.msgIconBtn:hover{
+		background:#F3F4F6;
+		transform:translateY(-1px);
+		cursor: pointer;
+	}
+	.deleteUserIconBtn{
+		border:1px solid #FCA5A5;
+		background:#FEF2F2;
+		border-radius:999px;
+		padding:0.6rem;
+		display:flex;
+		align-items:center;
+		justify-content:center;
+		transition:.2s;
+	}
+	
+	.deleteUserIconBtn i{
+		color:#DC2626;
+		font-size:0.95rem;
+	}
+	
+	.deleteUserIconBtn:hover{
+		background:#FEE2E2;
+		transform:translateY(-1px);
+		cursor: pointer;
+	}
+	/* 가입신청 css */
+	.studyApplyCard{
+		padding: 1.5rem;
+		display: flex;
+		gap: 1rem;
+		background-color: white;
+		border: none;
+		border-radius: 15px;
+		margin-bottom: 30px;
+		box-shadow: 0 2px 6px rgba(0,0,0,.05);
+		transition: .25s ease;
+	}
+	.studyApplyCard:hover{
+		transform: translateY(0px);
+		box-shadow: 0 11px 15px rgba(0,0,0,.12);
+	}
+	.studyApplyCard h3{
+		font-size: 1rem;
+		font-weight: 500;
+	}
+	.studyApplyCard__left{
+		display: flex;
+		justify-content: flex-start;
+	}
+	.studyApplyCard__left img{
+		width: 80px;
+		height: 80px;
+		border: none;
+		border-radius:100%;
+	}
+	.studyApplyCard__center{
+		flex: 1;
+	}
+	.studyApplyCard__center__top{
+		display: flex;
+		justify-content: space-between;
+	}
+	.studyApplyCard__center__top__userData h3{
+		font-size: 1.3rem;
+		font-weight: 600;
+		margin-bottom: 5px;
+	}
+	.studyApplyCard__center__top__userData p{
+		font-size: 0.9rem;
+		color: #222;
+		margin-bottom: 10px;
+	}
+	.studyApplyCard__center__intro{
+		margin-bottom: 10px;
+		background-color: #F9FAFB;
+		padding: 1rem;
+		border: none;
+		border-radius: 15px;
+	}
+	.studyApplyCard__center__intro p{
+		color: #222;
+		font-size: 0.9rem;
+	}
+	.studyApplyCard__center__btns{
+		display: flex;
+		gap:1rem;
+	}
+	.studyApplyCard__center__btns .ok{
+		background-color:#111827;
+		border: none;
+		border-radius: 15px;
+		color: white;
+		padding: 1rem;
+		width:100%;
+	}
+	.studyApplyCard__center__btns .ok:hover{
+		cursor: pointer;
+		background-color: var(--color-navy);
+	}
+	.studyApplyCard__center__btns .no{
+		background-color: #F2F4F6;
+		border: none;
+		border-radius: 15px;
+		color: #374152;
+		padding: 1rem;
+		width:100%;
+	}
+	.studyApplyCard__center__btns .no:hover{
+		cursor: pointer;
+		background-color: gray;
+		color: white;
+	}
+	/* 거부 모달 */
+	.rejectModalBg{
+		position: fixed;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		background: rgba(0,0,0,.45);
+		display:flex;
+		align-items:center;
+		justify-content:center;
+		z-index:9999;
+		backdrop-filter: blur(3px);
+	}
+	
+	.rejectModal{
+		background:white;
+		width:420px;
+		border-radius:20px;
+		padding:1.8rem;
+		box-shadow:0 20px 40px rgba(0,0,0,.25);
+	}
+	
+	.rejectModal h3{
+		font-size:1.2rem;
+		margin-bottom:15px;
+		color:#111827;
+	}
+	
+	.rejectModal textarea{
+		width:100%;
+		height:100px;
+		resize:none;
+		border:1px solid #E5E7EB;
+		border-radius:12px;
+		padding:.8rem;
+		font-size:.9rem;
+		outline:none;
+		margin-bottom:15px;
+	}
+	
+	.rejectModal textarea:focus{
+		border-color:#6366F1;
+	}
+	
+	.rejectBtns{
+		display:flex;
+		gap:10px;
+	}
+	
+	.rejectBtns button{
+		flex:1;
+		padding:.8rem;
+		border-radius:12px;
+		border:none;
+		cursor:pointer;
+		transition:.2s;
+	}
+	
+	.rejectBtns button:first-child{
+		background:#111827;
+		color:white;
+	}
+	
+	.rejectBtns button:first-child:hover{
+		background:#1F2937;
+	}
+	
+	.rejectBtns button:last-child{
+		background:#F2F4F6;
+		color:#374151;
+	}
+	
+	.rejectBtns button:last-child:hover{
+		background:#E5E7EB;
+	}
+	/* 삭제 모달 */
+	.deleteModalBg{
+		position: fixed;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		background: rgba(0,0,0,.45);
+		display:flex;
+		align-items:center;
+		justify-content:center;
+		z-index:9999;
+		backdrop-filter: blur(3px);
+	}
+	.deleteModal{
+		background:white;
+		width:450px;
+		border-radius:20px;
+		padding:1.8rem;
+		box-shadow:0 20px 40px rgba(0,0,0,.25);
+	}
+	.deleteImg{
+		display: flex;
+		justify-content: center;
+	}
+	.deleteImg img{
+		width:80px;
+		height:80px;
+	}
+	.deleteModal h3{
+		text-align: center;
+		font-size: 1.5rem;
+		margin-top: 10px;	
+		margin-bottom: 7px;
+	}
+	.titleSub{
+		text-align: center;
+		font-color: #4B5563;
+		margin-bottom: 20px;
+	}
+	.deleteText{
+		padding: 1rem;
+		background-color: #FFFBEB;
+		margin-bottom: 10px;
+	}
+	.deleteText p{
+		color: #92400F;
+		font-size: 0.8rem;
+		text-align: center;
+	}
+	.deleteBtns{
+		margin-top:10px;
+		display:flex;
+		gap:10px;
+	}
+	.deleteBtns button{
+		flex:1;
+		padding:.8rem;
+		border-radius:12px;
+		border:none;
+		cursor:pointer;
+		transition:.2s;
+	}
+	.deleteBtns button:first-child{
+		background-color: #F2F4F6;
+		color: #374152;
+	}
+	.deleteBtns button:first-child:hover{
+		background: #E5E7EB;
+	}
+	.deleteBtns button:last-child{
+		background-color: #DC2526;
+		color: #FDE9E9;
+	}
+	.deleteBtns button:last-child:hover{
+		background-color: #A03026;
+	}
+	.linkText{
+		padding: 1rem;
+		background-color: #F9FAFB;
+		margin-bottom: 10px;
+	}
+	.linkText p{
+		color: #555D6B;
+		font-size: 0.8rem;
+		text-align: center;
+	}
+	.linkBtns {
+		margin-top:10px;
+		display:flex;
+		gap:10px;
+	}
+	.linkBtns button{
+		flex: 1;
+		background-color: #111827;
+		color: #FFFFFF;
+		padding:.8rem;
+		border-radius:12px;
+		border:none;
+		cursor:pointer;
+		transition:.2s;
+	}
+	.noticeModalBg{
+		position: fixed;
+		inset: 0;
+		background: rgba(0,0,0,.4);
+		display:flex;
+		justify-content:center;
+		align-items:center;
+		z-index:9999;
+	}
+	
+	.noticeModal{
+		width:380px;
+		background:#fff;
+		border-radius:12px;
+		padding:25px;
+		text-align:center;
+	}
+	
+	.noticeModal h3{
+		margin-bottom:8px;
+	}
+	
+	.noticeModal .titleSub{
+		font-size:14px;
+		color:#666;
+		margin-bottom:15px;
+	}
+	
+	#noticeMsg{
+		width:100%;
+		height:120px;
+		border:1px solid #ddd;
+		border-radius:8px;
+		padding:10px;
+		resize:none;
+	}
+	
+	.noticeBtns{
+		margin-top:10px;
+		display:flex;
+		gap:10px;
+	}
+	
+	.noticeBtns button{
+		flex:1;
+		padding:.8rem;
+		border-radius:12px;
+		border:none;
+		cursor:pointer;
+		transition:.2s;
+	}
+	.noticeBtns button:first-child{
+		background-color: #F2F4F6;
+		color: #374152;
+	}
+	.noticeBtns button:first-child:hover{
+		background: #E5E7EB;
+	}
+	.noticeBtns button:last-child{
+		background:#4e73df;
+		color:white;
+	}
+	.noticeBtns button:last-child:hover{
+		background-color: #3b5fc4;
+	}

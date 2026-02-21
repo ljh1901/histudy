@@ -62,5 +62,9 @@ public class AdminCafeServiceImple implements AdminCafeService {
     public List<Map<String, Object>> getLayoutList(int studycafe_idx) {
         return adminDAO.getLayoutList(studycafe_idx);
     }
+    @Override
+    public int insertStudyCafe(StudycafeDTO dto) {
+        return adminDAO.insertStudyCafe(dto);
+    }
     
 }
