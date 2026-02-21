@@ -48,11 +48,16 @@ public class AdminCafeController {
 
 		@GetMapping("/adminCafeSales.do")
 		public ModelAndView adminCafeSales(@RequestParam Map<String, Object> params) {
+			
+            int studycafe_idx = Integer.parseInt(params.get("studycafe_idx").toString());
 			List<Map<String, Object>> salesData = adminService.getSalesList(params);
+            List<Map<String, Object>> paymentList = adminService.getCafePaymentList(studycafe_idx);
 
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("admin/adminCafe/adminCafeSales");
 			mav.addObject("salesData", salesData);
+            mav.addObject("paymentList", paymentList);
+            mav.addObject("studycafe_idx", studycafe_idx);
 
 			return mav;
 		}
