@@ -84,6 +84,7 @@
 	</bean>
 	<bean id="notificationsDAO" class="com.histudy.notifications.model.NotificationsDAOImple">
 		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
 	<bean id="membershipDAO" class="com.histudy.membership.model.MembershipDAOImple">
     	<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
 	</bean>
