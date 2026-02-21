@@ -58,9 +58,17 @@ public class AdminCafeController {
 		}
 		// 스터디 카페 좌석현황
 		@GetMapping("/adminCafeSeat.do")
-		public String adminCafeSeat() {
-			return "admin/adminCafe/adminCafeSeat";
-		} 
+		public ModelAndView adminCafeSeat(@RequestParam("studycafe_idx") int studycafe_idx) {
+		    List<Map<String, Object>> layoutList = adminService.getLayoutList(studycafe_idx);
+
+		    ModelAndView mav = new ModelAndView();
+		    mav.setViewName("admin/adminCafe/adminCafeSeat");
+		    
+		    mav.addObject("layoutList", layoutList);
+		    mav.addObject("studycafe_idx", studycafe_idx);
+
+		    return mav;
+		}
 		// 스터디 카페 문의사항
 		@GetMapping("/adminCafeInquiryList.do")
 		public String adminCafeInquiryList() {
